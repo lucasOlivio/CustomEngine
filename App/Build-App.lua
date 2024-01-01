@@ -19,6 +19,11 @@ project "App"
       "Engine"
    }
 
+   postbuildcommands
+   {
+       "{COPY} ../Engine/Extern/fmod/lib/*.dll %{cfg.buildtarget.directory}"
+   }
+
    targetdir ("../bin/" .. OutputDir .. "/%{prj.name}")
    objdir ("../bin/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
@@ -26,10 +31,20 @@ project "App"
        systemversion "latest"
        defines { "WINDOWS" }
 
+       postbuildcommands
+       {
+           "xcopy assets\\ %{cfg.buildtarget.directory}\\assets\\ /S /E /I /Y"
+       }
+
    filter "configurations:Debug"
        defines { "DEBUG" }
        runtime "Debug"
        symbols "On"
+
+       postbuildcommands
+       {
+           "{COPY} ../Engine/Extern/assimp/lib/Debug/*.dll %{cfg.buildtarget.directory}"
+       }
 
    filter "configurations:Release"
        defines { "RELEASE" }
@@ -37,8 +52,18 @@ project "App"
        optimize "On"
        symbols "On"
 
+       postbuildcommands
+       {
+           "{COPY} ../Engine/Extern/assimp/lib/Release/*.dll %{cfg.buildtarget.directory}"
+       }
+
    filter "configurations:Dist"
        defines { "DIST" }
        runtime "Release"
        optimize "On"
        symbols "Off"
+
+       postbuildcommands
+       {
+           "{COPY} ../Engine/Extern/assimp/lib/Release/*.dll %{cfg.buildtarget.directory}"
+       }

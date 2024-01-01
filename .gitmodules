@@ -2,3 +2,6 @@
 [submodule "googletest"]
 	path = Tests/Extern/googletest
 	url = https://github.com/google/googletest.git
+[submodule "glfw"]
+	path = Engine/Extern/glfw
+	url = https://github.com/glfw/glfw.git

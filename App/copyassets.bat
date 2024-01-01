@@ -1,0 +1,1 @@
+xcopy %{wks.location}\\assets %{cfg.buildtarget.directory} /S /Y

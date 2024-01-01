@@ -12,6 +12,8 @@ OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "Dependencies"
    include "Tests/Extern/Build-GoogleTest.lua"
+   include "Engine/Extern/Build-Glad.lua"
+   include "Engine/Extern/Build-GLFW.lua"
 group ""
 
 group "Tests"
