@@ -1,6 +1,10 @@
-#include "Core/Engine.h"
+#include "Engine/Core/Engine.h"
 
 int main()
 {
-	MyEngine::PrintHelloWorld();
+	using namespace MyEngine;
+
+	Engine engine = Engine();
+
+	engine.Update(0);
 }

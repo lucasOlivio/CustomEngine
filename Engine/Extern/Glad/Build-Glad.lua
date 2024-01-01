@@ -6,14 +6,14 @@ project "Glad"
     
     files
     {
-        "Glad/include/glad/glad.h",
-        "Glad/include/KHR/khrplatform.h",
-        "Glad/src/glad.c"
+        "include/glad/glad.h",
+        "include/KHR/khrplatform.h",
+        "src/glad.c"
     }
 
     includedirs
     {
-        "Glad/include"
+        "include"
     }
     
     targetdir ("../../bin/" .. OutputDir .. "/%{prj.name}")

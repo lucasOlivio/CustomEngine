@@ -1,4 +1,4 @@
-project "Test_Example"
+project "Test_EntityManager"
    kind "ConsoleApp"
    language "C++"
    cppdialect "C++14"

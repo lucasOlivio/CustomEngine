@@ -1,4 +1,4 @@
-project "Test_Example"
+project "Test_ComponentPool"
    kind "ConsoleApp"
    language "C++"
    cppdialect "C++14"

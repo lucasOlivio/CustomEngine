@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "Core/Engine.h"
+#include "Engine/Core/Engine.h"
 
 using namespace MyEngine;
 

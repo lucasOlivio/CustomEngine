@@ -5,7 +5,10 @@ project "Engine"
    targetdir "bin/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "src/**.h", "src/**.cpp" }
+   files { "src/**.hpp", "src/**.h", "src/**.cpp", "src/**.c" }
+
+   pchheader "pch.h"
+   pchsource "src/pch.cpp"
 
    defines
    {
@@ -29,7 +32,6 @@ project "Engine"
    links
    {
       "Glad",
-      "GLFW",
       -- FMOD
       "Extern/fmod/lib/fmod_vc.lib",
       "Extern/fmod/lib/fmodL_vc.lib",
@@ -52,7 +54,8 @@ project "Engine"
 
        links
         {
-            "Extern/assimp/lib/Debug/assimp-vc130-mtd.lib"
+            "Extern/assimp/lib/Debug/assimp-vc130-mtd.lib",
+            "Extern/glfw/lib/Debug/glfw3.lib"
         }
 
    filter "configurations:Release"
@@ -63,7 +66,8 @@ project "Engine"
 
        links
         {
-            "Extern/assimp/lib/Release/assimp-vc130-mt.lib"
+            "Extern/assimp/lib/Release/assimp-vc130-mt.lib",
+            "Extern/glfw/lib/Release/glfw3.lib"
         }
 
    filter "configurations:Dist"
@@ -74,5 +78,6 @@ project "Engine"
 
        links
         {
-            "Extern/assimp/lib/Release/assimp-vc130-mt.lib"
+            "Extern/assimp/lib/Release/assimp-vc130-mt.lib",
+            "Extern/glfw/lib/Release/glfw3.lib"
         }
