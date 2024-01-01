@@ -444,6 +444,14 @@ imgui.ini
 !fmod.dll
 !fmodL.dll
 
+# Files
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+*.log
+Makefile
+
 # Lua
 
 *.lua~
@@ -454,3 +462,4 @@ imgui.ini
 
 # Exclude
 !Extern/Binaries
+!premake5.exe
