@@ -13,8 +13,8 @@ project "GoogleTest"
       "googletest/googletest"
    }
 
-   targetdir ("../../../bin/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../../../bin/Intermediates/" .. OutputDir .. "/%{prj.name}")
+   targetdir ("../../bin/" .. OutputDir .. "/%{prj.name}")
+   objdir ("../../bin/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
    filter "system:windows"
        systemversion "latest"

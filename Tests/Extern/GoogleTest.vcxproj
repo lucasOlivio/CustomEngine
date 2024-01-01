@@ -54,20 +54,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\..\..\bin\windows-x86_64\Debug\GoogleTest\</OutDir>
-    <IntDir>..\..\..\bin\Intermediates\windows-x86_64\Debug\GoogleTest\</IntDir>
+    <OutDir>..\..\bin\windows-x86_64\Debug\GoogleTest\</OutDir>
+    <IntDir>..\..\bin\Intermediates\windows-x86_64\Debug\GoogleTest\</IntDir>
     <TargetName>GoogleTest</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\..\..\bin\windows-x86_64\Release\GoogleTest\</OutDir>
-    <IntDir>..\..\..\bin\Intermediates\windows-x86_64\Release\GoogleTest\</IntDir>
+    <OutDir>..\..\bin\windows-x86_64\Release\GoogleTest\</OutDir>
+    <IntDir>..\..\bin\Intermediates\windows-x86_64\Release\GoogleTest\</IntDir>
     <TargetName>GoogleTest</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <OutDir>..\..\..\bin\windows-x86_64\Dist\GoogleTest\</OutDir>
-    <IntDir>..\..\..\bin\Intermediates\windows-x86_64\Dist\GoogleTest\</IntDir>
+    <OutDir>..\..\bin\windows-x86_64\Dist\GoogleTest\</OutDir>
+    <IntDir>..\..\bin\Intermediates\windows-x86_64\Dist\GoogleTest\</IntDir>
     <TargetName>GoogleTest</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
