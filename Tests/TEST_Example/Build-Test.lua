@@ -1,4 +1,4 @@
-project "App"
+project "TEST_Example"
    kind "ConsoleApp"
    language "C++"
    cppdialect "C++14"
@@ -10,21 +10,23 @@ project "App"
    includedirs
    {
       "src",
-
-	  "../Engine/src"
+      "../../Engine/src",
+      "../Extern/googletest/googletest/include",
+      "../Extern/googletest/googletest"
    }
 
    links
    {
-      "Engine"
+      "Engine",
+      "GoogleTest"
    }
 
-   targetdir ("../bin/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../bin/Intermediates/" .. OutputDir .. "/%{prj.name}")
+   targetdir ("../../bin/" .. OutputDir .. "/%{prj.name}")
+   objdir ("../../bin/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
    filter "system:windows"
        systemversion "latest"
-       defines { "WINDOWS" }
+       defines { }
 
    filter "configurations:Debug"
        defines { "DEBUG" }

@@ -1,8 +1,9 @@
-#include "Core.h"
+#include "Engine.h"
 
 #include <iostream>
 
-namespace Core {
+namespace MyEngine 
+{
 
 	void PrintHelloWorld()
 	{
