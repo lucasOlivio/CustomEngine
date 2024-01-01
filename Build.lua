@@ -11,7 +11,7 @@ workspace "CustomEngine"
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "Dependencies"
-   include "Tests/Extern/googletest/Build-GoogleTest.lua"
+   include "Tests/Extern/Build-GoogleTest.lua"
 group ""
 
 group "Tests"
