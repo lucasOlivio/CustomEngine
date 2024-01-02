@@ -1,8 +1,8 @@
 #include "pch.h"
 
 #include "MovementSystem.h"
-#include "Engine/Core/SceneView.hpp"
-#include "Engine/Core/Components.h"
+#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Components.h"
 
 namespace MyEngine
 {

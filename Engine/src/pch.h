@@ -17,4 +17,6 @@
 
 #include <glm/glm.hpp>
 
+#include "Engine/Core/opengl.h"
+
 #include "Engine/Utils/Log.h"

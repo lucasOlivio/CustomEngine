@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Scene.h"
-#include "iSystem.h"
+#include "Engine/ECS/Scene.h"
+#include "Engine/ECS/iSystem.h"
 
 namespace MyEngine
 {
