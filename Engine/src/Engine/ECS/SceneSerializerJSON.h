@@ -22,16 +22,25 @@ namespace MyEngine
 		bool m_LoadDoc(const std::string& filePath);
 		bool m_SaveDoc(const std::string& filePath);
 
-		// Parse values from doc to the respective data structure
-		bool m_ParseSceneToDoc(Scene& sceneIn);
-		bool m_ParseTagToDoc(rapidjson::Value& jsonObject, TagComponent& tagIn);
-		bool m_ParseTransformToDoc(rapidjson::Value& jsonObject, TransformComponent& transformIn);
-		bool m_ParseMovementToDoc(rapidjson::Value& jsonObject, MovementComponent& movementIn);
-
 		// Parse values From the respective data structures into the doc
+		bool m_ParseSceneToDoc(Scene& sceneIn);
+		bool m_ParseTagToDoc(rapidjson::Value& jsonObject, 
+							 TagComponent& tagIn,
+							 rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseTransformToDoc(rapidjson::Value& jsonObject,
+								   TransformComponent& transformIn,
+								   rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseMovementToDoc(rapidjson::Value& jsonObject, 
+								  MovementComponent& movementIn,
+								  rapidjson::Document::AllocatorType& allocator);
+
+		// Parse values from doc to the respective data structure
 		bool m_ParseDocToScene(Scene& sceneOut);
-		bool m_ParseDocToTag(rapidjson::Value& jsonObject, TagComponent& tagOut);
-		bool m_ParseDocToTransform(rapidjson::Value& jsonObject, TransformComponent& transformOut);
-		bool m_ParseDocToMovement(rapidjson::Value& jsonObject, MovementComponent& movementOut);
+		bool m_ParseDocToTag(rapidjson::Value& jsonObject, 
+							 TagComponent& tagOut);
+		bool m_ParseDocToTransform(rapidjson::Value& jsonObject, 
+								   TransformComponent& transformOut);
+		bool m_ParseDocToMovement(rapidjson::Value& jsonObject, 
+								  MovementComponent& movementOut);
 	};
 }

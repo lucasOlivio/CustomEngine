@@ -330,6 +330,22 @@ namespace MyEngine
         return true;
     }
 
+    bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, float value, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        if (!jsonObject.IsObject())
+        {
+            return false;
+        }
+
+        Value memberKey(key.c_str(), allocator);
+        Value memberValue(value);
+        jsonObject.AddMember(memberKey, memberValue, allocator);
+
+        return true;
+    }
+
     bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, const std::map<std::string, std::string>& value, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;

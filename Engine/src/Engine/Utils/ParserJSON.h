@@ -57,6 +57,9 @@ namespace MyEngine
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, int value,
 			rapidjson::Document::AllocatorType& allocator);
 
+		bool SetMember(rapidjson::Value& jsonObject, std::string key, float value,
+			rapidjson::Document::AllocatorType& allocator);
+
 		bool SetMember(rapidjson::Value& jsonObject, std::string key,
 			const std::map<std::string, std::string>& value,
 			rapidjson::Document::AllocatorType& allocator);

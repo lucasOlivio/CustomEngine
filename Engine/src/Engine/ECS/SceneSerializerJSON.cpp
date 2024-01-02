@@ -13,7 +13,7 @@ namespace MyEngine
 {
     SceneSerializerJSON::SceneSerializerJSON()
     {
-        this->m_doc.SetObject();
+        m_doc.SetObject();
     }
 
     SceneSerializerJSON::~SceneSerializerJSON()
@@ -22,14 +22,14 @@ namespace MyEngine
 
     bool SceneSerializerJSON::DeserializeScene(const std::string& filePath, Scene& sceneOut)
     {
-        bool isLoaded = this->m_LoadDoc(filePath);
+        bool isLoaded = m_LoadDoc(filePath);
         if (!isLoaded)
         {
             return false;
         }
 
-        // Parse config and load into structure
-        bool isParsed = this->m_ParseDocToScene(sceneOut);
+        // Parse scene json and load into object
+        bool isParsed = m_ParseDocToScene(sceneOut);
         if (!isParsed)
         {
             std::string errorMsg = "Error parsing file '" + filePath + "'";
@@ -37,15 +37,15 @@ namespace MyEngine
             return false;
         }
 
-        this->m_doc.RemoveAllMembers();
+        m_doc.Clear();
 
         return true;
     }
 
     bool SceneSerializerJSON::SerializeScene(const std::string& filePath, Scene& sceneIn)
     {
-        // Call the function to convert the doc to a JSON document
-        bool isParsed = this->m_ParseSceneToDoc(sceneIn);
+        // Convert the scene object to a JSON document
+        bool isParsed = m_ParseSceneToDoc(sceneIn);
         if (!isParsed)
         {
             std::string errorMsg = "Error parsing doc to file '" + filePath + "'";
@@ -53,7 +53,7 @@ namespace MyEngine
             return false;
         }
 
-        bool isSaved = this->m_SaveDoc(filePath);
+        bool isSaved = m_SaveDoc(filePath);
 
         if (!isSaved) {
             std::string errorMsg = "Error saving json to file '" + filePath + "'";
@@ -61,7 +61,7 @@ namespace MyEngine
             return false;
         }
 
-        this->m_doc.RemoveAllMembers();
+        m_doc.Clear();
 
         return true;
     }
@@ -77,16 +77,19 @@ namespace MyEngine
         if (!fp)
         {
             std::string errorMsg = "File '" + filePath + "' not found!";
-            LOG_ERROR(errorMsg.c_str());
+            LOG_ERROR(errorMsg);
             return false;
         }
 
         char readBuffer[MAX_LINE_LENGTH];
         FileReadStream fs(fp, readBuffer, sizeof(readBuffer));
 
-        this->m_doc.ParseStream(fs);
+        m_doc.ParseStream(fs);
 
         fclose(fp);
+
+        std::string infoMsg = "File '" + filePath + "' loaded!";
+        LOG_INFO(infoMsg);
 
         return true;
     }
@@ -98,7 +101,7 @@ namespace MyEngine
         StringBuffer buf;
         PrettyWriter<StringBuffer> writer(buf);
 
-        this->m_doc.Accept(writer);
+        m_doc.Accept(writer);
 
         // Get the JSON string from the buffer
         std::string json = buf.GetString();
@@ -120,17 +123,62 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseSceneToDoc(Scene& sceneIn)
     {
+        using namespace rapidjson;
+
+        Document::AllocatorType& allocator = m_doc.GetAllocator();
+        m_doc.SetArray();
+
+        // Parse and serialize each entity in the scene
+        EntityManager* pEntityManager = sceneIn.GetEntitymanager();
+        for (const Entity& entity : pEntityManager->GetEntities())
+        {
+            // Create a JSON object for each entity
+            Value entityObject;
+            entityObject.SetObject();
+
+            // Create a RapidJSON object for each component
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TagComponent>()))
+            {
+                Value tagObject;
+                tagObject.SetObject();
+
+                TagComponent* pTag = sceneIn.Get<TagComponent>(entity);
+                m_ParseTagToDoc(tagObject, *pTag, allocator);
+                entityObject.AddMember("tag", tagObject, allocator);
+            }
+            if(pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TransformComponent>()))
+            {
+                Value transformObject;
+                transformObject.SetObject();
+
+                TransformComponent* pTransform = sceneIn.Get<TransformComponent>(entity);
+                m_ParseTransformToDoc(transformObject, *pTransform, allocator);
+                entityObject.AddMember("transform", transformObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<MovementComponent>()))
+            {
+                Value movementObject;
+                movementObject.SetObject();
+
+                MovementComponent* pMovement = sceneIn.Get<MovementComponent>(entity);
+                m_ParseMovementToDoc(movementObject, *pMovement, allocator);
+                entityObject.AddMember("movement", movementObject, allocator);
+            }
+
+            // Add the entityObject to the main JSON array
+            m_doc.PushBack(entityObject, allocator);
+        }
+
         return true;
     }
 
     bool SceneSerializerJSON::m_ParseTagToDoc(rapidjson::Value& jsonObject, 
-                                              TagComponent& tagIn)
+                                              TagComponent& tagIn,
+							                  rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
 
         ParserJSON parser = ParserJSON();
-
-        Document::AllocatorType& allocator = this->m_doc.GetAllocator();
 
         parser.SetMember(jsonObject, "name", tagIn.name, allocator);
 
@@ -138,13 +186,12 @@ namespace MyEngine
     }
 
     bool SceneSerializerJSON::m_ParseTransformToDoc(rapidjson::Value& jsonObject, 
-                                                    TransformComponent& transformIn)
+                                                    TransformComponent& transformIn,
+							                        rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
 
         ParserJSON parser = ParserJSON();
-
-        Document::AllocatorType& allocator = this->m_doc.GetAllocator();
 
         parser.SetMember(jsonObject, "position", transformIn.position, allocator);
         parser.SetMember(jsonObject, "orientation", transformIn.orientation, allocator);
@@ -154,13 +201,12 @@ namespace MyEngine
     }
 
     bool SceneSerializerJSON::m_ParseMovementToDoc(rapidjson::Value& jsonObject, 
-                                                   MovementComponent& movementIn)
+                                                   MovementComponent& movementIn,
+							                       rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
 
         ParserJSON parser = ParserJSON();
-
-        Document::AllocatorType& allocator = this->m_doc.GetAllocator();
 
         parser.SetMember(jsonObject, "velocity", movementIn.velocity, allocator);
         parser.SetMember(jsonObject, "acceleration", movementIn.acceleration, allocator);
@@ -170,6 +216,62 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToScene(Scene& sceneOut)
     {
+        using namespace rapidjson;
+
+        bool isValid = m_doc.IsArray();
+        if (!isValid)
+        {
+            LOG_ERROR("File not valid, expected array of entities!\n");
+            return false;
+        }
+
+        // Go over each entity
+        for (unsigned int entityIndex = 0; entityIndex < m_doc.Size(); entityIndex++)
+        {
+            Entity entityId = sceneOut.CreateEntity();
+
+            Value& entityObject = m_doc[entityIndex];
+            bool isValid = entityObject.IsObject();
+            if (!isValid)
+            {
+                std::string error = "Entity #" + std::to_string(entityIndex) + " not valid, expected object of components!\n";
+                LOG_ERROR(error);
+                return false;
+            }
+
+            // Inside EntityID iterate over each component
+            for (Value::ConstMemberIterator entityMember = entityObject.MemberBegin(); 
+                 entityMember != entityObject.MemberEnd(); ++entityMember)
+            {
+                std::string componentName = entityMember->name.GetString();
+
+                Value& componentObject = m_doc[entityIndex][entityMember->name];
+                bool isValid = componentObject.IsObject();
+                if (!isValid)
+                {
+                    std::string error = "Entity #" + std::to_string(entityIndex) + ", component '" + componentName + "' not valid\n";
+                    LOG_ERROR(error);
+                    return false;
+                }
+
+                if (componentName == "tag")
+                {
+                    TagComponent* pTag = sceneOut.AddComponent<TagComponent>(entityId);
+                    m_ParseDocToTag(componentObject, *pTag);
+                }
+                else if (componentName == "transform")
+                {
+                    TransformComponent* pTransform = sceneOut.AddComponent<TransformComponent>(entityId);
+                    m_ParseDocToTransform(componentObject, *pTransform);
+                }
+                else if (componentName == "movement")
+                {
+                    MovementComponent* pMovement = sceneOut.AddComponent<MovementComponent>(entityId);
+                    m_ParseDocToMovement(componentObject, *pMovement);
+                }
+            }
+        }
+
         return true;
     }
 
@@ -205,8 +307,8 @@ namespace MyEngine
 
         ParserJSON parser = ParserJSON();
 
-        parser.GetValue(this->m_doc["velocity"], movementOut.velocity);
-        parser.GetValue(this->m_doc["acceleration"], movementOut.acceleration);
+        parser.GetValue(jsonObject["velocity"], movementOut.velocity);
+        parser.GetValue(jsonObject["acceleration"], movementOut.acceleration);
 
         return true;
     }
