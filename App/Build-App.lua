@@ -11,7 +11,16 @@ project "App"
    {
       "src",
 
-	  "../Engine/src"
+      -- TODO: Use a shortcut or macro to avoid this repetition
+      -- Engine
+	  "%{wks.location}/Engine/src",
+      "%{wks.location}/Engine/Extern/Glad/include",
+      "%{wks.location}/Engine/Extern/glfw/include",
+      "%{wks.location}/Engine/Extern/glm/include",
+      "%{wks.location}/Engine/Extern/fmod/include",
+      "%{wks.location}/Engine/Extern/assimp/include",
+      "%{wks.location}/Engine/Extern/Lua5.4.6/include",
+      "%{wks.location}/Engine/Extern/rapidjson/include",
    }
 
    links
