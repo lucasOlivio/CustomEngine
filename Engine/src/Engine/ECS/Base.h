@@ -1,7 +1,6 @@
 #pragma once
 
 #include <bitset>
-#include <glm/vec2.hpp>
 
 namespace MyEngine
 {
@@ -32,7 +31,4 @@ namespace MyEngine
 		RIGHT,
 		FORWARD
 	};
-
-	const glm::vec2 VEC_FORWARD(0.0f, 1.0f);
-	const glm::vec2 VEC_RIGHT(1.0f, 0.0f);
 }

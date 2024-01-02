@@ -17,6 +17,7 @@
 
 #include <glm/glm.hpp>
 
-#include "Engine/Core/opengl.h"
-
+#include "Engine/Core/Constants.h"
+#include "Engine/ECS/Base.h"
+#include "Engine/Graphics/opengl.h"
 #include "Engine/Utils/Log.h"

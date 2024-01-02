@@ -8,11 +8,11 @@ namespace MyEngine
 {
     void RenderSystem::Start(Scene* pScene)
     {
-        // Create sprites objects
-        for (Entity entityId : SceneView<TransformComponent, SpriteComponent>(*pScene)) 
+        // Create model objects
+        for (Entity entityId : SceneView<TransformComponent, ModelComponent>(*pScene)) 
         {
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
-            SpriteComponent* pSprite = pScene->Get<SpriteComponent>(entityId);
+            ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
         
         }
         return;
@@ -20,20 +20,20 @@ namespace MyEngine
 
     void RenderSystem::Update(Scene* pScene, float deltaTime)
     {
-        // Update transform and deltatime for each sprite
-        for (Entity entityId : SceneView<TransformComponent, SpriteComponent>(*pScene)) 
+        // Update transform and deltatime for each model
+        for (Entity entityId : SceneView<TransformComponent, ModelComponent>(*pScene))
         {
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
-            SpriteComponent* pSprite = pScene->Get<SpriteComponent>(entityId);
+            ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 
         }
     }
 
     void RenderSystem::Render(Scene* pScene)
     {
-        for (Entity entityId : SceneView<TransformComponent, SpriteComponent>(*pScene))
+        for (Entity entityId : SceneView<TransformComponent, ModelComponent>(*pScene))
         {
-            SpriteComponent* pSprite = pScene->Get<SpriteComponent>(entityId);
+            ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 
         }
     }
@@ -41,9 +41,9 @@ namespace MyEngine
     void RenderSystem::End(Scene* pScene)
     {
         // Deletes model objects
-        for (Entity entityId : SceneView<TransformComponent, SpriteComponent>(*pScene))
+        for (Entity entityId : SceneView<TransformComponent, ModelComponent>(*pScene))
         {
-            SpriteComponent* pSprite = pScene->Get<SpriteComponent>(entityId);
+            ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 
         }
     }

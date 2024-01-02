@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <Engine/Core/EntityManager.h>
+#include <Engine/ECS/EntityManager.h>
 
 using namespace MyEngine;
 

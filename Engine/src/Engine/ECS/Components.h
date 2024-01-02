@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Engine/Core/Base.h"
+#include "Base.h"
+#include <glm/gtc/quaternion.hpp>
 
 namespace MyEngine
 {
@@ -11,23 +12,20 @@ namespace MyEngine
 
 	struct TransformComponent
 	{
-		glm::vec2 position;
-		float angle;
+		glm::vec3 position;
+		glm::quat orientation;
 		float scale;
 	};
 
 	struct MovementComponent
 	{
-		glm::vec2 velocity;
-		glm::vec2 acceleration;
+		glm::vec3 velocity;
+		glm::vec3 acceleration;
 	};
 
-	struct SpriteComponent
+	struct ModelComponent
 	{
 		std::string name;
-		int cols;
-		int rows;
-		float speed;
 	};
 
 	struct ColliderComponent

@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <glm/glm.hpp>
 
-#include <Engine/Core/Scene.h>
-#include <Engine/Core/Components.h>
+#include <Engine/ECS/Scene.h>
+#include <Engine/ECS/Components.h>
 
 using namespace MyEngine;
 

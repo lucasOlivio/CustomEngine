@@ -21,6 +21,7 @@ group "Tests"
 	include "Tests/TEST_EntityManager/Build-Test_EntityManager.lua"
 	include "Tests/TEST_EventBus/Build-Test_EventBus.lua"
 	include "Tests/TEST_Scene/Build-Test_Scene.lua"
+	include "Tests/TEST_SceneSerializer/Build-Test_SceneSerializer.lua"
 group ""
 
 include "Engine/Build-Engine.lua"

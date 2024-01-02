@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <glm/glm.hpp>
 
-#include <Engine/Core/ComponentPool.h>
-#include <Engine/Core/Components.h>
+#include <Engine/ECS/ComponentPool.h>
+#include <Engine/ECS/Components.h>
 
 using namespace MyEngine;
 
