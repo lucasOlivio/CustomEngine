@@ -39,6 +39,9 @@ namespace MyEngine
 		bool m_ParseMaterialToDoc(rapidjson::Value& jsonObject, 
 								  MaterialComponent& materialIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseLightToDoc(rapidjson::Value& jsonObject, 
+								  LightComponent& lightIn,
+								  rapidjson::Document::AllocatorType& allocator);
 
 		// Parse values from doc to the respective data structure
 		bool m_ParseDocToScene(Scene& sceneOut);
@@ -52,5 +55,7 @@ namespace MyEngine
 								  TextureComponent& textureOut);
 		bool m_ParseDocToMaterial(rapidjson::Value& jsonObject, 
 								  MaterialComponent& materialOut);
+		bool m_ParseDocToLight(rapidjson::Value& jsonObject, 
+							   LightComponent& lightOut);
 	};
 }

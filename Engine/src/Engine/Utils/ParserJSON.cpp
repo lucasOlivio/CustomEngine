@@ -153,6 +153,42 @@ namespace MyEngine
         return true;
     }
 
+    bool ParserJSON::GetValue(rapidjson::Value& jsonObject, glm::vec4& valueOut)
+    {
+        using namespace rapidjson;
+
+        if (jsonObject.IsArray() && jsonObject.Size() == 4) {
+            for (SizeType i = 0; i < jsonObject.Size(); i++) {
+                if (!jsonObject[i].IsFloat()) {
+                    return false;
+                }
+            }
+
+
+            for (SizeType i = 0; i < jsonObject.Size(); i++) {
+                valueOut[i] = jsonObject[i].GetFloat();
+            }
+
+            return true;
+        }
+        return true;
+    }
+
+    bool ParserJSON::SetValue(rapidjson::Value& jsonObject, glm::vec4& valueIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        jsonObject.SetArray();
+
+        for (SizeType i = 0; i < 4; i++) {
+            Value floatVal;
+            floatVal.SetFloat(valueIn[i]);
+            jsonObject.PushBack(floatVal, allocator);
+        }
+
+        return true;
+    }
+
     bool ParserJSON::GetValue(rapidjson::Value& jsonObject, glm::quat& valueOut)
     {
         using namespace rapidjson;
@@ -381,6 +417,23 @@ namespace MyEngine
     }
 
     bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, glm::vec3& value, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+        if (!jsonObject.IsObject())
+        {
+            return false;
+        }
+
+        Value memberKey(key.c_str(), allocator);
+        Value memberValue;
+        memberValue.SetObject();
+        this->SetValue(memberValue, value, allocator);
+        jsonObject.AddMember(memberKey, memberValue, allocator);
+
+        return true;
+    }
+
+    bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, glm::vec4& value, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
         if (!jsonObject.IsObject())

@@ -62,7 +62,7 @@ struct sLight
 	                // 0 = pointlight
 					// 1 = spot light
 					// 2 = directional light
-	vec4 status;	// x = 0 for off, 1 for on
+	bool status;	// x = 0 for off, 1 for on
 };
 
 const int POINT_LIGHT_TYPE = 0;
@@ -167,7 +167,7 @@ vec4 calculateLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 	{	
 		// ********************************************************
 		// is light "on"
-		if ( theLights[index].status.x == 0.0f )
+		if ( !theLights[index].status )
 		{	// it's off
 			continue;
 		}

@@ -73,6 +73,39 @@ namespace MyEngine
 		std::vector<TextureComponent*> texturesComponents;
 	};
 
+	struct LightComponent
+	{
+		// Flickering control
+		glm::vec4 flickerOffset;
+
+		std::string ulBasePath;
+
+		// Controls relative to transform component
+		glm::vec4 positionOffset;
+		glm::vec4 directionOffset;
+		// multiplied by the direction to put the light at N distance from the front of the object
+		float distanceOffset;
+
+		// Light parameters
+		glm::vec4 position;
+		glm::vec4 diffuse;   // Colour of the light (used for diffuse)
+		glm::vec4 specular;  // rgb = highlight colour, w = power
+		glm::vec4 atten;	 // x = constant, y = linear, z = quadratic, w = DistanceCutOff
+		glm::vec4 initialAtten;
+		glm::vec4 direction; // Spot, directional lights
+		glm::vec4 params;	 // x = Light::LIGHT_TYPE, y = inner angle, z = outer angle, w = is flickery
+		bool status;	     // x = 0 for off, 1 for on
+
+		// Parameters uniform locations
+		GLint position_UL;
+		GLint diffuse_UL;
+		GLint specular_UL;
+		GLint atten_UL;
+		GLint direction_UL;
+		GLint params_UL;
+		GLint status_UL;
+	};
+
 	// Singleton components
 
 

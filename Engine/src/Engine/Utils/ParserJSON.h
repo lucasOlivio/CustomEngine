@@ -34,6 +34,10 @@ namespace MyEngine
 		bool SetValue(rapidjson::Value& jsonObject, glm::vec3& valueIn,
 			rapidjson::Document::AllocatorType& allocator);
 
+		bool GetValue(rapidjson::Value& jsonObject, glm::vec4& valueOut);
+		bool SetValue(rapidjson::Value& jsonObject, glm::vec4& valueIn,
+			rapidjson::Document::AllocatorType& allocator);
+
 		bool GetValue(rapidjson::Value& jsonObject, glm::quat& valueOut);
 		bool SetValue(rapidjson::Value& jsonObject, glm::quat& valueIn,
 			rapidjson::Document::AllocatorType& allocator);
@@ -68,6 +72,9 @@ namespace MyEngine
 			rapidjson::Document::AllocatorType& allocator);
 
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, glm::vec3& value,
+			rapidjson::Document::AllocatorType& allocator);
+
+		bool SetMember(rapidjson::Value& jsonObject, std::string key, glm::vec4& value,
 			rapidjson::Document::AllocatorType& allocator);
 
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, glm::quat& value,
