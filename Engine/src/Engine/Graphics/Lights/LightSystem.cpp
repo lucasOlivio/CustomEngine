@@ -5,14 +5,6 @@
 
 namespace MyEngine
 {
-    LightSystem::LightSystem()
-    {
-    }
-
-    LightSystem::~LightSystem()
-    {
-    }
-
     void LightSystem::Start(Scene* pScene)
     {
         // Go over each lights setting the ULs and initializing them

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/Graphics/opengl.h"
+
 namespace MyEngine
 {
 	enum eTextureType

@@ -19,8 +19,8 @@ void MyEngine::LightFlickerSystem::Update(Scene* pScene, float deltaTime)
         if (pLight->params.w == 1)
         {
             // Modulate the light attenuation by changing the offset proportion randomly over time
-            float max = 1.08;
-            float min = 0.92;
+            float max = 1.08f;
+            float min = 0.92f;
 
             uint32_t seed = (uint32_t)entityId;
             pLight->flickerOffset = glm::vec4(Random::Vec3(seed, min, max), 0);
