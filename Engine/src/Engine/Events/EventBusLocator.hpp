@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NullEventBus.h"
+#include "NullEventBus.hpp"
 #include "iEventBus.h"
 
 namespace MyEngine
@@ -27,9 +27,4 @@ namespace MyEngine
 		static iEventBus<T>* m_eventBus;
 		static NullEventBus<T> m_nullService;
 	};
-
-	template <typename T>
-	NullEventBus<T> EventBusLocator<T>::m_nullService = NullEventBus<T>();
-	template <typename T>
-	iEventBus<T>* EventBusLocator<T>::m_eventBus = &(EventBusLocator<T>::m_nullService);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 
 #include "iEventBus.h"
 #include "Event.hpp"
@@ -20,9 +21,15 @@ namespace MyEngine
         virtual ~NullEventBus() {};
 
         // Subscribe to an event
-        virtual void Subscribe(T eventType, const EventHandler& handler) {};
+        virtual void Subscribe(T eventType, const EventHandler& handler) 
+        {
+            LOG_ERROR("EventBus not set!");
+        };
 
         // Publish an event to all the listeners
-        virtual void Publish(const Event<T>& event) {};
+        virtual void Publish(const Event<T>& event)
+        {
+            LOG_ERROR("EventBus not set!");
+        };
     };
 }

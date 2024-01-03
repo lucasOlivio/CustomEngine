@@ -214,6 +214,55 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseTextureToDoc(rapidjson::Value& jsonObject, 
+                                                  TextureComponent& textureIn, 
+                                                  rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "fileName", textureIn.fileName, allocator);
+        parser.SetMember(jsonObject, "textureType", textureIn.textureType, allocator);
+        parser.SetMember(jsonObject, "vecTextures", textureIn.vecTextures, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseMaterialToDoc(rapidjson::Value& jsonObject, 
+                                                   MaterialComponent& materialIn, 
+                                                   rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "materialName", materialIn.materialName, allocator);
+        parser.SetMember(jsonObject, "alphaTexture", materialIn.alphaTexture, allocator);
+        parser.SetMember(jsonObject, "colorTextures", materialIn.colorTextures, allocator);
+        parser.SetMember(jsonObject, "colorTexturesRatios", materialIn.colorTexturesRatios, allocator);
+        parser.SetMember(jsonObject, "cubeTexture", materialIn.cubeTexture, allocator);
+        parser.SetMember(jsonObject, "offset", materialIn.offset, allocator);
+        parser.SetMember(jsonObject, "currOffset", materialIn.currOffset, allocator);
+        parser.SetMember(jsonObject, "offsetHeightMap", materialIn.offsetHeightMap, allocator);
+        parser.SetMember(jsonObject, "currOffsetHeightMap", materialIn.currOffsetHeightMap, allocator);
+        parser.SetMember(jsonObject, "isEmissive", materialIn.offsetMove, allocator);
+        parser.SetMember(jsonObject, "discardTexture", materialIn.discardTexture, allocator);
+        parser.SetMember(jsonObject, "heightMapTexture", materialIn.heightMapTexture, allocator);
+        parser.SetMember(jsonObject, "heightScale", materialIn.heightScale, allocator);
+        parser.SetMember(jsonObject, "isEmissive", materialIn.isEmissive, allocator);
+        parser.SetMember(jsonObject, "normalTexture", materialIn.normalTexture, allocator);
+        parser.SetMember(jsonObject, "specularTexture", materialIn.specularTexture, allocator);
+        parser.SetMember(jsonObject, "useAlphaTexture", materialIn.useAlphaTexture, allocator);
+        parser.SetMember(jsonObject, "useCubeTexture", materialIn.useCubeTexture, allocator);
+        parser.SetMember(jsonObject, "useDiscardTexture", materialIn.useDiscardTexture, allocator);
+        parser.SetMember(jsonObject, "useHeightMap", materialIn.useHeightMap, allocator);
+        parser.SetMember(jsonObject, "useNormalTexture", materialIn.useNormalTexture, allocator);
+        parser.SetMember(jsonObject, "useSpecularTexture", materialIn.useSpecularTexture, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToScene(Scene& sceneOut)
     {
         using namespace rapidjson;
@@ -234,7 +283,8 @@ namespace MyEngine
             bool isValid = entityObject.IsObject();
             if (!isValid)
             {
-                std::string error = "Entity #" + std::to_string(entityIndex) + " not valid, expected object of components!\n";
+                std::string error = "Entity #" + std::to_string(entityIndex) + 
+                    " not valid, expected object of components!\n";
                 LOG_ERROR(error);
                 return false;
             }
@@ -249,7 +299,8 @@ namespace MyEngine
                 bool isValid = componentObject.IsObject();
                 if (!isValid)
                 {
-                    std::string error = "Entity #" + std::to_string(entityIndex) + ", component '" + componentName + "' not valid\n";
+                    std::string error = "Entity #" + std::to_string(entityIndex) + 
+                        ", component '" + componentName + "' not valid\n";
                     LOG_ERROR(error);
                     return false;
                 }
@@ -309,6 +360,54 @@ namespace MyEngine
 
         parser.GetValue(jsonObject["velocity"], movementOut.velocity);
         parser.GetValue(jsonObject["acceleration"], movementOut.acceleration);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToTexture(rapidjson::Value& jsonObject, 
+                                                  TextureComponent& textureOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+        int textureType = 0;
+
+        parser.GetValue(jsonObject["fileName"], textureOut.fileName);
+        parser.GetValue(jsonObject["textureType"], textureType);
+        parser.GetValue(jsonObject["vecTextures"], textureOut.vecTextures);
+
+        textureOut.textureType = (eTextureType)textureType;
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToMaterial(rapidjson::Value& jsonObject, 
+                                                   MaterialComponent& materialOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["materialName"], materialOut.materialName);
+        parser.GetValue(jsonObject["alphaTexture"], materialOut.alphaTexture);
+        parser.GetValue(jsonObject["colorTextures"], materialOut.colorTextures);
+        parser.GetValue(jsonObject["colorTexturesRatios"], materialOut.colorTexturesRatios);
+        parser.GetValue(jsonObject["cubeTexture"], materialOut.cubeTexture);
+        parser.GetValue(jsonObject["offset"], materialOut.offset);
+        parser.GetValue(jsonObject["currOffset"], materialOut.currOffset);
+        parser.GetValue(jsonObject["offsetHeightMap"], materialOut.offsetHeightMap);
+        parser.GetValue(jsonObject["currOffsetHeightMap"], materialOut.currOffsetHeightMap);
+        parser.GetValue(jsonObject["isEmissive"], materialOut.offsetMove);
+        parser.GetValue(jsonObject["discardTexture"], materialOut.discardTexture);
+        parser.GetValue(jsonObject["heightMapTexture"], materialOut.heightMapTexture);
+        parser.GetValue(jsonObject["heightScale"], materialOut.heightScale);
+        parser.GetValue(jsonObject["isEmissive"], materialOut.isEmissive);
+        parser.GetValue(jsonObject["normalTexture"], materialOut.normalTexture);
+        parser.GetValue(jsonObject["specularTexture"], materialOut.specularTexture);
+        parser.GetValue(jsonObject["useAlphaTexture"], materialOut.useAlphaTexture);
+        parser.GetValue(jsonObject["useCubeTexture"], materialOut.useCubeTexture);
+        parser.GetValue(jsonObject["useDiscardTexture"], materialOut.useDiscardTexture);
+        parser.GetValue(jsonObject["useHeightMap"], materialOut.useHeightMap);
+        parser.GetValue(jsonObject["useNormalTexture"], materialOut.useNormalTexture);
+        parser.GetValue(jsonObject["useSpecularTexture"], materialOut.useSpecularTexture);
 
         return true;
     }
