@@ -123,4 +123,10 @@ namespace MyEngine
 		bool isActive;
 		int currMesh;
 	};
+
+	struct TilingComponent
+	{
+		glm::vec3 axis;
+		glm::vec3 offset;
+	};
 }

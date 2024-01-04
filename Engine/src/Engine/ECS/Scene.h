@@ -67,6 +67,11 @@ namespace MyEngine
         {
             ComponentType componentType = GetComponentType<T>();
 
+            if (m_componentPools.find(componentType) == m_componentPools.end())
+            {
+                return nullptr;
+            }
+
             ComponentId componentId;
             bool hasComponent = m_componentMaps[componentType]->GetByKey(entityId, 
                                                                          componentId);

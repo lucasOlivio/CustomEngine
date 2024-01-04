@@ -21,6 +21,8 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 	private:
-		void m_RenderModel(TransformComponent* pTransform, ModelComponent* pModel);
+		void m_RenderModel(TilingComponent* pTiling,
+						   TransformComponent* pTransform, 
+						   ModelComponent* pModel);
 	};
 }

@@ -234,6 +234,15 @@ namespace MyEngine
                 m_ParseModelToDoc(modelObject, *pModel, allocator);
                 entityObject.AddMember("model", modelObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TilingComponent>()))
+            {
+                Value tilingObject;
+                tilingObject.SetObject();
+
+                TilingComponent* pTiling = sceneIn.Get<TilingComponent>(entity);
+                m_ParseTilingToDoc(tilingObject, *pTiling, allocator);
+                entityObject.AddMember("tiling", tilingObject, allocator);
+            }
 
             // Add the entityObject to the main JSON array
             m_doc.PushBack(entityObject, allocator);
@@ -369,6 +378,18 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseTilingToDoc(rapidjson::Value& jsonObject, TilingComponent& tilingIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "axis", tilingIn.axis, allocator);
+        parser.SetMember(jsonObject, "offset", tilingIn.offset, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseCameraToDoc(rapidjson::Value& jsonObject, CameraComponent& cameraIn, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
@@ -492,6 +513,11 @@ namespace MyEngine
                 {
                     ModelComponent* pModel = sceneOut.AddComponent<ModelComponent>(entityId);
                     m_ParseDocToModel(componentObject, *pModel);
+                }
+                else if (componentName == "tiling")
+                {
+                    TilingComponent* pTiling = sceneOut.AddComponent<TilingComponent>(entityId);
+                    m_ParseDocToTiling(componentObject, *pTiling);
                 }
                 // All single components goes into the first entity, 
                 // so the scene will always have the first entity empty
@@ -630,6 +656,17 @@ namespace MyEngine
         parser.GetValue(jsonObject["useColorTexture"], modelOut.useColorTexture);
         parser.GetValue(jsonObject["material"], modelOut.material);
         parser.GetValue(jsonObject["models"], modelOut.models);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToTiling(rapidjson::Value& jsonObject, TilingComponent& tilingOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["axis"], tilingOut.axis);
+        parser.GetValue(jsonObject["offset"], tilingOut.offset);
 
         return true;
     }

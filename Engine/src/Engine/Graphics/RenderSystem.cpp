@@ -98,6 +98,7 @@ namespace MyEngine
 		{
 			ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
+			TilingComponent* pTiling = pScene->Get<TilingComponent>(entityId);
 
 			if (!pModel->isActive)
 			{
@@ -119,7 +120,7 @@ namespace MyEngine
 				pMaterialManager->BindMaterial(pScene, pMaterial->name);
 			}
 
-			m_RenderModel(pTransform, pModel);
+			m_RenderModel(pTiling, pTransform, pModel);
 		}
 
 		// Render all transparent models, the sorting by distance is done separatedly
@@ -127,33 +128,67 @@ namespace MyEngine
 		{
 			ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
 			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
+			TilingComponent* pTiling = pScene->Get<TilingComponent>(entityId);
 
 			// Bind material
 			MaterialComponent* pMaterial = pMaterialManager->GetMaterialByName(pScene,
 																			   pModel->material);
 			pMaterialManager->BindMaterial(pScene, pMaterial->name);
 
-			m_RenderModel(pTransform, pModel);
+			m_RenderModel(pTiling, pTransform, pModel);
 		}
     }
 
     void RenderSystem::End(Scene* pScene)
     {
     }
-	void RenderSystem::m_RenderModel(TransformComponent* pTransform, ModelComponent* pModel)
-	{
-		glm::mat4 matTransform = glm::mat4(1.0f);
-		TransformUtils::GetTransform(pTransform->position,
-			pTransform->orientation,
-			pTransform->scale,
-			matTransform);
 
-		sMesh* pMesh = pModel->pMeshes[pModel->currMesh];
-		GraphicsUtils::DrawModel(matTransform,
-			pModel->isWireframe,
-			pModel->doNotLight,
-			pModel->useColorTexture,
-			pMesh->VAO_ID,
-			pMesh->numberOfIndices);
+	void RenderSystem::m_RenderModel(TilingComponent* pTiling,
+									 TransformComponent* pTransform, 
+									 ModelComponent* pModel)
+	{
+		// Default we only draw 1 time in each axis
+		glm::vec3 axis = glm::vec3(1.0);
+		glm::vec3 offset = glm::vec3(0.0);
+		// If has tiling then we draw X times per axis based on the offset
+		if (pTiling)
+		{
+			axis = pTiling->axis;
+			offset = pTiling->offset;
+		}
+
+		glm::vec3 finalPosition = pTransform->position;
+
+		// Now go for each axis tiling to draw adding the offset
+		for (int x = 0; x < axis[0]; x++)
+		{
+			for (int y = 0; y < axis[1]; y++)
+			{
+				for (int z = 0; z < axis[2]; z++)
+				{
+					glm::vec3 delta = offset;
+					delta.x = offset.x * x;
+					delta.y = offset.y * y;
+					delta.z = offset.z * z;
+					finalPosition += delta;
+
+					// If the model have a parent we must use the parents transform
+					glm::mat4 matTransform = glm::mat4(1.0);
+
+					TransformUtils::GetTransform(finalPosition,
+						pTransform->orientation,
+						pTransform->scale,
+						matTransform);
+
+					sMesh* pMesh = pModel->pMeshes[pModel->currMesh];
+					GraphicsUtils::DrawModel(matTransform,
+						pModel->isWireframe,
+						pModel->doNotLight,
+						pModel->useColorTexture,
+						pMesh->VAO_ID,
+						pMesh->numberOfIndices);
+				}
+			}
+		}
 	}
 }
