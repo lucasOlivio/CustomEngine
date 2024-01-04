@@ -25,5 +25,11 @@ namespace MyEngine
 		virtual void SetUniformMatrix4f(const char* variableName, const glm::mat4& value) = 0;
 		virtual void SetUniformVec4(const char* variableName, const glm::vec4& value) = 0;
 		virtual void SetUniformVec2(const char* variableName, const glm::vec2& value) = 0;
+
+		// Sets to draw only line or to fill the polygon
+		virtual void IsWireframe(bool isWireframe) = 0;
+
+		// Bind texture to the unit
+		virtual void BindTexture(uint textureUnit, uint textureId) = 0;
 	};
 }

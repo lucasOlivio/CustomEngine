@@ -3,6 +3,7 @@
 #include "MaterialManager.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
+#include "Engine/ECS/SceneView.hpp"
 
 namespace MyEngine
 {
@@ -13,15 +14,26 @@ namespace MyEngine
 	{
 	}
 
-	void MaterialManager::BindMaterial(MaterialComponent* pMaterial)
+	void MaterialManager::BindMaterial(Scene* pScene, std::string materialName)
 	{
 		// Only change material if not already binded
-		if (pMaterial->materialName == m_currMaterial)
+		if (materialName == m_currMaterial)
 		{
 			return;
 		}
 
-		UnbindMaterials();
+		MaterialComponent* pMaterial = GetMaterialByName(pScene, materialName);
+
+		// Material not found
+		if (!pMaterial)
+		{
+			std::string warning = "Material '" + materialName + "' not found!";
+			LOG_WARNING(warning);
+			return;
+		}
+		// Unbind current material on shader
+		UnbindMaterial();
+
 		std::vector<TextureComponent*> vecTexturesComp = pMaterial->texturesComponents;
 
 		iShaderProgram* pShader = ShaderManager::GetActiveShader();
@@ -39,9 +51,9 @@ namespace MyEngine
 		// Bind color textures
 		for (int i = 0; i < pMaterial->colorTextures.size(); i++)
 		{
-			pTextureManager->BindTexture(vecTexturesComp[i]->fileName,
-				vecTexturesComp[i]->textureType,
-				pMaterial->colorTexturesRatios[i]);
+			pTextureManager->BindTexture(pMaterial->colorTextures[i],
+										 eTextureType::COLOR,
+										 pMaterial->colorTexturesRatios[i]);
 		}
 
 		// TODO: Remove repetition, all could be in a vector or map
@@ -94,10 +106,10 @@ namespace MyEngine
 										   0);
 		}
 
-		m_currMaterial = pMaterial->materialName;
+		m_currMaterial = materialName;
 	}
 
-	void MaterialManager::UnbindMaterials()
+	void MaterialManager::UnbindMaterial()
 	{
 		iShaderProgram* pShader = ShaderManager::GetActiveShader();
 		iTextureManager* pTextureManager = TextureManagerLocator::Get();
@@ -106,5 +118,30 @@ namespace MyEngine
 		pShader->SetUniformVec2("UVOffset", glm::vec2(0.0, 0.0));
 		pShader->SetUniformVec2("HeightMapOffset", glm::vec2(0.0, 0.0));
 		pShader->SetUniformInt("isEmissive", false);
+	}
+
+	MaterialComponent* MaterialManager::GetMaterialByName(Scene* pScene, std::string materialName)
+	{
+		typedef std::map<std::string, MaterialComponent*>::iterator itMaterials;
+
+		itMaterials it = m_materials.find(materialName);
+		if (it != m_materials.end())
+		{
+			return it->second;
+		}
+
+		// Material not mapped yet, so search for it in the scene
+		for (Entity entityId : SceneView<MaterialComponent>(*pScene))
+		{
+			MaterialComponent* pMaterial = pScene->Get<MaterialComponent>(entityId);
+
+			if (pMaterial->name == materialName)
+			{
+				m_materials[materialName] = pMaterial;
+				return pMaterial;
+			}
+		}
+
+		return nullptr;
 	}
 }

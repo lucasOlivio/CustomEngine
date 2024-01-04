@@ -2,6 +2,7 @@
 
 #include "Base.h"
 #include "Engine/Graphics/Textures/TextureProperties.h"
+#include "Engine/Graphics/GraphicsProperties.h"
 #include <glm/gtc/quaternion.hpp>
 
 namespace MyEngine
@@ -16,6 +17,8 @@ namespace MyEngine
 		glm::vec3 position;
 		glm::quat orientation;
 		float scale;
+
+		float distToCamera;
 	};
 
 	struct MovementComponent
@@ -35,7 +38,7 @@ namespace MyEngine
 
 	struct MaterialComponent
 	{
-		std::string materialName;
+		std::string name;
 
 		glm::vec3 offset; // fixed offset
 
@@ -106,7 +109,18 @@ namespace MyEngine
 		GLint status_UL;
 	};
 
-	// Singleton components
+	struct ModelComponent
+	{
+		std::vector<std::string> models;
+		std::vector <sMesh*> pMeshes;
 
+		std::string material;
+		bool isWireframe;
+		bool doNotLight;
+		bool useColorTexture;
 
+		double elapsedTime;
+		bool isActive;
+		int currMesh;
+	};
 }

@@ -5,13 +5,13 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
-#include "Engine/Graphics/drawInfo.h"
+#include "Engine/Graphics/GraphicsProperties.h"
 
-// Forward declaration of the implementation class
-class cFileLoader_Imp;
-
-namespace AssimpHelper
+namespace MyEngine
 {
+	// Forward declaration of the implementation class
+	class cFileLoader_Imp;
+
 	struct __declspec(dllexport) ass_sVec3
 	{
 		float x = 0.0f;

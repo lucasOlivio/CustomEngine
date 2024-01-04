@@ -70,18 +70,18 @@ TEST_F(SceneSerializerTest, DeserializeTest) {
 
     // Check if scene is constructed right
     EntityManager* pEntityManager = m_pScene->GetEntitymanager();
-    EXPECT_EQ(pEntityManager->Size(), 2);
+    EXPECT_EQ(pEntityManager->Size(), 3); // 1 more for the singleton components
 
     ComponentType tag = m_pScene->GetComponentType<TagComponent>();
     ComponentType transform = m_pScene->GetComponentType<TransformComponent>();
     ComponentType movement = m_pScene->GetComponentType<MovementComponent>();
-    EXPECT_TRUE(pEntityManager->HasComponent(0, tag));
-    EXPECT_TRUE(pEntityManager->HasComponent(0, transform));
-    EXPECT_TRUE(pEntityManager->HasComponent(0, movement));
-
     EXPECT_TRUE(pEntityManager->HasComponent(1, tag));
     EXPECT_TRUE(pEntityManager->HasComponent(1, transform));
-    EXPECT_FALSE(pEntityManager->HasComponent(1, movement));
+    EXPECT_TRUE(pEntityManager->HasComponent(1, movement));
+
+    EXPECT_TRUE(pEntityManager->HasComponent(2, tag));
+    EXPECT_TRUE(pEntityManager->HasComponent(2, transform));
+    EXPECT_FALSE(pEntityManager->HasComponent(2, movement));
 }
 
 int main(int argc, char** argv) {

@@ -1,0 +1,213 @@
+[
+    {
+        "camera": {
+            "upVector": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "position": [
+                0.0,
+                0.0,
+                20.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "distance": 0.5,
+            "height": 0.0,
+            "offsetTarget": 0.1
+        },
+        "window": {
+            "name": "test scene",
+            "height": 720,
+            "width": 1080,
+            "fovy": 0.6,
+            "zNear": 0.1,
+            "zFar": 100.0
+        },
+        "configPath": {
+            "pathAudio": "assets/audios/",
+            "pathModels": "assets/models/",
+            "pathScripts": "assets/scripts/",
+            "pathShaders": "assets/shaders/",
+            "pathTextures": "assets/textures/"
+        }
+    },
+    {
+        "material": {
+            "name": "mattest",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "colorTextures": [
+                "white.bmp"
+            ],
+            "colorTexturesRatios": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "useHeightMap": false,
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "useNormalTexture": false,
+            "normalTexture": "",
+            "useSpecularTexture": false,
+            "specularTexture": "",
+            "useDiscardTexture": false,
+            "discardTexture": "",
+            "useCubeTexture": false,
+            "cubeTexture": "",
+            "isEmissive": false,
+            "useAlphaTexture": false,
+            "alphaTexture": ""
+        },
+        "texture": {
+            "fileName": "white.bmp",
+            "textureType": 0,
+            "vecTextures": []
+        }
+    },
+    {
+        "material": {
+            "name": "mattesttransparent",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "colorTextures": [
+                "white.bmp"
+            ],
+            "colorTexturesRatios": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "useHeightMap": false,
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "useNormalTexture": false,
+            "normalTexture": "",
+            "useSpecularTexture": false,
+            "specularTexture": "",
+            "useDiscardTexture": false,
+            "discardTexture": "",
+            "useCubeTexture": false,
+            "cubeTexture": "",
+            "isEmissive": false,
+            "useAlphaTexture": true,
+            "alphaTexture": "transparent.bmp"
+        },
+        "texture": {
+            "fileName": "transparent.bmp",
+            "textureType": 4,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "test"
+        },
+        "model": {
+            "models": [
+                "sphere.obj"
+            ],
+            "material": "mattest",
+            "isWireframe": false,
+            "doNotLight": true,
+            "useColorTexture": true,
+            "isActive": true
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                1.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "test2"
+        },
+        "model": {
+            "models": [
+                "sphere.obj"
+            ],
+            "material": "mattesttransparent",
+            "isWireframe": false,
+            "doNotLight": true,
+            "useColorTexture": true,
+            "isActive": true
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                3.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                1.0
+            ]
+        }
+    }
+]

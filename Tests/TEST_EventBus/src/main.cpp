@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <Engine/Events/EventBus.hpp>
-#include <Engine/Events/EventBusLocator.h>
+#include <Engine/Events/EventBusLocator.hpp>
 #include <Engine/Events/WindowEvents.h>
 
 using namespace MyEngine;

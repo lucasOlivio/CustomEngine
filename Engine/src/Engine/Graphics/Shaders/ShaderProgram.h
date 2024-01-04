@@ -37,24 +37,20 @@ namespace MyEngine
 		std::string name;	// We give it this name
 
 		// Returns -1 (just like OpenGL) if NOT found
-		int GetUL(const char* name);
+		virtual int GetUL(const char* name);
 		// Returns -1 (just like OpenGL) if NOT found
-		int GetAL(const char* name);
-		// Look up the uniform location and save it.
-		int LoadUniformLocation(const char* variableName);
-		// Look up the attribute location and save it.
-		bool LoadAttributeLocation(const char* variableName);
-
-		void IsWireframe(bool isWireframe);
+		virtual int GetAL(const char* name);
 
 		// Loading uniform values
-		void SetUniformFloat(const char* variableName, float value);
-		void SetUniformInt(const char* variableName, int value);
-		void SetUniformMatrix4f(const char* variableName, const glm::mat4& value);
-		void SetUniformVec4(const char* variableName, const glm::vec4& value);
-		void SetUniformVec2(const char* variableName, const glm::vec2& value);
+		virtual void SetUniformFloat(const char* variableName, float value);
+		virtual void SetUniformInt(const char* variableName, int value);
+		virtual void SetUniformMatrix4f(const char* variableName, const glm::mat4& value);
+		virtual void SetUniformVec4(const char* variableName, const glm::vec4& value);
+		virtual void SetUniformVec2(const char* variableName, const glm::vec2& value);
 
-		void BindTexture(uint textureUnit, uint textureId);
+		virtual void IsWireframe(bool isWireframe);
+
+		virtual void BindTexture(uint textureUnit, uint textureId);
 	private:
 		std::map< std::string /*name of uniform variable*/,
 			int /* uniform location ID */ >
@@ -62,5 +58,10 @@ namespace MyEngine
 		std::map< std::string /*name of attribute variable*/,
 			int /* attribute location ID */ >
 			m_mapAttributeNameToAttributeLocation;
+
+		// Look up the uniform location and save it.
+		int m_LoadUniformLocation(const char* variableName);
+		// Look up the attribute location and save it.
+		bool m_LoadAttributeLocation(const char* variableName);
 	};
 }

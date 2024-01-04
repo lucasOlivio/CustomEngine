@@ -1,10 +1,12 @@
-#include "Engine/Core/Engine.h"
+#include "Core/AppEngine.h"
 
 int main()
 {
 	using namespace MyEngine;
 
-	Engine engine = Engine();
+	Application app = Application();
 
-	engine.Update(0);
+	app.Init();
+
+	app.Run();
 }

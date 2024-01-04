@@ -2,6 +2,9 @@
 
 #include "SceneSerializerJSON.h"
 #include "Engine/Utils/ParserJSON.h"
+#include "Engine/ECS/SingletonComponents/CameraLocator.h"
+#include "Engine/ECS/SingletonComponents/WindowLocator.h"
+#include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
 
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
@@ -128,7 +131,38 @@ namespace MyEngine
         Document::AllocatorType& allocator = m_doc.GetAllocator();
         m_doc.SetArray();
 
-        // Parse and serialize each entity in the scene
+        // Singleton components
+        // All singleton components goes into the first object in the json,
+        // so the scene will always have 1 empty entity when loaded
+        //-------------------------------
+        Value entityObject;
+        entityObject.SetObject();
+
+        Value cameraObject;
+        cameraObject.SetObject();
+
+        CameraComponent* pCamera = CameraLocator::Get();
+        m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
+        entityObject.AddMember("camera", cameraObject, allocator);
+
+        Value windowObject;
+        windowObject.SetObject();
+
+        WindowComponent* pWindow = WindowLocator::Get();
+        m_ParseWindowToDoc(windowObject, *pWindow, allocator);
+        entityObject.AddMember("window", windowObject, allocator);
+
+        Value configPathObject;
+        configPathObject.SetObject();
+
+        ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+        m_ParseConfigPathToDoc(configPathObject, *pConfigPath, allocator);
+        entityObject.AddMember("configPath", configPathObject, allocator);
+
+        m_doc.PushBack(entityObject, allocator);
+
+        // Entities
+        //-------------------------------
         EntityManager* pEntityManager = sceneIn.GetEntitymanager();
         for (const Entity& entity : pEntityManager->GetEntities())
         {
@@ -190,6 +224,15 @@ namespace MyEngine
                 LightComponent* pLight = sceneIn.Get<LightComponent>(entity);
                 m_ParseLightToDoc(lightObject, *pLight, allocator);
                 entityObject.AddMember("light", lightObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<ModelComponent>()))
+            {
+                Value modelObject;
+                modelObject.SetObject();
+
+                ModelComponent* pModel = sceneIn.Get<ModelComponent>(entity);
+                m_ParseModelToDoc(modelObject, *pModel, allocator);
+                entityObject.AddMember("model", modelObject, allocator);
             }
 
             // Add the entityObject to the main JSON array
@@ -264,7 +307,7 @@ namespace MyEngine
 
         ParserJSON parser = ParserJSON();
 
-        parser.SetMember(jsonObject, "materialName", materialIn.materialName, allocator);
+        parser.SetMember(jsonObject, "name", materialIn.name, allocator);
         parser.SetMember(jsonObject, "alphaTexture", materialIn.alphaTexture, allocator);
         parser.SetMember(jsonObject, "colorTextures", materialIn.colorTextures, allocator);
         parser.SetMember(jsonObject, "colorTexturesRatios", materialIn.colorTexturesRatios, allocator);
@@ -295,7 +338,6 @@ namespace MyEngine
         using namespace rapidjson;
 
         ParserJSON parser = ParserJSON();
-        int textureType = 0;
 
         parser.SetMember(jsonObject, "distanceOffset", lightIn.distanceOffset, allocator);
         parser.SetMember(jsonObject, "atten", lightIn.atten, allocator);
@@ -307,6 +349,69 @@ namespace MyEngine
         parser.SetMember(jsonObject, "specular", lightIn.specular, allocator);
         parser.SetMember(jsonObject, "status", lightIn.status, allocator);
         parser.SetMember(jsonObject, "ulBasePath", lightIn.ulBasePath, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseModelToDoc(rapidjson::Value& jsonObject, ModelComponent& modelIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "isActive", modelIn.isActive, allocator);
+        parser.SetMember(jsonObject, "doNotLight", modelIn.doNotLight, allocator);
+        parser.SetMember(jsonObject, "isWireframe", modelIn.isWireframe, allocator);
+        parser.SetMember(jsonObject, "useColorTexture", modelIn.useColorTexture, allocator);
+        parser.SetMember(jsonObject, "material", modelIn.material, allocator);
+        parser.SetMember(jsonObject, "models", modelIn.models, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseCameraToDoc(rapidjson::Value& jsonObject, CameraComponent& cameraIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "upVector", cameraIn.upVector, allocator);
+        parser.SetMember(jsonObject, "position", cameraIn.position, allocator);
+        parser.SetMember(jsonObject, "orientation", cameraIn.orientation, allocator);
+        parser.SetMember(jsonObject, "distance", cameraIn.distance, allocator);
+        parser.SetMember(jsonObject, "height", cameraIn.height, allocator);
+        parser.SetMember(jsonObject, "offsetTarget", cameraIn.offsetTarget, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseWindowToDoc(rapidjson::Value& jsonObject, WindowComponent& windowIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "name", windowIn.name, allocator);
+        parser.SetMember(jsonObject, "height", windowIn.height, allocator);
+        parser.SetMember(jsonObject, "width", windowIn.width, allocator);
+        parser.SetMember(jsonObject, "fovy", windowIn.fovy, allocator);
+        parser.SetMember(jsonObject, "zNear", windowIn.zNear, allocator);
+        parser.SetMember(jsonObject, "zFar", windowIn.zFar, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseConfigPathToDoc(rapidjson::Value& jsonObject, ConfigPathComponent& configPathIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "pathAudio", configPathIn.pathAudio, allocator);
+        parser.SetMember(jsonObject, "pathModels", configPathIn.pathModels, allocator);
+        parser.SetMember(jsonObject, "pathScripts", configPathIn.pathScripts, allocator);
+        parser.SetMember(jsonObject, "pathShaders", configPathIn.pathShaders, allocator);
+        parser.SetMember(jsonObject, "pathTextures", configPathIn.pathTextures, allocator);
 
         return true;
     }
@@ -383,6 +488,28 @@ namespace MyEngine
                     LightComponent* pLight = sceneOut.AddComponent<LightComponent>(entityId);
                     m_ParseDocToLight(componentObject, *pLight);
                 }
+                else if (componentName == "model")
+                {
+                    ModelComponent* pModel = sceneOut.AddComponent<ModelComponent>(entityId);
+                    m_ParseDocToModel(componentObject, *pModel);
+                }
+                // All single components goes into the first entity, 
+                // so the scene will always have the first entity empty
+                else if (componentName == "camera")
+                {
+                    CameraComponent* pCamera = CameraLocator::Get();
+                    m_ParseDocToCamera(componentObject, *pCamera);
+                }
+                else if (componentName == "window")
+                {
+                    WindowComponent* pWindow = WindowLocator::Get();
+                    m_ParseDocToWindow(componentObject, *pWindow);
+                }
+                else if (componentName == "configPath")
+                {
+                    ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+                    m_ParseDocToConfigPath(componentObject, *pConfigPath);
+                }
             }
         }
 
@@ -449,15 +576,13 @@ namespace MyEngine
 
         ParserJSON parser = ParserJSON();
 
-        parser.GetValue(jsonObject["materialName"], materialOut.materialName);
+        parser.GetValue(jsonObject["name"], materialOut.name);
         parser.GetValue(jsonObject["alphaTexture"], materialOut.alphaTexture);
         parser.GetValue(jsonObject["colorTextures"], materialOut.colorTextures);
         parser.GetValue(jsonObject["colorTexturesRatios"], materialOut.colorTexturesRatios);
         parser.GetValue(jsonObject["cubeTexture"], materialOut.cubeTexture);
         parser.GetValue(jsonObject["offset"], materialOut.offset);
-        parser.GetValue(jsonObject["currOffset"], materialOut.currOffset);
         parser.GetValue(jsonObject["offsetHeightMap"], materialOut.offsetHeightMap);
-        parser.GetValue(jsonObject["currOffsetHeightMap"], materialOut.currOffsetHeightMap);
         parser.GetValue(jsonObject["isEmissive"], materialOut.offsetMove);
         parser.GetValue(jsonObject["discardTexture"], materialOut.discardTexture);
         parser.GetValue(jsonObject["heightMapTexture"], materialOut.heightMapTexture);
@@ -479,7 +604,6 @@ namespace MyEngine
         using namespace rapidjson;
 
         ParserJSON parser = ParserJSON();
-        int textureType = 0;
 
         parser.GetValue(jsonObject["distanceOffset"], lightOut.distanceOffset);
         parser.GetValue(jsonObject["atten"], lightOut.atten);
@@ -491,6 +615,65 @@ namespace MyEngine
         parser.GetValue(jsonObject["specular"], lightOut.specular);
         parser.GetValue(jsonObject["status"], lightOut.status);
         parser.GetValue(jsonObject["ulBasePath"], lightOut.ulBasePath);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToModel(rapidjson::Value& jsonObject, ModelComponent& modelOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["isActive"], modelOut.isActive);
+        parser.GetValue(jsonObject["doNotLight"], modelOut.doNotLight);
+        parser.GetValue(jsonObject["isWireframe"], modelOut.isWireframe);
+        parser.GetValue(jsonObject["useColorTexture"], modelOut.useColorTexture);
+        parser.GetValue(jsonObject["material"], modelOut.material);
+        parser.GetValue(jsonObject["models"], modelOut.models);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToCamera(rapidjson::Value& jsonObject, CameraComponent& cameraOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["upVector"], cameraOut.upVector);
+        parser.GetValue(jsonObject["position"], cameraOut.position);
+        parser.GetValue(jsonObject["orientation"], cameraOut.orientation);
+        parser.GetValue(jsonObject["distance"], cameraOut.distance);
+        parser.GetValue(jsonObject["height"], cameraOut.height);
+        parser.GetValue(jsonObject["offsetTarget"], cameraOut.offsetTarget);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToWindow(rapidjson::Value& jsonObject, WindowComponent& windowOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["name"], windowOut.name);
+        parser.GetValue(jsonObject["height"], windowOut.height);
+        parser.GetValue(jsonObject["width"], windowOut.width);
+        parser.GetValue(jsonObject["fovy"], windowOut.fovy);
+        parser.GetValue(jsonObject["zNear"], windowOut.zNear);
+        parser.GetValue(jsonObject["zFar"], windowOut.zFar);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToConfigPath(rapidjson::Value& jsonObject, ConfigPathComponent& configPathOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["pathAudio"], configPathOut.pathAudio);
+        parser.GetValue(jsonObject["pathModels"], configPathOut.pathModels);
+        parser.GetValue(jsonObject["pathScripts"], configPathOut.pathScripts);
+        parser.GetValue(jsonObject["pathShaders"], configPathOut.pathShaders);
+        parser.GetValue(jsonObject["pathTextures"], configPathOut.pathTextures);
 
         return true;
     }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Engine/ECS/iSystem.h"
+#include "Engine/ECS/Components.h"
+#include <glm/mat4x4.hpp>
 
 namespace MyEngine
 {
@@ -17,5 +19,8 @@ namespace MyEngine
 		virtual void Render(Scene* pScene);
 
 		virtual void End(Scene* pScene);
+
+	private:
+		void m_RenderModel(TransformComponent* pTransform, ModelComponent* pModel);
 	};
 }

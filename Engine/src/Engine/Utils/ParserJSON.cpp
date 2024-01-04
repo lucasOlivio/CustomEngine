@@ -42,7 +42,7 @@ namespace MyEngine
     {
         using namespace rapidjson;
 
-        if (jsonObject.IsFloat()) {
+        if (jsonObject.IsNumber()) {
             valueOut = jsonObject.GetFloat();
             return true;
         }

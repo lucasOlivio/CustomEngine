@@ -2,31 +2,48 @@
 
 #include "Engine/ECS/Scene.h"
 #include "Engine/ECS/iSystem.h"
+#include "Engine/Events/WindowEvents.h"
+#include "Engine/Events/iEventBus.h"
+#include "Engine/Graphics/VAO/iVAOManager.h"
+#include "Engine/Graphics/Shaders/iShaderManager.h"
+#include "Engine/Graphics/Materials/iMaterialManager.h"
+#include "Engine/Graphics/Textures/iTextureManager.h"
 
 namespace MyEngine
 {
+	// App should inherit from this class to setup and run everything needed
 	class Engine
 	{
 	public:
 		Engine();
-		~Engine();
-
-		// In the absence of managing scene by editor/file use this
-		Scene* GetScene();
+		virtual ~Engine();
 
 		// Systems that will update components when simulation is running
-		void AddSystem(iSystem* pSystem);
+		virtual void AddSystem(iSystem* pSystem);
 
-		void Init();
+		virtual void Init();
 
-		void Update(float deltaTime);
+		virtual void Run();
 
-		void Render();
+		virtual void Update(float deltaTime);
 
-		void Shutdown();
+		virtual void Render();
 
-	private:
+		virtual void Shutdown();
+
+	protected:
 		std::vector<iSystem*> m_systems;
 		Scene* m_pScene;
+
+		iEventBus<eWindowEvents>* m_pEventBusWindow;
+		iVAOManager* m_pVAOManager;
+		iShaderManager* m_pShaderManager;
+		iMaterialManager* m_pMaterialManager;
+		iTextureManager* m_pTextureManager;
+
+		float m_lastTime = 0.0f;
+		std::vector<float> m_frameTimes;
+
+		float m_GetDeltaTime();
 	};
 }

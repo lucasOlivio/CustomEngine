@@ -11,14 +11,20 @@ namespace MyEngine
 		NullMaterialManager() {};
 		virtual ~NullMaterialManager() {};
 
-		virtual void BindMaterial(MaterialComponent* pMaterial)
+		virtual void BindMaterial(Scene* pScene, std::string materialName)
 		{
 			LOG_ERROR("MaterialManager not set!");
 		}
 
-		virtual void UnbindMaterials()
+		virtual void UnbindMaterial()
 		{
 			LOG_ERROR("MaterialManager not set!");
+		}
+
+		virtual MaterialComponent* GetMaterialByName(Scene* pScene, std::string materialName)
+		{
+			LOG_ERROR("MaterialManager not set!");
+			return nullptr;
 		}
 	};
 }

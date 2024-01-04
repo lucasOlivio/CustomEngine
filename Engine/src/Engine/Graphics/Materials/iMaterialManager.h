@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Engine/ECS/Scene.h"
 #include "Engine/ECS/Components.h"
+#include <string>
 
 namespace MyEngine
 {
@@ -10,7 +12,10 @@ namespace MyEngine
 		iMaterialManager() {};
 		virtual ~iMaterialManager() {};
 
-		virtual void BindMaterial(MaterialComponent* pMaterial) = 0;
-		virtual void UnbindMaterials() = 0;
+		virtual void BindMaterial(Scene* pScene, std::string materialName) = 0;
+		virtual void UnbindMaterial() = 0;
+
+		// Search in cached or in scene for the material
+		virtual MaterialComponent* GetMaterialByName(Scene* pScene, std::string materialName) = 0;
 	};
 }

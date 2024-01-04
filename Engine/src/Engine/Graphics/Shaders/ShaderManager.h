@@ -1,42 +1,41 @@
 #pragma once
 
-#include "iShaderProgram.h"
-#include "Engine/Core/types.h"
+#include "iShaderManager.h"
 #include <glm/mat4x4.hpp>
-#include <string>
 #include <vector>
 #include <map>
 
 namespace MyEngine
 {
-	class ShaderManager
+	class ShaderManager : public iShaderManager
 	{
 	public:
+		ShaderManager() {};
 		ShaderManager(std::string basePath);
-		~ShaderManager();
+		virtual ~ShaderManager();
 
 		// Where we initialize all things that could go wrong
-		bool AddShaderProgram(std::string shaderProgram);
+		virtual bool AddShaderProgram(std::string shaderProgram);
 
-		bool CreateProgramFromFile(std::string shaderProgram,
+		virtual bool CreateProgramFromFile(std::string shaderProgram,
 									std::string vertexName,
 									std::string fragName);
-		void SetBasePath(std::string basepath);
+		virtual void SetBasePath(std::string basepath);
 
 		// Clears last error
-		std::string GetLastError(void);
+		virtual std::string GetLastError(void);
 
-		uint GetIDFromShaderProgramName(std::string& shaderProgram);
+		virtual uint GetIDFromShaderProgramName(std::string& shaderProgram);
 
 		// Used to load the uniforms. Returns NULL if not found.
-		iShaderProgram* GetShaderProgramFromName(std::string& shaderProgram);
-		iShaderProgram* GetShaderProgramFromID(uint shaderProgramID);
-
-		static iShaderProgram* GetActiveShader();
+		virtual iShaderProgram* GetShaderProgramFromName(std::string& shaderProgram);
+		virtual iShaderProgram* GetShaderProgramFromID(uint shaderProgramID);
 
 		// Bind opengl to this shader program
-		bool UseShaderProgram(uint ID);
-		bool UseShaderProgram(std::string& shaderProgram);
+		virtual bool UseShaderProgram(uint ID);
+		virtual bool UseShaderProgram(std::string& shaderProgram);
+
+		static iShaderProgram* GetActiveShader();
 
 	private:
 		// Returns an empty string if it didn't work

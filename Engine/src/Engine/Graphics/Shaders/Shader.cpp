@@ -44,36 +44,6 @@ namespace MyEngine
 	{
 	}
 
-	// Look up the uniform inside the shader, then save it, if it finds it
-	int ShaderProgram::LoadUniformLocation(const char* variableName)
-	{
-		// 
-		int uniLocation = glGetUniformLocation(ID, variableName);
-		// Did it find it (not -1)
-		if (uniLocation > -1)
-		{
-			// Save it
-			m_mapUniformNameToUniformLocation[variableName] = uniLocation;
-		}
-
-		return uniLocation;
-	}
-
-	bool ShaderProgram::LoadAttributeLocation(const char* variableName)
-	{
-		// 
-		GLint attrLocation = glGetAttribLocation(ID, variableName);
-		// Did it find it (not -1)
-		if (attrLocation == -1)
-		{	// Nope.
-			return false;
-		}
-		// Save it
-		m_mapAttributeNameToAttributeLocation[variableName] = attrLocation;
-
-		return true;
-	}
-
 	void ShaderProgram::IsWireframe(bool isWireframe)
 	{
 		if (isWireframe)
@@ -131,7 +101,7 @@ namespace MyEngine
 		if (itUniform == m_mapUniformNameToUniformLocation.end())
 		{
 			// Not in map yet, so load to map cache
-			int uniLocation = LoadUniformLocation(name);
+			int uniLocation = m_LoadUniformLocation(name);
 			return uniLocation;
 		}
 
@@ -146,7 +116,7 @@ namespace MyEngine
 		if (itAttribute == m_mapAttributeNameToAttributeLocation.end())
 		{
 			// Not in map yet, so load to map cache
-			bool ulFound = LoadAttributeLocation(name);
+			bool ulFound = m_LoadAttributeLocation(name);
 			if (!ulFound)
 			{
 				// OpenGL attribute not found value
@@ -157,5 +127,35 @@ namespace MyEngine
 		}
 
 		return itAttribute->second;		// second if the "int" value
+	}
+
+	// Look up the uniform inside the shader, then save it, if it finds it
+	int ShaderProgram::m_LoadUniformLocation(const char* variableName)
+	{
+		// 
+		int uniLocation = glGetUniformLocation(ID, variableName);
+		// Did it find it (not -1)
+		if (uniLocation > -1)
+		{
+			// Save it
+			m_mapUniformNameToUniformLocation[variableName] = uniLocation;
+		}
+
+		return uniLocation;
+	}
+
+	bool ShaderProgram::m_LoadAttributeLocation(const char* variableName)
+	{
+		// 
+		GLint attrLocation = glGetAttribLocation(ID, variableName);
+		// Did it find it (not -1)
+		if (attrLocation == -1)
+		{	// Nope.
+			return false;
+		}
+		// Save it
+		m_mapAttributeNameToAttributeLocation[variableName] = attrLocation;
+
+		return true;
 	}
 }

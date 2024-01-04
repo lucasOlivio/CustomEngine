@@ -2,6 +2,7 @@
 
 #include "iSceneSerializer.h"
 #include "Engine/ECS/Components.h"
+#include "Engine/ECS/SingletonComponents/Components.h"
 #include <rapidjson/document.h>
 
 namespace MyEngine
@@ -42,6 +43,18 @@ namespace MyEngine
 		bool m_ParseLightToDoc(rapidjson::Value& jsonObject, 
 								  LightComponent& lightIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseModelToDoc(rapidjson::Value& jsonObject, 
+								  ModelComponent& modelIn,
+								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseCameraToDoc(rapidjson::Value& jsonObject, 
+								  CameraComponent& cameraIn,
+								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseWindowToDoc(rapidjson::Value& jsonObject, 
+								  WindowComponent& windowIn,
+								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseConfigPathToDoc(rapidjson::Value& jsonObject, 
+								  ConfigPathComponent& configPathIn,
+								  rapidjson::Document::AllocatorType& allocator);
 
 		// Parse values from doc to the respective data structure
 		bool m_ParseDocToScene(Scene& sceneOut);
@@ -57,5 +70,13 @@ namespace MyEngine
 								  MaterialComponent& materialOut);
 		bool m_ParseDocToLight(rapidjson::Value& jsonObject, 
 							   LightComponent& lightOut);
+		bool m_ParseDocToModel(rapidjson::Value& jsonObject, 
+							   ModelComponent& modelOut);
+		bool m_ParseDocToCamera(rapidjson::Value& jsonObject, 
+							   CameraComponent& cameraOut);
+		bool m_ParseDocToWindow(rapidjson::Value& jsonObject, 
+							   WindowComponent& windowOut);
+		bool m_ParseDocToConfigPath(rapidjson::Value& jsonObject, 
+							   ConfigPathComponent& configPathOut);
 	};
 }
