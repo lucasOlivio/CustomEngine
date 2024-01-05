@@ -18,8 +18,8 @@ namespace MyEngine
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             MovementComponent* pMovement = pScene->Get<MovementComponent>(entityId);
 
-            pMovement->velocity = pMovement->velocity + pMovement->acceleration;
-            pTransform->position = pTransform->position + pMovement->velocity;
+            pMovement->velocity = pMovement->velocity + (pMovement->acceleration * deltaTime);
+            pTransform->position = pTransform->position + (pMovement->velocity * deltaTime);
         }
     }
 

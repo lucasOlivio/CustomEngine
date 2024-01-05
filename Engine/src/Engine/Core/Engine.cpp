@@ -114,6 +114,8 @@ namespace MyEngine
         delete m_pEventBusWindow;
         delete m_pVAOManager;
         delete m_pShaderManager;
+        delete m_pMaterialManager;
+        delete m_pTextureManager;
     }
 
     float Engine::m_GetDeltaTime()

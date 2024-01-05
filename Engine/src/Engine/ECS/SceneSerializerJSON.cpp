@@ -243,6 +243,15 @@ namespace MyEngine
                 m_ParseTilingToDoc(tilingObject, *pTiling, allocator);
                 entityObject.AddMember("tiling", tilingObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<GravityComponent>()))
+            {
+                Value gravityObject;
+                gravityObject.SetObject();
+
+                GravityComponent* pGravity = sceneIn.Get<GravityComponent>(entity);
+                m_ParseGravityToDoc(gravityObject, *pGravity, allocator);
+                entityObject.AddMember("gravity", gravityObject, allocator);
+            }
 
             // Add the entityObject to the main JSON array
             m_doc.PushBack(entityObject, allocator);
@@ -390,6 +399,17 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseGravityToDoc(rapidjson::Value& jsonObject, GravityComponent& gravityIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "acceleration", gravityIn.acceleration, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseCameraToDoc(rapidjson::Value& jsonObject, CameraComponent& cameraIn, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
@@ -518,6 +538,11 @@ namespace MyEngine
                 {
                     TilingComponent* pTiling = sceneOut.AddComponent<TilingComponent>(entityId);
                     m_ParseDocToTiling(componentObject, *pTiling);
+                }
+                else if (componentName == "gravity")
+                {
+                    GravityComponent* pGravity = sceneOut.AddComponent<GravityComponent>(entityId);
+                    m_ParseDocToGravity(componentObject, *pGravity);
                 }
                 // All single components goes into the first entity, 
                 // so the scene will always have the first entity empty
@@ -670,6 +695,18 @@ namespace MyEngine
 
         return true;
     }
+
+    bool SceneSerializerJSON::m_ParseDocToGravity(rapidjson::Value& jsonObject, GravityComponent& gravityOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["acceleration"], gravityOut.acceleration);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToCamera(rapidjson::Value& jsonObject, CameraComponent& cameraOut)
     {
         using namespace rapidjson;

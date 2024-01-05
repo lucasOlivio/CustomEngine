@@ -9,7 +9,7 @@
             "position": [
                 0.0,
                 0.0,
-                20.0
+                50.0
             ],
             "orientation": [
                 0.0,
@@ -131,6 +131,53 @@
         }
     },
     {
+        "material": {
+            "name": "mattestred",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "colorTextures": [
+                "red.bmp"
+            ],
+            "colorTexturesRatios": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "useHeightMap": false,
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "useNormalTexture": false,
+            "normalTexture": "",
+            "useSpecularTexture": false,
+            "specularTexture": "",
+            "useDiscardTexture": false,
+            "discardTexture": "",
+            "useCubeTexture": false,
+            "cubeTexture": "",
+            "isEmissive": false,
+            "useAlphaTexture": false,
+            "alphaTexture": ""
+        },
+        "texture": {
+            "fileName": "red.bmp",
+            "textureType": 0,
+            "vecTextures": []
+        }
+    },
+    {
         "tag": {
             "name": "test"
         },
@@ -146,7 +193,7 @@
         },
         "transform": {
             "position": [
-                0.0,
+                -5.0,
                 0.0,
                 0.0
             ],
@@ -159,15 +206,18 @@
         },
         "movement": {
             "velocity": [
+                1.0,
                 0.0,
-                0.0,
-                1.0
+                0.0
             ],
             "acceleration": [
+                1.0,
                 0.0,
-                0.0,
-                1.0
+                0.0
             ]
+        },
+        "gravity": {
+            "acceleration": [0.0, -9.8, 0.0]
         }
     },
     {
@@ -180,15 +230,15 @@
             ],
             "material": "mattesttransparent",
             "isWireframe": false,
-            "doNotLight": true,
+            "doNotLight": false,
             "useColorTexture": true,
             "isActive": true
         },
         "transform": {
             "position": [
+                5.0,
                 0.0,
-                0.0,
-                3.0
+                0.0
             ],
             "orientation": [
                 0.0,
@@ -201,17 +251,44 @@
             "velocity": [
                 0.0,
                 0.0,
-                1.0
+                0.0
             ],
             "acceleration": [
                 0.0,
                 0.0,
-                1.0
+                0.0
             ]
         },
-        "tiling": {
-            "axis": [2.0, 1.0, 1.0],
-            "offset": [1.0, 0.0, 0.0]
+        "gravity": {
+            "acceleration": [0.0, 0, 0.0]
+        }
+    },
+    {
+        "tag": {
+            "name": "testground"
+        },
+        "model": {
+            "models": [
+                "cube.ply"
+            ],
+            "material": "mattestred",
+            "isWireframe": false,
+            "doNotLight": false,
+            "useColorTexture": true,
+            "isActive": true
+        },
+        "transform": {
+            "position": [
+                0.0,
+                -65.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 50.0
         }
     }
 ]

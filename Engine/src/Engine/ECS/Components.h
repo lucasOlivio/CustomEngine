@@ -129,4 +129,9 @@ namespace MyEngine
 		glm::vec3 axis;
 		glm::vec3 offset;
 	};
+
+	struct GravityComponent
+	{
+		glm::vec3 acceleration;
+	};
 }

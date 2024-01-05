@@ -2,6 +2,8 @@
 #include "Engine/Graphics/CameraSystem.h"
 #include "Engine/Graphics/WindowSystem.h"
 #include "Engine/Graphics/RenderSystem.h"
+#include "Engine/Physics/MovementSystem.h"
+#include "Engine/Physics/GravitySystem.h"
 #include "Engine/ECS/SceneSerializerFactory.h"
 #include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
 
@@ -16,10 +18,14 @@ namespace MyEngine
 		WindowSystem* pWindowSys = new WindowSystem();
 		CameraSystem* pCameraSys = new CameraSystem();
 		RenderSystem* pRenderSys = new RenderSystem();
+		MovementSystem* pMovementSys = new MovementSystem();
+		GravitySystem* pGravitySys = new GravitySystem();
 
 		Engine::AddSystem(pWindowSys);
 		Engine::AddSystem(pCameraSys);
 		Engine::AddSystem(pRenderSys);
+		Engine::AddSystem(pMovementSys);
+		Engine::AddSystem(pGravitySys);
 
 		iSceneSerializer* pSceneSerializer = SceneSerializerFactory::CreateSceneSerializer(SCENE_PATH);
 		pSceneSerializer->DeserializeScene(SCENE_PATH, *m_pScene);
