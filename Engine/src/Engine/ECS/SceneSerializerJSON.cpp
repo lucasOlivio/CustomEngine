@@ -363,10 +363,8 @@ namespace MyEngine
         parser.SetMember(jsonObject, "direction", lightIn.direction, allocator);
         parser.SetMember(jsonObject, "directionOffset", lightIn.directionOffset, allocator);
         parser.SetMember(jsonObject, "params", lightIn.params, allocator);
-        parser.SetMember(jsonObject, "position", lightIn.position, allocator);
         parser.SetMember(jsonObject, "specular", lightIn.specular, allocator);
         parser.SetMember(jsonObject, "status", lightIn.status, allocator);
-        parser.SetMember(jsonObject, "ulBasePath", lightIn.ulBasePath, allocator);
 
         return true;
     }
@@ -662,10 +660,8 @@ namespace MyEngine
         parser.GetValue(jsonObject["direction"], lightOut.direction);
         parser.GetValue(jsonObject["directionOffset"], lightOut.directionOffset);
         parser.GetValue(jsonObject["params"], lightOut.params);
-        parser.GetValue(jsonObject["position"], lightOut.position);
         parser.GetValue(jsonObject["specular"], lightOut.specular);
         parser.GetValue(jsonObject["status"], lightOut.status);
-        parser.GetValue(jsonObject["ulBasePath"], lightOut.ulBasePath);
 
         return true;
     }

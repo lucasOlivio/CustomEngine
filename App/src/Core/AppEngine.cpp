@@ -2,6 +2,7 @@
 #include "Engine/Graphics/CameraSystem.h"
 #include "Engine/Graphics/WindowSystem.h"
 #include "Engine/Graphics/RenderSystem.h"
+#include "Engine/Graphics/Lights/LightSystem.h"
 #include "Engine/Physics/MovementSystem.h"
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/ECS/SceneSerializerFactory.h"
@@ -18,12 +19,14 @@ namespace MyEngine
 		WindowSystem* pWindowSys = new WindowSystem();
 		CameraSystem* pCameraSys = new CameraSystem();
 		RenderSystem* pRenderSys = new RenderSystem();
+		LightSystem* pLightSys = new LightSystem();
 		MovementSystem* pMovementSys = new MovementSystem();
 		GravitySystem* pGravitySys = new GravitySystem();
 
 		Engine::AddSystem(pWindowSys);
 		Engine::AddSystem(pCameraSys);
 		Engine::AddSystem(pRenderSys);
+		Engine::AddSystem(pLightSys);
 		Engine::AddSystem(pMovementSys);
 		Engine::AddSystem(pGravitySys);
 
