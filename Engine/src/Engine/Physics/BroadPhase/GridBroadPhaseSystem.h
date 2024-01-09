@@ -13,11 +13,11 @@ namespace MyEngine
 	typedef std::map< uint /*index*/, GridAABB* > mapIdxAABB;
 	typedef std::unordered_set< Entity >::iterator itEntities;
 
-	class BroadPhaseSystem : public iSystem
+	class GridBroadPhaseSystem : public iSystem
 	{
 	public:
-		BroadPhaseSystem() = default;
-		virtual ~BroadPhaseSystem() {};
+		GridBroadPhaseSystem() = default;
+		virtual ~GridBroadPhaseSystem() {};
 
 		virtual void Start(Scene* pScene);
 

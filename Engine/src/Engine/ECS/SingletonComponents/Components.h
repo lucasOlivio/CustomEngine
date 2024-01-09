@@ -95,4 +95,5 @@ namespace MyEngine
 	{
 		std::vector<Entity> entities;
 	};
+
 }

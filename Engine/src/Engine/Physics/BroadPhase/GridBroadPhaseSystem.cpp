@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "BroadPhaseSystem.h"
+#include "GridBroadPhaseSystem.h"
 #include "Engine/ECS/Components.h"
 #include "Engine/ECS/SceneView.hpp"
 #include "Engine/Utils/GridUtils.h"
@@ -12,7 +12,7 @@ namespace MyEngine
 	typedef std::map< uint /*index*/, GridAABB* >::iterator itIdxAABB;
 	typedef std::pair< uint /*index*/, GridAABB* > pairIdxAABB;
 
-	void BroadPhaseSystem::Start(Scene* pScene)
+	void GridBroadPhaseSystem::Start(Scene* pScene)
 	{
 		// TODO: For non-static grid aabbs this should be dynamic, comming from component size or map
 		m_lengthPerBox = glm::vec3(5, 5, 5);
@@ -43,20 +43,20 @@ namespace MyEngine
 		}
 	}
 
-	void BroadPhaseSystem::Update(Scene* pScene, float deltaTime)
+	void GridBroadPhaseSystem::Update(Scene* pScene, float deltaTime)
 	{
 	}
 
-	void BroadPhaseSystem::Render(Scene* pScene)
+	void GridBroadPhaseSystem::Render(Scene* pScene)
 	{
 	}
 
-	void BroadPhaseSystem::End(Scene* pScene)
+	void GridBroadPhaseSystem::End(Scene* pScene)
 	{
 		m_ClearAABBs();
 	}
 
-	GridAABB* BroadPhaseSystem::m_GetAABB(uint idxAABB)
+	GridAABB* GridBroadPhaseSystem::m_GetAABB(uint idxAABB)
 	{
 		itIdxAABB itAABB = m_mapAABBs.find(idxAABB);
 		if (itAABB == m_mapAABBs.end())
@@ -67,14 +67,14 @@ namespace MyEngine
 		return itAABB->second;
 	}
 
-	GridAABB* BroadPhaseSystem::m_GetAABB(glm::vec3 point)
+	GridAABB* GridBroadPhaseSystem::m_GetAABB(glm::vec3 point)
 	{
 		uint idxAABB = GridUtils::LocatePoint(point, m_lengthPerBox);
 
 		return m_GetAABB(idxAABB);
 	}
 
-	GridAABB* BroadPhaseSystem::m_GetOrCreateAABB(uint idxAABB)
+	GridAABB* GridBroadPhaseSystem::m_GetOrCreateAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
 		if (pAABB)
@@ -91,7 +91,7 @@ namespace MyEngine
 		return pAABB;
 	}
 
-	void BroadPhaseSystem::m_InsertAABB(Scene* pScene, Entity entityId, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertAABB(Scene* pScene, Entity entityId, eBody bodyType)
 	{
 		AABBColliderComponent* pAABB = pScene->Get<AABBColliderComponent>(entityId);
 		if (!pAABB)
@@ -100,7 +100,7 @@ namespace MyEngine
 		}
 	}
 
-	void BroadPhaseSystem::m_InsertSphere(Scene* pScene, Entity entityId, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertSphere(Scene* pScene, Entity entityId, eBody bodyType)
 	{
 		SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
 		if (!pSphere)
@@ -145,7 +145,7 @@ namespace MyEngine
 		//}
 	}
 
-	void BroadPhaseSystem::m_InsertMesh(Scene* pScene, Entity entityId, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertMesh(Scene* pScene, Entity entityId, eBody bodyType)
 	{
 		MeshColliderComponent* pMeshCollider = pScene->Get<MeshColliderComponent>(entityId);
 		sMesh* pMesh = pMeshCollider->pMesh;
@@ -161,7 +161,7 @@ namespace MyEngine
 		}
 	}
 
-	void BroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, eBody bodyType)
 	{
 		GridAABB* pAABB = m_GetOrCreateAABB(index);
 
@@ -182,7 +182,7 @@ namespace MyEngine
 		return;
 	}
 
-	void BroadPhaseSystem::m_InsertMeshTriangle(Entity entityId, sTriangle* pTriangle)
+	void GridBroadPhaseSystem::m_InsertMeshTriangle(Entity entityId, sTriangle* pTriangle)
 	{
 		pTriangle->calcNormal();
 
@@ -211,7 +211,7 @@ namespace MyEngine
 		return;
 	}
 
-	void BroadPhaseSystem::m_ClearAABBs()
+	void GridBroadPhaseSystem::m_ClearAABBs()
 	{
 		for (pairIdxAABB pairAABB : m_mapAABBs)
 		{
@@ -222,7 +222,7 @@ namespace MyEngine
 		m_mapActiveAABBs.clear();
 	}
 
-	size_t BroadPhaseSystem::m_RemoveActiveAABB(uint idxAABB)
+	size_t GridBroadPhaseSystem::m_RemoveActiveAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
 		if (!pAABB)
@@ -235,7 +235,7 @@ namespace MyEngine
 		return left;
 	}
 
-	void BroadPhaseSystem::m_RemoveEntityAABB(Entity entityID, uint index, eBody bodyType)
+	void GridBroadPhaseSystem::m_RemoveEntityAABB(Entity entityID, uint index, eBody bodyType)
 	{
 		GridAABB* pAABB = m_GetAABB(index);
 		if (!pAABB)
@@ -259,7 +259,7 @@ namespace MyEngine
 		}
 	}
 
-	size_t BroadPhaseSystem::m_RemoveAABB(uint idxAABB)
+	size_t GridBroadPhaseSystem::m_RemoveAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
 		if (!pAABB)

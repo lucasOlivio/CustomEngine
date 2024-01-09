@@ -7,9 +7,7 @@
 #include "Engine/ECS/SingletonComponents/TransparentEntitiesLocator.h"
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
-#include "Engine/Graphics/Shaders/ShaderManagerLocator.h"
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
-#include "Engine/Graphics/Shaders/ShaderManager.h"
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/GraphicsUtils.h"
 
@@ -20,14 +18,6 @@ namespace MyEngine
 		ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
 		iTextureManager* pTextureManager = TextureManagerLocator::Get();
 		iVAOManager* pVAOManager = VAOManagerLocator::Get();
-		iShaderManager* pShaderManager = ShaderManagerLocator::Get();
-
-		// TODO: This should not be here
-		// Setup shaders
-		pShaderManager->SetBasePath(pConfigPath->pathShaders);
-		std::string shaderName = "Shader01";
-		pShaderManager->AddShaderProgram(shaderName);
-		pShaderManager->UseShaderProgram(shaderName);
 
 		// Load textures
 		pTextureManager->SetBasePath(pConfigPath->pathTextures);
