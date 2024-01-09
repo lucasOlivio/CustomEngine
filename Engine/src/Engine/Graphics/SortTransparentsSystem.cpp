@@ -44,7 +44,7 @@ namespace MyEngine
         {
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entity);
 
-            float distToCamera = glm::distance(pTransform->position, pCamera->position);
+            float distToCamera = glm::distance(pTransform->worldPosition, pCamera->position);
             pTransform->distToCamera = distToCamera;
         }
 

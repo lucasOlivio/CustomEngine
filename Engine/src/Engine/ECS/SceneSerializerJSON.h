@@ -52,6 +52,18 @@ namespace MyEngine
 		bool m_ParseGravityToDoc(rapidjson::Value& jsonObject, 
 								  GravityComponent& gravityIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseRigidBodyToDoc(rapidjson::Value& jsonObject, 
+								  RigidBodyComponent& rigidBodyIn,
+								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseSphereColliderToDoc(rapidjson::Value& jsonObject, 
+								  SphereColliderComponent& sphereIn,
+								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseAABBColliderToDoc(rapidjson::Value& jsonObject, 
+								  AABBColliderComponent& aabbIn,
+								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseMeshColliderToDoc(rapidjson::Value& jsonObject, 
+								  MeshColliderComponent& meshIn,
+								  rapidjson::Document::AllocatorType& allocator);
 		bool m_ParseCameraToDoc(rapidjson::Value& jsonObject, 
 								  CameraComponent& cameraIn,
 								  rapidjson::Document::AllocatorType& allocator);
@@ -82,6 +94,14 @@ namespace MyEngine
 							   TilingComponent& tilingOut);
 		bool m_ParseDocToGravity(rapidjson::Value& jsonObject, 
 							   GravityComponent& gravityOut);
+		bool m_ParseDocToRigidBody(rapidjson::Value& jsonObject, 
+							   RigidBodyComponent& rigidbodyOut);
+		bool m_ParseDocToSphereCollider(rapidjson::Value& jsonObject, 
+							   SphereColliderComponent& sphereOut);
+		bool m_ParseDocToAABBCollider(rapidjson::Value& jsonObject, 
+							   AABBColliderComponent& aabbOut);
+		bool m_ParseDocToMeshCollider(rapidjson::Value& jsonObject, 
+							   MeshColliderComponent& meshOut);
 		bool m_ParseDocToCamera(rapidjson::Value& jsonObject, 
 							   CameraComponent& cameraOut);
 		bool m_ParseDocToWindow(rapidjson::Value& jsonObject, 

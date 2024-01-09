@@ -20,6 +20,10 @@ namespace MyEngine
 
             pMovement->velocity = pMovement->velocity + (pMovement->acceleration * deltaTime);
             pTransform->position = pTransform->position + (pMovement->velocity * deltaTime);
+
+            // TODO: For now only need to update world position, 
+            // but later should update in relation to parent position
+            pTransform->worldPosition = pTransform->position;
         }
     }
 

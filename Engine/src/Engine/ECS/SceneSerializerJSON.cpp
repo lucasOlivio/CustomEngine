@@ -252,6 +252,33 @@ namespace MyEngine
                 m_ParseGravityToDoc(gravityObject, *pGravity, allocator);
                 entityObject.AddMember("gravity", gravityObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<RigidBodyComponent>()))
+            {
+                Value rigidBodyObject;
+                rigidBodyObject.SetObject();
+
+                RigidBodyComponent* pRigidBody = sceneIn.Get<RigidBodyComponent>(entity);
+                m_ParseRigidBodyToDoc(rigidBodyObject, *pRigidBody, allocator);
+                entityObject.AddMember("rigidBody", rigidBodyObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<SphereColliderComponent>()))
+            {
+                Value sphereColliderObject;
+                sphereColliderObject.SetObject();
+
+                SphereColliderComponent* pSphereCollider = sceneIn.Get<SphereColliderComponent>(entity);
+                m_ParseSphereColliderToDoc(sphereColliderObject, *pSphereCollider, allocator);
+                entityObject.AddMember("sphereCollider", sphereColliderObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<AABBColliderComponent>()))
+            {
+                Value aabbColliderObject;
+                aabbColliderObject.SetObject();
+
+                AABBColliderComponent* pAABBCollider = sceneIn.Get<AABBColliderComponent>(entity);
+                m_ParseAABBColliderToDoc(aabbColliderObject, *pAABBCollider, allocator);
+                entityObject.AddMember("aabbCollider", aabbColliderObject, allocator);
+            }
 
             // Add the entityObject to the main JSON array
             m_doc.PushBack(entityObject, allocator);
@@ -284,6 +311,10 @@ namespace MyEngine
         parser.SetMember(jsonObject, "position", transformIn.position, allocator);
         parser.SetMember(jsonObject, "orientation", transformIn.orientation, allocator);
         parser.SetMember(jsonObject, "scale", transformIn.scale, allocator);
+
+        transformIn.worldPosition = transformIn.position;
+        transformIn.worldOrientation = transformIn.orientation;
+        transformIn.worldScale = transformIn.scale;
 
         return true;
     }
@@ -404,6 +435,52 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.SetMember(jsonObject, "acceleration", gravityIn.acceleration, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseRigidBodyToDoc(rapidjson::Value& jsonObject, RigidBodyComponent& rigidBodyIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "bodyType", rigidBodyIn.bodyType, allocator);
+        parser.SetMember(jsonObject, "shapeType", rigidBodyIn.shapeType, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseSphereColliderToDoc(rapidjson::Value& jsonObject, SphereColliderComponent& sphereIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "radius", sphereIn.radius, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseAABBColliderToDoc(rapidjson::Value& jsonObject, AABBColliderComponent& aabbIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "min", aabbIn.min, allocator);
+        parser.SetMember(jsonObject, "max", aabbIn.max, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseMeshColliderToDoc(rapidjson::Value& jsonObject, MeshColliderComponent& meshIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "name", meshIn.name, allocator);
 
         return true;
     }
@@ -541,6 +618,21 @@ namespace MyEngine
                 {
                     GravityComponent* pGravity = sceneOut.AddComponent<GravityComponent>(entityId);
                     m_ParseDocToGravity(componentObject, *pGravity);
+                }
+                else if (componentName == "rigidBody")
+                {
+                    RigidBodyComponent* pRigidBody = sceneOut.AddComponent<RigidBodyComponent>(entityId);
+                    m_ParseDocToRigidBody(componentObject, *pRigidBody);
+                }
+                else if (componentName == "sphereCollider")
+                {
+                    SphereColliderComponent* pSphereCollider = sceneOut.AddComponent<SphereColliderComponent>(entityId);
+                    m_ParseDocToSphereCollider(componentObject, *pSphereCollider);
+                }
+                else if (componentName == "aabbCollider")
+                {
+                    AABBColliderComponent* pAABBCollider = sceneOut.AddComponent<AABBColliderComponent>(entityId);
+                    m_ParseDocToAABBCollider(componentObject, *pAABBCollider);
                 }
                 // All single components goes into the first entity, 
                 // so the scene will always have the first entity empty
@@ -699,6 +791,57 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["acceleration"], gravityOut.acceleration);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToRigidBody(rapidjson::Value& jsonObject, RigidBodyComponent& rigidbodyOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+        int bodyType = 0;
+        int shapeType = 0;
+
+        parser.GetValue(jsonObject["bodyType"], bodyType);
+        parser.GetValue(jsonObject["shapeType"], shapeType);
+
+        rigidbodyOut.bodyType = (eBody)bodyType;
+        rigidbodyOut.shapeType = (eShape)shapeType;
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToSphereCollider(rapidjson::Value& jsonObject, SphereColliderComponent& sphereOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["radius"], sphereOut.radius);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToAABBCollider(rapidjson::Value& jsonObject, AABBColliderComponent& aabbOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["min"], aabbOut.min);
+        parser.GetValue(jsonObject["max"], aabbOut.max);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToMeshCollider(rapidjson::Value& jsonObject, MeshColliderComponent& meshOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["name"], meshOut.name);
 
         return true;
     }

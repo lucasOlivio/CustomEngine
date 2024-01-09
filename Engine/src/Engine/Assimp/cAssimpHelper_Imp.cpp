@@ -41,7 +41,7 @@ namespace MyEngine
 			drawInfo->numberOfVertices += currMesh->mNumVertices;
 		}
 		// Load the triangles for organize structure
-		drawInfo->pTriangles = new sTriangleMesh[drawInfo->numberOfTriangles];
+		drawInfo->pTriangles = new sTriangle[drawInfo->numberOfTriangles];
 		// Load the vertices in the opengl structure VBO
 		drawInfo->pVertices = new sVertex[drawInfo->numberOfVertices];
 		// Load the indices for the Index Buffer

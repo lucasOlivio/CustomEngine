@@ -57,7 +57,7 @@ namespace MyEngine
                                          LightComponent* pLight, 
                                          iShaderProgram* pShader)
     {
-        glm::vec4 newPosition = glm::vec4(pTransform->position, 0) + pLight->positionOffset +
+        glm::vec4 newPosition = glm::vec4(pTransform->worldPosition, 0) + pLight->positionOffset +
                                (pLight->direction * pLight->directionOffset);
 
         pShader->SetUniformVec4((pLight->ulBasePath + "position").c_str(), newPosition);

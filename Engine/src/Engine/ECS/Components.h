@@ -3,6 +3,7 @@
 #include "Base.h"
 #include "Engine/Graphics/Textures/TextureProperties.h"
 #include "Engine/Graphics/GraphicsProperties.h"
+#include "Engine/Physics/PhysicsProperties.h"
 #include <glm/gtc/quaternion.hpp>
 
 namespace MyEngine
@@ -18,6 +19,12 @@ namespace MyEngine
 		glm::quat orientation;
 		float scale;
 
+		// Values calculated in relation to parent
+		glm::vec3 worldPosition;
+		glm::quat worldOrientation;
+		float worldScale;
+
+		// Value calculated distance in relation to camera position
 		float distToCamera;
 	};
 
@@ -132,5 +139,28 @@ namespace MyEngine
 	struct GravityComponent
 	{
 		glm::vec3 acceleration;
+	};
+
+	struct RigidBodyComponent
+	{
+		eBody bodyType;
+		eShape shapeType;
+	};
+
+	struct MeshColliderComponent
+	{
+		std::string name;
+		sMesh* pMesh;
+	};
+
+	struct SphereColliderComponent
+	{
+		float radius;
+	};
+
+	struct AABBColliderComponent
+	{
+		glm::vec3 min;
+		glm::vec3 max;
 	};
 }

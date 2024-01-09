@@ -9,18 +9,22 @@ namespace MyEngine
 	class TransformUtils
 	{
 	public:
-        static void ApplyTranslation(glm::vec3 position, glm::mat4& matModelOut);
+        static void ApplyTranslation(const glm::vec3& position, glm::mat4& matModelOut);
 
-        static void ApplyRotation(glm::quat qOrientation, glm::mat4& matModelOut);
+        static void ApplyRotation(const glm::quat& qOrientation, glm::mat4& matModelOut);
 
-		static void ApplyScale(float scale, glm::mat4& matModelOut);
+		static void ApplyScale(const float& scale, glm::mat4& matModelOut);
 
-		static void GetTransform(glm::vec3 position, 
-                                 glm::quat orientation,
-                                 float scale, 
+		static void GetTransform(const glm::vec3& position,
+                                 const glm::quat& orientation,
+                                 const float& scale, 
                                  glm::mat4& matModelOut);
 
-		static glm::vec3 GetUpVector(glm::quat orientation);
-		static glm::vec3 GetForwardVector(glm::quat orientation);
+		static void GetTransform(const glm::vec3& position,
+								 const float& scale, 
+								 glm::mat4& matModelOut);
+
+		static glm::vec3 GetUpVector(const glm::quat& orientation);
+		static glm::vec3 GetForwardVector(const glm::quat& orientation);
 	};
 }

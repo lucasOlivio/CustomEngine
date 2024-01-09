@@ -157,7 +157,7 @@ namespace MyEngine
 			offset = pTiling->offset;
 		}
 
-		glm::vec3 finalPosition = pTransform->position;
+		glm::vec3 finalPosition = pTransform->worldPosition;
 
 		// Now go for each axis tiling to draw adding the offset
 		for (int x = 0; x < axis[0]; x++)
