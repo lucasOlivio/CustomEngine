@@ -312,10 +312,6 @@ namespace MyEngine
         parser.SetMember(jsonObject, "orientation", transformIn.orientation, allocator);
         parser.SetMember(jsonObject, "scale", transformIn.scale, allocator);
 
-        transformIn.worldPosition = transformIn.position;
-        transformIn.worldOrientation = transformIn.orientation;
-        transformIn.worldScale = transformIn.scale;
-
         return true;
     }
 
@@ -678,6 +674,10 @@ namespace MyEngine
         parser.GetValue(jsonObject["position"], transformOut.position);
         parser.GetValue(jsonObject["orientation"], transformOut.orientation);
         parser.GetValue(jsonObject["scale"], transformOut.scale);
+
+        transformOut.worldPosition = transformOut.position;
+        transformOut.worldOrientation = transformOut.orientation;
+        transformOut.worldScale = transformOut.scale;
 
         return true;
     }
