@@ -7,6 +7,7 @@
 #include "Engine/Physics/MovementSystem.h"
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/Physics/BroadPhase/GridBroadPhaseSystem.h"
+#include "Engine/Physics/NarrowPhase/CheckOverlapSystem.h"
 #include "Engine/Debug/DebugSystem.h"
 #include "Engine/Debug/WindowFPSSystem.h"
 #include "Engine/Debug/DrawGridSystem.h"
@@ -37,11 +38,13 @@ namespace MyEngine
 		// Physics systems
 		GravitySystem* pGravitySys = new GravitySystem();
 		MovementSystem* pMovementSys = new MovementSystem();
-		GridBroadPhaseSystem* pGridBroadPhaseSystem = new GridBroadPhaseSystem();
+		GridBroadPhaseSystem* pGridBroadPhaseSys = new GridBroadPhaseSystem();
+		CheckOverlapSystem* pCheckOverlapSys = new CheckOverlapSystem();
 
 		Engine::AddSystem(pGravitySys);
 		Engine::AddSystem(pMovementSys);
-		Engine::AddSystem(pGridBroadPhaseSystem);
+		Engine::AddSystem(pGridBroadPhaseSys);
+		Engine::AddSystem(pCheckOverlapSys);
 
 		// Debug systems
 		DebugSystem* pDebugSys = new DebugSystem();

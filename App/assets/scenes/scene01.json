@@ -290,7 +290,7 @@
             "bodyType": 1,
             "shapeType": 1
         },
-        "sphere":
+        "sphereCollider":
         {
             "radius": 1.0
         }
@@ -339,7 +339,7 @@
             "bodyType": 1,
             "shapeType": 1
         },
-        "sphere":
+        "sphereCollider":
         {
             "radius": 1.0
         }

@@ -12,6 +12,12 @@ namespace MyEngine
 									 const glm::vec3& minB, const glm::vec3& maxB, 
 									 const glm::vec3& positionB, const float& scaleB);
 
+		static bool AABBTriangle_Overlap(const glm::vec3& minA, const glm::vec3& maxA, 
+									     const glm::vec3& positionA, const float& scaleA,
+										 const glm::vec3& v1, 
+										 const glm::vec3& v2, 
+										 const glm::vec3& v3);
+
 		static bool SphereAABB_Overlap(const float& radiusA, 
 									   const glm::vec3& positionA, const float& scaleA,
 									   const glm::vec3& minB, const glm::vec3& maxB, 
@@ -21,5 +27,11 @@ namespace MyEngine
 										 const glm::vec3& positionA, const float& scaleA,
 										 const float& radiusB, 
 										 const glm::vec3& positionB, const float& scaleB);
+
+		static bool SphereTriangle_Overlap(const float& radiusA, 
+										   const glm::vec3& positionA, const float& scaleA,
+										   const glm::vec3& v1, 
+										   const glm::vec3& v2, 
+										   const glm::vec3& v3);
 	};
 }
