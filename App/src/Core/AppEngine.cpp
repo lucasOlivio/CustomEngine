@@ -6,6 +6,7 @@
 #include "Engine/Physics/MovementSystem.h"
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/Physics/BroadPhaseSystem.h"
+#include "Engine/Debug/WindowFPSSystem.h"
 #include "Engine/ECS/SceneSerializerFactory.h"
 #include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
 
@@ -36,6 +37,11 @@ namespace MyEngine
 		Engine::AddSystem(pGravitySys);
 		Engine::AddSystem(pMovementSys);
 		Engine::AddSystem(pBroadPhaseSystem);
+
+		// Debug systems
+		WindowFPSSystem* pWindowFPSSys = new WindowFPSSystem();
+
+		Engine::AddSystem(pWindowFPSSys);
 
 		// Loading scene from file
 		iSceneSerializer* pSceneSerializer = SceneSerializerFactory::CreateSceneSerializer(SCENE_PATH);
