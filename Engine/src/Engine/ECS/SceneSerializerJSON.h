@@ -73,6 +73,9 @@ namespace MyEngine
 		bool m_ParseConfigPathToDoc(rapidjson::Value& jsonObject, 
 								  ConfigPathComponent& configPathIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseGridBroadphaseToDoc(rapidjson::Value& jsonObject,
+								  GridBroadphaseComponent& gridBroadphaseIn,
+								  rapidjson::Document::AllocatorType& allocator);
 
 		// Parse values from doc to the respective data structure
 		bool m_ParseDocToScene(Scene& sceneOut);
@@ -108,5 +111,7 @@ namespace MyEngine
 							   WindowComponent& windowOut);
 		bool m_ParseDocToConfigPath(rapidjson::Value& jsonObject, 
 							   ConfigPathComponent& configPathOut);
+		bool m_ParseDocToGridBroadphase(rapidjson::Value& jsonObject,
+							   GridBroadphaseComponent& gridBroadphaseOut);
 	};
 }

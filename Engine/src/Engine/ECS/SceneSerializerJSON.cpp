@@ -5,6 +5,7 @@
 #include "Engine/ECS/SingletonComponents/CameraLocator.h"
 #include "Engine/ECS/SingletonComponents/WindowLocator.h"
 #include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
+#include "Engine/ECS/SingletonComponents/GridBroadphaseLocator.h"
 
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
@@ -137,27 +138,34 @@ namespace MyEngine
         //-------------------------------
         Value entityObject;
         entityObject.SetObject();
-
+        // Camera
         Value cameraObject;
         cameraObject.SetObject();
 
         CameraComponent* pCamera = CameraLocator::Get();
         m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
         entityObject.AddMember("camera", cameraObject, allocator);
-
+        // Window
         Value windowObject;
         windowObject.SetObject();
 
         WindowComponent* pWindow = WindowLocator::Get();
         m_ParseWindowToDoc(windowObject, *pWindow, allocator);
         entityObject.AddMember("window", windowObject, allocator);
-
+        // Config
         Value configPathObject;
         configPathObject.SetObject();
 
         ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
         m_ParseConfigPathToDoc(configPathObject, *pConfigPath, allocator);
         entityObject.AddMember("configPath", configPathObject, allocator);
+        // Grid broadphase
+        Value gridBroadphaseObject;
+        gridBroadphaseObject.SetObject();
+
+        GridBroadphaseComponent* pGridBroadphase = GridBroadphaseLocator::Get();
+        m_ParseGridBroadphaseToDoc(gridBroadphaseObject, *pGridBroadphase, allocator);
+        entityObject.AddMember("gridBroadphase", gridBroadphaseObject, allocator);
 
         m_doc.PushBack(entityObject, allocator);
 
@@ -525,6 +533,19 @@ namespace MyEngine
         parser.SetMember(jsonObject, "pathShaders", configPathIn.pathShaders, allocator);
         parser.SetMember(jsonObject, "pathTextures", configPathIn.pathTextures, allocator);
 
+        parser.SetMember(jsonObject, "pathDebugSquare", configPathIn.pathDebugSquare, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseGridBroadphaseToDoc(rapidjson::Value& jsonObject, GridBroadphaseComponent& gridBroadphaseIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "lengthPerBox", gridBroadphaseIn.lengthPerBox, allocator);
+
         return true;
     }
 
@@ -646,6 +667,11 @@ namespace MyEngine
                 {
                     ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
                     m_ParseDocToConfigPath(componentObject, *pConfigPath);
+                }
+                else if (componentName == "gridBroadphase")
+                {
+                    GridBroadphaseComponent* pGridBroadphase = GridBroadphaseLocator::Get();
+                    m_ParseDocToGridBroadphase(componentObject, *pGridBroadphase);
                 }
             }
         }
@@ -887,6 +913,19 @@ namespace MyEngine
         parser.GetValue(jsonObject["pathScripts"], configPathOut.pathScripts);
         parser.GetValue(jsonObject["pathShaders"], configPathOut.pathShaders);
         parser.GetValue(jsonObject["pathTextures"], configPathOut.pathTextures);
+
+        parser.GetValue(jsonObject["pathDebugSquare"], configPathOut.pathDebugSquare);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToGridBroadphase(rapidjson::Value& jsonObject, GridBroadphaseComponent& gridBroadphaseOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["lengthPerBox"], gridBroadphaseOut.lengthPerBox);
 
         return true;
     }

@@ -70,7 +70,7 @@ const int SPOT_LIGHT_TYPE = 1;
 const int DIRECTIONAL_LIGHT_TYPE = 2;
 
 const int NUMBEROFLIGHTS = 40;
-uniform sLight theLights[NUMBEROFLIGHTS];  	// 70 uniforms
+uniform sLight theLights[NUMBEROFLIGHTS];
 
 
 vec4 calculateLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal, 

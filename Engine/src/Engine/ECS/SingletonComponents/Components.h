@@ -1,11 +1,15 @@
 #pragma once
 
+#include "Engine/Core/Shapes.hpp"
 #include "Engine/ECS/Base.h"
-#include "Engine/Graphics/Textures/TextureProperties.h"
-#include "Engine/Utils/TransformUtils.h"
 #include "Engine/Graphics/opengl.h"
+#include "Engine/Graphics/Textures/TextureProperties.h"
+#include "Engine/Graphics/GraphicsProperties.h"
+#include "Engine/Physics/BroadPhase/GridAABB.h"
+#include "Engine/Utils/TransformUtils.h"
 #include <glm/gtc/quaternion.hpp>
 #include <glm/mat4x4.hpp>
+#include <map>
 
 namespace MyEngine
 {
@@ -89,6 +93,8 @@ namespace MyEngine
 		std::string pathShaders;
 		std::string pathScripts;
 		std::string pathTextures;
+
+		std::string pathDebugSquare; // Path to square model inside models default folder
 	};
 
 	struct TransparentEntitiesComponent
@@ -96,4 +102,34 @@ namespace MyEngine
 		std::vector<Entity> entities;
 	};
 
+	struct FPSCounterComponent
+	{
+		int frameCount = 0;
+		float fpsTimer = 0.0f, currentFPS = 0.0f;
+	};
+
+	struct GridBroadphaseComponent
+	{
+		// Mapping of AABBs to their indices in the grid
+		std::map< uint /*index*/, GridAABB* > mapAABBs;
+
+		// Length per grid box in the grid
+		glm::vec3 lengthPerBox;
+	};
+
+	// Generic grouping for any narrow phase testing 
+	struct NarrowPhaseTestsComponent
+	{
+		// Groups of shapes and entities to test,
+		// the triangles to be tested against the entities will be in the same index
+		std::vector<std::vector<sTriangle*>> trianglesToTest;
+		std::vector<std::vector<Entity>> staticEntitiesToTest;
+		std::vector<std::vector<Entity>> nonStaticEntitiesToTest;
+	};
+
+	// Debug objects
+	struct DebugSquareComponent
+	{
+		sMesh* pMesh;
+	};
 }

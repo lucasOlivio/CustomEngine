@@ -3,27 +3,29 @@
 #include "GridBroadPhaseSystem.h"
 #include "Engine/ECS/Components.h"
 #include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/SingletonComponents/GridBroadphaseLocator.h"
+#include "Engine/ECS/SingletonComponents/NarrowPhaseTestsLocator.h"
 #include "Engine/Utils/GridUtils.h"
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/CollisionsUtils.h"
 
 namespace MyEngine
 {
+	typedef std::set< Entity >::iterator itEntities;
 	typedef std::map< uint /*index*/, GridAABB* >::iterator itIdxAABB;
 	typedef std::pair< uint /*index*/, GridAABB* > pairIdxAABB;
 
 	void GridBroadPhaseSystem::Start(Scene* pScene)
 	{
-		// TODO: For non-static grid aabbs this should be dynamic, comming from component size or map
-		m_lengthPerBox = glm::vec3(5, 5, 5);
-
+		// Creating AABBs grid
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
 
 		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
 		{
 			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
 			RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
 
-			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, m_lengthPerBox);
+			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
 			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
 
 			switch (pRigidBody->shapeType)
@@ -45,6 +47,96 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::Update(Scene* pScene, float deltaTime)
 	{
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		NarrowPhaseTestsComponent* pNarrowTests = NarrowPhaseTestsLocator::Get();
+
+		// Clear non static entities first
+		for (itIdxAABB it = pGrid->mapAABBs.begin(); it != pGrid->mapAABBs.end(); ++it)
+		{
+			int key = it->first;
+			GridAABB* pAABB = it->second;
+
+			pAABB->vecNonStaticEntities.clear();
+		}
+
+		// Clear all test groups
+		pNarrowTests->staticEntitiesToTest.clear();
+		pNarrowTests->nonStaticEntitiesToTest.clear();
+		pNarrowTests->trianglesToTest.clear();
+
+		// Update aabbs non static entities positions
+		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
+		{
+			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
+			RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
+
+			if (pRigidBody->bodyType == eBody::STATIC)
+			{
+				continue;
+			}
+
+			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
+			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
+
+			switch (pRigidBody->shapeType)
+			{
+			case eShape::AABB:
+				m_InsertAABB(pScene, entityId, pRigidBody->bodyType);
+				break;
+			case eShape::SPHERE:
+				m_InsertSphere(pScene, entityId, pRigidBody->bodyType);
+				break;
+			default:
+				break;
+			}
+		}
+
+		// Update testing groups for narrow phase
+		int i = -1;
+		for (itIdxAABB it = pGrid->mapAABBs.begin(); it != pGrid->mapAABBs.end();)
+		{
+			GridAABB* pAABB = it->second;
+
+			// Only add to narrow phase testing groups if we have non static entity on aabb
+			if (pAABB->vecNonStaticEntities.size() > 0)
+			{
+				std::vector<Entity> vecStatics = {};
+				std::vector<Entity> vecNonStatics = {};
+				std::vector<sTriangle*> vecTriangles = {};
+
+				pNarrowTests->staticEntitiesToTest.push_back(vecStatics);
+				pNarrowTests->nonStaticEntitiesToTest.push_back(vecNonStatics);
+				pNarrowTests->trianglesToTest.push_back(vecTriangles);
+
+				i++;
+			}
+
+			for (Entity entityId : pAABB->vecNonStaticEntities)
+			{
+				pNarrowTests->nonStaticEntitiesToTest[i].push_back(entityId);
+			}
+
+			for (Entity entityId : pAABB->vecStaticEntities)
+			{
+				pNarrowTests->staticEntitiesToTest[i].push_back(entityId);
+			}
+
+			for (sTriangle* triangle : pAABB->vecTriangles)
+			{
+				pNarrowTests->trianglesToTest[i].push_back(triangle);
+			}
+
+			// Check if aabb is empty to remove from mapping
+			if (pAABB->Total() == 0)
+			{
+				delete pAABB;
+				it = pGrid->mapAABBs.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
 	}
 
 	void GridBroadPhaseSystem::Render(Scene* pScene)
@@ -58,8 +150,10 @@ namespace MyEngine
 
 	GridAABB* GridBroadPhaseSystem::m_GetAABB(uint idxAABB)
 	{
-		itIdxAABB itAABB = m_mapAABBs.find(idxAABB);
-		if (itAABB == m_mapAABBs.end())
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+
+		itIdxAABB itAABB = pGrid->mapAABBs.find(idxAABB);
+		if (itAABB == pGrid->mapAABBs.end())
 		{
 			return nullptr;
 		}
@@ -69,7 +163,9 @@ namespace MyEngine
 
 	GridAABB* GridBroadPhaseSystem::m_GetAABB(glm::vec3 point)
 	{
-		uint idxAABB = GridUtils::LocatePoint(point, m_lengthPerBox);
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+
+		uint idxAABB = GridUtils::LocatePoint(point, pGrid->lengthPerBox);
 
 		return m_GetAABB(idxAABB);
 	}
@@ -77,16 +173,18 @@ namespace MyEngine
 	GridAABB* GridBroadPhaseSystem::m_GetOrCreateAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+
 		if (pAABB)
 		{
 			return pAABB;
 		}
 
 		pAABB = new GridAABB();
-		pAABB->minXYZ = GridUtils::LocatePosition(idxAABB, m_lengthPerBox);
-		pAABB->maxXYZ = pAABB->minXYZ + m_lengthPerBox;
+		pAABB->minXYZ = GridUtils::LocatePosition(idxAABB, pGrid->lengthPerBox);
+		pAABB->maxXYZ = pAABB->minXYZ + pGrid->lengthPerBox;
 
-		m_mapAABBs[idxAABB] = pAABB;
+		pGrid->mapAABBs[idxAABB] = pAABB;
 
 		return pAABB;
 	}
@@ -164,19 +262,16 @@ namespace MyEngine
 	void GridBroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, eBody bodyType)
 	{
 		GridAABB* pAABB = m_GetOrCreateAABB(index);
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		NarrowPhaseTestsComponent* pNarrowTests = NarrowPhaseTestsLocator::Get();
 
 		if (bodyType == eBody::STATIC)
 		{
-			pAABB->AddStaticEntity(entityID);
-			return;
+			pAABB->vecStaticEntities.insert(entityID);
 		}
-
-		pAABB->AddNonStaticEntity(entityID);
-
-		// If first entity inserted then we can set aabb to actives
-		if (pAABB->NumNonStaticEntities() == 1)
+		else
 		{
-			m_mapActiveAABBs[index] = pAABB;
+			pAABB->vecNonStaticEntities.insert(entityID);
 		}
 
 		return;
@@ -184,28 +279,29 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::m_InsertMeshTriangle(Entity entityId, sTriangle* pTriangle)
 	{
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
 		pTriangle->calcNormal();
 
 		// Locate each vertex
-		uint idxV1 = GridUtils::LocatePoint(pTriangle->vertices[0], m_lengthPerBox);
-		uint idxV2 = GridUtils::LocatePoint(pTriangle->vertices[0], m_lengthPerBox);
-		uint idxV3 = GridUtils::LocatePoint(pTriangle->vertices[0], m_lengthPerBox);
+		uint idxV1 = GridUtils::LocatePoint(pTriangle->vertices[0], pGrid->lengthPerBox);
+		uint idxV2 = GridUtils::LocatePoint(pTriangle->vertices[0], pGrid->lengthPerBox);
+		uint idxV3 = GridUtils::LocatePoint(pTriangle->vertices[0], pGrid->lengthPerBox);
 
 		// TODO: When a pTriangle edge passes 3 or more aabbs it should be in those aabbs too
 		// Insert pTriangle into all AABBs that it intersects
 		GridAABB* pAABB = m_GetOrCreateAABB(idxV1);
-		pAABB->AddTriangle(pTriangle);
+		pAABB->vecTriangles.insert(pTriangle);
 
 		if (idxV2 != idxV1)
 		{
 			GridAABB* pAABB2 = m_GetOrCreateAABB(idxV2);
-			pAABB->AddTriangle(pTriangle);
+			pAABB->vecTriangles.insert(pTriangle);
 		}
 
 		if (idxV3 != idxV1 && idxV3 != idxV2)
 		{
 			GridAABB* pAABB3 = m_GetOrCreateAABB(idxV3);
-			pAABB->AddTriangle(pTriangle);
+			pAABB->vecTriangles.insert(pTriangle);
 		}
 
 		return;
@@ -213,61 +309,27 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::m_ClearAABBs()
 	{
-		for (pairIdxAABB pairAABB : m_mapAABBs)
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+
+		for (pairIdxAABB pairAABB : pGrid->mapAABBs)
 		{
 			delete pairAABB.second;
 		}
 
-		m_mapAABBs.clear();
-		m_mapActiveAABBs.clear();
-	}
-
-	size_t GridBroadPhaseSystem::m_RemoveActiveAABB(uint idxAABB)
-	{
-		GridAABB* pAABB = m_GetAABB(idxAABB);
-		if (!pAABB)
-		{
-			return 0;
-		}
-
-		size_t left = m_mapActiveAABBs.erase(idxAABB);
-
-		return left;
-	}
-
-	void GridBroadPhaseSystem::m_RemoveEntityAABB(Entity entityID, uint index, eBody bodyType)
-	{
-		GridAABB* pAABB = m_GetAABB(index);
-		if (!pAABB)
-		{
-			return;
-		}
-
-		if (bodyType == eBody::STATIC)
-		{
-			pAABB->RemoveStaticEntity(entityID);
-		}
-		else
-		{
-			pAABB->RemoveNonStaticEntity(entityID);
-		}
-
-		// remove AABB from active if no entities left
-		if (pAABB->NumNonStaticEntities() == 0)
-		{
-			m_RemoveActiveAABB(index);
-		}
+		pGrid->mapAABBs.clear();
 	}
 
 	size_t GridBroadPhaseSystem::m_RemoveAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
+		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+
 		if (!pAABB)
 		{
 			return 0;
 		}
 
-		size_t left = m_mapAABBs.erase(idxAABB);
+		size_t left = pGrid->mapAABBs.erase(idxAABB);
 		delete pAABB;
 
 		return left;

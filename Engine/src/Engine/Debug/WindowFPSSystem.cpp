@@ -2,6 +2,7 @@
 
 #include "WindowFPSSystem.h"
 #include "Engine/ECS/SingletonComponents/WindowLocator.h"
+#include "Engine/ECS/SingletonComponents/FPSCounterLocator.h"
 
 namespace MyEngine
 {
@@ -11,21 +12,23 @@ namespace MyEngine
 
 	void WindowFPSSystem::Update(Scene* pScene, float deltaTime)
 	{
-		m_frameCount++;
+		FPSCounterComponent* pFPS = FPSCounterLocator::Get();
 
-		m_fpsTimer += deltaTime;
+		pFPS->frameCount++;
+
+		pFPS->fpsTimer += deltaTime;
 
 		// Update FPS every second in the title
-		if (m_fpsTimer >= 1.0f)
+		if (pFPS->fpsTimer >= 1.0f)
 		{
-			m_currentFPS = (float)(m_frameCount) / m_fpsTimer;
+			pFPS->currentFPS = (float)(pFPS->frameCount) / pFPS->fpsTimer;
 
 			// Update window name
 			WindowComponent* pWindow = WindowLocator::Get();
-			pWindow->name = std::to_string(m_currentFPS);
+			pWindow->name = std::to_string(pFPS->currentFPS);
 
-			m_frameCount = 0;
-			m_fpsTimer = 0.0f;
+			pFPS->frameCount = 0;
+			pFPS->fpsTimer = 0.0f;
 		}
 	}
 

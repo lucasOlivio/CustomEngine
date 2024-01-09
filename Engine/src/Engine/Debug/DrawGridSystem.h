@@ -4,12 +4,12 @@
 
 namespace MyEngine
 {
-	// Set the current FPS at the window title
-	class WindowFPSSystem : public iSystem
+	// Draw the whole AABB grid from broadphase
+	class DrawGridSystem : public iSystem
 	{
 	public:
-		WindowFPSSystem() = default;
-		virtual ~WindowFPSSystem() { };
+		DrawGridSystem() = default;
+		virtual ~DrawGridSystem() { };
 
 		virtual void Start(Scene* pScene);
 

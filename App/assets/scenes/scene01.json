@@ -71,8 +71,8 @@
                 0.0
             ],
             "position": [
-                0.0,
-                0.0,
+                50.0,
+                75.0,
                 50.0
             ],
             "orientation": [
@@ -97,7 +97,12 @@
             "pathModels": "assets/models/",
             "pathScripts": "assets/scripts/",
             "pathShaders": "assets/shaders/",
-            "pathTextures": "assets/textures/"
+            "pathTextures": "assets/textures/",
+            "pathDebugSquare": "debug/square.obj"
+        },
+        "gridBroadphase":
+        {
+            "lengthPerBox": [4.0, 4.0, 4.0]
         }
     },
     {
@@ -257,8 +262,8 @@
         },
         "transform": {
             "position": [
-                -5.0,
-                0.0,
+                55.0,
+                80.0,
                 0.0
             ],
             "orientation": [
@@ -270,18 +275,24 @@
         },
         "movement": {
             "velocity": [
-                1.0,
-                0.0,
+                -1.0,
+                -1.0,
                 0.0
             ],
             "acceleration": [
-                1.0,
+                0.0,
                 0.0,
                 0.0
             ]
         },
-        "gravity": {
-            "acceleration": [0.0, -1.0, 0.0]
+        "rigidBody":
+        {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphere":
+        {
+            "radius": 1.0
         }
     },
     {
@@ -300,8 +311,8 @@
         },
         "transform": {
             "position": [
-                5.0,
-                0.0,
+                45.0,
+                70.0,
                 0.0
             ],
             "orientation": [
@@ -313,8 +324,8 @@
         },
         "movement": {
             "velocity": [
-                0.0,
-                0.0,
+                1.0,
+                1.0,
                 0.0
             ],
             "acceleration": [
@@ -323,8 +334,14 @@
                 0.0
             ]
         },
-        "gravity": {
-            "acceleration": [0.0, 0, 0.0]
+        "rigidBody":
+        {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphere":
+        {
+            "radius": 1.0
         }
     },
     {
@@ -343,8 +360,8 @@
         },
         "transform": {
             "position": [
-                0.0,
-                -65.0,
+                50.0,
+                10.0,
                 0.0
             ],
             "orientation": [

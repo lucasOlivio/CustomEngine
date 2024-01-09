@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "GridUtils.h"
+#include <cmath>
 
 namespace MyEngine
 {

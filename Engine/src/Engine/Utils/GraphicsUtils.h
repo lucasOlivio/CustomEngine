@@ -13,15 +13,12 @@ namespace MyEngine
 							  bool doNotLight,
 							  bool useColorTexture,
 							  int VAO_ID,
-							  int numberOfIndices);
-
-		static void DrawTiledModel(glm::vec3 axis,
-								   glm::vec3 offset,
-								   glm::mat4 matModel,
-								   bool isWireFrame,
-								   bool doNotLight,
-								   bool useColorTexture,
-								   int VAO_ID,
-								   int numberOfIndices);
+							  int numberOfIndices,
+							  bool useDebugColor = false,
+							  glm::vec4 debugColor = glm::vec4(0));
+		static void DrawDebugModel(glm::mat4 matModel,
+							  int VAO_ID,
+							  int numberOfIndices,
+							  glm::vec4 debugColor);
 	};
 }
