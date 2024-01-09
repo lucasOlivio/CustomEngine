@@ -104,8 +104,9 @@ namespace MyEngine
 
 	struct FPSCounterComponent
 	{
-		int frameCount = 0;
-		float fpsTimer = 0.0f, currentFPS = 0.0f;
+		int frameCount;
+		float fpsTimer;
+		float currentFPS;
 	};
 
 	struct GridBroadphaseComponent
