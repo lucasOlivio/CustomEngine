@@ -4,7 +4,7 @@
 
 namespace MyEngine
 {
-	class DebugObjectsLocator
+	class DebugLocator
 	{
 	public:
 		static DebugSquareComponent* GetSquare();

@@ -19,7 +19,6 @@
 #include "Engine/Debug/DrawCollisionSystem.h"
 
 #include "Engine/ECS/SceneSerializerFactory.h"
-#include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
 
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine

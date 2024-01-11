@@ -1,19 +1,19 @@
 #include "pch.h"
 
 #include "DebugSystem.h"
-#include "Engine/ECS/SingletonComponents/DebugObjectsLocator.h"
-#include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
+#include "Engine/ECS/SingletonComponents/DebugLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
 
 namespace MyEngine
 {
     void DebugSystem::Start(Scene* pScene)
     {
-        ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+        ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
         iVAOManager* pVAOManager = VAOManagerLocator::Get();
 
-        DebugSquareComponent* pSquare = DebugObjectsLocator::GetSquare();
-        DebugSphereComponent* pSphere = DebugObjectsLocator::GetSphere();
+        DebugSquareComponent* pSquare = DebugLocator::GetSquare();
+        DebugSphereComponent* pSphere = DebugLocator::GetSphere();
 
         pSquare->pMesh = pVAOManager->LoadModelIntoVAO(pConfigPath->pathDebugSquare, true);
         pSphere->pMesh = pVAOManager->LoadModelIntoVAO(pConfigPath->pathDebugSphere, true);

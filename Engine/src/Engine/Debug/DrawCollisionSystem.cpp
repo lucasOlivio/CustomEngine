@@ -2,9 +2,9 @@
 
 #include "DrawCollisionSystem.h"
 
-#include "Engine/ECS/SingletonComponents/DebugObjectsLocator.h"
-#include "Engine/ECS/SingletonComponents/FrameCollisionLocator.h"
-#include "Engine/ECS/SingletonComponents/FrameCounterLocator.h"
+#include "Engine/ECS/SingletonComponents/DebugLocator.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
 #include "Engine/Utils/GraphicsUtils.h"
 
@@ -20,9 +20,9 @@ namespace MyEngine
 
 	void DrawCollisionSystem::Render(Scene* pScene)
 	{
-		FrameCounterComponent* pFrames = FrameCounterLocator::Get();
-		FrameCollisionComponent* pFrameColl = FrameCollisionLocator::Get();
-		DebugSphereComponent* pSphere = DebugObjectsLocator::GetSphere();
+		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
+		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
+		DebugSphereComponent* pSphere = DebugLocator::GetSphere();
 		sMesh* pMesh = pSphere->pMesh;
 
 		int currFrame = pFrames->frameCount % FRAME_RATE;

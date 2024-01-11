@@ -1,8 +1,8 @@
 #include "pch.h"
 
 #include "DrawGridSystem.h"
-#include "Engine/ECS/SingletonComponents/GridBroadphaseLocator.h"
-#include "Engine/ECS/SingletonComponents/DebugObjectsLocator.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/SingletonComponents/DebugLocator.h"
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/GraphicsUtils.h"
 
@@ -11,7 +11,7 @@ namespace MyEngine
 	void DrawGridSystem::Start(Scene* pScene)
 	{
 		// Just a check if the debug square mesh loaded
-		DebugSquareComponent* pSquare = DebugObjectsLocator::GetSquare();
+		DebugSquareComponent* pSquare = DebugLocator::GetSquare();
 
 		sMesh* pMesh = pSquare->pMesh;
 		if (!pMesh)
@@ -27,8 +27,8 @@ namespace MyEngine
 
 	void DrawGridSystem::Render(Scene* pScene)
 	{
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
-		DebugSquareComponent* pSquare = DebugObjectsLocator::GetSquare();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
+		DebugSquareComponent* pSquare = DebugLocator::GetSquare();
 
 		sMesh* pMesh = pSquare->pMesh;
 
