@@ -2,8 +2,8 @@
 
 #include "RegisterCollisionSystem.h"
 
-#include "Engine/ECS/SingletonComponents/FrameCollisionLocator.h"
-#include "Engine/ECS/SingletonComponents/FrameCounterLocator.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
 #include "Engine/Events/EventBusLocator.hpp"
 #include "Engine/Events/CollisionEvent.h"
@@ -20,8 +20,8 @@ namespace MyEngine
 
 	void RegisterCollisionSystem::Update(Scene* pScene, float deltaTime)
 	{
-		FrameCollisionComponent* pFrameColl = FrameCollisionLocator::Get();
-		FrameCounterComponent* pFrames = FrameCounterLocator::Get();
+		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
+		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
 
 		// Module to make sure we stay in FRAME_RATE size
 		int currFrame = pFrames->frameCount % FRAME_RATE;
@@ -38,8 +38,8 @@ namespace MyEngine
 
 	void RegisterCollisionSystem::RegisterCollision(const CollisionEnterEvent& event)
 	{
-		FrameCollisionComponent* pFrameColl = FrameCollisionLocator::Get();
-		FrameCounterComponent* pFrames = FrameCounterLocator::Get();
+		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
+		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
 
 		// Module to make sure we stay in FRAME_RATE size
 		int currFrame = pFrames->frameCount % FRAME_RATE;

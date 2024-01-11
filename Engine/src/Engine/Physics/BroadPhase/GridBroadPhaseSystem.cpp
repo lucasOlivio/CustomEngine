@@ -3,8 +3,7 @@
 #include "GridBroadPhaseSystem.h"
 #include "Engine/ECS/Components.h"
 #include "Engine/ECS/SceneView.hpp"
-#include "Engine/ECS/SingletonComponents/GridBroadphaseLocator.h"
-#include "Engine/ECS/SingletonComponents/NarrowPhaseTestsLocator.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
 #include "Engine/Utils/GridUtils.h"
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/CollisionsUtils.h"
@@ -18,7 +17,7 @@ namespace MyEngine
 	void GridBroadPhaseSystem::Start(Scene* pScene)
 	{
 		// Creating AABBs grid
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
 		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
 		{
@@ -47,8 +46,8 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::Update(Scene* pScene, float deltaTime)
 	{
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
-		NarrowPhaseTestsComponent* pNarrowTests = NarrowPhaseTestsLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
+		NarrowPhaseTestsComponent* pNarrowTests = PhysicsLocator::GetNarrowPhaseTests();
 
 		// Clear non static entities first
 		for (itIdxAABB it = pGrid->mapAABBs.begin(); it != pGrid->mapAABBs.end(); ++it)
@@ -150,7 +149,7 @@ namespace MyEngine
 
 	GridAABB* GridBroadPhaseSystem::m_GetAABB(uint idxAABB)
 	{
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
 		itIdxAABB itAABB = pGrid->mapAABBs.find(idxAABB);
 		if (itAABB == pGrid->mapAABBs.end())
@@ -163,7 +162,7 @@ namespace MyEngine
 
 	GridAABB* GridBroadPhaseSystem::m_GetAABB(glm::vec3 point)
 	{
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
 		uint idxAABB = GridUtils::LocatePoint(point, pGrid->lengthPerBox);
 
@@ -173,7 +172,7 @@ namespace MyEngine
 	GridAABB* GridBroadPhaseSystem::m_GetOrCreateAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
 		if (pAABB)
 		{
@@ -262,8 +261,8 @@ namespace MyEngine
 	void GridBroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, eBody bodyType)
 	{
 		GridAABB* pAABB = m_GetOrCreateAABB(index);
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
-		NarrowPhaseTestsComponent* pNarrowTests = NarrowPhaseTestsLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
+		NarrowPhaseTestsComponent* pNarrowTests = PhysicsLocator::GetNarrowPhaseTests();
 
 		if (bodyType == eBody::STATIC)
 		{
@@ -279,7 +278,7 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::m_InsertMeshTriangle(Entity entityId, sTriangle* pTriangle)
 	{
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 		pTriangle->calcNormal();
 
 		// Locate each vertex
@@ -309,7 +308,7 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::m_ClearAABBs()
 	{
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
 		for (pairIdxAABB pairAABB : pGrid->mapAABBs)
 		{
@@ -322,7 +321,7 @@ namespace MyEngine
 	size_t GridBroadPhaseSystem::m_RemoveAABB(uint idxAABB)
 	{
 		GridAABB* pAABB = m_GetAABB(idxAABB);
-		GridBroadphaseComponent* pGrid = GridBroadphaseLocator::Get();
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
 		if (!pAABB)
 		{

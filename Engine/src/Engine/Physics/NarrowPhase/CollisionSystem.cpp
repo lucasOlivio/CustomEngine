@@ -2,7 +2,7 @@
 
 #include "CollisionSystem.h"
 #include "Engine/ECS/Components.h"
-#include "Engine/ECS/SingletonComponents/NarrowPhaseTestsLocator.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
 #include "Engine/Events/EventBusLocator.hpp"
 #include "Engine/Events/CollisionEvent.h"
 #include "Engine/Utils/TransformUtils.h"
@@ -17,7 +17,7 @@ namespace MyEngine
 
     void CollisionSystem::Update(Scene* pScene, float deltaTime)
     {
-        NarrowPhaseTestsComponent* pTests = NarrowPhaseTestsLocator::Get();
+        NarrowPhaseTestsComponent* pTests = PhysicsLocator::GetNarrowPhaseTests();
 
         // The first layer is the grouping of objects to test
         for (int group = 0; group < pTests->nonStaticEntitiesToTest.size(); group++)
