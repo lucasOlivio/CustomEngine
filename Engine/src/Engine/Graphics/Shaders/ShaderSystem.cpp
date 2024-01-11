@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "ShaderSystem.h"
-#include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
 #include "Engine/Graphics/Shaders/ShaderManagerLocator.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
@@ -9,7 +9,7 @@ namespace MyEngine
 {
 	void ShaderSystem::Start(Scene* pScene)
 	{
-		ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+		ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
 		iShaderManager* pShaderManager = ShaderManagerLocator::Get();
 
 		// Setup shaders

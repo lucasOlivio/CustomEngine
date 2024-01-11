@@ -3,15 +3,14 @@
 #include "SortTransparentsSystem.h"
 #include "Engine/ECS/SceneView.hpp"
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
-#include "Engine/ECS/SingletonComponents/TransparentEntitiesLocator.h"
-#include "Engine/ECS/SingletonComponents/CameraLocator.h"
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
 namespace MyEngine
 {
     void SortTransparentsSystem::Start(Scene* pScene)
     {
         iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
-        TransparentEntitiesComponent* pTransparents = TransparentEntitiesLocator::Get();
+        TransparentEntitiesComponent* pTransparents = GraphicsLocator::GetTransparentEntities();
 
         for (Entity entityId : SceneView<TransformComponent, ModelComponent>(*pScene))
         {
@@ -36,8 +35,8 @@ namespace MyEngine
 
     void SortTransparentsSystem::Update(Scene* pScene, float deltaTime)
     {
-        TransparentEntitiesComponent* pTransparents = TransparentEntitiesLocator::Get();
-        CameraComponent* pCamera = CameraLocator::Get();
+        TransparentEntitiesComponent* pTransparents = GraphicsLocator::GetTransparentEntities();
+        CameraComponent* pCamera = GraphicsLocator::GetCamera();
 
         // Update distance to camera
         for (Entity entity : pTransparents->entities)

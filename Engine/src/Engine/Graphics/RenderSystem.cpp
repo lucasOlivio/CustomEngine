@@ -1,13 +1,15 @@
 #include "pch.h"
 
 #include "RenderSystem.h"
+
 #include "Engine/ECS/SceneView.hpp"
-#include "Engine/ECS/SingletonComponents/CameraLocator.h"
-#include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
-#include "Engine/ECS/SingletonComponents/TransparentEntitiesLocator.h"
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
+
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
+
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/GraphicsUtils.h"
 
@@ -15,7 +17,7 @@ namespace MyEngine
 {
     void RenderSystem::Start(Scene* pScene)
     {
-		ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+		ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
 		iTextureManager* pTextureManager = TextureManagerLocator::Get();
 		iVAOManager* pVAOManager = VAOManagerLocator::Get();
 
@@ -78,8 +80,8 @@ namespace MyEngine
     void RenderSystem::Render(Scene* pScene)
     {
 		std::vector<TransformComponent*> vecTransparentEntities;
-		CameraComponent* pCamera = CameraLocator::Get();
-		TransparentEntitiesComponent* pTransparents = TransparentEntitiesLocator::Get();
+		CameraComponent* pCamera = GraphicsLocator::GetCamera();
+		TransparentEntitiesComponent* pTransparents = GraphicsLocator::GetTransparentEntities();
 		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
 
 		// Render all "not transparent" models

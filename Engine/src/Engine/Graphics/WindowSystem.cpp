@@ -1,8 +1,10 @@
 #include "pch.h"
 
 #include "WindowSystem.h"
+
 #include "Engine/ECS/SceneView.hpp"
-#include "Engine/ECS/SingletonComponents/WindowLocator.h"
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
+
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
 namespace MyEngine
@@ -21,7 +23,7 @@ namespace MyEngine
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
         // Set width and height from maximized window
-        WindowComponent* pWindow = WindowLocator::Get();
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
 
         pWindow->pGLFWWindow = glfwCreateWindow(pWindow->width, 
                                                 pWindow->height, 
@@ -51,7 +53,7 @@ namespace MyEngine
 
     void WindowSystem::Update(Scene* pScene, float deltaTime)
     {
-        WindowComponent* pWindow = WindowLocator::Get();
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
         iShaderProgram* pShader = ShaderManager::GetActiveShader();
 
         // Update window size
@@ -72,7 +74,7 @@ namespace MyEngine
 
     void WindowSystem::End(Scene* pScene)
     {
-        WindowComponent* pWindow = WindowLocator::Get();
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
         if (pWindow->pGLFWWindow) {
             glfwDestroyWindow(pWindow->pGLFWWindow);
         }

@@ -2,7 +2,7 @@
 
 #include "CameraSystem.h"
 #include "Engine/ECS/SceneView.hpp"
-#include "Engine/ECS/SingletonComponents/CameraLocator.h"
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
 namespace MyEngine
@@ -14,7 +14,7 @@ namespace MyEngine
     void CameraSystem::Update(Scene* pScene, float deltaTime)
     {
         // Updating camera view
-        CameraComponent* pCamera = CameraLocator::Get();
+        CameraComponent* pCamera = GraphicsLocator::GetCamera();
         iShaderProgram* pShader = ShaderManager::GetActiveShader();
 
         glm::mat4 matView = pCamera->ViewMat();
