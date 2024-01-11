@@ -4,12 +4,12 @@
 
 namespace MyEngine
 {
-	// Set the current FPS at the window title
-	class WindowFPSSystem : public iSystem
+	// Keeps track of all related to FPS
+	class WindowFrameSystem : public iSystem
 	{
 	public:
-		WindowFPSSystem() = default;
-		virtual ~WindowFPSSystem() { };
+		WindowFrameSystem() = default;
+		virtual ~WindowFrameSystem() { };
 
 		virtual void Start(Scene* pScene);
 

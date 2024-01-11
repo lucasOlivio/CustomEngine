@@ -109,11 +109,11 @@ namespace MyEngine
 		std::vector<Entity> entities;
 	};
 
-	struct FPSCounterComponent
+	struct FrameCounterComponent
 	{
 		int frameCount;
 		float fpsTimer;
-		float currentFPS;
+		float fps;
 	};
 
 	struct GridBroadphaseComponent
@@ -135,11 +135,11 @@ namespace MyEngine
 		std::vector<std::vector<Entity>> nonStaticEntitiesToTest;
 	};
 
-	// All collisions that happened in the frame
-	// Its cleared every frame by the RegisterCollisionsSystem
+	// All collisions that happened in the last <FRAME_RATE> frames
 	struct FrameCollisionComponent
 	{
-		std::vector<sCollisionData> collisions;
+		sCollisionData collisions[FRAME_RATE];
+		size_t currSize;
 	};
 
 	// Debug objects
