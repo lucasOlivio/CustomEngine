@@ -4,6 +4,7 @@
 
 namespace MyEngine
 {
+	// Should be the only one to change the transform component data
 	class MovementSystem : public iSystem
 	{
 	public:

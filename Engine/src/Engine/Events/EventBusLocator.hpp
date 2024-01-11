@@ -5,13 +5,13 @@
 
 namespace MyEngine
 {
-	template <typename T>
+	template <typename T, typename F>
 	class EventBusLocator
 	{
 	public:
-		static iEventBus<T>* Get() { return m_eventBus; }
+		static iEventBus<T, F>* Get() { return m_eventBus; }
 
-		static void Set(iEventBus<T>* eventBus)
+		static void Set(iEventBus<T, F>* eventBus)
 		{
 			if (eventBus == nullptr)
 			{
@@ -24,12 +24,12 @@ namespace MyEngine
 		}
 
 	private:
-		static iEventBus<T>* m_eventBus;
-		static NullEventBus<T> m_nullService;
+		static iEventBus<T, F>* m_eventBus;
+		static NullEventBus<T, F> m_nullService;
 	};
 
-	template <typename T>
-	NullEventBus<T> EventBusLocator<T>::m_nullService = NullEventBus<T>();
-	template <typename T>
-	iEventBus<T>* EventBusLocator<T>::m_eventBus = &(EventBusLocator<T>::m_nullService);
+	template <typename T, typename F>
+	NullEventBus<T, F> EventBusLocator<T, F>::m_nullService = NullEventBus<T, F>();
+	template <typename T, typename F>
+	iEventBus<T, F>* EventBusLocator<T, F>::m_eventBus = &(EventBusLocator<T, F>::m_nullService);
 }

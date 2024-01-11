@@ -3,6 +3,7 @@
 #include "MovementSystem.h"
 #include "Engine/ECS/SceneView.hpp"
 #include "Engine/ECS/Components.h"
+#include "Engine/Utils/TransformUtils.h"
 
 namespace MyEngine
 {

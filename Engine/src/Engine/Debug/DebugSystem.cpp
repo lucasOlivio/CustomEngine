@@ -10,10 +10,13 @@ namespace MyEngine
     void DebugSystem::Start(Scene* pScene)
     {
         ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
-        DebugSquareComponent* pSquare = DebugObjectsLocator::GetSquare();
         iVAOManager* pVAOManager = VAOManagerLocator::Get();
 
+        DebugSquareComponent* pSquare = DebugObjectsLocator::GetSquare();
+        DebugSphereComponent* pSphere = DebugObjectsLocator::GetSphere();
+
         pSquare->pMesh = pVAOManager->LoadModelIntoVAO(pConfigPath->pathDebugSquare, true);
+        pSphere->pMesh = pVAOManager->LoadModelIntoVAO(pConfigPath->pathDebugSphere, true);
     }
 
     void DebugSystem::Update(Scene* pScene, float deltaTime)

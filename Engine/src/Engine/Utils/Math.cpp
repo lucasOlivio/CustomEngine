@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "Math.h"
 
 namespace MyEngine
@@ -78,5 +79,24 @@ namespace MyEngine
         float v = vb / (va + vb + vc);
         float w = 1.0f - u - v; // = vc / (va + vb + vc)
         return u * a + v * b + w * c;
+    }
+
+    glm::vec3 ReplaceNaNWithValue(const glm::vec3& vec, const float& value)
+    {
+        glm::vec3 result;
+
+        // For any coordinate if is nan replace with value
+        for (int i = 0; i < 3; ++i) {
+            if (std::isnan(vec[i]))
+            {
+                result[i] = value;
+            }
+            else 
+            {
+                result[i] = vec[i];
+            }
+        }
+
+        return result;
     }
 }

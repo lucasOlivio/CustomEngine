@@ -8,11 +8,13 @@
 
 namespace MyEngine
 {
-    template <typename T>
-    class EventBus : public iEventBus<T>
+    // T -> Event category
+    // F -> Event type class
+    template <typename T, typename F>
+    class EventBus : public iEventBus<T, F>
     {
     private:
-        using EventHandler = iEventBus<T>::EventHandler;
+        using EventHandler = iEventBus<T, F>::EventHandler;
 
     public:
         EventBus() {}
@@ -25,7 +27,7 @@ namespace MyEngine
         }
 
         // Publish an event to all the listeners
-        virtual void Publish(const Event<T>& event)
+        virtual void Publish(const F& event)
         {
             if (m_subscribers.find(event.GetType()) == m_subscribers.end())
             {

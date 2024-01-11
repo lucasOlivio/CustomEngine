@@ -10,11 +10,11 @@
 namespace MyEngine
 {
     // Null service only to avoid crashes in locator
-    template <typename T>
-    class NullEventBus : public iEventBus<T>
+    template <typename T, typename F>
+    class NullEventBus : public iEventBus<T, F>
     {
     private:
-        using EventHandler = iEventBus<T>::EventHandler;
+        using EventHandler = iEventBus<T, F>::EventHandler;
 
     public:
         NullEventBus() {}
@@ -27,7 +27,7 @@ namespace MyEngine
         };
 
         // Publish an event to all the listeners
-        virtual void Publish(const Event<T>& event)
+        virtual void Publish(const F& event)
         {
             LOG_ERROR("EventBus not set!");
         };

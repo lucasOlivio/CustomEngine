@@ -3,6 +3,7 @@
 #include "Engine/ECS/Scene.h"
 #include "Engine/ECS/iSystem.h"
 #include "Engine/Events/WindowEvents.h"
+#include "Engine/Events/CollisionEvent.h"
 #include "Engine/Events/iEventBus.h"
 #include "Engine/Graphics/VAO/iVAOManager.h"
 #include "Engine/Graphics/Shaders/iShaderManager.h"
@@ -35,7 +36,8 @@ namespace MyEngine
 		std::vector<iSystem*> m_systems;
 		Scene* m_pScene;
 
-		iEventBus<eWindowEvents>* m_pEventBusWindow;
+		iEventBus<eWindowEvents, WindowCloseEvent>* m_pEventBusWindow;
+		iEventBus<eCollisionEvents, CollisionEnterEvent>* m_pEventBusCollision;
 		iVAOManager* m_pVAOManager;
 		iShaderManager* m_pShaderManager;
 		iMaterialManager* m_pMaterialManager;

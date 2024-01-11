@@ -534,6 +534,7 @@ namespace MyEngine
         parser.SetMember(jsonObject, "pathTextures", configPathIn.pathTextures, allocator);
 
         parser.SetMember(jsonObject, "pathDebugSquare", configPathIn.pathDebugSquare, allocator);
+        parser.SetMember(jsonObject, "pathDebugSphere", configPathIn.pathDebugSphere, allocator);
 
         return true;
     }
@@ -701,6 +702,7 @@ namespace MyEngine
         parser.GetValue(jsonObject["orientation"], transformOut.orientation);
         parser.GetValue(jsonObject["scale"], transformOut.scale);
 
+        // TODO: This should be separated from here, maybe a system to handle this hierachy
         transformOut.worldPosition = transformOut.position;
         transformOut.worldOrientation = transformOut.orientation;
         transformOut.worldScale = transformOut.scale;
@@ -915,6 +917,7 @@ namespace MyEngine
         parser.GetValue(jsonObject["pathTextures"], configPathOut.pathTextures);
 
         parser.GetValue(jsonObject["pathDebugSquare"], configPathOut.pathDebugSquare);
+        parser.GetValue(jsonObject["pathDebugSphere"], configPathOut.pathDebugSphere);
 
         return true;
     }

@@ -10,6 +10,7 @@ namespace MyEngine
 {
 	void DrawGridSystem::Start(Scene* pScene)
 	{
+		// Just a check if the debug square mesh loaded
 		DebugSquareComponent* pSquare = DebugObjectsLocator::GetSquare();
 
 		sMesh* pMesh = pSquare->pMesh;
@@ -31,6 +32,7 @@ namespace MyEngine
 
 		sMesh* pMesh = pSquare->pMesh;
 
+		// Draw a red wireframe square for every AABB in the grid
 		for (std::pair<uint, GridAABB*> pairAABB : pGrid->mapAABBs)
 		{
 			GridAABB* pAABB = pairAABB.second;
@@ -39,9 +41,9 @@ namespace MyEngine
 			TransformUtils::GetTransform(pAABB->minXYZ, pGrid->lengthPerBox.x, matTransf);
 
 			GraphicsUtils::DrawDebugModel(matTransf,
-				pMesh->VAO_ID,
-				pMesh->numberOfIndices,
-				RED);
+										  pMesh->VAO_ID,
+										  pMesh->numberOfIndices,
+										  RED);
 		}
 	}
 

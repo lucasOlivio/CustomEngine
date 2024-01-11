@@ -26,5 +26,14 @@ namespace MyEngine
 
 		static glm::vec3 GetUpVector(const glm::quat& orientation);
 		static glm::vec3 GetForwardVector(const glm::quat& orientation);
+
+		// Use transformations to convert the point from local to world position
+		static glm::vec3 LocalToWorldPoint(const glm::vec3& point,
+                                           const glm::vec3& position, const glm::quat& orientation,
+                                           const float& scale, 
+										   glm::mat4& parentMat = glm::mat4(1.0f));
+		static glm::vec3 LocalToWorldPoint(const glm::vec3& point,
+										   const glm::vec3& position, const float& scale,
+                                           glm::mat4& parentMat = glm::mat4(1.0f));
 	};
 }

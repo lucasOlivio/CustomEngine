@@ -7,10 +7,11 @@
 #include "Engine/Physics/MovementSystem.h"
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/Physics/BroadPhase/GridBroadPhaseSystem.h"
-#include "Engine/Physics/NarrowPhase/CheckOverlapSystem.h"
+#include "Engine/Physics/NarrowPhase/CollisionSystem.h"
 #include "Engine/Debug/DebugSystem.h"
 #include "Engine/Debug/WindowFPSSystem.h"
 #include "Engine/Debug/DrawGridSystem.h"
+#include "Engine/Debug/DrawCollisionSystem.h"
 #include "Engine/ECS/SceneSerializerFactory.h"
 #include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
 
@@ -22,6 +23,10 @@ namespace MyEngine
 
 	void Application::Init()
 	{
+		// Loading scene from file
+		iSceneSerializer* pSceneSerializer = SceneSerializerFactory::CreateSceneSerializer(SCENE_PATH);
+		pSceneSerializer->DeserializeScene(SCENE_PATH, *m_pScene);
+
 		// Graphics systems
 		ShaderSystem* pShaderSys = new ShaderSystem();
 		WindowSystem* pWindowSys = new WindowSystem();
@@ -39,25 +44,23 @@ namespace MyEngine
 		GravitySystem* pGravitySys = new GravitySystem();
 		MovementSystem* pMovementSys = new MovementSystem();
 		GridBroadPhaseSystem* pGridBroadPhaseSys = new GridBroadPhaseSystem();
-		CheckOverlapSystem* pCheckOverlapSys = new CheckOverlapSystem();
+		CollisionSystem* pCollisionSys = new CollisionSystem();
 
 		Engine::AddSystem(pGravitySys);
 		Engine::AddSystem(pMovementSys);
 		Engine::AddSystem(pGridBroadPhaseSys);
-		Engine::AddSystem(pCheckOverlapSys);
+		Engine::AddSystem(pCollisionSys);
 
 		// Debug systems
 		DebugSystem* pDebugSys = new DebugSystem();
 		WindowFPSSystem* pWindowFPSSys = new WindowFPSSystem();
 		DrawGridSystem* pDrawGridSys = new DrawGridSystem();
+		DrawCollisionSystem* pDrawCollisionSys = new DrawCollisionSystem();
 
 		Engine::AddSystem(pDebugSys);
 		Engine::AddSystem(pWindowFPSSys);
 		Engine::AddSystem(pDrawGridSys);
-
-		// Loading scene from file
-		iSceneSerializer* pSceneSerializer = SceneSerializerFactory::CreateSceneSerializer(SCENE_PATH);
-		pSceneSerializer->DeserializeScene(SCENE_PATH, *m_pScene);
+		Engine::AddSystem(pDrawCollisionSys);
 
 		Engine::Init();
 	}

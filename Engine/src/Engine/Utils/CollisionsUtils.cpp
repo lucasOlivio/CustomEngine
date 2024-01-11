@@ -8,52 +8,35 @@
 namespace MyEngine
 {
 	bool CollisionsUtils::AABBAABB_Overlap(const glm::vec3& minA, const glm::vec3& maxA,
-		const glm::vec3& positionA, const float& scaleA,
-		const glm::vec3& minB, const glm::vec3& maxB,
-		const glm::vec3& positionB, const float& scaleB)
+										   const glm::vec3& minB, const glm::vec3& maxB)
 	{
-		// Calc transformations
-		glm::mat4 matTransfA = glm::mat4(1.0f);
-		TransformUtils::GetTransform(positionA, scaleA, matTransfA);
-
-		glm::mat4 matTransfB = glm::mat4(1.0f);
-		TransformUtils::GetTransform(positionB, scaleB, matTransfB);
-
-		// Transform A in world space
-		glm::vec4 AminWorld = (matTransfA * glm::vec4(minA, 1.0f));
-		glm::vec4 AmaxWorld = (matTransfA * glm::vec4(maxA, 1.0f));
-
-		// Transform B in world space
-		glm::vec4 BminWorld = (matTransfB * glm::vec4(minB, 1.0f));
-		glm::vec4 BmaxWorld = (matTransfB * glm::vec4(minB, 1.0f));
-
 		// Check if objects collide
-		if (AmaxWorld[0] < BminWorld[0])
+		if (maxB[0] < minB[0])
 		{
 			return false;
 		}
 
-		if (AminWorld[0] > BmaxWorld[0])
+		if (minA[0] > maxB[0])
 		{
 			return false;
 		}
 
-		if (AmaxWorld[1] < BminWorld[1])
+		if (maxB[1] < minB[1])
 		{
 			return false;
 		}
 
-		if (AminWorld[1] > BmaxWorld[1])
+		if (minA[1] > maxB[1])
 		{
 			return false;
 		}
 
-		if (AmaxWorld[2] < BminWorld[2])
+		if (maxB[2] < minB[2])
 		{
 			return false;
 		}
 
-		if (AminWorld[2] > BmaxWorld[2])
+		if (minA[2] > maxB[2])
 		{
 			return false;
 		}
@@ -61,8 +44,7 @@ namespace MyEngine
 		return true;
 	}
 
-	bool CollisionsUtils::AABBTriangle_Overlap(const glm::vec3& minA, const glm::vec3& maxA, 
-											   const glm::vec3& positionA, const float& scaleA,
+	bool CollisionsUtils::AABBTriangle_Overlap(const glm::vec3& minA, const glm::vec3& maxA,
 											   const glm::vec3& v1, 
 											   const glm::vec3& v2, 
 											   const glm::vec3& v3)
@@ -71,30 +53,18 @@ namespace MyEngine
 		return false;
 	}
 
-	bool CollisionsUtils::SphereAABB_Overlap(const float& radiusA,
-		const glm::vec3& positionA, const float& scaleA,
-		const glm::vec3& minB, const glm::vec3& maxB,
-		const glm::vec3& positionB, const float& scaleB)
+	bool CollisionsUtils::SphereAABB_Overlap(const glm::vec3& centerA, const float& radiusA,
+											 const glm::vec3& minB, const glm::vec3& maxB)
 	{
-		float sphereRadius = radiusA * scaleA;
-
-		// Calc transformations
-		glm::mat4 matTransfB = glm::mat4(1.0f);
-		TransformUtils::GetTransform(positionA, scaleB, matTransfB);
-
-		// Transform A in world space
-		glm::vec4 BminWorld = (matTransfB * glm::vec4(minB, 1.0f));
-		glm::vec4 BmaxWorld = (matTransfB * glm::vec4(maxB, 1.0f));
-
 		// Calculate the closest point on the AABB to the sphere center
-		glm::vec3 closestPoint = glm::clamp(positionA, glm::vec3(BminWorld), glm::vec3(BmaxWorld));
+		glm::vec3 closestPoint = glm::clamp(centerA, glm::vec3(minB), glm::vec3(maxB));
 
 		// Calculate the distance between the sphere center and the closest point on the AABB
-		glm::vec3 offset = positionA - closestPoint;
-		float distanceSquared = glm::dot(offset, offset);
+		glm::vec3 offset = centerA - closestPoint;
+		float distance = glm::length(offset);
 
-		// Check if the distance is less than the squared sphere radius
-		if (distanceSquared > sphereRadius * sphereRadius)
+		// Check if the distance is less than the sphere radius
+		if (distance > radiusA)
 		{
 			// Not hit
 			return false;
@@ -103,17 +73,15 @@ namespace MyEngine
 	}
 
 	bool CollisionsUtils::SphereSphere_Overlap(const float& radiusA,
-		const glm::vec3& positionA,
-		const float& scaleA,
-		const float& radiusB,
-		const glm::vec3& positionB,
-		const float& scaleB)
+											   const glm::vec3& centerA,
+											   const float& radiusB,
+											   const glm::vec3& centerB)
 	{
 		// Calculate squared distance between centers
-		glm::vec3 d = positionA - positionB;
+		glm::vec3 d = centerA - centerB;
 		float dist2 = glm::dot(d, d);
 		// Spheres intersect if squared distance is less than squared sum of radii
-		float radiusSum = (radiusA * scaleA) + (radiusB * scaleB);
+		float radiusSum = radiusA + radiusB;
 		if (dist2 > radiusSum * radiusSum)
 		{
 			// Not hit
@@ -123,22 +91,107 @@ namespace MyEngine
 	}
 
 	bool CollisionsUtils::SphereTriangle_Overlap(const float& radiusA,
-												 const glm::vec3& positionA,
-												 const float& scaleA,
+												 const glm::vec3& centerA,
 												 const glm::vec3& v1,
 												 const glm::vec3& v2,
 												 const glm::vec3& v3)
 	{
 		// Getting closest point in triangle
-		glm::vec3 closestPoint = ClosestPtPointTriangle(positionA, v1, v2, v3);
+		glm::vec3 closestPoint = ClosestPtPointTriangle(centerA, v1, v2, v3);
 
 		// Is this close enought to the sphere
-		float distanceToThisTriangle = glm::distance(closestPoint, positionA);
+		float distanceToThisTriangle = glm::distance(closestPoint, centerA);
 		if (distanceToThisTriangle > radiusA)
 		{
 			return false;
 		}
 
 		return true;
+	}
+
+	glm::vec3 CollisionsUtils::AABBAABB_CollisionPoint(const glm::vec3& minA, const glm::vec3& maxA, 
+													   const glm::vec3& minB, const glm::vec3& maxB)
+	{
+		// Get the intersection plane
+		glm::vec3 intMin = glm::max(minA, maxA);
+		glm::vec3 intMax = glm::min(minB, maxB);
+
+		// Calculate the center of the intersection AABB as the collision point
+		glm::vec3 collisionPoint = 0.5f * (intMin + intMax);
+		return collisionPoint;
+	}
+
+	glm::vec3 CollisionsUtils::SphereAABB_CollisionPoint(const glm::vec3& min, const glm::vec3& max,
+														 const glm::vec3& sphereCenter,
+														 const float& radius)
+	{
+		// Calculate the closest point on the AABB to the sphere center
+		glm::vec3 closestPoint = glm::clamp(sphereCenter, glm::vec3(min), glm::vec3(max));
+
+		// Calculate the distance between the sphere center and the closest point on the AABB
+		glm::vec3 offset = sphereCenter - closestPoint;
+		float distance = glm::length(offset);
+
+		glm::vec3 collisionPoint = sphereCenter + (offset / distance) * radius;
+		return collisionPoint;
+	}
+
+	glm::vec3 CollisionsUtils::SphereSphere_CollisionPoint(const float& radiusA, 
+														   const glm::vec3& centerA,
+														   const glm::vec3& normal, 
+														   const float& radiusB,
+														   const glm::vec3& centerB)
+	{
+		// Weighted linear interpolation
+		glm::vec3 collisionPoint = centerA + ((centerB - centerA) * radiusA / (radiusA + radiusB));
+
+		return collisionPoint;
+	}
+
+	glm::vec3 CollisionsUtils::SphereSphere_Normal(glm::vec3 centerA, glm::vec3 centerB)
+	{
+		return glm::normalize(centerB - centerA);
+	}
+
+	glm::vec3 CollisionsUtils::AABB_Normal(glm::vec3 min, glm::vec3 max,
+										   glm::vec3 collisionPoint)
+	{
+		glm::vec3 normal = glm::vec3(0.0f);
+
+		// Determine the collision side by calculating the minimum overlap in each direction
+		float xOverlap = glm::min(max.x, collisionPoint.x) - glm::max(min.x, collisionPoint.x);
+		float yOverlap = glm::min(max.y, collisionPoint.y) - glm::max(min.y, collisionPoint.y);
+		float zOverlap = glm::min(max.z, collisionPoint.z) - glm::max(min.z, collisionPoint.z);
+
+		// Determine the normal direction based on the collision side
+		if (xOverlap < yOverlap && xOverlap < zOverlap) {
+			// Horizontal collision
+			if (max.x < collisionPoint.x) {
+				normal = glm::vec3(-1.0f, 0.0f, 0.0f);
+			}
+			else {
+				normal = glm::vec3(1.0f, 0.0f, 0.0f);
+			}
+		}
+		else if (yOverlap < xOverlap && yOverlap < zOverlap) {
+			// Vertical collision
+			if (max.y < collisionPoint.y) {
+				normal = glm::vec3(0.0f, -1.0f, 0.0f);
+			}
+			else {
+				normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			}
+		}
+		else {
+			// Depth collision (Z-axis)
+			if (max.z < collisionPoint.z) {
+				normal = glm::vec3(0.0f, 0.0f, -1.0f);
+			}
+			else {
+				normal = glm::vec3(0.0f, 0.0f, 1.0f);
+			}
+		}
+
+		return normal;
 	}
 }

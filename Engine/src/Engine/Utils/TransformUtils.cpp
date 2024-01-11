@@ -61,4 +61,27 @@ namespace MyEngine
     {
         return orientation * FORWARD_VECTOR;
     }
+
+    glm::vec3 TransformUtils::LocalToWorldPoint(const glm::vec3& point,
+                                                const glm::vec3& position, const glm::quat& orientation,
+                                                const float& scale, 
+                                                glm::mat4& parentMat)
+    {
+        GetTransform(position, orientation, scale, parentMat);
+
+        glm::vec3 worldPoint = parentMat * glm::vec4(point, 1.0f);
+
+        return worldPoint;
+    }
+
+    glm::vec3 TransformUtils::LocalToWorldPoint(const glm::vec3& point,
+										        const glm::vec3& position, const float& scale,
+                                                glm::mat4& parentMat)
+    {
+        GetTransform(position, scale, parentMat);
+
+        glm::vec3 worldPoint = parentMat * glm::vec4(point, 1.0f);
+
+        return worldPoint;
+    }
 }

@@ -93,8 +93,9 @@ namespace MyEngine
 		std::string pathShaders;
 		std::string pathScripts;
 		std::string pathTextures;
-
-		std::string pathDebugSquare; // Path to square model inside models default folder
+		// Path to debug models inside models default folder
+		std::string pathDebugSquare; 
+		std::string pathDebugSphere;
 	};
 
 	struct TransparentEntitiesComponent
@@ -129,7 +130,20 @@ namespace MyEngine
 	};
 
 	// Debug objects
+
+	// Objects that the debug system will render next
+	// It gets cleared every render frame
+	struct DebugObjectsToRenderComponent
+	{
+
+	};
+
 	struct DebugSquareComponent
+	{
+		sMesh* pMesh;
+	};
+
+	struct DebugSphereComponent
 	{
 		sMesh* pMesh;
 	};

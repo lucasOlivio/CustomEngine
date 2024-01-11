@@ -36,8 +36,11 @@ namespace MyEngine
     void Engine::Init()
     {
         // Setting up events
-        m_pEventBusWindow = new EventBus<eWindowEvents>();
-        EventBusLocator<eWindowEvents>::Set(m_pEventBusWindow);
+        m_pEventBusWindow = new EventBus<eWindowEvents, WindowCloseEvent>();
+        EventBusLocator<eWindowEvents, WindowCloseEvent>::Set(m_pEventBusWindow);
+
+        m_pEventBusCollision = new EventBus<eCollisionEvents, CollisionEnterEvent>();
+        EventBusLocator<eCollisionEvents, CollisionEnterEvent>::Set(m_pEventBusCollision);
 
         // Setting up VAO manager
         m_pVAOManager = new VAOManager();

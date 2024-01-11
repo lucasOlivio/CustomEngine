@@ -13,8 +13,8 @@ protected:
     void SetUp() override
     {
         // Set up your event bus implementation
-        eventBus = new EventBus<eWindowEvents>();
-        EventBusLocator<eWindowEvents>::Set(eventBus);
+        eventBus = new EventBus<eWindowEvents, WindowCloseEvent>();
+        EventBusLocator<eWindowEvents, WindowCloseEvent>::Set(eventBus);
     }
 
     void TearDown() override
@@ -22,7 +22,7 @@ protected:
         delete eventBus;
     }
 
-    iEventBus<eWindowEvents>* eventBus;
+    iEventBus<eWindowEvents, WindowCloseEvent>* eventBus;
 };
 
 TEST_F(EventBusTest, SubscribeAndPublishEvent)
@@ -53,8 +53,8 @@ TEST_F(EventBusTest, PublishEventWithNoSubscribers)
 TEST_F(EventBusTest, AccessUnsetEventBus)
 {
     // Set the eventBus to null to simulate an unset service
-    EventBusLocator<eWindowEvents>::Set(nullptr);
-    iEventBus<eWindowEvents>* nullEventBus = EventBusLocator<eWindowEvents>::Get();
+    EventBusLocator<eWindowEvents, WindowCloseEvent>::Set(nullptr);
+    iEventBus<eWindowEvents, WindowCloseEvent>* nullEventBus = EventBusLocator<eWindowEvents, WindowCloseEvent>::Get();
 
     // Attempt to publish an event without a set eventBus
     WindowCloseEvent event = WindowCloseEvent();

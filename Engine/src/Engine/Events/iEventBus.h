@@ -6,11 +6,11 @@
 
 namespace MyEngine
 {
-    template <typename T>
+    template <typename T, typename F>
     class iEventBus
     {
     protected:
-        using EventHandler = std::function<void(const Event<T>&)>;
+        using EventHandler = std::function<void(const F&)>;
 
     public:
         iEventBus() {}
@@ -20,6 +20,6 @@ namespace MyEngine
         virtual void Subscribe(T eventType, const iEventBus::EventHandler& handler) = 0;
 
         // Publish an event to all the listeners
-        virtual void Publish(const Event<T>& event) = 0;
+        virtual void Publish(const F& event) = 0;
     };
 }

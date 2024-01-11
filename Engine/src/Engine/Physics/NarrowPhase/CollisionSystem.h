@@ -5,11 +5,11 @@
 
 namespace MyEngine
 {
-	class CheckOverlapSystem : public iSystem
+	class CollisionSystem : public iSystem
 	{
 	public:
-		CheckOverlapSystem() = default;
-		virtual ~CheckOverlapSystem() { };
+		CollisionSystem() = default;
+		virtual ~CollisionSystem() { };
 
 		virtual void Start(Scene* pScene);
 
@@ -20,30 +20,39 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 	private:
+		// Use the event bus to trigger a collision event with this event data
+		void m_TriggerCollisionEnter(const sCollisionData& collData);
+
 		// Sphere checks
 		void m_CheckSphereOverlaps(Scene* pScene,
+								   Entity entityIdA,
 								   TransformComponent* pTransformA,
 								   SphereColliderComponent* pSphereA,
 								   const int index,
 								   const std::vector<Entity>& nonStaticEntities,
 								   const std::vector<Entity>& staticEntities,
 								   const std::vector<sTriangle*>& triangles);
+
 		bool m_CheckSphereEntityOverlap(Scene* pScene,
-										Entity entityIdB,
+										Entity entityIdA,
 										TransformComponent* pTransformA,
-										SphereColliderComponent* pSphereA);
+										SphereColliderComponent* pSphereA,
+										Entity entityIdB);
 		
 		// AABB checks
 		void m_CheckAABBOverlaps(Scene* pScene,
-								   TransformComponent* pTransformA,
-								   AABBColliderComponent* pAABBA,
-								   const int index,
-								   const std::vector<Entity>& nonStaticEntities,
-								   const std::vector<Entity>& staticEntities,
-								   const std::vector<sTriangle*>& triangles);
+								 Entity entityIdA,
+								 TransformComponent* pTransformA,
+								 AABBColliderComponent* pAABBA,
+								 const int index,
+								 const std::vector<Entity>& nonStaticEntities,
+								 const std::vector<Entity>& staticEntities,
+								 const std::vector<sTriangle*>& triangles);
+
 		bool m_CheckAABBEntityOverlap(Scene* pScene,
-										Entity entityIdB,
-										TransformComponent* pTransformA,
-										AABBColliderComponent* pSphereA);
+									  Entity entityIdA,
+									  TransformComponent* pTransformA,
+									  AABBColliderComponent* pAABBA,
+									  Entity entityIdB);
 	};
 }

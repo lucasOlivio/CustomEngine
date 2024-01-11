@@ -33,7 +33,15 @@
             "pathModels": "",
             "pathScripts": "",
             "pathShaders": "",
-            "pathTextures": ""
+            "pathTextures": "",
+            "pathDebugSquare": ""
+        },
+        "gridBroadphase": {
+            "lengthPerBox": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     },
     {
