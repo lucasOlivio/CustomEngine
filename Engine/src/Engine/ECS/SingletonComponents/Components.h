@@ -1,12 +1,18 @@
 #pragma once
 
 #include "Engine/Core/Shapes.hpp"
+
 #include "Engine/ECS/Base.h"
+
 #include "Engine/Graphics/opengl.h"
 #include "Engine/Graphics/Textures/TextureProperties.h"
 #include "Engine/Graphics/GraphicsProperties.h"
+
 #include "Engine/Physics/BroadPhase/GridAABB.h"
+#include "Engine/Physics/PhysicsProperties.h"
+
 #include "Engine/Utils/TransformUtils.h"
+
 #include <glm/gtc/quaternion.hpp>
 #include <glm/mat4x4.hpp>
 #include <map>
@@ -129,14 +135,14 @@ namespace MyEngine
 		std::vector<std::vector<Entity>> nonStaticEntitiesToTest;
 	};
 
-	// Debug objects
-
-	// Objects that the debug system will render next
-	// It gets cleared every render frame
-	struct DebugObjectsToRenderComponent
+	// All collisions that happened in the frame
+	// Its cleared every frame by the RegisterCollisionsSystem
+	struct FrameCollisionComponent
 	{
-
+		std::vector<sCollisionData> collisions;
 	};
+
+	// Debug objects
 
 	struct DebugSquareComponent
 	{
