@@ -19,7 +19,5 @@ namespace MyEngine
 		virtual void Render(Scene* pScene);
 
 		virtual void End(Scene* pScene);
-
-		static void DrawCollision(const CollisionEnterEvent& event);
 	};
 }
