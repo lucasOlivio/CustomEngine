@@ -1,8 +1,9 @@
 #include "pch.h"
 
 #include "WindowFrameSystem.h"
-#include "Engine/ECS/SingletonComponents/WindowLocator.h"
-#include "Engine/ECS/SingletonComponents/FrameCounterLocator.h"
+
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
 namespace MyEngine
 {
@@ -12,7 +13,7 @@ namespace MyEngine
 
 	void WindowFrameSystem::Update(Scene* pScene, float deltaTime)
 	{
-		FrameCounterComponent* pFrame = FrameCounterLocator::Get();
+		FrameCounterComponent* pFrame = CoreLocator::GetFrameCounter();
 
 		pFrame->frameCount++;
 
@@ -24,7 +25,7 @@ namespace MyEngine
 			pFrame->fps = (float)(pFrame->frameCount) / pFrame->fpsTimer;
 
 			// Update window name
-			WindowComponent* pWindow = WindowLocator::Get();
+			WindowComponent* pWindow = GraphicsLocator::GetWindow();
 			pWindow->name = std::to_string(pFrame->fps);
 
 			pFrame->frameCount = 0;

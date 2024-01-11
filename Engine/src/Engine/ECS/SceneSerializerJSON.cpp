@@ -2,10 +2,9 @@
 
 #include "SceneSerializerJSON.h"
 #include "Engine/Utils/ParserJSON.h"
-#include "Engine/ECS/SingletonComponents/CameraLocator.h"
-#include "Engine/ECS/SingletonComponents/WindowLocator.h"
-#include "Engine/ECS/SingletonComponents/ConfigPathLocator.h"
-#include "Engine/ECS/SingletonComponents/GridBroadphaseLocator.h"
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
 
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
@@ -142,28 +141,28 @@ namespace MyEngine
         Value cameraObject;
         cameraObject.SetObject();
 
-        CameraComponent* pCamera = CameraLocator::Get();
+        CameraComponent* pCamera = GraphicsLocator::GetCamera();
         m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
         entityObject.AddMember("camera", cameraObject, allocator);
         // Window
         Value windowObject;
         windowObject.SetObject();
 
-        WindowComponent* pWindow = WindowLocator::Get();
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
         m_ParseWindowToDoc(windowObject, *pWindow, allocator);
         entityObject.AddMember("window", windowObject, allocator);
         // Config
         Value configPathObject;
         configPathObject.SetObject();
 
-        ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+        ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
         m_ParseConfigPathToDoc(configPathObject, *pConfigPath, allocator);
         entityObject.AddMember("configPath", configPathObject, allocator);
         // Grid broadphase
         Value gridBroadphaseObject;
         gridBroadphaseObject.SetObject();
 
-        GridBroadphaseComponent* pGridBroadphase = GridBroadphaseLocator::Get();
+        GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
         m_ParseGridBroadphaseToDoc(gridBroadphaseObject, *pGridBroadphase, allocator);
         entityObject.AddMember("gridBroadphase", gridBroadphaseObject, allocator);
 
@@ -656,22 +655,22 @@ namespace MyEngine
                 // so the scene will always have the first entity empty
                 else if (componentName == "camera")
                 {
-                    CameraComponent* pCamera = CameraLocator::Get();
+                    CameraComponent* pCamera = GraphicsLocator::GetCamera();
                     m_ParseDocToCamera(componentObject, *pCamera);
                 }
                 else if (componentName == "window")
                 {
-                    WindowComponent* pWindow = WindowLocator::Get();
+                    WindowComponent* pWindow = GraphicsLocator::GetWindow();
                     m_ParseDocToWindow(componentObject, *pWindow);
                 }
                 else if (componentName == "configPath")
                 {
-                    ConfigPathComponent* pConfigPath = ConfigPathLocator::Get();
+                    ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
                     m_ParseDocToConfigPath(componentObject, *pConfigPath);
                 }
                 else if (componentName == "gridBroadphase")
                 {
-                    GridBroadphaseComponent* pGridBroadphase = GridBroadphaseLocator::Get();
+                    GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
                     m_ParseDocToGridBroadphase(componentObject, *pGridBroadphase);
                 }
             }

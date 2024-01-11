@@ -1,9 +1,12 @@
 #include "pch.h"
 
 #include "Engine.h"
+
 #include "Engine/Events/EventBus.hpp"
 #include "Engine/Events/EventBusLocator.hpp"
-#include "Engine/ECS/SingletonComponents/WindowLocator.h"
+
+#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
+
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
 #include "Engine/Graphics/VAO/VAOManager.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
@@ -68,7 +71,7 @@ namespace MyEngine
     void Engine::Run()
     {
         // TODO: Better closing proccess, should come from event
-        GLFWwindow* pGLFWWindow = WindowLocator::Get()->pGLFWWindow;
+        GLFWwindow* pGLFWWindow = GraphicsLocator::GetWindow()->pGLFWWindow;
         while (!glfwWindowShouldClose(pGLFWWindow))
         {
             float deltaTime = m_GetDeltaTime();
@@ -96,7 +99,7 @@ namespace MyEngine
             pSystem->Render(m_pScene);
         }
 
-        WindowComponent* pWindow = WindowLocator::Get();
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
         glfwSwapBuffers(pWindow->pGLFWWindow);
         glfwPollEvents();
     }
