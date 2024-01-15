@@ -27,6 +27,9 @@ namespace MyEngine
 		static glm::vec3 GetUpVector(const glm::quat& orientation);
 		static glm::vec3 GetForwardVector(const glm::quat& orientation);
 
+		static glm::quat AdjustOrientation(const glm::quat& orientation, 
+										   const glm::vec3& delta);
+
 		// Use transformations to convert the point from local to world position
 		static glm::vec3 LocalToWorldPoint(const glm::vec3& point,
                                            const glm::vec3& position, const glm::quat& orientation,

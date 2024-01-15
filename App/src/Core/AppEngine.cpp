@@ -10,6 +10,7 @@
 #include "Engine/Graphics/Lights/LightSystem.h"
 
 #include "Engine/Physics/MovementSystem.h"
+#include "Engine/Physics/RotationSystem.h"
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/Physics/BroadPhase/GridBroadPhaseSystem.h"
 #include "Engine/Physics/NarrowPhase/CollisionSystem.h"
@@ -56,6 +57,7 @@ namespace MyEngine
 		// Physics systems
 		GravitySystem* pGravitySys = new GravitySystem();
 		MovementSystem* pMovementSys = new MovementSystem();
+		RotationSystem* pRotationSys = new RotationSystem();
 		// TODO: Way to decouple this order, now this order needs to be mantained,
 		// the Register collision system will clear the collision for this frame every update
 		// so it must be before the collisions for this frame are triggered
@@ -65,6 +67,7 @@ namespace MyEngine
 
 		Engine::AddSystem(pGravitySys);
 		Engine::AddSystem(pMovementSys);
+		Engine::AddSystem(pRotationSys);
 		Engine::AddSystem(pRegisterCollSys);
 		Engine::AddSystem(pGridBroadPhaseSys);
 		Engine::AddSystem(pCollisionSys);

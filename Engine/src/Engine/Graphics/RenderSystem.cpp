@@ -168,8 +168,8 @@ namespace MyEngine
 					glm::mat4 matTransform = glm::mat4(1.0);
 
 					TransformUtils::GetTransform(finalPosition,
-						pTransform->orientation,
-						pTransform->scale,
+						pTransform->worldOrientation,
+						pTransform->worldScale,
 						matTransform);
 
 					sMesh* pMesh = pModel->pMeshes[pModel->currMesh];

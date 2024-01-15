@@ -216,7 +216,7 @@ namespace MyEngine
 
         jsonObject.SetArray();
 
-        for (SizeType i = 0; i < 3; i++) {
+        for (SizeType i = 0; i < 4; i++) {
             Value floatVal;
             floatVal.SetFloat(valueIn[i]);
             jsonObject.PushBack(floatVal, allocator);
