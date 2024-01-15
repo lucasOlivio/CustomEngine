@@ -298,6 +298,59 @@
     },
     {
         "tag": {
+            "name": "test3"
+        },
+        "model": {
+            "models": [
+                "sphere.obj"
+            ],
+            "material": "mattest",
+            "isWireframe": false,
+            "doNotLight": false,
+            "useColorTexture": true,
+            "isActive": true
+        },
+        "transform": {
+            "position": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "rigidBody":
+        {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider":
+        {
+            "radius": 1.0
+        },
+        "parent":
+        {
+            "parentId": 5
+        }
+    },
+    {
+        "tag": {
             "name": "test2"
         },
         "model": {

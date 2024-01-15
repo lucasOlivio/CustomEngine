@@ -34,6 +34,17 @@ namespace MyEngine
 		glm::vec3 acceleration;
 	};
 
+	struct RotationComponent
+	{
+		glm::vec3 velocity;
+		glm::vec3 acceleration;
+	};
+
+	struct ParentComponent
+	{
+		Entity parentId;
+	};
+
 	struct TextureComponent
 	{
 		std::string fileName;

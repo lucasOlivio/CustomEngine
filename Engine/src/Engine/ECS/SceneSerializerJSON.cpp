@@ -205,6 +205,24 @@ namespace MyEngine
                 m_ParseMovementToDoc(movementObject, *pMovement, allocator);
                 entityObject.AddMember("movement", movementObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<RotationComponent>()))
+            {
+                Value rotationObject;
+                rotationObject.SetObject();
+
+                RotationComponent* pRotation = sceneIn.Get<RotationComponent>(entity);
+                m_ParseRotationToDoc(rotationObject, *pRotation, allocator);
+                entityObject.AddMember("rotation", rotationObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<ParentComponent>()))
+            {
+                Value parentObject;
+                parentObject.SetObject();
+
+                ParentComponent* pParent = sceneIn.Get<ParentComponent>(entity);
+                m_ParseParentToDoc(parentObject, *pParent, allocator);
+                entityObject.AddMember("parent", parentObject, allocator);
+            }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TextureComponent>()))
             {
                 Value textureObject;
@@ -332,6 +350,29 @@ namespace MyEngine
 
         parser.SetMember(jsonObject, "velocity", movementIn.velocity, allocator);
         parser.SetMember(jsonObject, "acceleration", movementIn.acceleration, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseRotationToDoc(rapidjson::Value& jsonObject, RotationComponent& rotationIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "velocity", rotationIn.velocity, allocator);
+        parser.SetMember(jsonObject, "acceleration", rotationIn.acceleration, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseParentToDoc(rapidjson::Value& jsonObject, ParentComponent& parentIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "parentId", parentIn.parentId, allocator);
 
         return true;
     }
@@ -606,6 +647,16 @@ namespace MyEngine
                     MovementComponent* pMovement = sceneOut.AddComponent<MovementComponent>(entityId);
                     m_ParseDocToMovement(componentObject, *pMovement);
                 }
+                else if (componentName == "parent")
+                {
+                    ParentComponent* pParent = sceneOut.AddComponent<ParentComponent>(entityId);
+                    m_ParseDocToParent(componentObject, *pParent);
+                }
+                else if (componentName == "rotation")
+                {
+                    RotationComponent* pRotation = sceneOut.AddComponent<RotationComponent>(entityId);
+                    m_ParseDocToRotation(componentObject, *pRotation);
+                }
                 else if (componentName == "texture")
                 {
                     TextureComponent* pTexture = sceneOut.AddComponent<TextureComponent>(entityId);
@@ -721,6 +772,30 @@ namespace MyEngine
 
         return true;
     }
+
+    bool SceneSerializerJSON::m_ParseDocToRotation(rapidjson::Value& jsonObject, RotationComponent& rotationOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["velocity"], rotationOut.velocity);
+        parser.GetValue(jsonObject["acceleration"], rotationOut.acceleration);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToParent(rapidjson::Value& jsonObject, ParentComponent& parentOut)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["parentId"], parentOut.parentId);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToTexture(rapidjson::Value& jsonObject, 
                                                   TextureComponent& textureOut)
     {

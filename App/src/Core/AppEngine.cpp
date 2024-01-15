@@ -1,6 +1,7 @@
 #include "AppEngine.h"
 
 #include "Engine/Core/WindowFrameSystem.h"
+#include "Engine/Core/TransformParentSystem.h"
 
 #include "Engine/Graphics/Shaders/ShaderSystem.h"
 #include "Engine/Graphics/CameraSystem.h"
@@ -34,7 +35,10 @@ namespace MyEngine
 
 		// Core systems
 		WindowFrameSystem* pWindowFrameSys = new WindowFrameSystem();
+		TransformParentSystem* pTransformParentSys = new TransformParentSystem();
+
 		Engine::AddSystem(pWindowFrameSys);
+		Engine::AddSystem(pTransformParentSys);
 
 		// Graphics systems
 		ShaderSystem* pShaderSys = new ShaderSystem();
