@@ -6,9 +6,9 @@ namespace MyEngine
 
     enum eKeyActions
     {
-        RELEASE = 0,
-        PRESS,
-        REPEAT
+        KEY_RELEASE = 0,
+        KEY_PRESS,
+        KEY_REPEAT
     };
 
     enum eKeyMods

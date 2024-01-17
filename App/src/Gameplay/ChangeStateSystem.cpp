@@ -44,7 +44,7 @@ namespace MyEngine
 			return;
 		}
 
-		if (event.keyData.action != eKeyActions::PRESS)
+		if (event.keyData.action != eKeyActions::KEY_PRESS)
 		{
 			return;
 		}

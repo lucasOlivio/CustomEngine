@@ -51,7 +51,7 @@ namespace MyEngine
 		keyData.action = (eKeyActions)action;
 		keyData.mod = (eKeyMods)mods;
 		
-		if (keyData.action == eKeyActions::RELEASE)
+		if (keyData.action == eKeyActions::KEY_RELEASE)
 		{
 			pInput->key[key] = false;
 		}
