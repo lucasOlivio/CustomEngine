@@ -8,6 +8,7 @@
 #include "Engine/Core/StateSystem.h"
 
 #include "Engine/Graphics/Shaders/ShaderSystem.h"
+#include "Engine/Graphics/UI/BaseUISystem.h"
 #include "Engine/Graphics/CameraSystem.h"
 #include "Engine/Graphics/WindowSystem.h"
 #include "Engine/Graphics/RenderSystem.h"
@@ -37,6 +38,7 @@ namespace MyEngine
         {"StateSystem", []() { return new StateSystem; }},
         // Graphics systems
         {"WindowSystem", []() { return new WindowSystem; }},
+        {"BaseUISystem", []() { return new BaseUISystem; }},
         {"ShaderSystem", []() { return new ShaderSystem; }},
         {"CameraSystem", []() { return new CameraSystem; }},
         {"RenderSystem", []() { return new RenderSystem; }},

@@ -16,6 +16,7 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("WindowFrameSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("TransformParentSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("WindowSystem"));
+		Engine::AddSystem(SystemBuilder::CreateSystem("BaseUISystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("InputSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("ShaderSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("CameraSystem"));

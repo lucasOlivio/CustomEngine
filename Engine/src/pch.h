@@ -23,6 +23,10 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 #include "Engine/Core/Constants.h"
 #include "Engine/ECS/Base.h"
 #include "Engine/Graphics/opengl.h"
