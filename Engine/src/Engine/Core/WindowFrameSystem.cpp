@@ -7,8 +7,17 @@
 
 namespace MyEngine
 {
+	void WindowFrameSystem::Init()
+	{
+	}
+
 	void WindowFrameSystem::Start(Scene* pScene)
 	{
+		FrameCounterComponent* pFrame = CoreLocator::GetFrameCounter();
+
+		pFrame->frameCount = 0;
+
+		pFrame->fpsTimer = 0;
 	}
 
 	void WindowFrameSystem::Update(Scene* pScene, float deltaTime)
@@ -38,6 +47,10 @@ namespace MyEngine
 	}
 
 	void WindowFrameSystem::End(Scene* pScene)
+	{
+	}
+
+	void WindowFrameSystem::Shutdown()
 	{
 	}
 }

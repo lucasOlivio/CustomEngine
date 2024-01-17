@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/ECS/iSystem.h"
+#include "Engine/ECS/System/iSystem.h"
 
 namespace MyEngine
 {
@@ -10,6 +10,8 @@ namespace MyEngine
 		WindowSystem() = default;
 		virtual ~WindowSystem() { };
 
+		virtual void Init();
+
 		// Initializes whole glfw and GLAD, this system should be the first in the list
 		virtual void Start(Scene* pScene);
 
@@ -18,5 +20,7 @@ namespace MyEngine
 		virtual void Render(Scene* pScene);
 
 		virtual void End(Scene* pScene);
+
+		virtual void Shutdown();
 	};
 }

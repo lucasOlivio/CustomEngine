@@ -1,11 +1,15 @@
 #include "pch.h"
 
 #include "MaterialOffsetSystem.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/Components.h"
 
 namespace MyEngine
 {
+	void MaterialOffsetSystem::Init()
+	{
+	}
+
 	void MaterialOffsetSystem::Start(Scene* pScene)
 	{
 	}
@@ -41,6 +45,10 @@ namespace MyEngine
 	}
 
 	void MaterialOffsetSystem::End(Scene* pScene)
+	{
+	}
+
+	void MaterialOffsetSystem::Shutdown()
 	{
 	}
 }

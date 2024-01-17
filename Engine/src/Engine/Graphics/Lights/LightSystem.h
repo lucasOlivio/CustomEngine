@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/ECS/iSystem.h"
+#include "Engine/ECS/System/iSystem.h"
 #include "Engine/ECS/Components.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
@@ -12,13 +12,17 @@ namespace MyEngine
 		LightSystem() = default;
 		virtual ~LightSystem() { };
 
+		virtual void Init();
+
 		virtual void Start(Scene* pScene);
 
 		virtual void Update(Scene* pScene, float deltaTime);
 
 		virtual void Render(Scene* pScene) {};
 
-		virtual void End(Scene* pScene) {};
+		virtual void End(Scene* pScene);
+
+		virtual void Shutdown();
 
 	private:
 		// Setup the UL locations and all light configurations

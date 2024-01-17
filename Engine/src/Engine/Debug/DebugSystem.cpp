@@ -7,7 +7,7 @@
 
 namespace MyEngine
 {
-    void DebugSystem::Start(Scene* pScene)
+    void DebugSystem::Init()
     {
         ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
         iVAOManager* pVAOManager = VAOManagerLocator::Get();
@@ -19,6 +19,10 @@ namespace MyEngine
         pSphere->pMesh = pVAOManager->LoadModelIntoVAO(pConfigPath->pathDebugSphere, true);
     }
 
+    void DebugSystem::Start(Scene* pScene)
+    {
+    }
+
     void DebugSystem::Update(Scene* pScene, float deltaTime)
     {
     }
@@ -28,6 +32,10 @@ namespace MyEngine
     }
 
     void DebugSystem::End(Scene* pScene)
+    {
+    }
+
+    void DebugSystem::Shutdown()
     {
     }
 }

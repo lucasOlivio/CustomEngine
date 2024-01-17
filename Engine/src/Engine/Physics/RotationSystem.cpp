@@ -1,18 +1,31 @@
 #include "pch.h"
 
 #include "RotationSystem.h"
-#include "Engine/ECS/SceneView.hpp"
+
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/Components.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
+
 #include "Engine/Utils/TransformUtils.h"
 
 namespace MyEngine
 {
+    void RotationSystem::Init()
+    {
+    }
+
     void RotationSystem::Start(Scene* pScene)
     {
     }
 
     void RotationSystem::Update(Scene* pScene, float deltaTime)
     {
+        StateComponent* pState = CoreLocator::GetState();
+        if (pState->currState == eStates::SIMULATION_STOPPED)
+        {
+            return;
+        }
+
         // Update velocity and position
         for (Entity entityId : SceneView<TransformComponent, RotationComponent>(*pScene))
         {
@@ -31,6 +44,10 @@ namespace MyEngine
     }
 
     void RotationSystem::End(Scene* pScene)
+    {
+    }
+
+    void RotationSystem::Shutdown()
     {
     }
 }

@@ -1,9 +1,12 @@
 #include "pch.h"
 
 #include "GridBroadPhaseSystem.h"
+
 #include "Engine/ECS/Components.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
+
 #include "Engine/Utils/GridUtils.h"
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/CollisionsUtils.h"
@@ -13,6 +16,10 @@ namespace MyEngine
 	typedef std::set< Entity >::iterator itEntities;
 	typedef std::map< uint /*index*/, GridAABB* >::iterator itIdxAABB;
 	typedef std::pair< uint /*index*/, GridAABB* > pairIdxAABB;
+
+	void GridBroadPhaseSystem::Init()
+	{
+	}
 
 	void GridBroadPhaseSystem::Start(Scene* pScene)
 	{
@@ -46,6 +53,12 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::Update(Scene* pScene, float deltaTime)
 	{
+		StateComponent* pState = CoreLocator::GetState();
+		if (pState->currState == eStates::SIMULATION_STOPPED)
+		{
+			return;
+		}
+
 		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 		NarrowPhaseTestsComponent* pNarrowTests = PhysicsLocator::GetNarrowPhaseTests();
 
@@ -145,6 +158,10 @@ namespace MyEngine
 	void GridBroadPhaseSystem::End(Scene* pScene)
 	{
 		m_ClearAABBs();
+	}
+
+	void GridBroadPhaseSystem::Shutdown()
+	{
 	}
 
 	GridAABB* GridBroadPhaseSystem::m_GetAABB(uint idxAABB)

@@ -69,6 +69,7 @@ const int POINT_LIGHT_TYPE = 0;
 const int SPOT_LIGHT_TYPE = 1;
 const int DIRECTIONAL_LIGHT_TYPE = 2;
 
+// This should match with the number in the constants
 const int NUMBEROFLIGHTS = 40;
 uniform sLight theLights[NUMBEROFLIGHTS];
 

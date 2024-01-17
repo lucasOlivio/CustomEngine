@@ -29,4 +29,10 @@ namespace MyEngine
         delete m_pDebugSphere;
         m_pDebugSphere = pDebugSphere;
     }
+
+    void DebugLocator::Clear()
+    {
+        delete m_pDebugSquare;
+        delete m_pDebugSphere;
+    }
 }

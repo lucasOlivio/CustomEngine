@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/ECS/iSystem.h"
+#include "Engine/ECS/System/iSystem.h"
 
 namespace MyEngine
 {

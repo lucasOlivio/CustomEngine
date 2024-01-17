@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ComponentPool.h"
-#include "EntityManager.h"
+#include "Engine/ECS/EntityManager.h"
+#include "Engine/ECS/ComponentPool.h"
+
 #include "Engine/Utils/BiMap.hpp"
 
 namespace MyEngine

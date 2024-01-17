@@ -1,12 +1,16 @@
 #include "pch.h"
 
 #include "TransformParentSystem.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/Components.h"
 #include "Engine/Utils/TransformUtils.h"
 
 namespace MyEngine
 {
+    void TransformParentSystem::Init()
+    {
+    }
+
     void TransformParentSystem::Start(Scene* pScene)
     {
     }
@@ -48,6 +52,10 @@ namespace MyEngine
     }
 
     void TransformParentSystem::End(Scene* pScene)
+    {
+    }
+
+    void TransformParentSystem::Shutdown()
     {
     }
 }

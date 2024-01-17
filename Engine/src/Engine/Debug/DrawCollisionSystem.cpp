@@ -10,6 +10,10 @@
 
 namespace MyEngine
 {
+	void DrawCollisionSystem::Init()
+	{
+	}
+
 	void DrawCollisionSystem::Start(Scene* pScene)
 	{
 	}
@@ -41,6 +45,10 @@ namespace MyEngine
 	}
 
 	void DrawCollisionSystem::End(Scene* pScene)
+	{
+	}
+
+	void DrawCollisionSystem::Shutdown()
 	{
 	}
 }

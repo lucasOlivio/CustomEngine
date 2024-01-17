@@ -13,6 +13,8 @@ namespace MyEngine
 		static void SetSquare(DebugSquareComponent* pDebugSquare);
 		static void SetSphere(DebugSphereComponent* pDebugSphere);
 
+		static void Clear();
+
 	private:
 		static DebugSquareComponent* m_pDebugSquare;
 		static DebugSphereComponent* m_pDebugSphere;

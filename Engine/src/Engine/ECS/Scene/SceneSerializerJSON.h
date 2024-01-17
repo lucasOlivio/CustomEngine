@@ -73,12 +73,6 @@ namespace MyEngine
 		bool m_ParseCameraToDoc(rapidjson::Value& jsonObject, 
 								  CameraComponent& cameraIn,
 								  rapidjson::Document::AllocatorType& allocator);
-		bool m_ParseWindowToDoc(rapidjson::Value& jsonObject, 
-								  WindowComponent& windowIn,
-								  rapidjson::Document::AllocatorType& allocator);
-		bool m_ParseConfigPathToDoc(rapidjson::Value& jsonObject, 
-								  ConfigPathComponent& configPathIn,
-								  rapidjson::Document::AllocatorType& allocator);
 		bool m_ParseGridBroadphaseToDoc(rapidjson::Value& jsonObject,
 								  GridBroadphaseComponent& gridBroadphaseIn,
 								  rapidjson::Document::AllocatorType& allocator);

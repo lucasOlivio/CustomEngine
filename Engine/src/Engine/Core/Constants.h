@@ -12,6 +12,11 @@ namespace MyEngine
 #define CHANNELGROUP_MUSIC_INDEX	1
 #define CHANNELGROUP_SFX_INDEX		2
 
+// This should match with the number in the shaders
+#define MAX_LIGHTS 40
+
+	const std::string DEFAULT_CONFIG = "config.json";
+
 	const glm::vec3 X_VECTOR = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 	const glm::vec3 Y_VECTOR = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	const glm::vec3 Z_VECTOR = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);

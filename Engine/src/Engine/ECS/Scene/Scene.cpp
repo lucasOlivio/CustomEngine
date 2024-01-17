@@ -12,12 +12,14 @@ namespace MyEngine
     {
         delete m_pEntityManager;
 
-        for (auto componentMap : m_componentMaps)
+        using ComponentMapPair = std::pair<ComponentType, BiMap<Entity, ComponentId>*>;
+        for (ComponentMapPair componentMap : m_componentMaps)
         {
             delete componentMap.second;
         }
 
-        for (auto componentPool : m_componentPools)
+        using ComponentPoolPair = std::pair<ComponentType, ComponentPool*>;
+        for (ComponentPoolPair componentPool : m_componentPools)
         {
             delete componentPool.second;
         }
@@ -74,6 +76,7 @@ namespace MyEngine
             m_pEntityManager->RemoveEntity(entityId);
         }
     }
+
     EntityManager* Scene::GetEntitymanager()
     {
         return m_pEntityManager;

@@ -15,6 +15,8 @@ namespace MyEngine
 		static void SetTransparentEntities(TransparentEntitiesComponent* pTransparentEntities);
 		static void SetWindow(WindowComponent* pWindow);
 
+		static void Clear();
+
 	private:
 		static CameraComponent* m_pCamera;
 		static TransparentEntitiesComponent* m_pTransparentEntities;

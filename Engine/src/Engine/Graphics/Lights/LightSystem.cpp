@@ -1,10 +1,14 @@
 #include "pch.h"
 
 #include "LightSystem.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 
 namespace MyEngine
 {
+    void LightSystem::Init()
+    {
+    }
+
     void LightSystem::Start(Scene* pScene)
     {
         // Go over each lights setting the ULs and initializing them
@@ -35,7 +39,25 @@ namespace MyEngine
         }
     }
 
-    void LightSystem::m_SetupLight(TransformComponent* pTransform, 
+    void LightSystem::End(Scene* pScene)
+    {
+        // Reset all lights in shader with new empty components
+        LightComponent* pLight = new LightComponent();
+        TransformComponent* pTransform = new TransformComponent();
+        for (int i = 0; i < MAX_LIGHTS; i++)
+        {
+            m_SetupLight(pTransform, pLight, i);
+        }
+
+        delete pLight;
+        delete pTransform;
+    }
+
+    void LightSystem::Shutdown()
+    {
+    }
+
+    void LightSystem::m_SetupLight(TransformComponent* pTransform,
                                    LightComponent* pLight, int lightIndex)
     {
         std::string ulBasePath = "theLights[" + std::to_string(lightIndex) + "].";

@@ -2,17 +2,17 @@
 
 #include "WindowSystem.h"
 
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
 namespace MyEngine
 {
-    void WindowSystem::Start(Scene* pScene)
+    void WindowSystem::Init()
     {
         glfwSetErrorCallback(GlfwErrorCallback);
-        if (!glfwInit()) 
+        if (!glfwInit())
         {
             LOG_ERROR("Error initializing GLFW!\n");
             return;
@@ -25,8 +25,8 @@ namespace MyEngine
         // Set width and height from maximized window
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
 
-        pWindow->pGLFWWindow = glfwCreateWindow(pWindow->width, 
-                                                pWindow->height, 
+        pWindow->pGLFWWindow = glfwCreateWindow(pWindow->width,
+                                                pWindow->height,
                                                 pWindow->name.c_str(), NULL, NULL);
         if (!pWindow->pGLFWWindow)
         {
@@ -37,7 +37,7 @@ namespace MyEngine
 
         // Update width and height for maximized window
         glfwGetFramebufferSize(pWindow->pGLFWWindow, &(pWindow->width), &(pWindow->height));
- 
+
         glfwMakeContextCurrent(pWindow->pGLFWWindow);
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         glfwSwapInterval(1);
@@ -49,6 +49,10 @@ namespace MyEngine
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         // set to not draw "back facing" triangles
         glCullFace(GL_BACK);
+    }
+
+    void WindowSystem::Start(Scene* pScene)
+    {
     }
 
     void WindowSystem::Update(Scene* pScene, float deltaTime)
@@ -73,6 +77,10 @@ namespace MyEngine
     }
 
     void WindowSystem::End(Scene* pScene)
+    {
+    }
+
+    void WindowSystem::Shutdown()
     {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
         if (pWindow->pGLFWWindow) {

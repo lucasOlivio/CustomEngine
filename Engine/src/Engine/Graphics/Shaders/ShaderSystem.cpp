@@ -7,7 +7,7 @@
 
 namespace MyEngine
 {
-	void ShaderSystem::Start(Scene* pScene)
+	void ShaderSystem::Init()
 	{
 		ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
 		iShaderManager* pShaderManager = ShaderManagerLocator::Get();
@@ -19,6 +19,10 @@ namespace MyEngine
 		pShaderManager->UseShaderProgram(shaderName);
 	}
 
+	void ShaderSystem::Start(Scene* pScene)
+	{
+	}
+
 	void ShaderSystem::Update(Scene* pScene, float deltaTime)
 	{
 	}
@@ -28,6 +32,10 @@ namespace MyEngine
 	}
 
 	void ShaderSystem::End(Scene* pScene)
+	{
+	}
+
+	void ShaderSystem::Shutdown()
 	{
 	}
 }

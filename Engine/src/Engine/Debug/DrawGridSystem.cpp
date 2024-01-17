@@ -8,7 +8,7 @@
 
 namespace MyEngine
 {
-	void DrawGridSystem::Start(Scene* pScene)
+	void DrawGridSystem::Init()
 	{
 		// Just a check if the debug square mesh loaded
 		DebugSquareComponent* pSquare = DebugLocator::GetSquare();
@@ -21,6 +21,10 @@ namespace MyEngine
 		}
 	}
 
+	void DrawGridSystem::Start(Scene* pScene)
+	{
+	}
+
 	void DrawGridSystem::Update(Scene* pScene, float deltaTime)
 	{
 	}
@@ -31,6 +35,11 @@ namespace MyEngine
 		DebugSquareComponent* pSquare = DebugLocator::GetSquare();
 
 		sMesh* pMesh = pSquare->pMesh;
+
+		if (!pMesh)
+		{
+			return;
+		}
 
 		// Draw a red wireframe square for every AABB in the grid
 		for (std::pair<uint, GridAABB*> pairAABB : pGrid->mapAABBs)
@@ -48,6 +57,10 @@ namespace MyEngine
 	}
 
 	void DrawGridSystem::End(Scene* pScene)
+	{
+	}
+
+	void DrawGridSystem::Shutdown()
 	{
 	}
 }

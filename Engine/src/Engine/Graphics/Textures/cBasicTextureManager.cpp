@@ -91,6 +91,12 @@ namespace MyEngine
 	{
 		std::string fileToLoadFullPath = m_basePath + textureFileName;
 
+		GLuint textId = GetTextureIDFromName(textureFileName);
+		if (textId > 0)
+		{
+			// Texture already loaded
+			return true;
+		}
 
 		CTextureFromBMP* pTempTexture = new CTextureFromBMP();
 		if (!pTempTexture->CreateNewTextureFromBMPFile2(textureFileName, fileToLoadFullPath,

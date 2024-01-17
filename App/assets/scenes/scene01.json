@@ -20,23 +20,6 @@
             "height": 0.0,
             "offsetTarget": 0.1
         },
-        "window": {
-            "name": "test scene",
-            "height": 720,
-            "width": 1080,
-            "fovy": 0.6,
-            "zNear": 0.1,
-            "zFar": 100.0
-        },
-        "configPath": {
-            "pathAudio": "assets/audios/",
-            "pathModels": "assets/models/",
-            "pathScripts": "assets/scripts/",
-            "pathShaders": "assets/shaders/",
-            "pathTextures": "assets/textures/",
-            "pathDebugSquare": "debug/square.obj",
-            "pathDebugSphere": "debug/sphere.obj"
-        },
         "gridBroadphase":
         {
             "lengthPerBox": [4.0, 4.0, 4.0]

@@ -1,12 +1,16 @@
 #include "pch.h"
 
 #include "SortTransparentsSystem.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
 namespace MyEngine
 {
+    void SortTransparentsSystem::Init()
+    {
+    }
+
     void SortTransparentsSystem::Start(Scene* pScene)
     {
         iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
@@ -56,6 +60,12 @@ namespace MyEngine
     }
 
     void SortTransparentsSystem::End(Scene* pScene)
+    {
+        TransparentEntitiesComponent* pTransparents = GraphicsLocator::GetTransparentEntities();
+        pTransparents->entities.clear();
+    }
+
+    void SortTransparentsSystem::Shutdown()
     {
     }
     bool CheckCloser::operator()(Entity entityA, Entity entityB)

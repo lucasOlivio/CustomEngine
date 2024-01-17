@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Engine/Core/Shapes.hpp"
+#include "Engine/Core/StateProperties.h"
 
 #include "Engine/ECS/Base.h"
+#include "Engine/ECS/Scene/Scene.h"
 
 #include "Engine/Graphics/opengl.h"
 #include "Engine/Graphics/Textures/TextureProperties.h"
@@ -64,8 +66,8 @@ namespace MyEngine
 	struct WindowComponent
 	{
 		std::string name;
-		int width;
-		int height;
+		int width = 640;
+		int height = 480;
 		float zNear;
 		float zFar;
 		float fovy;
@@ -99,6 +101,8 @@ namespace MyEngine
 		std::string pathShaders;
 		std::string pathScripts;
 		std::string pathTextures;
+		std::string pathScenes;
+
 		// Path to debug models inside models default folder
 		std::string pathDebugSquare; 
 		std::string pathDebugSphere;
@@ -140,6 +144,18 @@ namespace MyEngine
 	{
 		std::vector<sCollisionData> collisions[FRAME_RATE];
 		size_t currSize;
+	};
+
+	struct InputComponent
+	{
+		// One for each key code from glfw
+		bool key[350];
+	};
+
+	struct StateComponent
+	{
+		eStates prevState; // Only state system should modify this
+		eStates currState; // Any system can modify this to stop/run simulation
 	};
 
 	// Debug objects

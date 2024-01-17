@@ -2,7 +2,7 @@
 
 #include "RenderSystem.h"
 
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
@@ -15,7 +15,11 @@
 
 namespace MyEngine
 {
-    void RenderSystem::Start(Scene* pScene)
+	void RenderSystem::Init()
+	{
+	}
+
+	void RenderSystem::Start(Scene* pScene)
     {
 		ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
 		iTextureManager* pTextureManager = TextureManagerLocator::Get();
@@ -134,6 +138,10 @@ namespace MyEngine
     void RenderSystem::End(Scene* pScene)
     {
     }
+
+	void RenderSystem::Shutdown()
+	{
+	}
 
 	void RenderSystem::m_RenderModel(TilingComponent* pTiling,
 									 TransformComponent* pTransform, 

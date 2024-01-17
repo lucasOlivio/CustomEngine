@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Base.h"
+#include "Engine/ECS/Base.h"
+
 #include "Scene.h"
 
 namespace MyEngine

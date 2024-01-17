@@ -137,6 +137,7 @@ namespace MyEngine
         //-------------------------------
         Value entityObject;
         entityObject.SetObject();
+
         // Camera
         Value cameraObject;
         cameraObject.SetObject();
@@ -144,20 +145,7 @@ namespace MyEngine
         CameraComponent* pCamera = GraphicsLocator::GetCamera();
         m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
         entityObject.AddMember("camera", cameraObject, allocator);
-        // Window
-        Value windowObject;
-        windowObject.SetObject();
 
-        WindowComponent* pWindow = GraphicsLocator::GetWindow();
-        m_ParseWindowToDoc(windowObject, *pWindow, allocator);
-        entityObject.AddMember("window", windowObject, allocator);
-        // Config
-        Value configPathObject;
-        configPathObject.SetObject();
-
-        ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
-        m_ParseConfigPathToDoc(configPathObject, *pConfigPath, allocator);
-        entityObject.AddMember("configPath", configPathObject, allocator);
         // Grid broadphase
         Value gridBroadphaseObject;
         gridBroadphaseObject.SetObject();
@@ -541,40 +529,6 @@ namespace MyEngine
         parser.SetMember(jsonObject, "distance", cameraIn.distance, allocator);
         parser.SetMember(jsonObject, "height", cameraIn.height, allocator);
         parser.SetMember(jsonObject, "offsetTarget", cameraIn.offsetTarget, allocator);
-
-        return true;
-    }
-
-    bool SceneSerializerJSON::m_ParseWindowToDoc(rapidjson::Value& jsonObject, WindowComponent& windowIn, rapidjson::Document::AllocatorType& allocator)
-    {
-        using namespace rapidjson;
-
-        ParserJSON parser = ParserJSON();
-
-        parser.SetMember(jsonObject, "name", windowIn.name, allocator);
-        parser.SetMember(jsonObject, "height", windowIn.height, allocator);
-        parser.SetMember(jsonObject, "width", windowIn.width, allocator);
-        parser.SetMember(jsonObject, "fovy", windowIn.fovy, allocator);
-        parser.SetMember(jsonObject, "zNear", windowIn.zNear, allocator);
-        parser.SetMember(jsonObject, "zFar", windowIn.zFar, allocator);
-
-        return true;
-    }
-
-    bool SceneSerializerJSON::m_ParseConfigPathToDoc(rapidjson::Value& jsonObject, ConfigPathComponent& configPathIn, rapidjson::Document::AllocatorType& allocator)
-    {
-        using namespace rapidjson;
-
-        ParserJSON parser = ParserJSON();
-
-        parser.SetMember(jsonObject, "pathAudio", configPathIn.pathAudio, allocator);
-        parser.SetMember(jsonObject, "pathModels", configPathIn.pathModels, allocator);
-        parser.SetMember(jsonObject, "pathScripts", configPathIn.pathScripts, allocator);
-        parser.SetMember(jsonObject, "pathShaders", configPathIn.pathShaders, allocator);
-        parser.SetMember(jsonObject, "pathTextures", configPathIn.pathTextures, allocator);
-
-        parser.SetMember(jsonObject, "pathDebugSquare", configPathIn.pathDebugSquare, allocator);
-        parser.SetMember(jsonObject, "pathDebugSphere", configPathIn.pathDebugSphere, allocator);
 
         return true;
     }

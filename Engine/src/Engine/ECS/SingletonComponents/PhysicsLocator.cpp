@@ -40,4 +40,11 @@ namespace MyEngine
         delete m_pFrameCollision;
         m_pFrameCollision = pFrameCollision;
     }
+
+    void PhysicsLocator::Clear()
+    {
+        delete m_pNarrowPhaseTests;
+        delete m_pGridBroadphase;
+        delete m_pFrameCollision;
+    }
 }

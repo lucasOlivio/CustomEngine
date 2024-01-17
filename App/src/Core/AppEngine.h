@@ -10,6 +10,6 @@ namespace MyEngine
 		Application() {}
 		virtual ~Application() {}
 
-		virtual void Init();
+		virtual void Init(std::string initialSceneName);
 	};
 }

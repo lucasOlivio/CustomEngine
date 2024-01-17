@@ -15,6 +15,8 @@ namespace MyEngine
 		static void SetGridBroadphase(GridBroadphaseComponent* pGridBroadphase);
 		static void SetFrameCollision(FrameCollisionComponent* pFrameCollision);
 
+		static void Clear();
+
 	private:
 		static NarrowPhaseTestsComponent* m_pNarrowPhaseTests;
 		static GridBroadphaseComponent* m_pGridBroadphase;

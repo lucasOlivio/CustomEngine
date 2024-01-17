@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "MaterialHeightMapOffsetSystem.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/Components.h"
 
 namespace MyEngine

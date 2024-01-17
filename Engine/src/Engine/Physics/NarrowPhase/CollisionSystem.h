@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/ECS/iSystem.h"
+#include "Engine/ECS/System/iSystem.h"
 #include "Engine/ECS/Components.h"
 
 namespace MyEngine
@@ -11,6 +11,8 @@ namespace MyEngine
 		CollisionSystem() = default;
 		virtual ~CollisionSystem() { };
 
+		virtual void Init();
+
 		virtual void Start(Scene* pScene);
 
 		virtual void Update(Scene* pScene, float deltaTime);
@@ -18,6 +20,8 @@ namespace MyEngine
 		virtual void Render(Scene* pScene);
 
 		virtual void End(Scene* pScene);
+
+		virtual void Shutdown();
 
 	private:
 		// Use the event bus to trigger a collision event with this event data

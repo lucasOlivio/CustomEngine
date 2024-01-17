@@ -40,4 +40,11 @@ namespace MyEngine
         delete m_pWindow;
         m_pWindow = pWindow;
     }
+
+    void GraphicsLocator::Clear()
+    {
+        delete m_pCamera;
+        delete m_pTransparentEntities;
+        delete m_pWindow;
+    }
 }

@@ -10,7 +10,7 @@
 
 namespace MyEngine
 {
-	void RegisterCollisionSystem::Start(Scene* pScene)
+	void RegisterCollisionSystem::Init()
 	{
 		// Subscribe to enter collision event
 		iEventBus<eCollisionEvents, CollisionEnterEvent>* pEventBus = EventBusLocator<eCollisionEvents, CollisionEnterEvent>::Get();
@@ -18,8 +18,18 @@ namespace MyEngine
 		pEventBus->Subscribe(eCollisionEvents::COLLISION_ENTER, RegisterCollision);
 	}
 
+	void RegisterCollisionSystem::Start(Scene* pScene)
+	{
+	}
+
 	void RegisterCollisionSystem::Update(Scene* pScene, float deltaTime)
 	{
+		StateComponent* pState = CoreLocator::GetState();
+		if (pState->currState == eStates::SIMULATION_STOPPED)
+		{
+			return;
+		}
+
 		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
 		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
 
@@ -33,6 +43,10 @@ namespace MyEngine
 	}
 
 	void RegisterCollisionSystem::End(Scene* pScene)
+	{
+	}
+
+	void RegisterCollisionSystem::Shutdown()
 	{
 	}
 

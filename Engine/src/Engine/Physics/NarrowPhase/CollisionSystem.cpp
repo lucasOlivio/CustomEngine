@@ -1,22 +1,36 @@
 #include "pch.h"
 
 #include "CollisionSystem.h"
+
 #include "Engine/ECS/Components.h"
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
+
 #include "Engine/Events/EventBusLocator.hpp"
 #include "Engine/Events/CollisionEvent.h"
+
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/CollisionsUtils.h"
 #include "Engine/Utils/Math.h"
 
 namespace MyEngine
 {
+    void CollisionSystem::Init()
+    {
+    }
+
     void CollisionSystem::Start(Scene* pScene)
     {
     }
 
     void CollisionSystem::Update(Scene* pScene, float deltaTime)
     {
+        StateComponent* pState = CoreLocator::GetState();
+        if (pState->currState == eStates::SIMULATION_STOPPED)
+        {
+            return;
+        }
+
         NarrowPhaseTestsComponent* pTests = PhysicsLocator::GetNarrowPhaseTests();
 
         // The first layer is the grouping of objects to test
@@ -66,6 +80,10 @@ namespace MyEngine
     }
 
     void CollisionSystem::End(Scene* pScene)
+    {
+    }
+
+    void CollisionSystem::Shutdown()
     {
     }
 

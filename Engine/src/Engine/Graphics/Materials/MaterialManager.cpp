@@ -3,7 +3,7 @@
 #include "MaterialManager.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
-#include "Engine/ECS/SceneView.hpp"
+#include "Engine/ECS/Scene/SceneView.hpp"
 
 namespace MyEngine
 {

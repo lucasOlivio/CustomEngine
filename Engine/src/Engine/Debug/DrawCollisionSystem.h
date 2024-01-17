@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/ECS/iSystem.h"
+#include "Engine/ECS/System/iSystem.h"
 #include "Engine/Events/CollisionEvent.h"
 
 namespace MyEngine
@@ -12,6 +12,8 @@ namespace MyEngine
 		DrawCollisionSystem() = default;
 		virtual ~DrawCollisionSystem() { };
 
+		virtual void Init();
+
 		virtual void Start(Scene* pScene);
 
 		virtual void Update(Scene* pScene, float deltaTime);
@@ -19,5 +21,7 @@ namespace MyEngine
 		virtual void Render(Scene* pScene);
 
 		virtual void End(Scene* pScene);
+
+		virtual void Shutdown();
 	};
 }
