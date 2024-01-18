@@ -24,5 +24,9 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 		virtual void Shutdown();
+
+	private:
+		void m_CreateEntity(Scene* pScene);
+		void m_CreateEntity(Scene* pScene, Entity entityId);
 	};
 }

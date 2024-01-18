@@ -69,4 +69,9 @@ namespace MyEngine
 
         return m_selectedEntity;
     }
+
+    void EntitySelector::SetSelectedEntity(Entity entityId)
+    {
+        m_selectedEntity = entityId;
+    }
 }

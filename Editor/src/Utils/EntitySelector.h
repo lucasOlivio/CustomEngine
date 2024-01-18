@@ -16,6 +16,8 @@ namespace MyEngine
 		static Entity NextEntity(Scene* pScene);
 		static Entity PrevEntity(Scene* pScene);
 
+		static void SetSelectedEntity(Entity entityId);
+
 	private:
 		static Entity m_selectedEntity;
 	};

@@ -86,25 +86,6 @@
                 1.0
             ],
             "status": 1
-        },
-        "gravity": {
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ]
-        },
-        "aabbCollider": {
-            "min": [
-                39244112615964670.0,
-                6.263804135531932e-43,
-                1553895545372672.0
-            ],
-            "max": [
-                6.263804135531932e-43,
-                0.0,
-                0.0
-            ]
         }
     },
     {
@@ -510,6 +491,148 @@
             "max": [
                 3.035349864222117e32,
                 3.6027383517791047e-41,
+                0.0
+            ]
+        }
+    },
+    {
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 0.0
+        }
+    },
+    {
+        "tag": {
+            "name": "test4"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                3.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "parent": {
+            "parentId": 5
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattest",
+            "models": [
+                "sphere.obj"
+            ]
+        },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 1.0
+        },
+        "aabbCollider": {
+            "min": [
+                39277441562181630.0,
+                6.263804135531932e-43,
+                7.713536684941306e31
+            ],
+            "max": [
+                7.146622168056567e-44,
+                0.0,
+                0.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "test5"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                -3.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "parent": {
+            "parentId": 7
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattest",
+            "models": [
+                "sphere.obj"
+            ]
+        },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 1.0
+        },
+        "aabbCollider": {
+            "min": [
+                39277441562181630.0,
+                6.263804135531932e-43,
+                7.713536684941306e31
+            ],
+            "max": [
+                7.146622168056567e-44,
+                0.0,
                 0.0
             ]
         }
