@@ -28,5 +28,13 @@ namespace MyEngine
 	private:
 		void m_CreateEntity(Scene* pScene);
 		void m_CreateEntity(Scene* pScene, Entity entityId);
+
+		void m_AddComponentsList(Scene* pScene, Entity entityId);
+
+		template <typename T>
+		void m_AddComponent(Scene* pScene, Entity entityId)
+		{
+			pScene->AddComponent<T>(entityId);
+		}
 	};
 }
