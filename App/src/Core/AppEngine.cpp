@@ -18,8 +18,8 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("WindowFrameSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("TransformParentSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("WindowSystem"));
-		Engine::AddSystem(SystemBuilder::CreateSystem("BaseUISystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("InputSystem"));
+		Engine::AddSystem(SystemBuilder::CreateSystem("BaseUISystem")); // Has to come after inputsystem, to init imgui after we register our input callbacks
 		Engine::AddSystem(SystemBuilder::CreateSystem("StateSystem"));
 		// Graphics
 		Engine::AddSystem(SystemBuilder::CreateSystem("ShaderSystem"));
