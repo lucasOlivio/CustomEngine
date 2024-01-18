@@ -1,10 +1,13 @@
 #include "pch.h"
+
 #include "Scene.h"
+#include "Engine/ECS/Components.h"
 
 namespace MyEngine
 {
     Scene::Scene()
     {
+        m_componentCounter = 0;
         m_pEntityManager = new EntityManager();
     }
 
@@ -25,10 +28,16 @@ namespace MyEngine
         }
     }
 
-    Entity Scene::CreateEntity()
+    Entity Scene::CreateEntity(bool addDefault)
     {
         // Initial mask always empty for now
         Entity entityId = m_pEntityManager->AddEntity(EntityMask());
+
+        if (addDefault)
+        {
+            AddComponent<TransformComponent>(entityId);
+        }
+
         return entityId;
     }
 

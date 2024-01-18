@@ -53,6 +53,9 @@ namespace MyEngine
 
 		virtual void OnSceneChange(const SceneChangeEvent& event);
 
+		// Any major clears needed to be done at end of frame (Ex: scene deleting, entity delete)
+		virtual void ClearFrame();
+
 	protected:
 		std::vector<iSystem*> m_systems;
 		Scene* m_pCurrentScene = nullptr;

@@ -26,5 +26,11 @@ namespace MyEngine
 			LOG_ERROR("MaterialManager not set!");
 			return nullptr;
 		}
+
+		virtual void DeleteMaterial(Scene* pScene, std::string materialName)
+		{
+			LOG_ERROR("MaterialManager not set!");
+			return;
+		}
 	};
 }

@@ -14,7 +14,8 @@ namespace MyEngine
         ~Scene();
 
         // Create an entity using the EntityManager
-        Entity CreateEntity();
+        // addDefault = Add default components (Transform) to it
+        Entity CreateEntity(bool addDefault = false);
 
         // Flag entity to be deleted later on a safer time
         void RemoveEntity(Entity entityId);
@@ -66,6 +67,11 @@ namespace MyEngine
         template<typename T>
         T* Get(Entity entityId)
         {
+            if (m_componentCounter < 0)
+            {
+                return nullptr;
+            }
+
             ComponentType componentType = GetComponentType<T>();
 
             if (m_componentPools.find(componentType) == m_componentPools.end())
@@ -84,6 +90,11 @@ namespace MyEngine
             return pComponent;
         }
 
+        int GetComponentCount()
+        {
+            return (int)m_componentMaps.size();
+        }
+
         // TODO: This should be more encapsulated, to make sure we only call
         // this in the end of the frame.
         // 
@@ -100,7 +111,7 @@ namespace MyEngine
         std::unordered_map<ComponentType, BiMap<Entity, ComponentId>*> m_componentMaps;
         std::unordered_map<ComponentType, ComponentPool*> m_componentPools;
         
-        int m_componentCounter = 0;
+        int m_componentCounter;
 
         std::vector<Entity> m_entitiesToDestroy;
     };

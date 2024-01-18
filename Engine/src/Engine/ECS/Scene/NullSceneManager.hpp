@@ -64,5 +64,10 @@ namespace MyEngine
 			LOG_ERROR("SceneManager not loaded yet!");
 			return nullptr;
 		}
+
+		virtual void ClearDeletedScenes()
+		{
+			LOG_ERROR("SceneManager not loaded yet!");
+		}
 	};
 }

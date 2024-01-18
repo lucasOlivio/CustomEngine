@@ -6,6 +6,8 @@ namespace MyEngine
 {
     EntityManager::EntityManager()
     {
+        m_liveEntities = {};
+
         for (Entity entityId = 0; entityId < MAX_ENTITIES; ++entityId) {
             m_availableEntities.push(entityId);
         }

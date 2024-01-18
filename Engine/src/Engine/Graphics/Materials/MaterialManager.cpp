@@ -144,4 +144,16 @@ namespace MyEngine
 
 		return nullptr;
 	}
+
+	void MaterialManager::DeleteMaterial(Scene* pScene, std::string materialName)
+	{
+		MaterialComponent* pMaterial = GetMaterialByName(pScene, materialName);
+
+		if (pMaterial)
+		{
+			delete pMaterial;
+		}
+
+		m_materials.erase(materialName);
+	}
 }

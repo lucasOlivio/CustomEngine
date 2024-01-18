@@ -111,6 +111,8 @@ namespace MyEngine
             Update(deltaTime);
 
             Render();
+
+            ClearFrame();
         }
     }
 
@@ -126,10 +128,9 @@ namespace MyEngine
     {
         m_BeginFrame();
 
-        Scene* pScene = m_pSceneManager->GetCurrentScene();
         for (iSystem* pSystem : m_systems)
         {
-            pSystem->Render(pScene);
+            pSystem->Render(m_pCurrentScene);
         }
 
         m_EndFrame();
@@ -214,6 +215,13 @@ namespace MyEngine
         StartSystems(m_pCurrentScene);
     }
 
+    void Engine::ClearFrame()
+    {
+        // TODO: Resources should be separated from scenes before we can delete scenes
+        /*iSceneManager* pSceneManager = SceneManagerLocator::Get();
+        pSceneManager->ClearDeletedScenes();*/
+    }
+
     float Engine::m_GetDeltaTime()
     {
         float currentTime = (float)glfwGetTime();
@@ -270,12 +278,15 @@ namespace MyEngine
 
         // Start Imgui window context
         ImGui::Begin("ImGuiMainWindow", NULL, window_flags);
+
+        // Set default font size
+        ImGui::SetWindowFontScale(TEXT_FONT_SIZE);
     }
     
     void Engine::m_EndFrame()
     {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
-
+        
         // ImGui endframe
         ImGui::End();
 
@@ -288,5 +299,7 @@ namespace MyEngine
         // GLFW endframe
         glfwSwapBuffers(pWindow->pGLFWWindow);
         glfwPollEvents();
+
+        // 
     }
 }

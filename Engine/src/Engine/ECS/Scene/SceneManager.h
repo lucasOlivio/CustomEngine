@@ -28,6 +28,8 @@ namespace MyEngine
 
 		virtual Scene* GetScene(std::string sceneName);
 
+		virtual void ClearDeletedScenes();
+
 	private:
 		std::string m_basePath;
 
@@ -35,6 +37,9 @@ namespace MyEngine
 		Scene* m_pCurrScene;
 
 		std::map<std::string /*Scene name*/, Scene*> m_mapScenes;
+
+		// Avoid deleting scene while somewhere else is using on reload
+		std::vector<Scene*> m_pScenesToDelete;
 
 		void m_TriggerSceneChange(std::string newSceneName, Scene* pNewScene);
 	};

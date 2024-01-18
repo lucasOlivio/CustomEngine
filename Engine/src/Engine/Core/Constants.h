@@ -15,6 +15,8 @@ namespace MyEngine
 // This should match with the number in the shaders
 #define MAX_LIGHTS 40
 
+#define TEXT_FONT_SIZE 1.2f
+
 	const std::string DEFAULT_CONFIG = "config.json";
 
 	const glm::vec3 X_VECTOR = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);

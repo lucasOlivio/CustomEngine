@@ -25,6 +25,8 @@ namespace MyEngine
 		{
 			delete scene.second;
 		}
+
+		ClearDeletedScenes();
 	}
 
 	std::string SceneManager::GetBasePath()
@@ -76,8 +78,8 @@ namespace MyEngine
 		{
 			if (pNewScene)
 			{
-				// Scene already loaded, so first we delete old scene
-				delete pNewScene;
+				// Scene already loaded, so we mark to deletion
+				m_pScenesToDelete.push_back(pNewScene);
 			}
 
 			pNewScene = LoadScene(newSceneName);
@@ -113,6 +115,16 @@ namespace MyEngine
 			pScene = it->second;
 			return pScene;
 		}
+	}
+
+	void SceneManager::ClearDeletedScenes()
+	{
+		for (Scene* pSCene : m_pScenesToDelete)
+		{
+			delete pSCene;
+		}
+
+		m_pScenesToDelete.clear();
 	}
 
 	void SceneManager::m_TriggerSceneChange(std::string newSceneName, Scene* pNewScene)

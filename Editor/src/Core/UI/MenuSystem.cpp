@@ -7,6 +7,8 @@
 
 #include "Engine/Utils/Files.h"
 
+#include <imgui_internal.h>
+
 namespace MyEngine
 {
     void MenuSystem::Init()
@@ -29,6 +31,16 @@ namespace MyEngine
 
         if (ImGui::BeginMainMenuBar())
         {
+            StateComponent* pState = CoreLocator::GetState();
+            static bool isStopped = pState->currState == eStates::SIMULATION_RUNNING;
+
+            // Disables load/new/save scene when simulation running
+            if (isStopped)
+            {
+                ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
+            }
+
             if (ImGui::MenuItem("Load Scene"))
                 openLoadScene = true;
 
@@ -37,6 +49,12 @@ namespace MyEngine
 
             if (ImGui::MenuItem("Save Scene"))
                 m_SaveScene();
+
+            if (isStopped)
+            {
+                ImGui::PopItemFlag();
+                ImGui::PopStyleVar();
+            }
 
             if (ImGui::MenuItem("PLAY"))
                 m_PlayScene();
@@ -58,11 +76,6 @@ namespace MyEngine
 
     void MenuSystem::Shutdown()
     {
-    }
-
-    void MenuSystem::m_Test()
-    {
-        LOG_DEBUG("PRESSED");
     }
 
     void MenuSystem::m_LoadScene(bool openLoadScene)
@@ -152,6 +165,7 @@ namespace MyEngine
         }
 
         m_SaveScene();
+
         pState->currState = eStates::SIMULATION_RUNNING;
     }
 

@@ -4,6 +4,7 @@
 #include "Engine/Graphics/Textures/TextureProperties.h"
 #include "Engine/Graphics/GraphicsProperties.h"
 #include "Engine/Physics/PhysicsProperties.h"
+
 #include <glm/gtc/quaternion.hpp>
 
 namespace MyEngine

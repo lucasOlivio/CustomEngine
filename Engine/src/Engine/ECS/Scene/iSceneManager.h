@@ -34,5 +34,8 @@ namespace MyEngine
 
 		// Get any scene from cache
 		virtual Scene* GetScene(std::string sceneName) = 0;
+
+		// Call in end of frame to avoid deleting while somewhere is using
+		virtual void ClearDeletedScenes() = 0;
 	};
 }

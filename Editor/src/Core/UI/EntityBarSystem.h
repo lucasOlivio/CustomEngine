@@ -2,14 +2,16 @@
 
 #include "Engine/ECS/System/iSystem.h"
 
+#include "Engine/Events/SceneEvent.h"
+
 namespace MyEngine
 {
-	// Main top bar menu UI
-	class MenuSystem : public iSystem
+	// Side bar with selected entity and components UI
+	class EntityBarSystem : public iSystem
 	{
 	public:
-		MenuSystem() = default;
-		virtual ~MenuSystem() { };
+		EntityBarSystem() = default;
+		virtual ~EntityBarSystem() { };
 
 		virtual void Init();
 
@@ -22,16 +24,5 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 		virtual void Shutdown();
-
-	private:
-		void m_LoadScene(bool openLoadScene);
-
-		void m_NewScene(bool openNewScene);
-
-		void m_SaveScene();
-
-		void m_PlayScene();
-
-		void m_StopScene();
 	};
 }

@@ -33,9 +33,13 @@ namespace MyEngine
             LightComponent* pLight = pScene->Get<LightComponent>(entityId);
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
 
-            m_UpdateDirectionUL(pLight, pShader);
             m_UpdatePositionUL(pTransform, pLight, pShader);
+            m_UpdateDirectionUL(pLight, pShader);
+            m_UpdateDiffuseUL(pLight, pShader);
+            m_UpdateSpecularUL(pLight, pShader);
             m_UpdateAttenUL(pLight, pShader);
+            m_UpdateParamsUL(pLight, pShader);
+            m_UpdateStatusUL(pLight, pShader);
         }
     }
 

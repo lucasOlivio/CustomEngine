@@ -17,6 +17,8 @@ namespace MyEngine
 		// Search in cached or in scene for the material
 		virtual MaterialComponent* GetMaterialByName(Scene* pScene, std::string materialName);
 
+		virtual void DeleteMaterial(Scene* pScene, std::string materialName);
+
 	private:
 		std::map<std::string, MaterialComponent*> m_materials;
 

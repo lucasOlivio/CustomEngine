@@ -4,6 +4,7 @@
 
 // Custom editor systems
 #include "UI/MenuSystem.h"
+#include "UI/EntityBarSystem.h"
 
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine
@@ -44,6 +45,8 @@ namespace MyEngine
 		// Custom app systems
 		SystemBuilder::RegisterSystem("MenuSystem", []() { return new MenuSystem; });
 		Engine::AddSystem(SystemBuilder::CreateSystem("MenuSystem"));
+		SystemBuilder::RegisterSystem("EntityBarSystem", []() { return new EntityBarSystem; });
+		Engine::AddSystem(SystemBuilder::CreateSystem("EntityBarSystem"));
 
 		Engine::Init(initialSceneName);
 	}
