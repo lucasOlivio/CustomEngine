@@ -76,8 +76,6 @@ namespace MyEngine
         m_pTextureManager = new cBasicTextureManager();
         TextureManagerLocator::Set(m_pTextureManager);
 
-        LoadConfigurations();
-
         // Global events of engine interest
         m_pEventBusSceneChange->Subscribe(eSceneEvents::CHANGE, [this](const SceneChangeEvent& event) { OnSceneChange(event); });
 
@@ -95,8 +93,14 @@ namespace MyEngine
         m_pSceneManager->ChangeScene(initialSceneName);
     }
 
-    void Engine::Run()
+    void Engine::Run(bool startSimulation)
     {
+        if (startSimulation)
+        {
+            StateComponent* pState = CoreLocator::GetState();
+            pState->currState = eStates::SIMULATION_RUNNING;
+        }
+
         // TODO: Better closing proccess, should come from event
         GLFWwindow* pGLFWWindow = GraphicsLocator::GetWindow()->pGLFWWindow;
 
@@ -276,7 +280,7 @@ namespace MyEngine
         ImGui::End();
 
         ImGuiIO& io = ImGui::GetIO();
-        io.DisplaySize = ImVec2(pWindow->width, pWindow->height);
+        io.DisplaySize = ImVec2((float)pWindow->width, (float)pWindow->height);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

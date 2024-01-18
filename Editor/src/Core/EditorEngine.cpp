@@ -18,6 +18,7 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("WindowSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("BaseUISystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("InputSystem"));
+		Engine::AddSystem(SystemBuilder::CreateSystem("StateSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("ShaderSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("CameraSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("RenderSystem"));
@@ -31,7 +32,6 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("DebugSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("DrawGridSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("DrawCollisionSystem"));
-		Engine::AddSystem(SystemBuilder::CreateSystem("StateSystem"));
 
 		// Custom app systems
 		SystemBuilder::RegisterSystem("ChangeStateSystem", []() { return new ChangeStateSystem; });

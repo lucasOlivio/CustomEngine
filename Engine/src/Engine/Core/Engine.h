@@ -30,7 +30,8 @@ namespace MyEngine
 
 		virtual void Init(std::string initialSceneName);
 
-		virtual void Run();
+		// Run engine starting simulation state as running or stopped
+		virtual void Run(bool startSimulation = true);
 
 		virtual void Update(float deltaTime);
 

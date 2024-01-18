@@ -5,13 +5,28 @@ project "Editor"
    targetdir "bin/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "src/**.h", "src/**.cpp" }
+   files 
+   { 
+        "src/**.h", 
+        "src/**.hpp", 
+        "src/**.cpp" ,
+        -- For now the editor keeps coupled with the app and serves just for building the scenes etc
+        -- the gameplay logic and all will be taken from the app directly
+	    "%{wks.location}/App/src/Core/**.h",
+	    "%{wks.location}/App/src/Core/**.hpp",
+	    "%{wks.location}/App/src/Core/**.cpp",
+	    "%{wks.location}/App/src/Gameplay/**.h",
+	    "%{wks.location}/App/src/Gameplay/**.hpp",
+	    "%{wks.location}/App/src/Gameplay/**.cpp",
+   }
 
    includedirs
    {
       "src",
 
       -- TODO: Use a shortcut or macro to avoid this repetition
+      -- App
+	  "%{wks.location}/App/src",
       -- Engine
 	  "%{wks.location}/Engine/src",
       "%{wks.location}/Engine/Extern/Glad/include",
@@ -43,7 +58,7 @@ project "Editor"
 
        postbuildcommands
        {
-           "xcopy assets\\ %{cfg.buildtarget.directory}\\assets\\ /S /E /I /Y"
+           "xcopy ..\\App\\assets\\ %{cfg.buildtarget.directory}\\assets\\ /S /E /I /Y"
        }
 
    filter "configurations:Debug"
