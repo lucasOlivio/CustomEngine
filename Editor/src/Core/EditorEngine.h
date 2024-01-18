@@ -4,11 +4,11 @@
 
 namespace MyEngine
 {
-	class Application : public Engine
+	class Editor : public Engine
 	{
 	public:
-		Application() {}
-		virtual ~Application() {}
+		Editor() {}
+		virtual ~Editor() {}
 
 		virtual void Init(std::string initialSceneName);
 	};

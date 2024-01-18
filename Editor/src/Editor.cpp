@@ -1,14 +1,14 @@
-#include "Core/AppEngine.h"
+#include "Core/EditorEngine.h"
 
 int main()
 {
 	using namespace MyEngine;
 
-	Application app = Application();
+	Editor editor = Editor();
 
 	// TODO: This would be better comming from command args?
 	const std::string INITIAL_SCENE = "scene01.json";
-	app.Init(INITIAL_SCENE);
+	editor.Init(INITIAL_SCENE);
 
-	app.Run();
+	editor.Run();
 }

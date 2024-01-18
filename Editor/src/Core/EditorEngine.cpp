@@ -1,4 +1,4 @@
-#include "AppEngine.h"
+#include "EditorEngine.h"
 
 #include "Engine/ECS/System/SystemBuilder.h"
 
@@ -9,7 +9,7 @@
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine
 {
-	void Application::Init(std::string initialSceneName)
+	void Editor::Init(std::string initialSceneName)
 	{
 		// TODO: Come from scene config
 		// TODO: Could this be categorized to avoid having to put all in the config?
