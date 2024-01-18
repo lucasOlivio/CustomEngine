@@ -1,0 +1,14 @@
+#include "Core/AppEngine.h"
+
+int main()
+{
+	using namespace MyEngine;
+
+	Application app = Application();
+
+	// TODO: This would be better comming from command args?
+	const std::string INITIAL_SCENE = "scene01.json";
+	app.Init(INITIAL_SCENE);
+
+	app.Run();
+}

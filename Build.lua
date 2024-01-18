@@ -27,3 +27,4 @@ group ""
 
 include "Engine/Build-Engine.lua"
 include "App/Build-App.lua"
+include "Editor/Build-Editor.lua"

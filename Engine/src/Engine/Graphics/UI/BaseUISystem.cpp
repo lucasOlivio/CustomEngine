@@ -43,6 +43,42 @@ namespace MyEngine
 
     void BaseUISystem::Render(Scene* pScene)
     {
+        if (ImGui::BeginMainMenuBar())
+        {
+            if (ImGui::BeginMenu("File"))
+            {
+                if (ImGui::MenuItem("Open Project...", "Ctrl+O"))
+                    Test();
+
+                ImGui::Separator();
+
+                if (ImGui::MenuItem("New Scene", "Ctrl+N"))
+                    Test();
+
+                if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
+                    Test();
+
+                if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
+                    Test();
+
+                ImGui::Separator();
+
+                if (ImGui::MenuItem("Exit"))
+                    Test();
+
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Script"))
+            {
+                if (ImGui::MenuItem("Reload assembly", "Ctrl+R"))
+                    Test();
+
+                ImGui::EndMenu();
+            }
+
+            ImGui::EndMainMenuBar();
+        }
     }
 
     void BaseUISystem::End(Scene* pScene)
@@ -51,5 +87,8 @@ namespace MyEngine
 
     void BaseUISystem::Shutdown()
     {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
     }
 }

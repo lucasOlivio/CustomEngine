@@ -120,8 +120,7 @@ namespace MyEngine
 
     void Engine::Render()
     {
-        // Clear frame
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_BeginFrame();
 
         Scene* pScene = m_pSceneManager->GetCurrentScene();
         for (iSystem* pSystem : m_systems)
@@ -129,9 +128,7 @@ namespace MyEngine
             pSystem->Render(pScene);
         }
 
-        WindowComponent* pWindow = GraphicsLocator::GetWindow();
-        glfwSwapBuffers(pWindow->pGLFWWindow);
-        glfwPollEvents();
+        m_EndFrame();
     }
 
     void Engine::Shutdown()
@@ -244,5 +241,48 @@ namespace MyEngine
         averageFrameTime /= m_frameTimes.size();
 
         return averageFrameTime;
+    }
+
+    void Engine::m_BeginFrame()
+    {
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
+
+        // Clear frame
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // ImGui init frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
+        window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+        window_flags |= ImGuiWindowFlags_NoBackground;
+
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->Pos);
+        ImGui::SetNextWindowSize(viewport->Size);
+
+        // Start Imgui window context
+        ImGui::Begin("ImGuiMainWindow", NULL, window_flags);
+    }
+    
+    void Engine::m_EndFrame()
+    {
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
+
+        // ImGui endframe
+        ImGui::End();
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(pWindow->width, pWindow->height);
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        
+        // GLFW endframe
+        glfwSwapBuffers(pWindow->pGLFWWindow);
+        glfwPollEvents();
     }
 }

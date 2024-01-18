@@ -75,5 +75,11 @@ namespace MyEngine
 		std::vector<float> m_frameTimes;
 
 		float m_GetDeltaTime();
+
+		// Operations to execute before rendering
+		virtual void m_BeginFrame();
+
+		// Operations to execute after rendering
+		virtual void m_EndFrame();
 	};
 }

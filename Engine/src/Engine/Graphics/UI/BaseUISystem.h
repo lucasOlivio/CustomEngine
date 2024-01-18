@@ -4,7 +4,7 @@
 
 namespace MyEngine
 {
-	// Manages the ImGui per frame and its initialization, should be placed after any interface system to render
+	// Manages imgui initialization and shutdown
 	class BaseUISystem : public iSystem
 	{
 	public:
