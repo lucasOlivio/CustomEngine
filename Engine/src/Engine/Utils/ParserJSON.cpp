@@ -234,6 +234,11 @@ namespace MyEngine
             return true;
         }
 
+        if (jsonObject.IsInt()) {
+            valueOut = (bool)jsonObject.GetInt();
+            return true;
+        }
+
         return false;
     }
 

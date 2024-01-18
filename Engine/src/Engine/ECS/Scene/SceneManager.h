@@ -12,9 +12,14 @@ namespace MyEngine
 		SceneManager();
 		virtual ~SceneManager();
 
+		virtual std::string GetBasePath();
 		virtual void SetBasePath(std::string basePath);
 
+		virtual Scene* CreateNewScene(std::string newSceneName);
+
 		virtual Scene* LoadScene(std::string newSceneName);
+
+		virtual void SaveScene(std::string sceneName);
 
 		virtual void ChangeScene(std::string newSceneName, bool reload = false);
 

@@ -35,6 +35,12 @@ namespace MyEngine
 
             TransformComponent* pTransformParent = pScene->Get<TransformComponent>(pParent->parentId);
 
+            if (!pTransformParent)
+            {
+                LOG_ERROR("Parent ID not found: " + std::to_string(pParent->parentId));
+                continue;
+            }
+
             glm::mat4 matParent = glm::mat4(1.0f);
             TransformUtils::GetTransform(pTransformParent->worldPosition, 
                                          pTransformParent->worldOrientation,

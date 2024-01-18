@@ -23,6 +23,17 @@ namespace MyEngine
 
 		virtual void Shutdown();
 
-		void Test();
+	private:
+		void m_Test();
+
+		void m_LoadScene(bool openLoadScene);
+
+		void m_NewScene(bool openNewScene);
+
+		void m_SaveScene();
+
+		void m_PlayScene();
+
+		void m_StopScene();
 	};
 }

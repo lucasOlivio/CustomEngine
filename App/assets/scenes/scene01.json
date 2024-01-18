@@ -14,64 +14,22 @@
             "orientation": [
                 0.0,
                 0.0,
+                0.0,
                 0.0
             ],
             "distance": 0.5,
             "height": 0.0,
-            "offsetTarget": 0.1
+            "offsetTarget": 0.10000000149011612
         },
-        "gridBroadphase":
-        {
-            "lengthPerBox": [4.0, 4.0, 4.0]
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
         }
     },
     {
-        "light": {
-            "direction": [
-                -0.0,
-                -1.0,
-                0.0,
-                1.0
-            ],
-            "distanceOffset": 0.0,
-            "positionOffset": [
-                0.0,
-                0.0,
-                -0.0,
-                0.0
-            ],
-            "directionOffset": [
-                0.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "diffuse": [
-                0.9,
-                0.9,
-                0.9,
-                1.0
-            ],
-            "specular": [
-                1.0,
-                1.0,
-                1.0,
-                1.0
-            ],
-            "atten": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "params": [
-                2.0,
-                1.0,
-                1.0,
-                0.0
-            ],
-            "status": true
-        },
         "tag": {
             "name": "directionallight"
         },
@@ -81,79 +39,83 @@
                 0.0,
                 0.0
             ],
-            "scale": 0.0,
             "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 0.0
+        },
+        "light": {
+            "distanceOffset": 0.0,
+            "atten": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "diffuse": [
+                0.8999999761581421,
+                0.8999999761581421,
+                0.8999999761581421,
+                1.0
+            ],
+            "direction": [
                 -0.0,
-                -0.0,
-                -0.0
+                -1.0,
+                0.0,
+                1.0
+            ],
+            "directionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "params": [
+                2.0,
+                1.0,
+                1.0,
+                0.0
+            ],
+            "specular": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "status": 1
+        },
+        "gravity": {
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "aabbCollider": {
+            "min": [
+                39244112615964670.0,
+                6.263804135531932e-43,
+                1553895545372672.0
+            ],
+            "max": [
+                6.263804135531932e-43,
+                0.0,
+                0.0
             ]
         }
     },
     {
-        "material": {
-            "name": "mattest",
-            "offset": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "offsetMove": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "offsetHeightMap": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "colorTextures": [
-                "white.bmp"
-            ],
-            "colorTexturesRatios": [
-                1.0,
-                0.0,
-                0.0
-            ],
-            "useHeightMap": false,
-            "heightMapTexture": "",
-            "heightScale": 0.0,
-            "useNormalTexture": false,
-            "normalTexture": "",
-            "useSpecularTexture": false,
-            "specularTexture": "",
-            "useDiscardTexture": false,
-            "discardTexture": "",
-            "useCubeTexture": false,
-            "cubeTexture": "",
-            "isEmissive": false,
-            "useAlphaTexture": false,
-            "alphaTexture": ""
-        },
         "texture": {
             "fileName": "white.bmp",
             "textureType": 0,
             "vecTextures": []
-        }
-    },
-    {
+        },
         "material": {
-            "name": "mattesttransparent",
-            "offset": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "offsetMove": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "offsetHeightMap": [
-                0.0,
-                0.0,
-                0.0
-            ],
+            "name": "mattest",
+            "alphaTexture": "",
             "colorTextures": [
                 "white.bmp"
             ],
@@ -162,36 +124,13 @@
                 0.0,
                 0.0
             ],
-            "useHeightMap": false,
-            "heightMapTexture": "",
-            "heightScale": 0.0,
-            "useNormalTexture": false,
-            "normalTexture": "",
-            "useSpecularTexture": false,
-            "specularTexture": "",
-            "useDiscardTexture": false,
-            "discardTexture": "",
-            "useCubeTexture": false,
             "cubeTexture": "",
-            "isEmissive": false,
-            "useAlphaTexture": true,
-            "alphaTexture": "transparent.bmp"
-        },
-        "texture": {
-            "fileName": "transparent.bmp",
-            "textureType": 4,
-            "vecTextures": []
-        }
-    },
-    {
-        "material": {
-            "name": "mattestred",
             "offset": [
                 0.0,
                 0.0,
                 0.0
             ],
-            "offsetMove": [
+            "currOffset": [
                 0.0,
                 0.0,
                 0.0
@@ -201,6 +140,96 @@
                 0.0,
                 0.0
             ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discardTexture": "",
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "isEmissive": 0,
+            "normalTexture": "",
+            "specularTexture": "",
+            "useAlphaTexture": 0,
+            "useCubeTexture": 0,
+            "useDiscardTexture": 0,
+            "useHeightMap": 0,
+            "useNormalTexture": 0,
+            "useSpecularTexture": 0
+        }
+    },
+    {
+        "texture": {
+            "fileName": "transparent.bmp",
+            "textureType": 4,
+            "vecTextures": []
+        },
+        "material": {
+            "name": "mattesttransparent",
+            "alphaTexture": "transparent.bmp",
+            "colorTextures": [
+                "white.bmp"
+            ],
+            "colorTexturesRatios": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "cubeTexture": "",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discardTexture": "",
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "isEmissive": 0,
+            "normalTexture": "",
+            "specularTexture": "",
+            "useAlphaTexture": 1,
+            "useCubeTexture": 0,
+            "useDiscardTexture": 0,
+            "useHeightMap": 0,
+            "useNormalTexture": 0,
+            "useSpecularTexture": 0
+        }
+    },
+    {
+        "texture": {
+            "fileName": "red.bmp",
+            "textureType": 0,
+            "vecTextures": []
+        },
+        "material": {
+            "name": "mattestred",
+            "alphaTexture": "",
             "colorTextures": [
                 "red.bmp"
             ],
@@ -209,40 +238,49 @@
                 0.0,
                 0.0
             ],
-            "useHeightMap": false,
+            "cubeTexture": "",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discardTexture": "",
             "heightMapTexture": "",
             "heightScale": 0.0,
-            "useNormalTexture": false,
+            "isEmissive": 0,
             "normalTexture": "",
-            "useSpecularTexture": false,
             "specularTexture": "",
-            "useDiscardTexture": false,
-            "discardTexture": "",
-            "useCubeTexture": false,
-            "cubeTexture": "",
-            "isEmissive": false,
-            "useAlphaTexture": false,
-            "alphaTexture": ""
-        },
-        "texture": {
-            "fileName": "red.bmp",
-            "textureType": 0,
-            "vecTextures": []
+            "useAlphaTexture": 0,
+            "useCubeTexture": 0,
+            "useDiscardTexture": 0,
+            "useHeightMap": 0,
+            "useNormalTexture": 0,
+            "useSpecularTexture": 0
         }
     },
     {
         "tag": {
             "name": "test"
-        },
-        "model": {
-            "models": [
-                "cube.ply"
-            ],
-            "material": "mattest",
-            "isWireframe": false,
-            "doNotLight": false,
-            "useColorTexture": true,
-            "isActive": true
         },
         "transform": {
             "position": [
@@ -282,29 +320,39 @@
                 0.0
             ]
         },
-        "rigidBody":
-        {
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattest",
+            "models": [
+                "cube.ply"
+            ]
+        },
+        "rigidBody": {
             "bodyType": 1,
             "shapeType": 1
         },
-        "sphereCollider":
-        {
+        "sphereCollider": {
             "radius": 1.0
+        },
+        "aabbCollider": {
+            "min": [
+                39270569614508030.0,
+                6.263804135531932e-43,
+                7.713536684941306e31
+            ],
+            "max": [
+                0.0,
+                0.0,
+                0.0
+            ]
         }
     },
     {
         "tag": {
             "name": "test3"
-        },
-        "model": {
-            "models": [
-                "sphere.obj"
-            ],
-            "material": "mattest",
-            "isWireframe": false,
-            "doNotLight": false,
-            "useColorTexture": true,
-            "isActive": true
         },
         "transform": {
             "position": [
@@ -332,33 +380,42 @@
                 0.0
             ]
         },
-        "rigidBody":
-        {
+        "parent": {
+            "parentId": 5
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattest",
+            "models": [
+                "sphere.obj"
+            ]
+        },
+        "rigidBody": {
             "bodyType": 1,
             "shapeType": 1
         },
-        "sphereCollider":
-        {
+        "sphereCollider": {
             "radius": 1.0
         },
-        "parent":
-        {
-            "parentId": 5
+        "aabbCollider": {
+            "min": [
+                39277441562181630.0,
+                6.263804135531932e-43,
+                7.713536684941306e31
+            ],
+            "max": [
+                7.146622168056567e-44,
+                0.0,
+                0.0
+            ]
         }
     },
     {
         "tag": {
             "name": "test2"
-        },
-        "model": {
-            "models": [
-                "sphere.obj"
-            ],
-            "material": "mattesttransparent",
-            "isWireframe": false,
-            "doNotLight": false,
-            "useColorTexture": true,
-            "isActive": true
         },
         "transform": {
             "position": [
@@ -386,29 +443,39 @@
                 0.0
             ]
         },
-        "rigidBody":
-        {
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattesttransparent",
+            "models": [
+                "sphere.obj"
+            ]
+        },
+        "rigidBody": {
             "bodyType": 1,
             "shapeType": 1
         },
-        "sphereCollider":
-        {
+        "sphereCollider": {
             "radius": 1.0
+        },
+        "aabbCollider": {
+            "min": [
+                39277785159565310.0,
+                6.263804135531932e-43,
+                7.713536684941306e31
+            ],
+            "max": [
+                7.006492321624085e-44,
+                0.0,
+                0.0
+            ]
         }
     },
     {
         "tag": {
             "name": "testground"
-        },
-        "model": {
-            "models": [
-                "cube.ply"
-            ],
-            "material": "mattestred",
-            "isWireframe": false,
-            "doNotLight": false,
-            "useColorTexture": true,
-            "isActive": true
         },
         "transform": {
             "position": [
@@ -423,6 +490,28 @@
                 0.0
             ],
             "scale": 50.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattestred",
+            "models": [
+                "cube.ply"
+            ]
+        },
+        "aabbCollider": {
+            "min": [
+                39301836976422910.0,
+                6.263804135531932e-43,
+                7.713536684941306e31
+            ],
+            "max": [
+                3.035349864222117e32,
+                3.6027383517791047e-41,
+                0.0
+            ]
         }
     }
 ]

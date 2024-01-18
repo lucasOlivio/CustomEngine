@@ -293,7 +293,11 @@ namespace MyEngine
                 entityObject.AddMember("aabbCollider", aabbColliderObject, allocator);
             }
 
-            // Add the entityObject to the main JSON array
+            // Add the entityObject to the main JSON array only if has any component
+            if (entityObject.MemberBegin() == entityObject.MemberEnd())
+            {
+                continue;
+            }
             m_doc.PushBack(entityObject, allocator);
         }
 
@@ -397,7 +401,7 @@ namespace MyEngine
         parser.SetMember(jsonObject, "currOffset", materialIn.currOffset, allocator);
         parser.SetMember(jsonObject, "offsetHeightMap", materialIn.offsetHeightMap, allocator);
         parser.SetMember(jsonObject, "currOffsetHeightMap", materialIn.currOffsetHeightMap, allocator);
-        parser.SetMember(jsonObject, "isEmissive", materialIn.offsetMove, allocator);
+        parser.SetMember(jsonObject, "offsetMove", materialIn.offsetMove, allocator);
         parser.SetMember(jsonObject, "discardTexture", materialIn.discardTexture, allocator);
         parser.SetMember(jsonObject, "heightMapTexture", materialIn.heightMapTexture, allocator);
         parser.SetMember(jsonObject, "heightScale", materialIn.heightScale, allocator);
@@ -780,7 +784,7 @@ namespace MyEngine
         parser.GetValue(jsonObject["cubeTexture"], materialOut.cubeTexture);
         parser.GetValue(jsonObject["offset"], materialOut.offset);
         parser.GetValue(jsonObject["offsetHeightMap"], materialOut.offsetHeightMap);
-        parser.GetValue(jsonObject["isEmissive"], materialOut.offsetMove);
+        parser.GetValue(jsonObject["offsetMove"], materialOut.offsetMove);
         parser.GetValue(jsonObject["discardTexture"], materialOut.discardTexture);
         parser.GetValue(jsonObject["heightMapTexture"], materialOut.heightMapTexture);
         parser.GetValue(jsonObject["heightScale"], materialOut.heightScale);

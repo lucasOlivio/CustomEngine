@@ -12,10 +12,18 @@ namespace MyEngine
 		iSceneManager() {};
 		virtual ~iSceneManager() {};
 
+		virtual std::string GetBasePath() = 0;
+
 		virtual void SetBasePath(std::string basePath) = 0;
+
+		// Only creates a new empty scene and creates the file
+		virtual Scene* CreateNewScene(std::string newSceneName) = 0;
 
 		// Load new scene from file to cache
 		virtual Scene* LoadScene(std::string newSceneName) = 0;
+
+		// Serialize scene to file
+		virtual void SaveScene(std::string sceneName) = 0;
 
 		// Change active scene
 		virtual void ChangeScene(std::string newSceneName, bool reload = false) = 0;

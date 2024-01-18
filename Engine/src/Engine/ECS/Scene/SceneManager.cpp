@@ -27,9 +27,24 @@ namespace MyEngine
 		}
 	}
 
+	std::string SceneManager::GetBasePath()
+	{
+		return m_basePath;
+	}
+
 	void SceneManager::SetBasePath(std::string basePath)
 	{
 		m_basePath = basePath;
+	}
+
+	Scene* SceneManager::CreateNewScene(std::string newSceneName)
+	{
+		Scene* pNewScene = new Scene();
+		iSceneSerializer* pSceneSerializer = SceneSerializerFactory::CreateSceneSerializer(newSceneName);
+
+		pSceneSerializer->SerializeScene(m_basePath + newSceneName, *(pNewScene));
+
+		return pNewScene;
 	}
 
 	Scene* SceneManager::LoadScene(std::string newSceneName)
@@ -41,6 +56,16 @@ namespace MyEngine
 		pSceneSerializer->DeserializeScene(m_basePath + newSceneName, *(pNewScene));
 
 		return pNewScene;
+	}
+
+	void SceneManager::SaveScene(std::string sceneName)
+	{
+		Scene* pScene = GetScene(sceneName);
+		iSceneSerializer* pSceneSerializer = SceneSerializerFactory::CreateSceneSerializer(sceneName);
+
+		pSceneSerializer->SerializeScene(m_basePath + sceneName, *(pScene));
+
+		return;
 	}
 
 	void SceneManager::ChangeScene(std::string newSceneName, bool reload)
