@@ -124,6 +124,8 @@ namespace MyEngine
 
         glm::vec3 cameraFront = glm::normalize(TransformUtils::GetForwardVector(pCamera->orientation));
         glm::vec3 cameraSides = glm::normalize(glm::cross(cameraFront, glm::vec3(UP_VECTOR)));
+        glm::vec3 cameraUp = glm::normalize(TransformUtils::GetUpVector(pCamera->orientation));
+
         glm::vec3 moveOffset = glm::vec3(0.0f);
 
         // Handle key presses for movement
@@ -142,6 +144,14 @@ namespace MyEngine
         if (pKey->key[eKeyCodes::D])
         {
             moveOffset = DEFAULT_CAMERA_SPEED * cameraSides * (float)deltaTime;
+        }
+        if (pKey->key[eKeyCodes::Q])
+        {
+            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraUp * (float)deltaTime);
+        }
+        if (pKey->key[eKeyCodes::E])
+        {
+            moveOffset = DEFAULT_CAMERA_SPEED * cameraUp * (float)deltaTime;
         }
 
         cameraPosition += moveOffset;

@@ -298,7 +298,6 @@ namespace MyEngine
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-        ImGuizmo::BeginFrame();
 
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
         window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
@@ -311,6 +310,10 @@ namespace MyEngine
 
         // Start Imgui window context
         ImGui::Begin("ImGuiMainWindow", NULL, window_flags);
+
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::BeginFrame();
+        ImGuizmo::Enable(true);
 
         // Set default font size
         ImGui::SetWindowFontScale(TEXT_FONT_SIZE);
