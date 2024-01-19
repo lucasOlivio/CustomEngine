@@ -67,7 +67,7 @@ namespace MyEngine
     {
         // To combine quaternion values, you multiply them together
         // Make a quaternion that represents that CHANGE in angle
-        glm::quat qChange = glm::quat(glm::radians(delta));
+        glm::quat qChange = GetDegreesAsQuat(delta);
 
         // Multiply them together to get the change
         // Just like with matrix math

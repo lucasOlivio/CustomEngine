@@ -29,7 +29,10 @@ namespace MyEngine
         if (pMouse->button[eMouseCodes::MOUSE_BUTTON_1])
         {
             m_InitiateMouseCapture();
-            m_UpdateCameraTransform();
+
+            // Update camera transform
+            m_UpdateCameraRotation();
+            m_UpdateCameraPosition(deltaTime);
         }
         else
         {
@@ -84,7 +87,7 @@ namespace MyEngine
         return;
     }
 
-    void FlyingCameraSystem::m_UpdateCameraTransform()
+    void FlyingCameraSystem::m_UpdateCameraRotation()
     {
         MouseInputComponent* pMouse = CoreLocator::GetMouseInput();
         CameraComponent* pCamera = GraphicsLocator::GetCamera();
@@ -101,5 +104,40 @@ namespace MyEngine
 
         pMouse->lastPosX = pMouse->posX;
         pMouse->lastPosY = pMouse->posY;
+    }
+
+    void FlyingCameraSystem::m_UpdateCameraPosition(float deltaTime)
+    {
+        CameraComponent* pCamera = GraphicsLocator::GetCamera();
+        KeyInputComponent* pKey = CoreLocator::GetKeyInput();
+
+        glm::vec3 cameraPosition = pCamera->position;
+        glm::vec3 cameraRotation = TransformUtils::GetQuatAsDegrees(pCamera->orientation);
+
+        glm::vec3 cameraFront = glm::normalize(TransformUtils::GetForwardVector(pCamera->orientation));
+        glm::vec3 cameraSides = glm::normalize(glm::cross(cameraFront, glm::vec3(UP_VECTOR)));
+        glm::vec3 moveOffset = glm::vec3(0.0f);
+
+        // Handle key presses for movement
+        if (pKey->key[eKeyCodes::W]) 
+        {
+            moveOffset = DEFAULT_CAMERA_SPEED * cameraFront * (float)deltaTime;
+        }
+        if (pKey->key[eKeyCodes::S]) 
+        {
+            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraFront * (float)deltaTime);
+        }
+        if (pKey->key[eKeyCodes::A])
+        {
+            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraSides * (float)deltaTime);
+        }
+        if (pKey->key[eKeyCodes::D])
+        {
+            moveOffset = DEFAULT_CAMERA_SPEED * cameraSides * (float)deltaTime;
+        }
+
+        cameraPosition += moveOffset;
+
+        pCamera->position = cameraPosition;
     }
 }

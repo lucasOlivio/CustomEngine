@@ -27,6 +27,7 @@ namespace MyEngine
 		glm::vec3 position;
 		glm::quat orientation;
 		glm::vec3 upVector;
+
 		float distance;
 		float height;
 		float offsetTarget;

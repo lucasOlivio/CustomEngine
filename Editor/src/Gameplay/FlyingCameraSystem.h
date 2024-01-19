@@ -29,6 +29,8 @@ namespace MyEngine
 
 		void m_StopMouseCapture();
 
-		void m_UpdateCameraTransform();
+		void m_UpdateCameraRotation();
+
+		void m_UpdateCameraPosition(float deltaTime);
 	};
 }
