@@ -554,6 +554,18 @@
                 "sphere.obj"
             ]
         },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                2.0,
+                0.0,
+                0.0
+            ]
+        },
         "rigidBody": {
             "bodyType": 1,
             "shapeType": 1
@@ -635,6 +647,22 @@
                 0.0,
                 0.0
             ]
+        }
+    },
+    {
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 0.0
         }
     }
 ]

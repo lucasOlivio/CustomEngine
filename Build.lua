@@ -13,6 +13,7 @@ OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 group "Dependencies"
    include "Engine/Extern/Glad/Build-Glad.lua"
    include "Engine/Extern/imgui/Build-ImGui.lua"
+   include "Engine/Extern/ImGuizmo/Build-ImGuizmo.lua"
 group ""
 
 group "Tests"

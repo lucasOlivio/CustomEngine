@@ -27,13 +27,15 @@ project "Engine"
       "Extern/assimp/include",
       "Extern/Lua5.4.6/include",
       "Extern/rapidjson/include",
-      "Extern/imgui/include"
+      "Extern/imgui/include",
+      "Extern/ImGuizmo/include"
    }
 
    links
    {
       "Glad",
       "ImGui",
+      "ImGuizmo",
       -- FMOD
       "Extern/fmod/lib/fmod_vc.lib",
       "Extern/fmod/lib/fmodL_vc.lib",

@@ -36,5 +36,7 @@ namespace MyEngine
 		{
 			pScene->AddComponent<T>(entityId);
 		}
+
+		// TODO: Remove component avoiding conflict with other systems using it
 	};
 }
