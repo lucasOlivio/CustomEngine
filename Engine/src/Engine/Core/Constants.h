@@ -17,9 +17,6 @@ namespace MyEngine
 
 #define TEXT_FONT_SIZE 1.2f
 
-#define DEFAULT_MOUSE_SENSITIVITY 0.025f
-#define DEFAULT_CAMERA_SPEED 300.0f
-
 	const std::string DEFAULT_CONFIG = "config.json";
 
 	const glm::vec3 X_VECTOR = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);

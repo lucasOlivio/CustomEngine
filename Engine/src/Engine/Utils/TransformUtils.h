@@ -26,6 +26,7 @@ namespace MyEngine
 
 		static glm::vec3 GetUpVector(const glm::quat& orientation);
 		static glm::vec3 GetForwardVector(const glm::quat& orientation);
+		static glm::vec3 GetRightVector(const glm::quat& orientation);
 
 		static glm::quat AdjustOrientation(const glm::quat& orientation, 
 										   const glm::vec3& delta);

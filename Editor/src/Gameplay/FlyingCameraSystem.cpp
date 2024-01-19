@@ -10,6 +10,9 @@
 #include "Engine/Utils/InputUtils.h"
 #include "Engine/Utils/TransformUtils.h"
 
+#define DEFAULT_MOUSE_SENSITIVITY 0.001f
+#define DEFAULT_CAMERA_SPEED 150.0f
+
 namespace MyEngine
 {
     void FlyingCameraSystem::Init()
@@ -95,12 +98,17 @@ namespace MyEngine
         float xoffset = (pMouse->posX - pMouse->lastPosX) * pMouse->sensitivity;
         float yoffset = (pMouse->posY - pMouse->lastPosY) * pMouse->sensitivity;
 
-        glm::vec3 rotation = TransformUtils::GetQuatAsDegrees(pCamera->orientation);
+        glm::vec3 cameraRight = glm::normalize(TransformUtils::GetRightVector(pCamera->orientation));
 
-        rotation.x -= yoffset;
-        rotation.y -= xoffset;
+        // Create quaternions for pitch and yaw
+        glm::quat pitchQuat = glm::angleAxis(-yoffset, cameraRight);
+        glm::quat yawQuat = glm::angleAxis(-xoffset, glm::vec3(0.0f, 1.0f, 0.0f));
 
-        pCamera->orientation = TransformUtils::GetDegreesAsQuat(rotation);
+        // Combine pitch and yaw quaternions
+        glm::quat orientationChange = yawQuat * pitchQuat;
+
+        // Apply the combined quaternion to the camera's orientation
+        pCamera->orientation = glm::normalize(orientationChange * pCamera->orientation);
 
         pMouse->lastPosX = pMouse->posX;
         pMouse->lastPosY = pMouse->posY;

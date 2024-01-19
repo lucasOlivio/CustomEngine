@@ -62,6 +62,11 @@ namespace MyEngine
         return orientation * FORWARD_VECTOR;
     }
 
+    glm::vec3 TransformUtils::GetRightVector(const glm::quat& orientation)
+    {
+        return orientation * RIGHT_VECTOR;
+    }
+
     glm::quat TransformUtils::AdjustOrientation(const glm::quat& orientation, 
 										        const glm::vec3& delta)
     {
