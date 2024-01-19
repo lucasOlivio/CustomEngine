@@ -1,8 +1,10 @@
 #include "pch.h"
 
 #include "CameraSystem.h"
+
 #include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
+
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
 namespace MyEngine

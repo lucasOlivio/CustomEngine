@@ -76,6 +76,16 @@ namespace MyEngine
         return adjustedOrientation;
     }
 
+    glm::vec3 TransformUtils::GetQuatAsDegrees(const glm::quat& orientation)
+    {
+        return glm::degrees(glm::eulerAngles(orientation));
+    }
+
+    glm::quat TransformUtils::GetDegreesAsQuat(const glm::vec3& rotation)
+    {
+        return glm::quat(glm::radians(rotation));
+    }
+
     glm::vec3 TransformUtils::LocalToWorldPoint(const glm::vec3& point,
                                                 const glm::vec3& position, const glm::quat& orientation,
                                                 const float& scale, 

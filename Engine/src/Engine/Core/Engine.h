@@ -26,9 +26,9 @@ namespace MyEngine
 		virtual ~Engine();
 
 		// Systems that will manipulate components and handle the scene in some way,
-		// the system is added and initialized
-		virtual void AddSystem(iSystem* pSystem);
-		virtual void RemoveSystem(iSystem* pSystem);
+		// the system is added and initialized, if the scene is passed the system is also started
+		virtual void AddSystem(iSystem* pSystem, Scene* pScene = nullptr);
+		virtual void RemoveSystem(iSystem* pSystem, Scene* pScene = nullptr);
 
 		virtual void Init();
 

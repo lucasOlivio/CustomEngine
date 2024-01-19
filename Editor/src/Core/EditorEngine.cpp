@@ -3,6 +3,8 @@
 #include "Engine/ECS/System/SystemBuilder.h"
 
 // Custom editor systems
+#include "Gameplay/FlyingCameraSystem.h"
+
 #include "UI/MenuSystem.h"
 #include "UI/EntityBarSystem.h"
 #include "UI/GuizmoSystem.h"
@@ -50,6 +52,8 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("MenuSystem"));
 		SystemBuilder::RegisterSystem("EntityBarSystem", []() { return new EntityBarSystem; });
 		Engine::AddSystem(SystemBuilder::CreateSystem("EntityBarSystem"));
+		SystemBuilder::RegisterSystem("FlyingCameraSystem", []() { return new FlyingCameraSystem; });
+		Engine::AddSystem(SystemBuilder::CreateSystem("FlyingCameraSystem"));
 		SystemBuilder::RegisterSystem("GuizmoSystem", []() { return new GuizmoSystem; });
 		Engine::AddSystem(SystemBuilder::CreateSystem("GuizmoSystem"));
 	}

@@ -102,8 +102,12 @@ namespace MyEngine
 	{
 		// Update input component to keep track of mouse position
 		MouseInputComponent* pMouseInput = CoreLocator::GetMouseInput();
-		pMouseInput->posX = xpos;
-		pMouseInput->poxY = ypos;
+
+		pMouseInput->lastPosX = pMouseInput->posX;
+		pMouseInput->lastPosY = pMouseInput->posY;
+
+		pMouseInput->posX = (float)xpos;
+		pMouseInput->posY = (float)ypos;
 
 		return;
 	}

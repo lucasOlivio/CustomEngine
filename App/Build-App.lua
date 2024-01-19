@@ -16,6 +16,7 @@ project "App"
 	  "%{wks.location}/Engine/src",
       "%{wks.location}/Engine/Extern/Glad/include",
       "%{wks.location}/Engine/Extern/imgui/include",
+      "%{wks.location}/Engine/Extern/ImGuizmo/include",
       "%{wks.location}/Engine/Extern/glfw/include",
       "%{wks.location}/Engine/Extern/glm/include",
       "%{wks.location}/Engine/Extern/fmod/include",

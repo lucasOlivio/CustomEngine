@@ -156,8 +156,16 @@ namespace MyEngine
 	{
 		// One for each mouse button code from glfw
 		bool button[7];
+
 		float posX;
-		float poxY;
+		float posY;
+
+		float lastPosX;
+		float lastPosY;
+
+		float sensitivity;
+
+		bool mouseCaptured;
 	};
 
 	struct StateComponent

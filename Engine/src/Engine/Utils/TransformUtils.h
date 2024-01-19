@@ -30,6 +30,10 @@ namespace MyEngine
 		static glm::quat AdjustOrientation(const glm::quat& orientation, 
 										   const glm::vec3& delta);
 
+		static glm::vec3 GetQuatAsDegrees(const glm::quat& orientation);
+
+		static glm::quat GetDegreesAsQuat(const glm::vec3& rotation);
+
 		// Use transformations to convert the point from local to world position
 		static glm::vec3 LocalToWorldPoint(const glm::vec3& point,
                                            const glm::vec3& position, const glm::quat& orientation,

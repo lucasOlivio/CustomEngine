@@ -34,13 +34,18 @@ namespace MyEngine
     {
     }
 
-    void Engine::AddSystem(iSystem* pSystem)
+    void Engine::AddSystem(iSystem* pSystem, Scene* pScene)
     {
         m_systems.push_back(pSystem);
         pSystem->Init();
+
+        if (pScene)
+        {
+            pSystem->Start(pScene);
+        }
     }
 
-    void Engine::RemoveSystem(iSystem* pSystem)
+    void Engine::RemoveSystem(iSystem* pSystem, Scene* pScene)
     {
         for (int i = 0; i < m_systems.size(); i++)
         {
@@ -49,8 +54,18 @@ namespace MyEngine
                 continue;
             }
 
+            iSystem* pDelSystem = m_systems[i];
+
+            // Clean system before deleting
+            if (pScene)
+            {
+                pDelSystem->End(pScene);
+            }
+            pDelSystem->Shutdown();
 
             m_systems.erase(m_systems.begin() + i);
+
+            delete pDelSystem;
         }
     }
 
