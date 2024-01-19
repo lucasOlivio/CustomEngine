@@ -84,6 +84,7 @@ namespace MyEngine
             ComponentUI::GenerateComponentsUI(pScene, entityId);
             ImGui::TreePop();
         }
+        ImGui::Columns(1);
     }
 
     void EntityBarSystem::End(Scene* pScene)

@@ -311,8 +311,11 @@ namespace MyEngine
         // Start Imgui window context
         ImGui::Begin("ImGuiMainWindow", NULL, window_flags);
 
-        ImGuizmo::SetOrthographic(false);
         ImGuizmo::BeginFrame();
+
+        ImGuiIO& io = ImGui::GetIO();
+        ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+
         ImGuizmo::Enable(true);
 
         // Set default font size
