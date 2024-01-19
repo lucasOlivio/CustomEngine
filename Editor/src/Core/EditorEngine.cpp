@@ -12,8 +12,10 @@ namespace MyEngine
 {
 	// TODO: For now duplicated from App we just need editor to create the scenes,
 	// but later this should all come separated from config and better system management
-	void Editor::Init(std::string initialSceneName)
+	void Editor::Init()
 	{
+		Engine::Init();
+
 		// TODO: Come from scene config
 		// TODO: Could this be categorized to avoid having to put all in the config?
 		// 
@@ -50,7 +52,5 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("EntityBarSystem"));
 		SystemBuilder::RegisterSystem("GuizmoSystem", []() { return new GuizmoSystem; });
 		Engine::AddSystem(SystemBuilder::CreateSystem("GuizmoSystem"));
-
-		Engine::Init(initialSceneName);
 	}
 }

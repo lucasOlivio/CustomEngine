@@ -7,7 +7,8 @@ namespace MyEngine
 {
 	enum eInputEvents
 	{
-		KEYBOARD
+		KEYBOARD,
+		MOUSE
 	};
 
 	class KeyboardEvent : public Event<eInputEvents>
@@ -18,5 +19,15 @@ namespace MyEngine
 		virtual ~KeyboardEvent() {};
 
 		sKeyData keyData;
+	};
+
+	class MouseEvent : public Event<eInputEvents>
+	{
+	public:
+		MouseEvent() :
+			Event<eInputEvents>(eInputEvents::MOUSE, "Mouse") {};
+		virtual ~MouseEvent() {};
+
+		sMouseData mouseData;
 	};
 }

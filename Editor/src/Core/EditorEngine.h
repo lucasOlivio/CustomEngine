@@ -11,6 +11,6 @@ namespace MyEngine
 		Editor() {}
 		virtual ~Editor() {}
 
-		virtual void Init(std::string initialSceneName);
+		virtual void Init();
 	};
 }

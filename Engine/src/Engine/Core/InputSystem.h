@@ -24,9 +24,15 @@ namespace MyEngine
 
 		virtual void Shutdown();
 
-		static void InputCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+		static void MouseButtonCallback(GLFWwindow* window, int mouse, int action, int mods);
+
+		static void MousePositionCallback(GLFWwindow* window, double xpos, double ypos);
 
 	private:
-		static void m_TriggerKey(const sKeyData& collData);
+		static void m_TriggerKeyEvent(const sKeyData& collData);
+
+		static void m_TriggerMouseEvent(const sMouseData& collData);
 	};
 }

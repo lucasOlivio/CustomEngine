@@ -6,7 +6,8 @@ namespace MyEngine
 {
     ConfigPathComponent* CoreLocator::m_pConfigPath = new ConfigPathComponent();
     FrameCounterComponent* CoreLocator::m_pFrameCounter = new FrameCounterComponent();
-    InputComponent* CoreLocator::m_pInput = new InputComponent();
+    KeyInputComponent* CoreLocator::m_pKeyInput = new KeyInputComponent();
+    MouseInputComponent* CoreLocator::m_pMouseInput = new MouseInputComponent();
     StateComponent* CoreLocator::m_pState = new StateComponent();
 
     ConfigPathComponent* CoreLocator::GetConfigPath()
@@ -19,9 +20,14 @@ namespace MyEngine
         return m_pFrameCounter;
     }
 
-    InputComponent* CoreLocator::GetInput()
+    KeyInputComponent* CoreLocator::GetKeyInput()
     {
-        return m_pInput;
+        return m_pKeyInput;
+    }
+
+    MouseInputComponent* CoreLocator::GetMouseInput()
+    {
+        return m_pMouseInput;
     }
 
     StateComponent* CoreLocator::GetState()
@@ -41,10 +47,16 @@ namespace MyEngine
         m_pFrameCounter = pFrameCounter;
     }
 
-    void CoreLocator::SetInput(InputComponent* pInput)
+    void CoreLocator::SetKeyInput(KeyInputComponent* pKeyInput)
     {
-        delete m_pInput;
-        m_pInput = pInput;
+        delete m_pKeyInput;
+        m_pKeyInput = pKeyInput;
+    }
+
+    void CoreLocator::SetMouseInput(MouseInputComponent* pMouseInput)
+    {
+        delete m_pMouseInput;
+        m_pMouseInput = pMouseInput;
     }
 
     void CoreLocator::SetState(StateComponent* pState)
@@ -57,7 +69,7 @@ namespace MyEngine
     {
         delete m_pConfigPath;
         delete m_pFrameCounter;
-        delete m_pInput;
+        delete m_pKeyInput;
         delete m_pState;
     }
 }

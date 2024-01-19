@@ -9,8 +9,10 @@
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine
 {
-	void Application::Init(std::string initialSceneName)
+	void Application::Init()
 	{
+		Engine::Init();
+
 		// TODO: Come from scene config
 		// TODO: Could this be categorized to avoid having to put all in the config?
 		// 
@@ -45,7 +47,5 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("ChangeStateSystem"));
 		SystemBuilder::RegisterSystem("ChangeSceneSystem", []() { return new ChangeSceneSystem; });
 		Engine::AddSystem(SystemBuilder::CreateSystem("ChangeSceneSystem"));
-
-		Engine::Init(initialSceneName);
 	}
 }

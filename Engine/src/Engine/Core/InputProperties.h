@@ -4,7 +4,7 @@ namespace MyEngine
 {
     // Wrappers for GLFW flags, for more info see GLFW docs or glfw3.h
 
-    enum eKeyActions
+    enum eInputActions
     {
         KEY_RELEASE = 0,
         KEY_PRESS,
@@ -20,6 +20,35 @@ namespace MyEngine
         KEYMOD_SUPER = 8,
         KEYMOD_CAPS_LOCK = 16,
         KEYMOD_NUM_LOCK = 32
+    };
+
+    enum eMouseCodes
+    {
+        MOUSE_BUTTON_1 = 0,
+        MOUSE_BUTTON_2 = 1,
+        MOUSE_BUTTON_3 = 2,
+        MOUSE_BUTTON_4 = 3,
+        MOUSE_BUTTON_5 = 4,
+        MOUSE_BUTTON_6 = 5,
+        MOUSE_BUTTON_7 = 6,
+        MOUSE_BUTTON_8 = 7,
+        MOUSE_BUTTON_LAST = MOUSE_BUTTON_8,
+        MOUSE_BUTTON_LEFT = MOUSE_BUTTON_1,
+        MOUSE_BUTTON_RIGHT = MOUSE_BUTTON_2,
+        MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3
+    };
+
+    struct sMouseData
+    {
+        eMouseCodes button;
+        eInputActions action;
+        eKeyMods mod;
+    };
+
+    struct sMousePosition
+    {
+        float xpos;
+        float ypos;
     };
 
 	enum eKeyCodes
@@ -150,7 +179,7 @@ namespace MyEngine
     struct sKeyData
     {
         eKeyCodes key;
-        eKeyActions action;
+        eInputActions action;
         eKeyMods mod;
     };
 }

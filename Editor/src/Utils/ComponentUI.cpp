@@ -2,6 +2,8 @@
 
 #include "ComponentUI.h"
 
+#include "Utils/UIWidgets.h"
+
 #include "Engine/ECS/Components.h"
 
 namespace MyEngine
@@ -27,14 +29,14 @@ namespace MyEngine
                 continue;
             }
 
-            ImGui::Separator();
-            ImGui::Separator();
+            Separator();
+            Separator();
 
             ComponentUIHandler handler = GetComponentUI(i);
             handler(pScene, entityId);
 
-            ImGui::Separator();
-            ImGui::Separator();
+            Separator();
+            Separator();
         }
     }
 
@@ -130,7 +132,7 @@ namespace MyEngine
         ImGui::InputFloat("##PositionY", &pTransform->position.y);
         ImGui::InputFloat("##PositionZ", &pTransform->position.z);
 
-        ImGui::Separator();
+        Separator();
         ImGui::Text("Rotation (Euler)");
         glm::vec3 euler = glm::degrees(glm::eulerAngles(pTransform->orientation));
         if (ImGui::InputFloat("##RotationX", &euler.x)) {
@@ -143,7 +145,7 @@ namespace MyEngine
             pTransform->orientation = glm::quat(glm::radians(euler));
         }
 
-        ImGui::Separator();
+        Separator();
         ImGui::Text("Scale");
         ImGui::InputFloat("##Scale", &pTransform->scale);
 	}
@@ -163,7 +165,7 @@ namespace MyEngine
         ImGui::InputFloat("##VelocityY", &pMovement->velocity.y);
         ImGui::InputFloat("##VelocityZ", &pMovement->velocity.z);
 
-        ImGui::Separator();
+        Separator();
         ImGui::Text("Acceleration");
         ImGui::InputFloat("##AccelerationX", &pMovement->acceleration.x);
         ImGui::InputFloat("##AccelerationY", &pMovement->acceleration.y);
@@ -185,7 +187,7 @@ namespace MyEngine
         ImGui::InputFloat("##AngularVelocityY", &pRotation->velocity.y);
         ImGui::InputFloat("##AngularVelocityZ", &pRotation->velocity.z);
 
-        ImGui::Separator();
+        Separator();
         ImGui::Text("Angular Acceleration");
         ImGui::InputFloat("##AngularAccelerationX", &pRotation->acceleration.x);
         ImGui::InputFloat("##AngularAccelerationY", &pRotation->acceleration.y);

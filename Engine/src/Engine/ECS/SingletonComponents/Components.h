@@ -146,10 +146,18 @@ namespace MyEngine
 		size_t currSize;
 	};
 
-	struct InputComponent
+	struct KeyInputComponent
 	{
 		// One for each key code from glfw
 		bool key[350];
+	};
+
+	struct MouseInputComponent
+	{
+		// One for each mouse button code from glfw
+		bool button[7];
+		float posX;
+		float poxY;
 	};
 
 	struct StateComponent

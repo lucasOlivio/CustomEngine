@@ -25,13 +25,15 @@ namespace MyEngine
 		Engine();
 		virtual ~Engine();
 
-		// Systems that will update components when simulation is running
+		// Systems that will manipulate components and handle the scene in some way,
+		// the system is added and initialized
 		virtual void AddSystem(iSystem* pSystem);
+		virtual void RemoveSystem(iSystem* pSystem);
 
-		virtual void Init(std::string initialSceneName);
+		virtual void Init();
 
 		// Run engine starting simulation state as running or stopped
-		virtual void Run(bool startSimulation = true);
+		virtual void Run(std::string initialSceneName, bool startSimulation = true);
 
 		virtual void Update(float deltaTime);
 
@@ -40,8 +42,6 @@ namespace MyEngine
 		virtual void Shutdown();
 
 		virtual void LoadConfigurations();
-
-		virtual void InitializeSystems();
 
 		// Initializes systems with scene
 		virtual void StartSystems(Scene* pScene);
@@ -64,6 +64,7 @@ namespace MyEngine
 		iEventBus<eWindowEvents, WindowCloseEvent>* m_pEventBusWindow;
 		iEventBus<eCollisionEvents, CollisionEnterEvent>* m_pEventBusCollision;
 		iEventBus<eInputEvents, KeyboardEvent>* m_pEventBusKeyboard;
+		iEventBus<eInputEvents, MouseEvent>* m_pEventBusMouse;
 		iEventBus<eStateChangeEvents, StoppedStateEvent>* m_pEventBusStoppedState;
 		iEventBus<eStateChangeEvents, RunningStateEvent>* m_pEventBusRunningState;
 		iEventBus<eSceneEvents, SceneChangeEvent>* m_pEventBusSceneChange;

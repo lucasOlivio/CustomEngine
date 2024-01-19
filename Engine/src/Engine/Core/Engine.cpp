@@ -37,9 +37,24 @@ namespace MyEngine
     void Engine::AddSystem(iSystem* pSystem)
     {
         m_systems.push_back(pSystem);
+        pSystem->Init();
     }
 
-    void Engine::Init(std::string initialSceneName)
+    void Engine::RemoveSystem(iSystem* pSystem)
+    {
+        for (int i = 0; i < m_systems.size(); i++)
+        {
+            if (m_systems[i] != pSystem)
+            {
+                continue;
+            }
+
+
+            m_systems.erase(m_systems.begin() + i);
+        }
+    }
+
+    void Engine::Init()
     {
         // Setting up events
         m_pEventBusWindow = new EventBus<eWindowEvents, WindowCloseEvent>();
@@ -50,6 +65,9 @@ namespace MyEngine
 
         m_pEventBusKeyboard = new EventBus<eInputEvents, KeyboardEvent>();
         EventBusLocator<eInputEvents, KeyboardEvent>::Set(m_pEventBusKeyboard);
+
+        m_pEventBusMouse = new EventBus<eInputEvents, MouseEvent>();
+        EventBusLocator<eInputEvents, MouseEvent>::Set(m_pEventBusMouse);
 
         m_pEventBusStoppedState = new EventBus<eStateChangeEvents, StoppedStateEvent>();
         EventBusLocator<eStateChangeEvents, StoppedStateEvent>::Set(m_pEventBusStoppedState);
@@ -85,16 +103,14 @@ namespace MyEngine
         m_pShaderManager->SetBasePath(pConfigPaths->pathShaders);
         m_pVAOManager->SetBasePath(pConfigPaths->pathModels);
         m_pSceneManager->SetBasePath(pConfigPaths->pathScenes);
-
-        InitializeSystems();
-
-        // TODO: Now each resource is been loaded by the systems, 
-        // but they should be loaded all here and have separate files
-        m_pSceneManager->ChangeScene(initialSceneName);
     }
 
-    void Engine::Run(bool startSimulation)
+    void Engine::Run(std::string initialSceneName, bool startSimulation)
     {
+        // TODO: Now each resource is been loaded by the systems, 
+        // but they should be loaded all here and have separate files
+
+        m_pSceneManager->ChangeScene(initialSceneName);
         if (startSimulation)
         {
             StateComponent* pState = CoreLocator::GetState();
@@ -160,6 +176,15 @@ namespace MyEngine
         delete m_pMaterialManager;
         delete m_pTextureManager;
         delete m_pSceneManager;
+
+        // Delete event bus
+        delete m_pEventBusWindow;
+        delete m_pEventBusCollision;
+        delete m_pEventBusKeyboard;
+        delete m_pEventBusMouse;
+        delete m_pEventBusStoppedState;
+        delete m_pEventBusRunningState;
+        delete m_pEventBusSceneChange;
     }
 
     void Engine::LoadConfigurations()
@@ -168,14 +193,6 @@ namespace MyEngine
         ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
 
         pConfigSerializer->DeserializeConfig(DEFAULT_CONFIG);
-    }
-
-    void Engine::InitializeSystems()
-    {
-        for (iSystem* pSystem : m_systems)
-        {
-            pSystem->Init();
-        }
     }
 
     void Engine::StartSystems(Scene* pScene)

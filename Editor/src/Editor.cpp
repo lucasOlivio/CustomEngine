@@ -10,7 +10,7 @@ int main()
 
 	// TODO: This would be better comming from command args?
 	const std::string INITIAL_SCENE = "scene01.json";
-	editor.Init(INITIAL_SCENE);
+	editor.Init();
 
-	editor.Run(false);
+	editor.Run(INITIAL_SCENE, false);
 }

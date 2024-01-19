@@ -5,4 +5,6 @@
 namespace MyEngine
 {
     void Guizmo(Scene* pScene, Entity entityId);
+
+    void Separator();
 }
