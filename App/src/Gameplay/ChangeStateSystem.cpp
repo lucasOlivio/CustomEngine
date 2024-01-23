@@ -55,7 +55,7 @@ namespace MyEngine
 
 		GameStateComponent* pState = CoreLocator::GetGameState();
 
-		if (pState->currState == eGameStates::STOPPED)
+		if (pState->currState == eGameStates::STOPPED || pState->currState == eGameStates::STARTED)
 		{
 			pState->currState = eGameStates::RUNNING;
 		}

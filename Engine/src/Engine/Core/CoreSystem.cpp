@@ -17,13 +17,11 @@ namespace MyEngine
         iEventBus<eGameStateEvents, GameStartedEvent>* pStartedBus = EventBusLocator<eGameStateEvents, GameStartedEvent>::Get();
         iEventBus<eGameStateEvents, GameRunningEvent>* pRunningBus = EventBusLocator<eGameStateEvents, GameRunningEvent>::Get();
         iEventBus<eGameStateEvents, GameStoppedEvent>* pStoppedBus = EventBusLocator<eGameStateEvents, GameStoppedEvent>::Get();
-        iEventBus<eGameStateEvents, GameLevelUpEvent>* pLevelUpBus = EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Get();
         iEventBus<eGameStateEvents, GameOverEvent>* pGameOverBus = EventBusLocator<eGameStateEvents, GameOverEvent>::Get();
 
         pStartedBus->Subscribe(eGameStateEvents::GAME_STARTED, OnStart);
         pRunningBus->Subscribe(eGameStateEvents::GAME_RUNNING, OnRunning);
-        pRunningBus->Subscribe(eGameStateEvents::GAME_STOPPED, OnStopped);
-        pLevelUpBus->Subscribe(eGameStateEvents::GAME_LEVELUP, OnLevelUp);
+        pStoppedBus->Subscribe(eGameStateEvents::GAME_STOPPED, OnStopped);
         pGameOverBus->Subscribe(eGameStateEvents::GAME_OVER, OnGameOver);
 
         // Main systems must start right away
@@ -57,13 +55,11 @@ namespace MyEngine
         iEventBus<eGameStateEvents, GameStartedEvent>* pStartedBus = EventBusLocator<eGameStateEvents, GameStartedEvent>::Get();
         iEventBus<eGameStateEvents, GameRunningEvent>* pRunningBus = EventBusLocator<eGameStateEvents, GameRunningEvent>::Get();
         iEventBus<eGameStateEvents, GameStoppedEvent>* pStoppedBus = EventBusLocator<eGameStateEvents, GameStoppedEvent>::Get();
-        iEventBus<eGameStateEvents, GameLevelUpEvent>* pLevelUpBus = EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Get();
         iEventBus<eGameStateEvents, GameOverEvent>* pGameOverBus = EventBusLocator<eGameStateEvents, GameOverEvent>::Get();
 
         pStartedBus->Unsubscribe(eGameStateEvents::GAME_STARTED, OnStart);
         pRunningBus->Unsubscribe(eGameStateEvents::GAME_RUNNING, OnRunning);
-        pRunningBus->Unsubscribe(eGameStateEvents::GAME_STOPPED, OnStopped);
-        pLevelUpBus->Unsubscribe(eGameStateEvents::GAME_LEVELUP, OnLevelUp);
+        pStoppedBus->Unsubscribe(eGameStateEvents::GAME_STOPPED, OnStopped);
         pGameOverBus->Unsubscribe(eGameStateEvents::GAME_OVER, OnGameOver);
     }
 
@@ -77,14 +73,9 @@ namespace MyEngine
         ChangeStateSystems(event.prevState, eGameStates::RUNNING, event.pScene);
     }
 
-    void CoreSystem::OnStopped(const GameRunningEvent& event)
+    void CoreSystem::OnStopped(const GameStoppedEvent& event)
     {
         ChangeStateSystems(event.prevState, eGameStates::STOPPED, event.pScene);
-    }
-
-    void CoreSystem::OnLevelUp(const GameLevelUpEvent& event)
-    {
-        ChangeStateSystems(event.prevState, eGameStates::LEVELUP, event.pScene);
     }
 
     void CoreSystem::OnGameOver(const GameOverEvent& event)

@@ -74,7 +74,6 @@ namespace MyEngine
 		iEventBus<eGameStateEvents, GameStartedEvent>* m_pEventBusStartedState;
 		iEventBus<eGameStateEvents, GameRunningEvent>* m_pEventBusRunningState;
 		iEventBus<eGameStateEvents, GameStoppedEvent>* m_pEventBusStoppedState;
-		iEventBus<eGameStateEvents, GameLevelUpEvent>* m_pEventBusLevelUpState;
 		iEventBus<eGameStateEvents, GameOverEvent>* m_pEventBusGameOverState;
 
 		// Resources managers

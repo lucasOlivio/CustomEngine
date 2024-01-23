@@ -34,9 +34,7 @@ namespace MyEngine
 
 		static void OnRunning(const GameRunningEvent& event);
 
-		static void OnStopped(const GameRunningEvent& event);
-
-		static void OnLevelUp(const GameLevelUpEvent& event);
+		static void OnStopped(const GameStoppedEvent& event);
 
 		static void OnGameOver(const GameOverEvent& event);
 

@@ -120,9 +120,6 @@ namespace MyEngine
         m_pEventBusRunningState = new EventBus<eGameStateEvents, GameRunningEvent>();
         EventBusLocator<eGameStateEvents, GameRunningEvent>::Set(m_pEventBusRunningState);
 
-        m_pEventBusLevelUpState = new EventBus<eGameStateEvents, GameLevelUpEvent>();
-        EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Set(m_pEventBusLevelUpState);
-
         m_pEventBusGameOverState = new EventBus<eGameStateEvents, GameOverEvent>();
         EventBusLocator<eGameStateEvents, GameOverEvent>::Set(m_pEventBusGameOverState);
 
@@ -162,6 +159,10 @@ namespace MyEngine
         // TODO: Now each resource is been loaded by the systems, 
         // but they should be loaded all here and have separate files
         m_pSceneManager->ChangeScene(initialSceneName);
+
+        // Just need to set current state and the update will trigger the event change
+        GameStateComponent* pState = CoreLocator::GetGameState();
+        pState->currState = eGameStates::STARTED;
 
         m_isRunning = true;
         while (m_isRunning)
@@ -231,7 +232,6 @@ namespace MyEngine
         delete m_pEventBusStartedState;
         delete m_pEventBusRunningState;
         delete m_pEventBusStoppedState;
-        delete m_pEventBusLevelUpState;
         delete m_pEventBusGameOverState;
     }
 

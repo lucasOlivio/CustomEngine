@@ -8,7 +8,6 @@ namespace MyEngine
 		STARTED,
 		RUNNING,
 		STOPPED,
-		LEVELUP,
 		GAMEOVER
 	};
 }

@@ -13,7 +13,6 @@ namespace MyEngine
 		GAME_STARTED,
 		GAME_RUNNING,
 		GAME_STOPPED,
-		GAME_LEVELUP,
 		GAME_OVER
 	};
 
@@ -45,17 +44,6 @@ namespace MyEngine
 		GameStoppedEvent() :
 			Event<eGameStateEvents>(eGameStateEvents::GAME_STOPPED, "GameStopped") {};
 		virtual ~GameStoppedEvent() {};
-
-		eGameStates prevState;
-		Scene* pScene;
-	};
-
-	class GameLevelUpEvent : public Event<eGameStateEvents>
-	{
-	public:
-		GameLevelUpEvent() :
-			Event<eGameStateEvents>(eGameStateEvents::GAME_LEVELUP, "GameLevelUp") {};
-		virtual ~GameLevelUpEvent() {};
 
 		eGameStates prevState;
 		Scene* pScene;

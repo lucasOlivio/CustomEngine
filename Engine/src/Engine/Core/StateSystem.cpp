@@ -15,9 +15,6 @@ namespace MyEngine
 
 	void StateSystem::Start(Scene* pScene)
 	{
-		// Just need to set current state and the update will trigger the event change
-		GameStateComponent* pState = CoreLocator::GetGameState();
-		pState->currState = eGameStates::STARTED;
 	}
 
 	void StateSystem::Update(Scene* pScene, float deltaTime)
@@ -73,17 +70,6 @@ namespace MyEngine
 			iEventBus<eGameStateEvents, GameRunningEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameRunningEvent>::Get();
 
 			GameRunningEvent stateEvent = GameRunningEvent();
-			stateEvent.prevState = oldState;
-			stateEvent.pScene = pScene;
-			pEventBus->Publish(stateEvent);
-
-			return;
-		}
-		else if (newState == eGameStates::LEVELUP)
-		{
-			iEventBus<eGameStateEvents, GameLevelUpEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Get();
-
-			GameLevelUpEvent stateEvent = GameLevelUpEvent();
 			stateEvent.prevState = oldState;
 			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);

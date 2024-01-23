@@ -7,15 +7,15 @@
                 0.0
             ],
             "position": [
-                50.0,
-                75.0,
-                50.0
+                57.746482849121094,
+                67.9336929321289,
+                47.32079315185547
             ],
             "orientation": [
-                0.9953864216804504,
-                -0.05674009397625923,
-                0.07724691927433014,
-                0.004403321072459221
+                0.9999988079071045,
+                0.0004999994998797774,
+                -0.001499999430961907,
+                7.499998559978849e-7
             ],
             "distance": 0.5,
             "height": 0.0,
@@ -23,9 +23,9 @@
         },
         "gridBroadphase": {
             "lengthPerBox": [
-                8.0,
-                8.0,
-                8.0
+                4.0,
+                4.0,
+                4.0
             ]
         }
     },
@@ -265,8 +265,8 @@
         },
         "transform": {
             "position": [
-                50.0,
-                79.0,
+                60.0,
+                75.0,
                 0.0
             ],
             "orientation": [
@@ -279,7 +279,7 @@
         },
         "movement": {
             "velocity": [
-                1.0,
+                -1.0,
                 -1.0,
                 0.0
             ],
@@ -288,21 +288,21 @@
                 0.0,
                 0.0
             ],
-            "maxSpeed": 0.0,
+            "maxSpeed": 5.0,
             "drag": 0.0
         },
         "rotation": {
             "velocity": [
                 0.0,
                 0.0,
-                50.0
+                100.0
             ],
             "acceleration": [
                 0.0,
                 0.0,
                 0.0
             ],
-            "maxSpeed": 0.0,
+            "maxSpeed": 100.0,
             "drag": 0.0
         },
         "model": {
@@ -382,8 +382,8 @@
         },
         "transform": {
             "position": [
-                45.0,
-                71.0,
+                50.0,
+                65.0,
                 0.0
             ],
             "orientation": [
@@ -405,7 +405,7 @@
                 0.0,
                 0.0
             ],
-            "maxSpeed": 0.0,
+            "maxSpeed": 5.0,
             "drag": 0.0
         },
         "model": {
@@ -453,6 +453,125 @@
             "models": [
                 "cube.ply"
             ]
+        }
+    },
+    {
+        "tag": {
+            "name": "test4"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                3.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
+        },
+        "parent": {
+            "parentId": 5
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattest",
+            "models": [
+                "sphere.obj"
+            ]
+        },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                2.0,
+                0.0,
+                0.0
+            ]
+        },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 1.0
+        }
+    },
+    {
+        "tag": {
+            "name": "test5"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                -3.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
+        },
+        "parent": {
+            "parentId": 7
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "useColorTexture": 1,
+            "material": "mattest",
+            "models": [
+                "sphere.obj",
+                "cube.ply"
+            ]
+        },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 1.0
         }
     }
 ]

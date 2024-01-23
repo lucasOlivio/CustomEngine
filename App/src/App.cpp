@@ -1,16 +1,23 @@
 #include "Core/AppEngine.h"
 
+#include "Engine/Core/EngineLocator.h"
+
 int main()
 {
 	using namespace MyEngine;
 
-	Application app = Application();
+	Application* pApp = new Application();
+	EngineLocator::Set(pApp);
 
-	app.LoadConfigurations();
+	pApp->LoadConfigurations();
 
 	// TODO: This would be better comming from command args?
 	const std::string INITIAL_SCENE = "scene01.json";
-	app.Init();
+	pApp->Init();
 
-	app.Run(INITIAL_SCENE);
+	pApp->Run(INITIAL_SCENE, false);
+
+	pApp->Shutdown();
+
+	delete pApp;
 }
