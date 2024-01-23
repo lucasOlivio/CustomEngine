@@ -363,6 +363,11 @@ namespace MyEngine
             ImGui::InputText(("##Model" + std::to_string(i)).c_str(), &pModel->models[i]);
         }
 
+        if (ImGui::Button("Add Mesh"))
+        {
+            pModel->models.push_back("cube.ply"); // You can set a default path or leave it empty
+        }
+
         // Material
         ImGui::Text("Material");
         ImGui::InputText("##Material", &pModel->material);
