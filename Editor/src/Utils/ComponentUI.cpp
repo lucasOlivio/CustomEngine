@@ -170,6 +170,11 @@ namespace MyEngine
         ImGui::InputFloat("##AccelerationX", &pMovement->acceleration.x);
         ImGui::InputFloat("##AccelerationY", &pMovement->acceleration.y);
         ImGui::InputFloat("##AccelerationZ", &pMovement->acceleration.z);
+
+        Separator();
+        ImGui::InputFloat("##MovementMaxSpeed", &pMovement->maxSpeed);
+        Separator();
+        ImGui::InputFloat("##MovementDrag", &pMovement->drag);
     }
 
     void ComponentUI::m_RotationUI(Scene* pScene, Entity entityId)
@@ -192,6 +197,11 @@ namespace MyEngine
         ImGui::InputFloat("##AngularAccelerationX", &pRotation->acceleration.x);
         ImGui::InputFloat("##AngularAccelerationY", &pRotation->acceleration.y);
         ImGui::InputFloat("##AngularAccelerationZ", &pRotation->acceleration.z);
+
+        Separator();
+        ImGui::InputFloat("##AngularMaxSpeed", &pRotation->maxSpeed);
+        Separator();
+        ImGui::InputFloat("##AngularDrag", &pRotation->drag);
     }
 
     void ComponentUI::m_ParentUI(Scene* pScene, Entity entityId)

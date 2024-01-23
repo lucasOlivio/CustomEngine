@@ -287,7 +287,9 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
         },
         "rotation": {
             "velocity": [
@@ -299,7 +301,9 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
         },
         "model": {
             "isActive": 1,
@@ -347,7 +351,9 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
         },
         "parent": {
             "parentId": 5
@@ -398,7 +404,9 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
         },
         "model": {
             "isActive": 1,

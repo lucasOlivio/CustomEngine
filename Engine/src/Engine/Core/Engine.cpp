@@ -7,7 +7,6 @@
 #include "Engine/Events/EventBus.hpp"
 #include "Engine/Events/EventBusLocator.hpp"
 
-#include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/ECS/Scene/SceneManager.h"
 #include "Engine/ECS/Scene/SceneManagerLocator.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
@@ -185,7 +184,6 @@ namespace MyEngine
         PhysicsLocator::Clear();
 
         // Delete resouce managers
-        delete m_pEventBusWindow;
         delete m_pVAOManager;
         delete m_pShaderManager;
         delete m_pMaterialManager;

@@ -52,8 +52,8 @@ namespace MyEngine
 		{
 			iEventBus<eStateChangeEvents, StoppedStateEvent>* pEventBus = EventBusLocator<eStateChangeEvents, StoppedStateEvent>::Get();
 
-			StoppedStateEvent keyEvent = StoppedStateEvent();
-			pEventBus->Publish(keyEvent);
+			StoppedStateEvent stateEvent = StoppedStateEvent();
+			pEventBus->Publish(stateEvent);
 			
 			return;
 		}
@@ -61,8 +61,8 @@ namespace MyEngine
 		{
 			iEventBus<eStateChangeEvents, RunningStateEvent>* pEventBus = EventBusLocator<eStateChangeEvents, RunningStateEvent>::Get();
 
-			RunningStateEvent keyEvent = RunningStateEvent();
-			pEventBus->Publish(keyEvent);
+			RunningStateEvent stateEvent = RunningStateEvent();
+			pEventBus->Publish(stateEvent);
 
 			return;
 		}

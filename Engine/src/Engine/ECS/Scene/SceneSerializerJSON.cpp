@@ -342,6 +342,8 @@ namespace MyEngine
 
         parser.SetMember(jsonObject, "velocity", movementIn.velocity, allocator);
         parser.SetMember(jsonObject, "acceleration", movementIn.acceleration, allocator);
+        parser.SetMember(jsonObject, "maxSpeed", movementIn.maxSpeed, allocator);
+        parser.SetMember(jsonObject, "drag", movementIn.drag, allocator);
 
         return true;
     }
@@ -354,6 +356,8 @@ namespace MyEngine
 
         parser.SetMember(jsonObject, "velocity", rotationIn.velocity, allocator);
         parser.SetMember(jsonObject, "acceleration", rotationIn.acceleration, allocator);
+        parser.SetMember(jsonObject, "maxSpeed", rotationIn.maxSpeed, allocator);
+        parser.SetMember(jsonObject, "drag", rotationIn.drag, allocator);
 
         return true;
     }
@@ -727,6 +731,8 @@ namespace MyEngine
 
         parser.GetValue(jsonObject["velocity"], movementOut.velocity);
         parser.GetValue(jsonObject["acceleration"], movementOut.acceleration);
+        parser.GetValue(jsonObject["maxSpeed"], movementOut.maxSpeed);
+        parser.GetValue(jsonObject["drag"], movementOut.drag);
 
         return true;
     }
@@ -739,6 +745,8 @@ namespace MyEngine
 
         parser.GetValue(jsonObject["velocity"], rotationOut.velocity);
         parser.GetValue(jsonObject["acceleration"], rotationOut.acceleration);
+        parser.GetValue(jsonObject["maxSpeed"], rotationOut.maxSpeed);
+        parser.GetValue(jsonObject["drag"], rotationOut.drag);
 
         return true;
     }

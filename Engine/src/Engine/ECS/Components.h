@@ -33,12 +33,18 @@ namespace MyEngine
 	{
 		glm::vec3 velocity;
 		glm::vec3 acceleration;
+
+		float drag;
+		float maxSpeed;
 	};
 
 	struct RotationComponent
 	{
 		glm::vec3 velocity;
 		glm::vec3 acceleration;
+		 
+		float drag;
+		float maxSpeed;
 	};
 
 	struct ParentComponent
