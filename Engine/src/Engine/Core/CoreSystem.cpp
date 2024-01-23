@@ -25,17 +25,18 @@ namespace MyEngine
         pRunningBus->Subscribe(eGameStateEvents::GAME_STOPPED, OnStopped);
         pLevelUpBus->Subscribe(eGameStateEvents::GAME_LEVELUP, OnLevelUp);
         pGameOverBus->Subscribe(eGameStateEvents::GAME_OVER, OnGameOver);
-    }
 
-    void CoreSystem::Start(Scene* pScene)
-    {
         // Main systems must start right away
         Engine* pEngine = EngineLocator::Get();
         GameStateComponent* pState = CoreLocator::GetGameState();
         for (std::string systemName : pState->mainSystems)
         {
-            pEngine->AddSystem(systemName, pScene);
+            pEngine->AddSystem(systemName);
         }
+    }
+
+    void CoreSystem::Start(Scene* pScene)
+    {
     }
 
     void CoreSystem::Update(Scene* pScene, float deltaTime)

@@ -5,6 +5,9 @@
 #include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
+#include "Engine/Events/EventBusLocator.hpp"
+#include "Engine/Events/WindowEvents.h"
+
 #include "Engine/Graphics/Shaders/ShaderManager.h"
 
 namespace MyEngine
@@ -70,6 +73,11 @@ namespace MyEngine
 
         // Update window title
         glfwSetWindowTitle(pWindow->pGLFWWindow, pWindow->name.c_str());
+
+        if (glfwWindowShouldClose(pWindow->pGLFWWindow))
+        {
+            m_TriggerWindowClose();
+        }
     }
 
     void WindowSystem::Render(Scene* pScene)
@@ -87,5 +95,13 @@ namespace MyEngine
             glfwDestroyWindow(pWindow->pGLFWWindow);
         }
         glfwTerminate();
+    }
+
+    void WindowSystem::m_TriggerWindowClose()
+    {
+        iEventBus<eWindowEvents, WindowCloseEvent>* pEventBus = EventBusLocator<eWindowEvents, WindowCloseEvent>::Get();
+
+        WindowCloseEvent collEvent = WindowCloseEvent();
+        pEventBus->Publish(collEvent);
     }
 }

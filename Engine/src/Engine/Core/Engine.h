@@ -56,6 +56,8 @@ namespace MyEngine
 
 		virtual void OnSceneChange(const SceneChangeEvent& event);
 
+		virtual void OnWindowClose(const WindowCloseEvent& event);
+
 		// Any major clears needed to be done at end of frame (Ex: scene deleting, entity delete)
 		virtual void ClearFrame();
 
@@ -84,6 +86,8 @@ namespace MyEngine
 
 		float m_lastTime = 0.0f;
 		std::vector<float> m_frameTimes;
+
+		bool m_isRunning;
 
 		float m_GetDeltaTime();
 

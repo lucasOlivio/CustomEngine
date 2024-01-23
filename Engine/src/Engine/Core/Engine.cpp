@@ -144,6 +144,7 @@ namespace MyEngine
 
         // Global events of engine interest
         m_pEventBusSceneChange->Subscribe(eSceneEvents::CHANGE, [this](const SceneChangeEvent& event) { OnSceneChange(event); });
+        m_pEventBusWindow->Subscribe(eWindowEvents::WINDOW_CLOSE, [this](const WindowCloseEvent& event) { OnWindowClose(event); });
 
         // Load resources
         ConfigPathComponent* pConfigPaths = CoreLocator::GetConfigPath();
@@ -155,19 +156,15 @@ namespace MyEngine
 
     void Engine::Run(std::string initialSceneName, bool startSimulation)
     {
+        AddSystem("CoreSystem");
+        AddSystem("StateSystem");
+
         // TODO: Now each resource is been loaded by the systems, 
         // but they should be loaded all here and have separate files
         m_pSceneManager->ChangeScene(initialSceneName);
 
-        // Add main systems
-        GameStateComponent* pStates = CoreLocator::GetGameState();
-        AddSystem("CoreSystem", m_pCurrentScene);
-        AddSystem("StateSystem", m_pCurrentScene);
-
-        // TODO: Better closing proccess, should come from event
-        GLFWwindow* pGLFWWindow = GraphicsLocator::GetWindow()->pGLFWWindow;
-
-        while (!glfwWindowShouldClose(pGLFWWindow))
+        m_isRunning = true;
+        while (m_isRunning)
         {
             float deltaTime = m_GetDeltaTime();
 
@@ -283,6 +280,11 @@ namespace MyEngine
         StartSystems(m_pCurrentScene);
     }
 
+    void Engine::OnWindowClose(const WindowCloseEvent& event)
+    {
+        m_isRunning = false;
+    }
+
     void Engine::ClearFrame()
     {
         // TODO: Resources should be separated from scenes before we can delete scenes
@@ -328,6 +330,12 @@ namespace MyEngine
     {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
 
+        if (!pWindow->pGLFWWindow)
+        {
+            // No window created
+            return;
+        }
+
         // Clear frame
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -362,7 +370,13 @@ namespace MyEngine
     void Engine::m_EndFrame()
     {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
-        
+
+        if (!pWindow->pGLFWWindow)
+        {
+            // No window created
+            return;
+        }
+
         // ImGui endframe
         ImGui::End();
 
