@@ -151,23 +151,6 @@ namespace MyEngine
         m_pShaderManager->SetBasePath(pConfigPaths->pathShaders);
         m_pVAOManager->SetBasePath(pConfigPaths->pathModels);
         m_pSceneManager->SetBasePath(pConfigPaths->pathScenes);
-
-        // Add main systems
-        GameStateComponent* pStates = CoreLocator::GetGameState();
-        pStates->mainSystems = {
-            "CoreSystem",
-            "StateSystem",
-            "WindowFrameSystem",
-            "TransformParentSystem",
-            "WindowSystem",
-            "InputSystem",
-            "BaseUISystem", // Has to come after inputsystem, to init imgui after we register o
-            // Graphics
-            "ShaderSystem",
-            "CameraSystem",
-            "RenderSystem",
-            "LightSystem"
-        };
     }
 
     void Engine::Run(std::string initialSceneName, bool startSimulation)
@@ -176,12 +159,10 @@ namespace MyEngine
         // but they should be loaded all here and have separate files
         m_pSceneManager->ChangeScene(initialSceneName);
 
-        // Main systems must start right away
-        GameStateComponent* pState = CoreLocator::GetGameState();
-        for (std::string systemName : pState->mainSystems)
-        {
-            AddSystem(systemName, m_pCurrentScene);
-        }
+        // Add main systems
+        GameStateComponent* pStates = CoreLocator::GetGameState();
+        AddSystem("CoreSystem", m_pCurrentScene);
+        AddSystem("StateSystem", m_pCurrentScene);
 
         // TODO: Better closing proccess, should come from event
         GLFWwindow* pGLFWWindow = GraphicsLocator::GetWindow()->pGLFWWindow;

@@ -29,6 +29,13 @@ namespace MyEngine
 
     void CoreSystem::Start(Scene* pScene)
     {
+        // Main systems must start right away
+        Engine* pEngine = EngineLocator::Get();
+        GameStateComponent* pState = CoreLocator::GetGameState();
+        for (std::string systemName : pState->mainSystems)
+        {
+            pEngine->AddSystem(systemName, pScene);
+        }
     }
 
     void CoreSystem::Update(Scene* pScene, float deltaTime)

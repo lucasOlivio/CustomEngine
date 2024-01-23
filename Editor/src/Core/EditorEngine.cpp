@@ -27,6 +27,17 @@ namespace MyEngine
 
 		GameStateComponent* pStates = CoreLocator::GetGameState();
 
+		pStates->mainSystems.push_back("WindowFrameSystem");
+		pStates->mainSystems.push_back("TransformParentSystem");
+		pStates->mainSystems.push_back("WindowSystem");
+		pStates->mainSystems.push_back("InputSystem");
+		pStates->mainSystems.push_back("BaseUISystem"); // Has to come after inputsystem, to init imgui after we register out input callback
+		// Graphics
+		pStates->mainSystems.push_back("ShaderSystem");
+		pStates->mainSystems.push_back("CameraSystem");
+		pStates->mainSystems.push_back("RenderSystem");
+		pStates->mainSystems.push_back("LightSystem");
+
 		pStates->mainSystems.push_back("MenuSystem");
 		pStates->mainSystems.push_back("EntityBarSystem");
 		pStates->mainSystems.push_back("FlyingCameraSystem");
