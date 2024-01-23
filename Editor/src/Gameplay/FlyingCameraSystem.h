@@ -12,6 +12,8 @@ namespace MyEngine
 		FlyingCameraSystem() = default;
 		virtual ~FlyingCameraSystem() { };
 
+		virtual std::string SystemName() { return "FlyingCameraSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

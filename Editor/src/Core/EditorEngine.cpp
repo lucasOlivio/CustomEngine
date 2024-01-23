@@ -37,7 +37,6 @@ namespace MyEngine
 		Engine::AddSystem(SystemBuilder::CreateSystem("MovementSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("RotationSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("GravitySystem"));
-		Engine::AddSystem(SystemBuilder::CreateSystem("RegisterCollisionSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("GridBroadPhaseSystem"));
 		Engine::AddSystem(SystemBuilder::CreateSystem("CollisionSystem"));
 		// DEBUG

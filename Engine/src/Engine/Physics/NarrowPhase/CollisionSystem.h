@@ -11,6 +11,8 @@ namespace MyEngine
 		CollisionSystem() = default;
 		virtual ~CollisionSystem() { };
 
+		virtual std::string SystemName() { return "CollisionSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);
@@ -24,6 +26,9 @@ namespace MyEngine
 		virtual void Shutdown();
 
 	private:
+		// Returns false if the collision is duplicated
+		bool m_RegisterFrameCollision(const sCollisionData& collData);
+
 		// Use the event bus to trigger a collision event with this event data
 		void m_TriggerCollisionEnter(const sCollisionData& collData);
 
@@ -33,7 +38,8 @@ namespace MyEngine
 								   TransformComponent* pTransformA,
 								   SphereColliderComponent* pSphereA,
 								   const int index,
-								   const std::vector<Entity>& nonStaticEntities,
+								   const std::vector<Entity>& activeEntities,
+								   const std::vector<Entity>& passiveEntities,
 								   const std::vector<Entity>& staticEntities,
 								   const std::vector<sTriangle*>& triangles);
 
@@ -49,7 +55,8 @@ namespace MyEngine
 								 TransformComponent* pTransformA,
 								 AABBColliderComponent* pAABBA,
 								 const int index,
-								 const std::vector<Entity>& nonStaticEntities,
+								 const std::vector<Entity>& activeEntities,
+								 const std::vector<Entity>& passiveEntities,
 								 const std::vector<Entity>& staticEntities,
 								 const std::vector<sTriangle*>& triangles);
 

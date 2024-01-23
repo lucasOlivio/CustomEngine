@@ -34,19 +34,23 @@ namespace MyEngine
 			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
 			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
 
-			switch (pRigidBody->shapeType)
+			if (pRigidBody->shapeType == eShape::AABB)
 			{
-			case eShape::AABB:
 				m_InsertAABB(pScene, entityId, pRigidBody->bodyType);
-				break;
-			case eShape::SPHERE:
-				m_InsertSphere(pScene, entityId, pRigidBody->bodyType);
-				break;
-			case eShape::MESH_OF_TRIANGLES:
+			}
+			else if (pRigidBody->shapeType == eShape::SPHERE)
+			{
+				SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
+				m_InsertSphere(entityId, idxpos, pTransform->position,
+					pSphere->radius, pRigidBody->bodyType, pGrid);
+			}
+			else if (pRigidBody->shapeType == eShape::MESH_OF_TRIANGLES)
+			{
 				m_InsertMesh(pScene, entityId, pRigidBody->bodyType);
-				break;
-			default:
-				break;
+			}
+			else
+			{
+				LOG_WARNING("Shape type not implemented yet: " + std::to_string(pRigidBody->shapeType));
 			}
 		}
 	}
@@ -62,21 +66,22 @@ namespace MyEngine
 		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 		NarrowPhaseTestsComponent* pNarrowTests = PhysicsLocator::GetNarrowPhaseTests();
 
-		// Clear non static entities first
+		// Clear active entities first
 		for (itIdxAABB it = pGrid->mapAABBs.begin(); it != pGrid->mapAABBs.end(); ++it)
 		{
 			int key = it->first;
 			GridAABB* pAABB = it->second;
 
-			pAABB->vecNonStaticEntities.clear();
+			pAABB->vecActiveEntities.clear();
+			pAABB->vecPassiveEntities.clear();
 		}
 
 		// Clear all test groups
-		pNarrowTests->staticEntitiesToTest.clear();
-		pNarrowTests->nonStaticEntitiesToTest.clear();
+		pNarrowTests->passiveEntitiesToTest.clear();
+		pNarrowTests->activeEntitiesToTest.clear();
 		pNarrowTests->trianglesToTest.clear();
 
-		// Update aabbs non static entities positions
+		// Update aabbs active and passice entities positions
 		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
 		{
 			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
@@ -90,17 +95,21 @@ namespace MyEngine
 			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
 			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
 
-			switch (pRigidBody->shapeType)
+			if (pRigidBody->shapeType == eShape::AABB)
 			{
-			case eShape::AABB:
 				m_InsertAABB(pScene, entityId, pRigidBody->bodyType);
-				break;
-			case eShape::SPHERE:
-				m_InsertSphere(pScene, entityId, pRigidBody->bodyType);
-				break;
-			default:
-				break;
 			}
+			else if (pRigidBody->shapeType == eShape::SPHERE)
+			{
+				SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
+				m_InsertSphere(entityId, idxpos, pTransform->position,
+					pSphere->radius, pRigidBody->bodyType, pGrid);
+			}
+			else
+			{
+				LOG_WARNING("Shape type not implemented yet: " + std::to_string(pRigidBody->shapeType));
+			}
+
 		}
 
 		// Update testing groups for narrow phase
@@ -109,33 +118,40 @@ namespace MyEngine
 		{
 			GridAABB* pAABB = it->second;
 
-			// Only add to narrow phase testing groups if we have non static entity on aabb
-			if (pAABB->vecNonStaticEntities.size() > 0)
+			// Only add to narrow phase testing groups if we have active entity on aabb
+			if (pAABB->vecActiveEntities.size() > 0)
 			{
 				std::vector<Entity> vecStatics = {};
-				std::vector<Entity> vecNonStatics = {};
+				std::vector<Entity> vecPassive = {};
+				std::vector<Entity> vecActive = {};
 				std::vector<sTriangle*> vecTriangles = {};
 
 				pNarrowTests->staticEntitiesToTest.push_back(vecStatics);
-				pNarrowTests->nonStaticEntitiesToTest.push_back(vecNonStatics);
+				pNarrowTests->passiveEntitiesToTest.push_back(vecPassive);
+				pNarrowTests->activeEntitiesToTest.push_back(vecActive);
 				pNarrowTests->trianglesToTest.push_back(vecTriangles);
 
 				i++;
-			}
 
-			for (Entity entityId : pAABB->vecNonStaticEntities)
-			{
-				pNarrowTests->nonStaticEntitiesToTest[i].push_back(entityId);
-			}
+				for (Entity entityId : pAABB->vecActiveEntities)
+				{
+					pNarrowTests->activeEntitiesToTest[i].push_back(entityId);
+				}
 
-			for (Entity entityId : pAABB->vecStaticEntities)
-			{
-				pNarrowTests->staticEntitiesToTest[i].push_back(entityId);
-			}
+				for (Entity entityId : pAABB->vecStaticEntities)
+				{
+					pNarrowTests->staticEntitiesToTest[i].push_back(entityId);
+				}
 
-			for (sTriangle* triangle : pAABB->vecTriangles)
-			{
-				pNarrowTests->trianglesToTest[i].push_back(triangle);
+				for (Entity entityId : pAABB->vecPassiveEntities)
+				{
+					pNarrowTests->passiveEntitiesToTest[i].push_back(entityId);
+				}
+
+				for (sTriangle* triangle : pAABB->vecTriangles)
+				{
+					pNarrowTests->trianglesToTest[i].push_back(triangle);
+				}
 			}
 
 			// Check if aabb is empty to remove from mapping
@@ -177,7 +193,7 @@ namespace MyEngine
 		return itAABB->second;
 	}
 
-	GridAABB* GridBroadPhaseSystem::m_GetAABB(glm::vec3 point)
+	GridAABB* GridBroadPhaseSystem::m_GetAABB(const glm::vec3& point)
 	{
 		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 
@@ -207,6 +223,7 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::m_InsertAABB(Scene* pScene, Entity entityId, eBody bodyType)
 	{
+		LOG_WARNING("AABB GRID INSERT NOT IMPLEMENTED YET!");
 		AABBColliderComponent* pAABB = pScene->Get<AABBColliderComponent>(entityId);
 		if (!pAABB)
 		{
@@ -214,52 +231,46 @@ namespace MyEngine
 		}
 	}
 
-	void GridBroadPhaseSystem::m_InsertSphere(Scene* pScene, Entity entityId, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertSphere(Entity entityID, uint originIndex,
+											  const glm::vec3& position, float radius, 
+											  const eBody& bodyType,
+											  GridBroadphaseComponent* pGrid)
 	{
-		SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
-		if (!pSphere)
+		// Check collisions in the neighboring cells
+		for (int i = -1; i <= 1; ++i)
 		{
-			return;
+			float radiusI = radius * i;
+			for (int j = -1; j <= 1; ++j)
+			{
+				float radiusJ = radius * j;
+				for (int k = -1; k <= 1; k++)
+				{
+					if (j == 0 && i == 0 && k == 0)
+					{
+						// Same aabb
+						continue;
+					}
+
+					float radiusK = radius * k;
+
+					glm::vec3 currRadius = glm::vec3(radiusI, radiusJ, radiusK);
+					glm::vec3 currPoint = position + currRadius;
+
+					uint currIdxpos = GridUtils::LocatePoint(currPoint, pGrid->lengthPerBox);
+
+					if (currIdxpos == originIndex)
+					{
+						// Same aabb
+						continue;
+					}
+
+					m_InsertEntity(entityID, currIdxpos, bodyType);
+				}
+			}
 		}
-
-		//// Check collisions in the neighboring cells
-
-		//// Calculate the number of neighboring cells to check based on the sphere radius
-		//int numNeighborsX = (int)(ceil(pSphere->radius / m_lengthPerBox.x));
-		//int numNeighborsY = (int)(ceil(pSphere->radius / m_lengthPerBox.y));
-		//int numNeighborsZ = (int)(ceil(pSphere->radius / m_lengthPerBox.z));
-
-		//glm::vec3 posCell = GridUtils::LocatePosition(idxpos, m_lengthPerBox);
-		//for (int i = -numNeighborsX; i <= numNeighborsX; ++i) 
-		//{
-		//	float radiusI = pSphere->radius / i;
-		//	for (int j = -numNeighborsY; j <= numNeighborsY; ++j) 
-		//	{
-		//		float radiusJ = pSphere->radius / j;
-		//		for (int k = -numNeighborsZ; k <= numNeighborsZ; ++k) 
-		//		{
-		//			float radiusK = pSphere->radius / k;
-
-		//			// Proportional radius that would be in neighbor cell
-		//			glm::vec3 currRadius = glm::vec3(radiusI, radiusJ, radiusK);
-		//			glm::vec3 currPoint = pTransform->worldPosition + currRadius;
-
-		//			uint currIdxpos = GridUtils::LocatePoint(currPoint, m_lengthPerBox);
-
-		//			if (idxpos == currIdxpos)
-		//			{
-		//				// Still in the same grid
-		//				continue;
-		//			}
-
-		//			// Different grid, insert entity in it too
-		//			m_InsertEntity(entityId, currIdxpos, bodyType);
-		//		}
-		//	}
-		//}
 	}
 
-	void GridBroadPhaseSystem::m_InsertMesh(Scene* pScene, Entity entityId, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertMesh(Scene* pScene, Entity entityId, const eBody& bodyType)
 	{
 		MeshColliderComponent* pMeshCollider = pScene->Get<MeshColliderComponent>(entityId);
 		sMesh* pMesh = pMeshCollider->pMesh;
@@ -275,7 +286,7 @@ namespace MyEngine
 		}
 	}
 
-	void GridBroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, eBody bodyType)
+	void GridBroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, const eBody& bodyType)
 	{
 		GridAABB* pAABB = m_GetOrCreateAABB(index);
 		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
@@ -285,9 +296,13 @@ namespace MyEngine
 		{
 			pAABB->vecStaticEntities.insert(entityID);
 		}
+		else if (bodyType == eBody::PASSIVE)
+		{
+			pAABB->vecPassiveEntities.insert(entityID);
+		}
 		else
 		{
-			pAABB->vecNonStaticEntities.insert(entityID);
+			pAABB->vecActiveEntities.insert(entityID);
 		}
 
 		return;

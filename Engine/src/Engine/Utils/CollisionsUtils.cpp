@@ -1,8 +1,13 @@
 #include "pch.h"
 
 #include "CollisionsUtils.h"
+
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/SingletonComponents/CoreLocator.h"
+
 #include "Engine/Utils/TransformUtils.h"
 #include "Engine/Utils/Math.h"
+
 #include <glm/mat4x4.hpp>
 
 namespace MyEngine
@@ -193,5 +198,15 @@ namespace MyEngine
 		}
 
 		return normal;
+	}
+
+	std::set<sCollisionData>& CollisionsUtils::CurrentFrameCollisions()
+	{
+		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
+		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
+
+		// Module to make sure we stay in FRAME_RATE size
+		int currFrame = pFrames->frameCount % FRAME_RATE;
+		return pFrameColl->collisions[currFrame];
 	}
 }

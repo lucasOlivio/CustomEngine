@@ -19,7 +19,6 @@
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/Physics/BroadPhase/GridBroadPhaseSystem.h"
 #include "Engine/Physics/NarrowPhase/CollisionSystem.h"
-#include "Engine/Physics/RegisterCollisionSystem.h"
 
 #include "Engine/Debug/DebugSystem.h"
 #include "Engine/Debug/DrawGridSystem.h"
@@ -49,7 +48,6 @@ namespace MyEngine
         {"GravitySystem", []() { return new GravitySystem; }},
         {"GridBroadPhaseSystem", []() { return new GridBroadPhaseSystem; }},
         {"CollisionSystem", []() { return new CollisionSystem; }},
-        {"RegisterCollisionSystem", []() { return new RegisterCollisionSystem; }},
         // Debug Systems
         {"DebugSystem", []() { return new DebugSystem; }},
         {"DrawGridSystem", []() { return new DrawGridSystem; }},

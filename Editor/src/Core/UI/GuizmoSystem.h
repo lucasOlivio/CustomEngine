@@ -13,6 +13,8 @@ namespace MyEngine
 		GuizmoSystem() = default;
 		virtual ~GuizmoSystem() { };
 
+		virtual std::string SystemName() { return "GuizmoSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

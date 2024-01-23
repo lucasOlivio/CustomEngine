@@ -11,6 +11,8 @@ namespace MyEngine
 		MenuSystem() = default;
 		virtual ~MenuSystem() { };
 
+		virtual std::string SystemName() { return "MenuSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

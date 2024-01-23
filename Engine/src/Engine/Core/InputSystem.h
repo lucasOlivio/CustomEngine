@@ -12,6 +12,8 @@ namespace MyEngine
 		InputSystem() = default;
 		virtual ~InputSystem() { };
 
+		virtual std::string SystemName() { return "InputSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

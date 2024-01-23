@@ -11,8 +11,8 @@ namespace MyEngine
 	enum eBody
 	{
 		STATIC,
-		KINEMATIC,
-		DYNAMIC
+		ACTIVE,
+		PASSIVE
 	};
 
 	struct sCollisionData
@@ -24,5 +24,15 @@ namespace MyEngine
 		glm::vec3 collisionNormalB;
 		glm::vec3 velocityAtCollisionA;
 		glm::vec3 velocityAtCollisionB;
+
+		bool operator==(const sCollisionData& other) const
+		{
+			return entityA == other.entityA && entityB == other.entityB;
+		}
+
+		bool operator<(const sCollisionData& other) const
+		{
+			return entityB < other.entityB;
+		}
 	};
 }

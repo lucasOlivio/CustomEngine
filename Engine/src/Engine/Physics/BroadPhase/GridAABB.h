@@ -13,11 +13,13 @@ namespace MyEngine
 	// Contains all triangles index (for mesh colliders) and entities inside its area
 	struct GridAABB : public sAABB
 	{
-		// Any static entities collisions
+		// Entities that dont need to be checked but need to have the position recalculated
+		std::set<Entity> vecPassiveEntities;
+		// Entities that dont need to be checked but don't need to have the position recalculated
 		std::set<Entity> vecStaticEntities;
 
-		// Any non-static entities collisions
-		std::set<Entity> vecNonStaticEntities;
+		// Entities that needs direct checking against all other rigid bodies
+		std::set<Entity> vecActiveEntities;
 
 		// Collision type: Mesh collider
 		// Index to mesh triangles inside this AABB
@@ -25,8 +27,9 @@ namespace MyEngine
 
 		size_t Total()
 		{
-			return vecStaticEntities.size() + 
-				   vecNonStaticEntities.size() + 
+			return vecPassiveEntities.size() +
+				   vecStaticEntities.size() + 
+				   vecActiveEntities.size() + 
 				   vecTriangles.size();
 		}
 	};

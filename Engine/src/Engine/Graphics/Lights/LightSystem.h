@@ -12,6 +12,8 @@ namespace MyEngine
 		LightSystem() = default;
 		virtual ~LightSystem() { };
 
+		virtual std::string SystemName() { return "LightSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

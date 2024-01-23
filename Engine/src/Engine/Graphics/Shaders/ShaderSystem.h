@@ -10,6 +10,8 @@ namespace MyEngine
 		ShaderSystem() = default;
 		virtual ~ShaderSystem() { };
 
+		virtual std::string SystemName() { return "ShaderSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

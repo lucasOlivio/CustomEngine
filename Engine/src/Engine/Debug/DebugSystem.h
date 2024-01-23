@@ -11,6 +11,8 @@ namespace MyEngine
 		DebugSystem() = default;
 		virtual ~DebugSystem() { };
 
+		virtual std::string SystemName() { return "DebugSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

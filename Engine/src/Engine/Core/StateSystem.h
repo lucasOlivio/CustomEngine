@@ -13,6 +13,8 @@ namespace MyEngine
 		StateSystem() = default;
 		virtual ~StateSystem() { };
 
+		virtual std::string SystemName() { return "StateSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

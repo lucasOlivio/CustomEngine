@@ -136,14 +136,15 @@ namespace MyEngine
 		// Groups of shapes and entities to test,
 		// the triangles to be tested against the entities will be in the same index
 		std::vector<std::vector<sTriangle*>> trianglesToTest;
+		std::vector<std::vector<Entity>> passiveEntitiesToTest;
 		std::vector<std::vector<Entity>> staticEntitiesToTest;
-		std::vector<std::vector<Entity>> nonStaticEntitiesToTest;
+		std::vector<std::vector<Entity>> activeEntitiesToTest;
 	};
 
 	// All collisions that happened in the last <FRAME_RATE> frames
 	struct FrameCollisionComponent
 	{
-		std::vector<sCollisionData> collisions[FRAME_RATE];
+		std::set<sCollisionData> collisions[FRAME_RATE];
 		size_t currSize;
 	};
 

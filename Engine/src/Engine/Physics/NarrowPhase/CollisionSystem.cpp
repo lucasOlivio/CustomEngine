@@ -25,6 +25,9 @@ namespace MyEngine
 
     void CollisionSystem::Update(Scene* pScene, float deltaTime)
     {
+        // Clear frame collisions
+        CollisionsUtils::CurrentFrameCollisions().clear();
+
         StateComponent* pState = CoreLocator::GetState();
         if (pState->currState == eStates::SIMULATION_STOPPED)
         {
@@ -34,15 +37,16 @@ namespace MyEngine
         NarrowPhaseTestsComponent* pTests = PhysicsLocator::GetNarrowPhaseTests();
 
         // The first layer is the grouping of objects to test
-        for (int group = 0; group < pTests->nonStaticEntitiesToTest.size(); group++)
+        for (int group = 0; group < pTests->activeEntitiesToTest.size(); group++)
         {
-            std::vector<Entity> nonStaticGroup = pTests->nonStaticEntitiesToTest[group];
+            std::vector<Entity> activeGroup = pTests->activeEntitiesToTest[group];
+            std::vector<Entity> passiceGroup = pTests->passiveEntitiesToTest[group];
             std::vector<Entity> staticGroup = pTests->staticEntitiesToTest[group];
             std::vector<sTriangle*> trianglesGroup = pTests->trianglesToTest[group];
 
-            for (int i = 0; i < nonStaticGroup.size(); i++)
+            for (int i = 0; i < activeGroup.size(); i++)
             {
-                Entity entityId = nonStaticGroup[i];
+                Entity entityId = activeGroup[i];
                 TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
                 RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
 
@@ -54,7 +58,8 @@ namespace MyEngine
                 case eShape::SPHERE:
                     pSphere = pScene->Get<SphereColliderComponent>(entityId);
                     m_CheckSphereOverlaps(pScene, entityId, pTransform, pSphere, i,
-                                          nonStaticGroup,
+                                          activeGroup,
+                                          passiceGroup,
                                           staticGroup,
                                           trianglesGroup);
 
@@ -62,7 +67,8 @@ namespace MyEngine
                 case eShape::AABB:
                     pAABB = pScene->Get<AABBColliderComponent>(entityId);
                     m_CheckAABBOverlaps(pScene, entityId, pTransform, pAABB, i,
-                                        nonStaticGroup,
+                                        activeGroup,
+                                        passiceGroup,
                                         staticGroup,
                                         trianglesGroup);
                     break;
@@ -87,8 +93,21 @@ namespace MyEngine
     {
     }
 
+    bool CollisionSystem::m_RegisterFrameCollision(const sCollisionData& collData)
+    {
+        bool isNewCollision = CollisionsUtils::CurrentFrameCollisions().insert(collData).second;
+
+        return isNewCollision;
+    }
+
     void CollisionSystem::m_TriggerCollisionEnter(const sCollisionData& collData)
     {
+        bool isNewCollision = m_RegisterFrameCollision(collData);
+        if (!isNewCollision)
+        {
+            return;
+        }
+
         iEventBus<eCollisionEvents, CollisionEnterEvent>* pEventBus = EventBusLocator<eCollisionEvents, CollisionEnterEvent>::Get();
 
         CollisionEnterEvent collEvent = CollisionEnterEvent();
@@ -101,14 +120,15 @@ namespace MyEngine
                                                 TransformComponent* pTransformA,
                                                 SphereColliderComponent* pSphereA,
                                                 const int index,
-                                                const std::vector<Entity>& nonStaticEntities,
+                                                const std::vector<Entity>& activeEntities,
+                                                const std::vector<Entity>& passiveEntities,
                                                 const std::vector<Entity>& staticEntities,
                                                 const std::vector<sTriangle*>& triangles)
     {
         // Start from one entity ahead so we dont test repeated
-        for (int j = index + 1; j < nonStaticEntities.size(); j++)
+        for (int j = index + 1; j < activeEntities.size(); j++)
         {
-            Entity entityIdB = nonStaticEntities[j];
+            Entity entityIdB = activeEntities[j];
             bool isCollision = m_CheckSphereEntityOverlap(pScene, entityIdA,
                                                           pTransformA,
                                                           pSphereA, 
@@ -117,7 +137,7 @@ namespace MyEngine
 
         for (int j = 0; j < staticEntities.size(); j++)
         {
-            Entity entityIdB = nonStaticEntities[j];
+            Entity entityIdB = activeEntities[j];
             bool isCollision = m_CheckSphereEntityOverlap(pScene, entityIdA,
                                                           pTransformA,
                                                           pSphereA, 
@@ -254,23 +274,33 @@ namespace MyEngine
 								              TransformComponent* pTransformA,
 								              AABBColliderComponent* pAABBA,
 								              const int index,
-								              const std::vector<Entity>& nonStaticEntities,
+								              const std::vector<Entity>& activeEntities,
+								              const std::vector<Entity>& passiveEntities,
 								              const std::vector<Entity>& staticEntities,
 								              const std::vector<sTriangle*>& triangles)
     {
         // Start from one entity ahead so we dont test repeated
-        for (int j = index + 1; j < nonStaticEntities.size(); j++)
+        for (int j = index + 1; j < activeEntities.size(); j++)
         {
-            Entity entityIdB = nonStaticEntities[j];
+            Entity entityIdB = activeEntities[j];
             bool isCollision = m_CheckAABBEntityOverlap(pScene, entityIdA,
                                                         pTransformA,
                                                         pAABBA, 
                                                         entityIdB);
         }
 
+        for (int j = 0; j < passiveEntities.size(); j++)
+        {
+            Entity entityIdB = activeEntities[j];
+            bool isCollision = m_CheckAABBEntityOverlap(pScene, entityIdA,
+                                                        pTransformA,
+                                                        pAABBA,
+                                                        entityIdB);
+        }
+
         for (int j = 0; j < staticEntities.size(); j++)
         {
-            Entity entityIdB = nonStaticEntities[j];
+            Entity entityIdB = activeEntities[j];
             bool isCollision = m_CheckAABBEntityOverlap(pScene, entityIdA,
                                                         pTransformA,
                                                         pAABBA, 

@@ -11,6 +11,8 @@ namespace MyEngine
 		BaseUISystem() = default;
 		virtual ~BaseUISystem() { };
 
+		virtual std::string SystemName() { return "BaseUISystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

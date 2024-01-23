@@ -11,6 +11,8 @@ namespace MyEngine
 		WindowFrameSystem() = default;
 		virtual ~WindowFrameSystem() { };
 
+		virtual std::string SystemName() { return "WindowFrameSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

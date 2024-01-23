@@ -13,6 +13,8 @@ namespace MyEngine
 		EntityBarSystem() = default;
 		virtual ~EntityBarSystem() { };
 
+		virtual std::string SystemName() { return "EntityBarSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

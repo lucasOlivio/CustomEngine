@@ -10,6 +10,8 @@ namespace MyEngine
 		GravitySystem() = default;
 		virtual ~GravitySystem() { };
 
+		virtual std::string SystemName() { return "GravitySystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

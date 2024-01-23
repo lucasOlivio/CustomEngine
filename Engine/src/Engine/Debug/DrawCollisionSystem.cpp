@@ -30,7 +30,7 @@ namespace MyEngine
 		sMesh* pMesh = pSphere->pMesh;
 
 		int currFrame = pFrames->frameCount % FRAME_RATE;
-		const std::vector<sCollisionData>& currFrameColls = pFrameColl->collisions[currFrame];
+		const std::set<sCollisionData>& currFrameColls = pFrameColl->collisions[currFrame];
 		// Draw a wireframe blue sphere at the contact points
 		for (const sCollisionData& coll : currFrameColls)
 		{

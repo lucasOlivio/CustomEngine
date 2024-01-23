@@ -10,6 +10,8 @@ namespace MyEngine
 		CameraSystem() = default;
 		virtual ~CameraSystem() { };
 
+		virtual std::string SystemName() { return "CameraSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

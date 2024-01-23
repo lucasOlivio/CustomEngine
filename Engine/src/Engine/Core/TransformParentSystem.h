@@ -11,6 +11,8 @@ namespace MyEngine
 		TransformParentSystem() = default;
 		virtual ~TransformParentSystem() { };
 
+		virtual std::string SystemName() { return "TransformParentSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

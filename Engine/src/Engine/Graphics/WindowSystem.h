@@ -10,6 +10,8 @@ namespace MyEngine
 		WindowSystem() = default;
 		virtual ~WindowSystem() { };
 
+		virtual std::string SystemName() { return "WindowSystem"; };
+
 		virtual void Init();
 
 		// Initializes whole glfw and GLAD, this system should be the first in the list

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Engine/Physics/PhysicsProperties.h"
+
+#include <set>
 #include <glm/vec3.hpp>
 
 namespace MyEngine
@@ -51,5 +54,8 @@ namespace MyEngine
 		// Normal in relation to AABB
 		static glm::vec3 AABB_Normal(glm::vec3 min, glm::vec3 max,
 									 glm::vec3 collisionPoint);
+
+		// Get collision vector for this frame
+		static std::set<sCollisionData>& CurrentFrameCollisions();
 	};
 }

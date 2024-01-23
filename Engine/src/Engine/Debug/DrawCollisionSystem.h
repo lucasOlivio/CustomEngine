@@ -12,6 +12,8 @@ namespace MyEngine
 		DrawCollisionSystem() = default;
 		virtual ~DrawCollisionSystem() { };
 
+		virtual std::string SystemName() { return "DrawCollisionSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);
