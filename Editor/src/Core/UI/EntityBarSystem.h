@@ -29,6 +29,8 @@ namespace MyEngine
 		void m_CreateEntity(Scene* pScene);
 		void m_CreateEntity(Scene* pScene, Entity entityId);
 
+		void m_RemoveEntity(Scene* pScene, Entity entityId);
+
 		void m_AddComponentsList(Scene* pScene, Entity entityId);
 
 		template <typename T>

@@ -250,6 +250,7 @@ namespace MyEngine
         // TODO: Resources should be separated from scenes before we can delete scenes
         /*iSceneManager* pSceneManager = SceneManagerLocator::Get();
         pSceneManager->ClearDeletedScenes();*/
+        m_pCurrentScene->m_DestroyEntities();
     }
 
     float Engine::m_GetDeltaTime()

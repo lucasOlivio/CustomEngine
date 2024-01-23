@@ -23,49 +23,47 @@ namespace MyEngine
         // Check if new selected entity exists and has components, else just go to next until finds one
         EntityManager* pEntityManager = pScene->GetEntitymanager();
 
-        if (pEntityManager->Size() == 1)
+        if (pEntityManager->Size() == 0)
         {
-            return 0;
+            m_selectedEntity = 0;
+            return m_selectedEntity;
         }
 
-        m_selectedEntity++;
-
-        if (m_selectedEntity >= pEntityManager->Size())
+        // WARNING: Having only empty mask entities could cause infinite loop
+        do
         {
-            m_selectedEntity = 1;
-        }
+            m_selectedEntity++;
 
-        EntityMask mask = pEntityManager->GetMask(m_selectedEntity);
-        if (mask == EntityMask())
-        {
-            m_selectedEntity = PrevEntity(pScene);
-        }
+            if (m_selectedEntity >= MAX_ENTITIES)
+            {
+                m_selectedEntity = 1;
+            }
+        } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask());
 
         return m_selectedEntity;
     }
 
     Entity EntitySelector::PrevEntity(Scene* pScene)
     {
-        // Check if new selected entity exists and has components, else just go to next until finds one
+        // Check if new selected entity exists and has components, else just go to prev until finds one
         EntityManager* pEntityManager = pScene->GetEntitymanager();
 
-        if (pEntityManager->Size() == 1)
+        if (pEntityManager->Size() == 0)
         {
-            return 0;
+            m_selectedEntity = 0;
+            return m_selectedEntity;
         }
 
-        m_selectedEntity--;
-
-        if (m_selectedEntity <= 0)
+        // WARNING: Having only empty mask entities could cause infinite loop
+        do
         {
-            m_selectedEntity = (Entity)pEntityManager->Size() - 1;
-        }
+            m_selectedEntity--;
 
-        EntityMask mask = pEntityManager->GetMask(m_selectedEntity);
-        if (mask == EntityMask())
-        {
-            m_selectedEntity = PrevEntity(pScene);
-        }
+            if (m_selectedEntity < 1)
+            {
+                m_selectedEntity = MAX_ENTITIES;
+            }
+        } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask());
 
         return m_selectedEntity;
     }

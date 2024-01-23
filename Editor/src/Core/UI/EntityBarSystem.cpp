@@ -34,6 +34,13 @@ namespace MyEngine
         std::string sliderTitle = "Entity #" + std::to_string(entityId);
 
         ImGui::AlignTextToFramePadding();
+        if (ImGui::Button("REMOVE ENTITY"))
+        {
+            m_RemoveEntity(pScene, entityId);
+        }
+        ImGui::SameLine();
+        ImGui::Spacing();
+        ImGui::SameLine();
         if (ImGui::Button("DUPLICATE ENTITY"))
         {
             m_CreateEntity(pScene, entityId);
@@ -105,6 +112,11 @@ namespace MyEngine
     {
         Entity newEntityId = pScene->CreateEntity(entityId);
         EntitySelector::SetSelectedEntity(newEntityId);
+    }
+
+    void EntityBarSystem::m_RemoveEntity(Scene* pScene, Entity entityId)
+    {
+        pScene->RemoveEntity(entityId);
     }
 
     void EntityBarSystem::m_AddComponentsList(Scene* pScene, Entity entityId)

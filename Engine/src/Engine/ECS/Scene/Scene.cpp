@@ -138,7 +138,7 @@ namespace MyEngine
         m_entitiesToDestroy.push_back(entityId);
     }
 
-    void Scene::DestroyEntities()
+    void Scene::m_DestroyEntities()
     {
         for (Entity entityId : m_entitiesToDestroy)
         {

@@ -7,6 +7,8 @@
 
 namespace MyEngine
 {
+    class Engine;
+
     class Scene 
     {
     public:
@@ -97,12 +99,6 @@ namespace MyEngine
             return (int)m_componentMaps.size();
         }
 
-        // TODO: This should be more encapsulated, to make sure we only call
-        // this in the end of the frame.
-        // 
-        // Really removes and destroy all pending entities and its components
-        void DestroyEntities();
-
 
         // TODO: This should also be more encapsulated, but couln't find a way to 
         // let it open only for sceneview class since its a template class
@@ -116,5 +112,10 @@ namespace MyEngine
         int m_componentCounter;
 
         std::vector<Entity> m_entitiesToDestroy;
+
+        // Really removes and destroy all pending entities and its components
+        void m_DestroyEntities();
+
+        friend class Engine;
     };
 }
