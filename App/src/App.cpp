@@ -15,7 +15,7 @@ int main()
 	const std::string INITIAL_SCENE = "scene01.json";
 	pApp->Init();
 
-	pApp->Run(INITIAL_SCENE, false);
+	pApp->Run(INITIAL_SCENE, true);
 
 	pApp->Shutdown();
 

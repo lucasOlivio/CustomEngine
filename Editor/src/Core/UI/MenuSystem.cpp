@@ -173,15 +173,15 @@ namespace MyEngine
     {
         GameStateComponent* pState = CoreLocator::GetGameState();
 
-        if (pState->currState == eGameStates::STOPPED)
+        if (pState->currState != eGameStates::RUNNING)
         {
             return;
         }
 
-        pState->currState = eGameStates::STOPPED;
-
         iSceneManager* pSceneManager = SceneManagerLocator::Get();
         std::string sceneName = pSceneManager->GetCurrentSceneName();
+
         pSceneManager->ChangeScene(sceneName, true);
+        pState->currState = eGameStates::STOPPED;
     }
 }

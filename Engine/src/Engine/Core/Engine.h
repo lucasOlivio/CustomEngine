@@ -62,7 +62,7 @@ namespace MyEngine
 		virtual void ClearFrame();
 
 	protected:
-		std::map<std::string /*System name*/, iSystem*> m_mapSystems;
+		std::vector<iSystem*> m_vecSystems;
 		Scene* m_pCurrentScene = nullptr;
 
 		// Events

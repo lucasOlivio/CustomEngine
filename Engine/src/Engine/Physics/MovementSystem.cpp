@@ -16,6 +16,7 @@ namespace MyEngine
 
     void MovementSystem::Start(Scene* pScene)
     {
+        return;
     }
 
     void MovementSystem::Update(Scene* pScene, float deltaTime)

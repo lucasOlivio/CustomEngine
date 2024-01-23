@@ -66,8 +66,6 @@ namespace MyEngine
 
 		pStates->mapStateSystems[eGameStates::STOPPED] = {};
 
-		pStates->mapStateSystems[eGameStates::LEVELUP] = {};
-
 		pStates->mapStateSystems[eGameStates::GAMEOVER] = {};
 	}
 }

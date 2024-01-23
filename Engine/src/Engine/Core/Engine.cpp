@@ -13,7 +13,7 @@
 #include "Engine/ECS/SingletonComponents/DebugLocator.h"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
-#include "Engine/ECS/System/SystemBuilder.h"
+#include "Engine/ECS/System/SystemBuilder.h"    
 
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
 #include "Engine/Graphics/VAO/VAOManager.h"
@@ -51,7 +51,7 @@ namespace MyEngine
             return;
         }
 
-        m_mapSystems[systemName] = pSystem;
+        m_vecSystems.push_back(pSystem);
         pSystem->Init();
 
         if (pScene)
@@ -62,35 +62,43 @@ namespace MyEngine
 
     void Engine::RemoveSystem(std::string systemName, Scene* pScene)
     {
-        iSystem* pDelSystem = GetSystem(systemName);
-        if (!pDelSystem)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            return;
+            iSystem* pSystem = m_vecSystems[i];
+            if (pSystem->SystemName() != systemName)
+            {
+                continue;
+            }
+
+            // Clean system before deleting
+            if (pScene)
+            {
+                pSystem->End(pScene);
+            }
+            pSystem->Shutdown();
+
+            m_vecSystems.erase(m_vecSystems.begin() + i);
+
+            delete pSystem;
+
+            break;
         }
-
-        // Clean system before deleting
-        if (pScene)
-        {
-            pDelSystem->End(pScene);
-        }
-        pDelSystem->Shutdown();
-
-        m_mapSystems.erase(systemName);
-
-        delete pDelSystem;
 
         return;
     }
 
     iSystem* Engine::GetSystem(std::string systemName)
     {
-        itSystems it = m_mapSystems.find(systemName);
-        if (it == m_mapSystems.end())
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            return nullptr;
+            iSystem* pSystem = m_vecSystems[i];
+            if (pSystem->SystemName() == systemName)
+                {
+                    return pSystem;
+                }
         }
 
-        return it->second;
+        return nullptr;
     }
 
     void Engine::Init()
@@ -153,16 +161,22 @@ namespace MyEngine
 
     void Engine::Run(std::string initialSceneName, bool startSimulation)
     {
+        // HACK: State system must be first of all systems to trigger the appropiate system changes before other systems
+        // make irreversible changes to the scene
+        GameStateComponent* pState = CoreLocator::GetGameState();
+        pState->mainSystems.insert(pState->mainSystems.begin(), "StateSystem");
         AddSystem("CoreSystem");
-        AddSystem("StateSystem");
 
         // TODO: Now each resource is been loaded by the systems, 
         // but they should be loaded all here and have separate files
         m_pSceneManager->ChangeScene(initialSceneName);
 
         // Just need to set current state and the update will trigger the event change
-        GameStateComponent* pState = CoreLocator::GetGameState();
         pState->currState = eGameStates::STARTED;
+        if (startSimulation)
+        {
+            pState->currState = eGameStates::RUNNING;
+        }
 
         m_isRunning = true;
         while (m_isRunning)
@@ -179,9 +193,10 @@ namespace MyEngine
 
     void Engine::Update(float deltaTime)
     {
-        for (pairSystems pairSystem : m_mapSystems)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            pairSystem.second->Update(m_pCurrentScene, deltaTime);
+            iSystem* pSystem = m_vecSystems[i];
+            pSystem->Update(m_pCurrentScene, deltaTime);
         }
     }
 
@@ -189,9 +204,10 @@ namespace MyEngine
     {
         m_BeginFrame();
 
-        for (pairSystems pairSystem : m_mapSystems)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            pairSystem.second->Render(m_pCurrentScene);
+            iSystem* pSystem = m_vecSystems[i];
+            pSystem->Render(m_pCurrentScene);
         }
 
         m_EndFrame();
@@ -199,16 +215,17 @@ namespace MyEngine
 
     void Engine::Shutdown()
     {
-        for (pairSystems pairSystem : m_mapSystems)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            pairSystem.second->End(m_pCurrentScene);
-    
-            pairSystem.second->Shutdown();
+            iSystem* pSystem = m_vecSystems[i];
+            pSystem->End(m_pCurrentScene);
 
-            delete pairSystem.second;
+            pSystem->Shutdown();
+
+            delete pSystem;
         }
 
-        m_mapSystems.clear();
+        m_vecSystems.clear();
 
         // Delete singleton components
         CoreLocator::Clear();
@@ -245,25 +262,28 @@ namespace MyEngine
 
     void Engine::StartSystems(Scene* pScene)
     {
-        for (pairSystems pairSystem : m_mapSystems)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            pairSystem.second->Start(pScene);
+            iSystem* pSystem = m_vecSystems[i];
+            pSystem->Start(pScene);
         }
     }
 
     void Engine::EndSystems(Scene* pScene)
     {
-        for (pairSystems pairSystem : m_mapSystems)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            pairSystem.second->End(pScene);
+            iSystem* pSystem = m_vecSystems[i];
+            pSystem->End(pScene);
         }
     }
 
     void Engine::ShutdownSystems()
     {
-        for (pairSystems pairSystem : m_mapSystems)
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            pairSystem.second->Shutdown();
+            iSystem* pSystem = m_vecSystems[i];
+        pSystem->Shutdown();
         }
     }
 
@@ -287,7 +307,8 @@ namespace MyEngine
 
     void Engine::ClearFrame()
     {
-        // TODO: Resources should be separated from scenes before we can delete scenes
+        // TODO: Resources (materialmanager uses material component directly)
+        //  should be separated from scenes before we can delete scenes
         /*iSceneManager* pSceneManager = SceneManagerLocator::Get();
         pSceneManager->ClearDeletedScenes();*/
         m_pCurrentScene->m_DestroyEntities();
@@ -366,7 +387,7 @@ namespace MyEngine
         // Set default font size
         ImGui::SetWindowFontScale(TEXT_FONT_SIZE);
     }
-    
+
     void Engine::m_EndFrame()
     {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
