@@ -26,6 +26,11 @@ namespace MyEngine
             LOG_ERROR("EventBus not set!");
         };
 
+        virtual void Unsubscribe(T eventType, const EventHandler& handler)
+        {
+            LOG_ERROR("EventBus not set!");
+        };
+
         // Publish an event to all the listeners
         virtual void Publish(const F& event)
         {

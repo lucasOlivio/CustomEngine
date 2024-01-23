@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/Core/StateProperties.h"
+
 #include "Engine/Events/Event.hpp"
 
 #include "Engine/ECS/Scene/Scene.h"
@@ -22,6 +24,7 @@ namespace MyEngine
 			Event<eGameStateEvents>(eGameStateEvents::GAME_STARTED, "GameStarted") {};
 		virtual ~GameStartedEvent() {};
 
+		eGameStates prevState;
 		Scene* pScene;
 	};
 
@@ -32,6 +35,7 @@ namespace MyEngine
 			Event<eGameStateEvents>(eGameStateEvents::GAME_RUNNING, "GameRunning") {};
 		virtual ~GameRunningEvent() {};
 
+		eGameStates prevState;
 		Scene* pScene;
 	};
 
@@ -42,6 +46,7 @@ namespace MyEngine
 			Event<eGameStateEvents>(eGameStateEvents::GAME_STOPPED, "GameStopped") {};
 		virtual ~GameStoppedEvent() {};
 
+		eGameStates prevState;
 		Scene* pScene;
 	};
 
@@ -52,6 +57,7 @@ namespace MyEngine
 			Event<eGameStateEvents>(eGameStateEvents::GAME_LEVELUP, "GameLevelUp") {};
 		virtual ~GameLevelUpEvent() {};
 
+		eGameStates prevState;
 		Scene* pScene;
 	};
 
@@ -62,6 +68,7 @@ namespace MyEngine
 			Event<eGameStateEvents>(eGameStateEvents::GAME_OVER, "GameOver") {};
 		virtual ~GameOverEvent() {};
 
+		eGameStates prevState;
 		Scene* pScene;
 	};
 }

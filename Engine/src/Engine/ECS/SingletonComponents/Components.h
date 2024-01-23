@@ -172,6 +172,10 @@ namespace MyEngine
 
 	struct GameStateComponent
 	{
+		// All the systems that should be running 
+		std::vector<std::string> mainSystems; // Always running
+		std::map<eGameStates, std::vector<std::string>> mapStateSystems;
+
 		eGameStates prevState; // Only state system should modify this
 		eGameStates currState; // Any system can modify this to stop/run simulation
 	};

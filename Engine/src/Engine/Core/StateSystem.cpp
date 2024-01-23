@@ -28,7 +28,7 @@ namespace MyEngine
 			return;
 		}
 
-		m_TriggerStateChange(pScene, pState->currState);
+		m_TriggerStateChange(pScene, pState->prevState, pState->currState);
 		pState->prevState = pState->currState;
 	}
 
@@ -44,23 +44,25 @@ namespace MyEngine
 	{
 	}
 
-	void StateSystem::m_TriggerStateChange(Scene* pScene, const eGameStates& newState)
+	void StateSystem::m_TriggerStateChange(Scene* pScene, const eGameStates& oldState, const eGameStates& newState)
 	{
 		if (newState == eGameStates::STARTED)
 		{
 			iEventBus<eGameStateEvents, GameStartedEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameStartedEvent>::Get();
 
 			GameStartedEvent stateEvent = GameStartedEvent();
+			stateEvent.prevState = oldState;
 			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
 
 			return;
 		}
-		if (newState == eGameStates::STOPPED)
+		else if (newState == eGameStates::STOPPED)
 		{
 			iEventBus<eGameStateEvents, GameStoppedEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameStoppedEvent>::Get();
 
 			GameStoppedEvent stateEvent = GameStoppedEvent();
+			stateEvent.prevState = oldState;
 			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
 
@@ -71,6 +73,7 @@ namespace MyEngine
 			iEventBus<eGameStateEvents, GameRunningEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameRunningEvent>::Get();
 
 			GameRunningEvent stateEvent = GameRunningEvent();
+			stateEvent.prevState = oldState;
 			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
 
@@ -81,6 +84,7 @@ namespace MyEngine
 			iEventBus<eGameStateEvents, GameLevelUpEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Get();
 
 			GameLevelUpEvent stateEvent = GameLevelUpEvent();
+			stateEvent.prevState = oldState;
 			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
 
@@ -91,6 +95,7 @@ namespace MyEngine
 			iEventBus<eGameStateEvents, GameOverEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameOverEvent>::Get();
 
 			GameOverEvent stateEvent = GameOverEvent();
+			stateEvent.prevState = oldState;
 			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
 

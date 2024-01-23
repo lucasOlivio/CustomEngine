@@ -13,6 +13,7 @@
 #include "Engine/ECS/SingletonComponents/DebugLocator.h"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+#include "Engine/ECS/System/SystemBuilder.h"
 
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
 #include "Engine/Graphics/VAO/VAOManager.h"
@@ -25,6 +26,9 @@
 
 namespace MyEngine
 {
+    using itSystems = std::map<std::string, iSystem*>::iterator;
+    using pairSystems = std::pair<std::string, iSystem*>;
+
     Engine::Engine()
     {
     }
@@ -33,9 +37,21 @@ namespace MyEngine
     {
     }
 
-    void Engine::AddSystem(iSystem* pSystem, Scene* pScene)
+    void Engine::AddSystem(std::string systemName, Scene* pScene)
     {
-        m_systems.push_back(pSystem);
+        iSystem* pSystem = GetSystem(systemName);
+        if (pSystem)
+        {
+            return;
+        }
+
+        pSystem = SystemBuilder::CreateSystem(systemName);
+        if (!pSystem)
+        {
+            return;
+        }
+
+        m_mapSystems[systemName] = pSystem;
         pSystem->Init();
 
         if (pScene)
@@ -44,28 +60,37 @@ namespace MyEngine
         }
     }
 
-    void Engine::RemoveSystem(iSystem* pSystem, Scene* pScene)
+    void Engine::RemoveSystem(std::string systemName, Scene* pScene)
     {
-        for (int i = 0; i < m_systems.size(); i++)
+        iSystem* pDelSystem = GetSystem(systemName);
+        if (!pDelSystem)
         {
-            if (m_systems[i] != pSystem)
-            {
-                continue;
-            }
-
-            iSystem* pDelSystem = m_systems[i];
-
-            // Clean system before deleting
-            if (pScene)
-            {
-                pDelSystem->End(pScene);
-            }
-            pDelSystem->Shutdown();
-
-            m_systems.erase(m_systems.begin() + i);
-
-            delete pDelSystem;
+            return;
         }
+
+        // Clean system before deleting
+        if (pScene)
+        {
+            pDelSystem->End(pScene);
+        }
+        pDelSystem->Shutdown();
+
+        m_mapSystems.erase(systemName);
+
+        delete pDelSystem;
+
+        return;
+    }
+
+    iSystem* Engine::GetSystem(std::string systemName)
+    {
+        itSystems it = m_mapSystems.find(systemName);
+        if (it == m_mapSystems.end())
+        {
+            return nullptr;
+        }
+
+        return it->second;
     }
 
     void Engine::Init()
@@ -126,18 +151,36 @@ namespace MyEngine
         m_pShaderManager->SetBasePath(pConfigPaths->pathShaders);
         m_pVAOManager->SetBasePath(pConfigPaths->pathModels);
         m_pSceneManager->SetBasePath(pConfigPaths->pathScenes);
+
+        // Add main systems
+        GameStateComponent* pStates = CoreLocator::GetGameState();
+        pStates->mainSystems = {
+            "CoreSystem",
+            "StateSystem",
+            "WindowFrameSystem",
+            "TransformParentSystem",
+            "WindowSystem",
+            "InputSystem",
+            "BaseUISystem", // Has to come after inputsystem, to init imgui after we register o
+            // Graphics
+            "ShaderSystem",
+            "CameraSystem",
+            "RenderSystem",
+            "LightSystem"
+        };
     }
 
     void Engine::Run(std::string initialSceneName, bool startSimulation)
     {
         // TODO: Now each resource is been loaded by the systems, 
         // but they should be loaded all here and have separate files
-
         m_pSceneManager->ChangeScene(initialSceneName);
-        if (startSimulation)
+
+        // Main systems must start right away
+        GameStateComponent* pState = CoreLocator::GetGameState();
+        for (std::string systemName : pState->mainSystems)
         {
-            GameStateComponent* pState = CoreLocator::GetGameState();
-            pState->currState = eGameStates::RUNNING;
+            AddSystem(systemName, m_pCurrentScene);
         }
 
         // TODO: Better closing proccess, should come from event
@@ -157,9 +200,9 @@ namespace MyEngine
 
     void Engine::Update(float deltaTime)
     {
-        for (iSystem* pSystem : m_systems)
+        for (pairSystems pairSystem : m_mapSystems)
         {
-            pSystem->Update(m_pCurrentScene, deltaTime);
+            pairSystem.second->Update(m_pCurrentScene, deltaTime);
         }
     }
 
@@ -167,9 +210,9 @@ namespace MyEngine
     {
         m_BeginFrame();
 
-        for (iSystem* pSystem : m_systems)
+        for (pairSystems pairSystem : m_mapSystems)
         {
-            pSystem->Render(m_pCurrentScene);
+            pairSystem.second->Render(m_pCurrentScene);
         }
 
         m_EndFrame();
@@ -177,14 +220,16 @@ namespace MyEngine
 
     void Engine::Shutdown()
     {
-        EndSystems(m_pCurrentScene);
-
-        ShutdownSystems();
-
-        for (iSystem* pSystem : m_systems)
+        for (pairSystems pairSystem : m_mapSystems)
         {
-            delete pSystem;
+            pairSystem.second->End(m_pCurrentScene);
+    
+            pairSystem.second->Shutdown();
+
+            delete pairSystem.second;
         }
+
+        m_mapSystems.clear();
 
         // Delete singleton components
         CoreLocator::Clear();
@@ -222,25 +267,25 @@ namespace MyEngine
 
     void Engine::StartSystems(Scene* pScene)
     {
-        for (iSystem* pSystem : m_systems)
+        for (pairSystems pairSystem : m_mapSystems)
         {
-            pSystem->Start(pScene);
+            pairSystem.second->Start(pScene);
         }
     }
 
     void Engine::EndSystems(Scene* pScene)
     {
-        for (iSystem* pSystem : m_systems)
+        for (pairSystems pairSystem : m_mapSystems)
         {
-            pSystem->End(pScene);
+            pairSystem.second->End(pScene);
         }
     }
 
     void Engine::ShutdownSystems()
     {
-        for (iSystem* pSystem : m_systems)
+        for (pairSystems pairSystem : m_mapSystems)
         {
-            pSystem->Shutdown();
+            pairSystem.second->Shutdown();
         }
     }
 

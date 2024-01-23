@@ -16,6 +16,8 @@
 #include "Engine/Graphics/Materials/iMaterialManager.h"
 #include "Engine/Graphics/Textures/iTextureManager.h"
 
+#include <map>
+
 namespace MyEngine
 {
 	// App should inherit from this class to setup and run everything needed
@@ -27,8 +29,9 @@ namespace MyEngine
 
 		// Systems that will manipulate components and handle the scene in some way,
 		// the system is added and initialized, if the scene is passed the system is also started
-		virtual void AddSystem(iSystem* pSystem, Scene* pScene = nullptr);
-		virtual void RemoveSystem(iSystem* pSystem, Scene* pScene = nullptr);
+		virtual void AddSystem(std::string systemName, Scene* pScene = nullptr);
+		virtual void RemoveSystem(std::string systemName, Scene* pScene = nullptr);
+		virtual iSystem* GetSystem(std::string systemName);
 
 		virtual void Init();
 
@@ -57,7 +60,7 @@ namespace MyEngine
 		virtual void ClearFrame();
 
 	protected:
-		std::vector<iSystem*> m_systems;
+		std::map<std::string /*System name*/, iSystem*> m_mapSystems;
 		Scene* m_pCurrentScene = nullptr;
 
 		// Events

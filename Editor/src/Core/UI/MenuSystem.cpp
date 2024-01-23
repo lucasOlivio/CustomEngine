@@ -32,10 +32,10 @@ namespace MyEngine
         if (ImGui::BeginMainMenuBar())
         {
             GameStateComponent* pState = CoreLocator::GetGameState();
-            static bool isStopped = pState->currState == eGameStates::RUNNING;
+            bool isRunning = pState->currState == eGameStates::RUNNING;
 
             // Disables load/new/save scene when simulation running
-            if (isStopped)
+            if (isRunning)
             {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
                 ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
@@ -50,7 +50,7 @@ namespace MyEngine
             if (ImGui::MenuItem("Save Scene"))
                 m_SaveScene();
 
-            if (isStopped)
+            if (isRunning)
             {
                 ImGui::PopItemFlag();
                 ImGui::PopStyleVar();

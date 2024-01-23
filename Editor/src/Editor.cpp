@@ -1,16 +1,23 @@
 #include "Core/EditorEngine.h"
 
+#include "Engine/Core/EngineLocator.h"
+
 int main()
 {
 	using namespace MyEngine;
 
-	Editor editor = Editor();
+	Editor* pEditor = new Editor();
+	EngineLocator::Set(pEditor);
 
-	editor.LoadConfigurations();
+	pEditor->LoadConfigurations();
 
 	// TODO: This would be better comming from command args?
 	const std::string INITIAL_SCENE = "scene01.json";
-	editor.Init();
+	pEditor->Init();
 
-	editor.Run(INITIAL_SCENE, false);
+	pEditor->Run(INITIAL_SCENE, false);
+
+	pEditor->Shutdown();
+
+	delete pEditor;
 }

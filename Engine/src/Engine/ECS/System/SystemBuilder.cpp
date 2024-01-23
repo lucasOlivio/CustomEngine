@@ -2,6 +2,7 @@
 
 #include "SystemBuilder.h"
 
+#include "Engine/Core/CoreSystem.h"
 #include "Engine/Core/WindowFrameSystem.h"
 #include "Engine/Core/TransformParentSystem.h"
 #include "Engine/Core/InputSystem.h"
@@ -31,6 +32,7 @@ namespace MyEngine
         // Any other system from engine should come into this map
         // 
         // Core Systems
+        {"CoreSystem", []() { return new CoreSystem; }},
         {"WindowFrameSystem", []() { return new WindowFrameSystem; }},
         {"TransformParentSystem", []() { return new TransformParentSystem; }},
         {"InputSystem", []() { return new InputSystem; }},
@@ -69,7 +71,7 @@ namespace MyEngine
         }
         else
         {
-            std::cerr << "Error: Unknown system '" << name << "'" << std::endl;
+            LOG_ERROR("Unknown system '" + name);
             return nullptr;
         }
     }

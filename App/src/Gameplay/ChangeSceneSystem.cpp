@@ -36,6 +36,10 @@ namespace MyEngine
 
 	void ChangeSceneSystem::Shutdown()
 	{
+		// Unsubscribe from events
+		iEventBus<eInputEvents, KeyboardEvent>* pEventBus = EventBusLocator<eInputEvents, KeyboardEvent>::Get();
+
+		pEventBus->Unsubscribe(eInputEvents::KEYBOARD, InputTriggered);
 	}
 
 	void ChangeSceneSystem::InputTriggered(const KeyboardEvent& event)
