@@ -49,15 +49,15 @@ namespace MyEngine
 			return;
 		}
 
-		StateComponent* pState = CoreLocator::GetState();
+		GameStateComponent* pState = CoreLocator::GetGameState();
 
-		if (pState->currState == eStates::SIMULATION_STOPPED)
+		if (pState->currState == eGameStates::STOPPED)
 		{
-			pState->currState = eStates::SIMULATION_RUNNING;
+			pState->currState = eGameStates::RUNNING;
 		}
-		else if (pState->currState == eStates::SIMULATION_RUNNING)
+		else if (pState->currState == eGameStates::RUNNING)
 		{
-			pState->currState = eStates::SIMULATION_STOPPED;
+			pState->currState = eGameStates::STOPPED;
 		}
 	}
 }

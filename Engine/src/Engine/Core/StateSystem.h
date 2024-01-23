@@ -28,6 +28,6 @@ namespace MyEngine
 		virtual void Shutdown();
 
 	private:
-		static void m_TriggerStateChange(const eStates& newState);
+		static void m_TriggerStateChange(Scene* pScene, const eGameStates& newState);
 	};
 }

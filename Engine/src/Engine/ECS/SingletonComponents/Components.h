@@ -170,10 +170,10 @@ namespace MyEngine
 		bool mouseCaptured;
 	};
 
-	struct StateComponent
+	struct GameStateComponent
 	{
-		eStates prevState; // Only state system should modify this
-		eStates currState; // Any system can modify this to stop/run simulation
+		eGameStates prevState; // Only state system should modify this
+		eGameStates currState; // Any system can modify this to stop/run simulation
 	};
 
 	// Debug objects

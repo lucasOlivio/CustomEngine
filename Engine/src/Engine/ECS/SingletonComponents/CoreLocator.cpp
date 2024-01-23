@@ -8,7 +8,7 @@ namespace MyEngine
     FrameCounterComponent* CoreLocator::m_pFrameCounter = new FrameCounterComponent();
     KeyInputComponent* CoreLocator::m_pKeyInput = new KeyInputComponent();
     MouseInputComponent* CoreLocator::m_pMouseInput = new MouseInputComponent();
-    StateComponent* CoreLocator::m_pState = new StateComponent();
+    GameStateComponent* CoreLocator::m_pState = new GameStateComponent();
 
     ConfigPathComponent* CoreLocator::GetConfigPath()
     {
@@ -30,7 +30,7 @@ namespace MyEngine
         return m_pMouseInput;
     }
 
-    StateComponent* CoreLocator::GetState()
+    GameStateComponent* CoreLocator::GetGameState()
     {
         return m_pState;
     }
@@ -59,7 +59,7 @@ namespace MyEngine
         m_pMouseInput = pMouseInput;
     }
 
-    void CoreLocator::SetState(StateComponent* pState)
+    void CoreLocator::SetGameState(GameStateComponent* pState)
     {
         delete m_pState;
         m_pState = pState;

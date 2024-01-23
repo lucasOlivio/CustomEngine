@@ -83,14 +83,23 @@ namespace MyEngine
         m_pEventBusMouse = new EventBus<eInputEvents, MouseEvent>();
         EventBusLocator<eInputEvents, MouseEvent>::Set(m_pEventBusMouse);
 
-        m_pEventBusStoppedState = new EventBus<eStateChangeEvents, StoppedStateEvent>();
-        EventBusLocator<eStateChangeEvents, StoppedStateEvent>::Set(m_pEventBusStoppedState);
-
-        m_pEventBusRunningState = new EventBus<eStateChangeEvents, RunningStateEvent>();
-        EventBusLocator<eStateChangeEvents, RunningStateEvent>::Set(m_pEventBusRunningState);
-
         m_pEventBusSceneChange = new EventBus<eSceneEvents, SceneChangeEvent>();
         EventBusLocator<eSceneEvents, SceneChangeEvent>::Set(m_pEventBusSceneChange);
+
+        m_pEventBusStartedState = new EventBus<eGameStateEvents, GameStartedEvent>();
+        EventBusLocator<eGameStateEvents, GameStartedEvent>::Set(m_pEventBusStartedState);
+
+        m_pEventBusStoppedState = new EventBus<eGameStateEvents, GameStoppedEvent>();
+        EventBusLocator<eGameStateEvents, GameStoppedEvent>::Set(m_pEventBusStoppedState);
+
+        m_pEventBusRunningState = new EventBus<eGameStateEvents, GameRunningEvent>();
+        EventBusLocator<eGameStateEvents, GameRunningEvent>::Set(m_pEventBusRunningState);
+
+        m_pEventBusLevelUpState = new EventBus<eGameStateEvents, GameLevelUpEvent>();
+        EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Set(m_pEventBusLevelUpState);
+
+        m_pEventBusGameOverState = new EventBus<eGameStateEvents, GameOverEvent>();
+        EventBusLocator<eGameStateEvents, GameOverEvent>::Set(m_pEventBusGameOverState);
 
         // Setting up resources managers
         m_pSceneManager = new SceneManager();
@@ -127,8 +136,8 @@ namespace MyEngine
         m_pSceneManager->ChangeScene(initialSceneName);
         if (startSimulation)
         {
-            StateComponent* pState = CoreLocator::GetState();
-            pState->currState = eStates::SIMULATION_RUNNING;
+            GameStateComponent* pState = CoreLocator::GetGameState();
+            pState->currState = eGameStates::RUNNING;
         }
 
         // TODO: Better closing proccess, should come from event
@@ -195,9 +204,12 @@ namespace MyEngine
         delete m_pEventBusCollision;
         delete m_pEventBusKeyboard;
         delete m_pEventBusMouse;
-        delete m_pEventBusStoppedState;
-        delete m_pEventBusRunningState;
         delete m_pEventBusSceneChange;
+        delete m_pEventBusStartedState;
+        delete m_pEventBusRunningState;
+        delete m_pEventBusStoppedState;
+        delete m_pEventBusLevelUpState;
+        delete m_pEventBusGameOverState;
     }
 
     void Engine::LoadConfigurations()
@@ -337,7 +349,5 @@ namespace MyEngine
         // GLFW endframe
         glfwSwapBuffers(pWindow->pGLFWWindow);
         glfwPollEvents();
-
-        // 
     }
 }

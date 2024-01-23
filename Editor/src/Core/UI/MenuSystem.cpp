@@ -31,8 +31,8 @@ namespace MyEngine
 
         if (ImGui::BeginMainMenuBar())
         {
-            StateComponent* pState = CoreLocator::GetState();
-            static bool isStopped = pState->currState == eStates::SIMULATION_RUNNING;
+            GameStateComponent* pState = CoreLocator::GetGameState();
+            static bool isStopped = pState->currState == eGameStates::RUNNING;
 
             // Disables load/new/save scene when simulation running
             if (isStopped)
@@ -157,28 +157,28 @@ namespace MyEngine
 
     void MenuSystem::m_PlayScene()
     {
-        StateComponent* pState = CoreLocator::GetState();
+        GameStateComponent* pState = CoreLocator::GetGameState();
 
-        if (pState->currState == eStates::SIMULATION_RUNNING)
+        if (pState->currState == eGameStates::RUNNING)
         {
             return;
         }
 
         m_SaveScene();
 
-        pState->currState = eStates::SIMULATION_RUNNING;
+        pState->currState = eGameStates::RUNNING;
     }
 
     void MenuSystem::m_StopScene()
     {
-        StateComponent* pState = CoreLocator::GetState();
+        GameStateComponent* pState = CoreLocator::GetGameState();
 
-        if (pState->currState == eStates::SIMULATION_STOPPED)
+        if (pState->currState == eGameStates::STOPPED)
         {
             return;
         }
 
-        pState->currState = eStates::SIMULATION_STOPPED;
+        pState->currState = eGameStates::STOPPED;
 
         iSceneManager* pSceneManager = SceneManagerLocator::Get();
         std::string sceneName = pSceneManager->GetCurrentSceneName();

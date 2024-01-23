@@ -20,12 +20,6 @@ namespace MyEngine
 
     void RotationSystem::Update(Scene* pScene, float deltaTime)
     {
-        StateComponent* pState = CoreLocator::GetState();
-        if (pState->currState == eStates::SIMULATION_STOPPED)
-        {
-            return;
-        }
-
         // Update velocity and position
         for (Entity entityId : SceneView<TransformComponent, RotationComponent>(*pScene))
         {

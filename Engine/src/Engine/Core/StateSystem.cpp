@@ -4,7 +4,7 @@
 
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
-#include "Engine/Events/StateChangeEvent.h"
+#include "Engine/Events/GameStateEvent.h"
 #include "Engine/Events/EventBusLocator.hpp"
 
 namespace MyEngine
@@ -15,18 +15,20 @@ namespace MyEngine
 
 	void StateSystem::Start(Scene* pScene)
 	{
+		// Just need to set current state and the update will trigger the event change
+		GameStateComponent* pState = CoreLocator::GetGameState();
+		pState->currState = eGameStates::STARTED;
 	}
 
 	void StateSystem::Update(Scene* pScene, float deltaTime)
 	{
-		StateComponent* pState = CoreLocator::GetState();
-
+		GameStateComponent* pState = CoreLocator::GetGameState();
 		if (pState->currState == pState->prevState)
 		{
 			return;
 		}
 
-		m_TriggerStateChange(pState->currState);
+		m_TriggerStateChange(pScene, pState->currState);
 		pState->prevState = pState->currState;
 	}
 
@@ -36,32 +38,60 @@ namespace MyEngine
 
 	void StateSystem::End(Scene* pScene)
 	{
-		// Stop simulations
-		StateComponent* pState = CoreLocator::GetState();
-		pState->currState = pState->prevState = eStates::SIMULATION_STOPPED;
-		m_TriggerStateChange(pState->currState);
 	}
 
 	void StateSystem::Shutdown()
 	{
 	}
 
-	void StateSystem::m_TriggerStateChange(const eStates& newState)
+	void StateSystem::m_TriggerStateChange(Scene* pScene, const eGameStates& newState)
 	{
-		if (newState == eStates::SIMULATION_STOPPED)
+		if (newState == eGameStates::STARTED)
 		{
-			iEventBus<eStateChangeEvents, StoppedStateEvent>* pEventBus = EventBusLocator<eStateChangeEvents, StoppedStateEvent>::Get();
+			iEventBus<eGameStateEvents, GameStartedEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameStartedEvent>::Get();
 
-			StoppedStateEvent stateEvent = StoppedStateEvent();
+			GameStartedEvent stateEvent = GameStartedEvent();
+			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
-			
+
 			return;
 		}
-		else if (newState == eStates::SIMULATION_RUNNING)
+		if (newState == eGameStates::STOPPED)
 		{
-			iEventBus<eStateChangeEvents, RunningStateEvent>* pEventBus = EventBusLocator<eStateChangeEvents, RunningStateEvent>::Get();
+			iEventBus<eGameStateEvents, GameStoppedEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameStoppedEvent>::Get();
 
-			RunningStateEvent stateEvent = RunningStateEvent();
+			GameStoppedEvent stateEvent = GameStoppedEvent();
+			stateEvent.pScene = pScene;
+			pEventBus->Publish(stateEvent);
+
+			return;
+		}
+		else if (newState == eGameStates::RUNNING)
+		{
+			iEventBus<eGameStateEvents, GameRunningEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameRunningEvent>::Get();
+
+			GameRunningEvent stateEvent = GameRunningEvent();
+			stateEvent.pScene = pScene;
+			pEventBus->Publish(stateEvent);
+
+			return;
+		}
+		else if (newState == eGameStates::LEVELUP)
+		{
+			iEventBus<eGameStateEvents, GameLevelUpEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameLevelUpEvent>::Get();
+
+			GameLevelUpEvent stateEvent = GameLevelUpEvent();
+			stateEvent.pScene = pScene;
+			pEventBus->Publish(stateEvent);
+
+			return;
+		}
+		else if (newState == eGameStates::GAMEOVER)
+		{
+			iEventBus<eGameStateEvents, GameOverEvent>* pEventBus = EventBusLocator<eGameStateEvents, GameOverEvent>::Get();
+
+			GameOverEvent stateEvent = GameOverEvent();
+			stateEvent.pScene = pScene;
 			pEventBus->Publish(stateEvent);
 
 			return;

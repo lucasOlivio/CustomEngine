@@ -28,12 +28,6 @@ namespace MyEngine
         // Clear frame collisions
         CollisionsUtils::CurrentFrameCollisions().clear();
 
-        StateComponent* pState = CoreLocator::GetState();
-        if (pState->currState == eStates::SIMULATION_STOPPED)
-        {
-            return;
-        }
-
         NarrowPhaseTestsComponent* pTests = PhysicsLocator::GetNarrowPhaseTests();
 
         // The first layer is the grouping of objects to test

@@ -7,8 +7,8 @@
 #include "Engine/Events/WindowEvents.h"
 #include "Engine/Events/CollisionEvent.h"
 #include "Engine/Events/InputEvent.h"
-#include "Engine/Events/StateChangeEvent.h"
 #include "Engine/Events/SceneEvent.h"
+#include "Engine/Events/GameStateEvent.h"
 #include "Engine/Events/iEventBus.h"
 
 #include "Engine/Graphics/VAO/iVAOManager.h"
@@ -65,9 +65,12 @@ namespace MyEngine
 		iEventBus<eCollisionEvents, CollisionEnterEvent>* m_pEventBusCollision;
 		iEventBus<eInputEvents, KeyboardEvent>* m_pEventBusKeyboard;
 		iEventBus<eInputEvents, MouseEvent>* m_pEventBusMouse;
-		iEventBus<eStateChangeEvents, StoppedStateEvent>* m_pEventBusStoppedState;
-		iEventBus<eStateChangeEvents, RunningStateEvent>* m_pEventBusRunningState;
 		iEventBus<eSceneEvents, SceneChangeEvent>* m_pEventBusSceneChange;
+		iEventBus<eGameStateEvents, GameStartedEvent>* m_pEventBusStartedState;
+		iEventBus<eGameStateEvents, GameRunningEvent>* m_pEventBusRunningState;
+		iEventBus<eGameStateEvents, GameStoppedEvent>* m_pEventBusStoppedState;
+		iEventBus<eGameStateEvents, GameLevelUpEvent>* m_pEventBusLevelUpState;
+		iEventBus<eGameStateEvents, GameOverEvent>* m_pEventBusGameOverState;
 
 		// Resources managers
 		iVAOManager* m_pVAOManager;

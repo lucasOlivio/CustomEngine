@@ -2,9 +2,13 @@
 
 namespace MyEngine
 {
-	enum eStates
+	enum eGameStates
 	{
-		SIMULATION_STOPPED,
-		SIMULATION_RUNNING
+		NOT_STARTED = 0,
+		STARTED,
+		RUNNING,
+		STOPPED,
+		LEVELUP,
+		GAMEOVER
 	};
 }
