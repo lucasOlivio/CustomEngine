@@ -52,6 +52,9 @@ namespace MyEngine
 		bool m_ParseModelToDoc(rapidjson::Value& jsonObject, 
 								  ModelComponent& modelIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseTransformAnimationToDoc(rapidjson::Value& jsonObject, 
+											TransformAnimationComponent& animationIn,
+											rapidjson::Document::AllocatorType& allocator);
 		bool m_ParseTilingToDoc(rapidjson::Value& jsonObject, 
 								  TilingComponent& tilingIn,
 								  rapidjson::Document::AllocatorType& allocator);
@@ -97,6 +100,8 @@ namespace MyEngine
 							   LightComponent& lightOut);
 		bool m_ParseDocToModel(rapidjson::Value& jsonObject, 
 							   ModelComponent& modelOut);
+		bool m_ParseDocToTransformAnimation(rapidjson::Value& jsonObject, 
+							   TransformAnimationComponent& animationOut);
 		bool m_ParseDocToTiling(rapidjson::Value& jsonObject, 
 							   TilingComponent& tilingOut);
 		bool m_ParseDocToGravity(rapidjson::Value& jsonObject, 

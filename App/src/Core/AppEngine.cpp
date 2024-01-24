@@ -32,6 +32,7 @@ namespace MyEngine
 		pStates->mainSystems.push_back("CameraSystem");
 		pStates->mainSystems.push_back("RenderSystem");
 		pStates->mainSystems.push_back("LightSystem");
+		pStates->mainSystems.push_back("AnimationSystem");
 
 		pStates->mainSystems.push_back("ChangeStateSystem");
 		pStates->mainSystems.push_back("ChangeSceneSystem");

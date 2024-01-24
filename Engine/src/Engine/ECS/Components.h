@@ -3,6 +3,7 @@
 #include "Base.h"
 #include "Engine/Graphics/Textures/TextureProperties.h"
 #include "Engine/Graphics/GraphicsProperties.h"
+#include "Engine/Graphics/Animations/AnimationProperties.h"
 #include "Engine/Physics/PhysicsProperties.h"
 
 #include <glm/gtc/quaternion.hpp>
@@ -152,6 +153,15 @@ namespace MyEngine
 	{
 		glm::vec3 axis;
 		glm::vec3 offset;
+	};
+
+	struct TransformAnimationComponent
+	{
+		std::vector<PositionKeyFrame> positionKeyFrames;
+		std::vector<ScaleKeyFrame> scaleKeyFrames;
+		std::vector<RotationKeyFrame> rotationKeyFrames;
+
+		float time;
 	};
 
 	struct GravityComponent

@@ -8,12 +8,13 @@
 #include "Engine/Core/InputSystem.h"
 #include "Engine/Core/StateSystem.h"
 
-#include "Engine/Graphics/Shaders/ShaderSystem.h"
-#include "Engine/Graphics/UI/BaseUISystem.h"
 #include "Engine/Graphics/CameraSystem.h"
 #include "Engine/Graphics/WindowSystem.h"
 #include "Engine/Graphics/RenderSystem.h"
+#include "Engine/Graphics/Animations/AnimationSystem.h"
 #include "Engine/Graphics/Lights/LightSystem.h"
+#include "Engine/Graphics/Shaders/ShaderSystem.h"
+#include "Engine/Graphics/UI/BaseUISystem.h"
 
 #include "Engine/Physics/MovementSystem.h"
 #include "Engine/Physics/RotationSystem.h"
@@ -44,6 +45,7 @@ namespace MyEngine
         {"CameraSystem", []() { return new CameraSystem; }},
         {"RenderSystem", []() { return new RenderSystem; }},
         {"LightSystem", []() { return new LightSystem; }},
+        {"AnimationSystem", []() { return new AnimationSystem; }},
         // Physics systems
         {"MovementSystem", []() { return new MovementSystem; }},
         {"RotationSystem", []() { return new RotationSystem; }},

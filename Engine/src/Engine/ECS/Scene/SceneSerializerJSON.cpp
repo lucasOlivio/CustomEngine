@@ -247,6 +247,15 @@ namespace MyEngine
                 m_ParseModelToDoc(modelObject, *pModel, allocator);
                 entityObject.AddMember("model", modelObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TransformAnimationComponent>()))
+            {
+                Value transformAnimationObject;
+                transformAnimationObject.SetObject();
+
+                TransformAnimationComponent* pTransformAnimation = sceneIn.Get<TransformAnimationComponent>(entity);
+                m_ParseTransformAnimationToDoc(transformAnimationObject, *pTransformAnimation, allocator);
+                entityObject.AddMember("transformAnimation", transformAnimationObject, allocator);
+            }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TilingComponent>()))
             {
                 Value tilingObject;
@@ -377,8 +386,6 @@ namespace MyEngine
                                                   TextureComponent& textureIn, 
                                                   rapidjson::Document::AllocatorType& allocator)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.SetMember(jsonObject, "fileName", textureIn.fileName, allocator);
@@ -452,6 +459,72 @@ namespace MyEngine
         parser.SetMember(jsonObject, "useColorTexture", modelIn.useColorTexture, allocator);
         parser.SetMember(jsonObject, "material", modelIn.material, allocator);
         parser.SetMember(jsonObject, "models", modelIn.models, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseTransformAnimationToDoc(rapidjson::Value& jsonObject, TransformAnimationComponent& animationIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        // HACK: This should have a parser, but i dont want to put other properties into the json parser 
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        // Serialize time
+        jsonObject.AddMember("time", animationIn.time, allocator);
+
+        // Serialize position keyframes
+        Value positionKeyFramesArray(kArrayType);
+        for (const auto& positionKeyFrame : animationIn.positionKeyFrames)
+        {
+            Value positionKeyFrameObject(kObjectType);
+            positionKeyFrameObject.AddMember("time", positionKeyFrame.time, allocator);
+
+            // Serialize position value
+            Value positionValueArray(kArrayType);
+            positionValueArray.PushBack(positionKeyFrame.value.x, allocator);
+            positionValueArray.PushBack(positionKeyFrame.value.y, allocator);
+            positionValueArray.PushBack(positionKeyFrame.value.z, allocator);
+            positionKeyFrameObject.AddMember("value", positionValueArray, allocator);
+
+            positionKeyFramesArray.PushBack(positionKeyFrameObject, allocator);
+        }
+        jsonObject.AddMember("positionKeyFrames", positionKeyFramesArray, allocator);
+
+        // Serialize scale keyframes
+        Value scaleKeyFramesArray(kArrayType);
+        for (const auto& scaleKeyFrame : animationIn.scaleKeyFrames)
+        {
+            Value scaleKeyFrameObject(kObjectType);
+            scaleKeyFrameObject.AddMember("time", scaleKeyFrame.time, allocator);
+
+            // Serialize scale value
+            Value scaleValueArray(kArrayType);
+            scaleValueArray.PushBack(scaleKeyFrame.value, allocator);
+            scaleKeyFrameObject.AddMember("value", scaleValueArray, allocator);
+
+            scaleKeyFramesArray.PushBack(scaleKeyFrameObject, allocator);
+        }
+        jsonObject.AddMember("scaleKeyFrames", scaleKeyFramesArray, allocator);
+
+        // Serialize rotation keyframes
+        Value rotationKeyFramesArray(kArrayType);
+        for (const auto& rotationKeyFrame : animationIn.rotationKeyFrames)
+        {
+            Value rotationKeyFrameObject(kObjectType);
+            rotationKeyFrameObject.AddMember("time", rotationKeyFrame.time, allocator);
+
+            // Serialize rotation value
+            Value rotationValueArray(kArrayType);
+            rotationValueArray.PushBack(rotationKeyFrame.value.x, allocator);
+            rotationValueArray.PushBack(rotationKeyFrame.value.y, allocator);
+            rotationValueArray.PushBack(rotationKeyFrame.value.z, allocator);
+            rotationValueArray.PushBack(rotationKeyFrame.value.w, allocator);
+            rotationKeyFrameObject.AddMember("value", rotationValueArray, allocator);
+
+            rotationKeyFramesArray.PushBack(rotationKeyFrameObject, allocator);
+        }
+        jsonObject.AddMember("rotationKeyFrames", rotationKeyFramesArray, allocator);
 
         return true;
     }
@@ -638,6 +711,11 @@ namespace MyEngine
                 {
                     ModelComponent* pModel = sceneOut.AddComponent<ModelComponent>(entityId);
                     m_ParseDocToModel(componentObject, *pModel);
+                }
+                else if (componentName == "transformAnimation")
+                {
+                    TransformAnimationComponent* pTransformAnimation = sceneOut.AddComponent<TransformAnimationComponent>(entityId);
+                    m_ParseDocToTransformAnimation(componentObject, *pTransformAnimation);
                 }
                 else if (componentName == "tiling")
                 {
@@ -827,8 +905,6 @@ namespace MyEngine
     }
     bool SceneSerializerJSON::m_ParseDocToModel(rapidjson::Value& jsonObject, ModelComponent& modelOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["isActive"], modelOut.isActive);
@@ -840,6 +916,98 @@ namespace MyEngine
 
         return true;
     }
+
+    bool SceneSerializerJSON::m_ParseDocToTransformAnimation(rapidjson::Value& jsonObject, TransformAnimationComponent& animationOut)
+    {
+        // HACK: This should have a parser, but i dont want to put other properties into the json parser 
+        using namespace rapidjson;
+
+        if (!jsonObject["positionKeyFrames"].IsArray())
+        {
+            LOG_ERROR("Expected array of objects for position animation component");
+            return false;
+        }
+
+        if (!jsonObject["scaleKeyFrames"].IsArray())
+        {
+            LOG_ERROR("Expected array of objects for scale animation component");
+            return false;
+        }
+
+        if (!jsonObject["rotationKeyFrames"].IsArray())
+        {
+            LOG_ERROR("Expected array of objects for rotation animation component");
+            return false;
+        }
+
+        ParserJSON parser = ParserJSON();
+
+        for (unsigned int i = 0; i < jsonObject["positionKeyFrames"].Size(); i++)
+        {
+            // Create keyframes
+            PositionKeyFrame keyFrame = PositionKeyFrame();
+
+            Value& positionKeyFrames = jsonObject["positionKeyFrames"][i];
+
+            Value& positionObj = positionKeyFrames["value"];
+            parser.GetValue(positionObj, keyFrame.value);
+
+            Value& timeObj = positionKeyFrames["time"];
+            parser.GetValue(timeObj, keyFrame.time);
+
+            int type = 0;
+            Value& typeObj = positionKeyFrames["easeType"];
+            parser.GetValue(typeObj, type);
+            keyFrame.easeType = (eEasingType)type;
+
+            animationOut.positionKeyFrames.push_back(keyFrame);
+        }
+
+        for (unsigned int i = 0; i < jsonObject["rotationKeyFrames"].Size(); i++)
+        {
+            // Create keyframes
+            RotationKeyFrame keyFrame = RotationKeyFrame();
+
+            Value& rotationKeyFrames = jsonObject["rotationKeyFrames"][i];
+
+            Value& rotationObj = rotationKeyFrames["value"];
+            parser.GetValue(rotationObj, keyFrame.value);
+
+            Value& timeObj = rotationKeyFrames["time"];
+            parser.GetValue(timeObj, keyFrame.time);
+
+            int type = 0;
+            Value& typeObj = rotationKeyFrames["easeType"];
+            parser.GetValue(typeObj, type);
+            keyFrame.easeType = (eEasingType)type;
+
+            animationOut.rotationKeyFrames.push_back(keyFrame);
+        }
+
+        for (unsigned int i = 0; i < jsonObject["scaleKeyFrames"].Size(); i++)
+        {
+            // Create keyframes
+            ScaleKeyFrame keyFrame = ScaleKeyFrame();
+
+            Value& scaleKeyFrames = jsonObject["scaleKeyFrames"][i];
+
+            Value& scaleObj = scaleKeyFrames["value"];
+            parser.GetValue(scaleObj, keyFrame.value);
+
+            Value& timeObj = scaleKeyFrames["time"];
+            parser.GetValue(timeObj, keyFrame.time);
+
+            int type = 0;
+            Value& typeObj = scaleKeyFrames["easeType"];
+            parser.GetValue(typeObj, type);
+            keyFrame.easeType = (eEasingType)type;
+
+            animationOut.scaleKeyFrames.push_back(keyFrame);
+        }
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToTiling(rapidjson::Value& jsonObject, TilingComponent& tilingOut)
     {
         using namespace rapidjson;
