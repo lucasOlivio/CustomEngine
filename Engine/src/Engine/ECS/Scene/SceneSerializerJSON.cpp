@@ -479,6 +479,7 @@ namespace MyEngine
         {
             Value positionKeyFrameObject(kObjectType);
             positionKeyFrameObject.AddMember("time", positionKeyFrame.time, allocator);
+            positionKeyFrameObject.AddMember("easeType", (int)positionKeyFrame.easeType, allocator);
 
             // Serialize position value
             Value positionValueArray(kArrayType);
@@ -497,6 +498,7 @@ namespace MyEngine
         {
             Value scaleKeyFrameObject(kObjectType);
             scaleKeyFrameObject.AddMember("time", scaleKeyFrame.time, allocator);
+            scaleKeyFrameObject.AddMember("easeType", (int)scaleKeyFrame.easeType, allocator);
 
             // Serialize scale value
             Value scaleValueArray(kArrayType);
@@ -513,6 +515,7 @@ namespace MyEngine
         {
             Value rotationKeyFrameObject(kObjectType);
             rotationKeyFrameObject.AddMember("time", rotationKeyFrame.time, allocator);
+            rotationKeyFrameObject.AddMember("easeType", (int)rotationKeyFrame.easeType, allocator);
 
             // Serialize rotation value
             Value rotationValueArray(kArrayType);

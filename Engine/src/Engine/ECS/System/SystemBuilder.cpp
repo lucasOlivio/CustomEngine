@@ -12,6 +12,7 @@
 #include "Engine/Graphics/WindowSystem.h"
 #include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Graphics/Animations/AnimationSystem.h"
+#include "Engine/Graphics/Animations/AnimationPlayerSystem.h"
 #include "Engine/Graphics/Lights/LightSystem.h"
 #include "Engine/Graphics/Shaders/ShaderSystem.h"
 #include "Engine/Graphics/UI/BaseUISystem.h"
@@ -46,6 +47,7 @@ namespace MyEngine
         {"RenderSystem", []() { return new RenderSystem; }},
         {"LightSystem", []() { return new LightSystem; }},
         {"AnimationSystem", []() { return new AnimationSystem; }},
+        {"AnimationPlayerSystem", []() { return new AnimationPlayerSystem; }},
         // Physics systems
         {"MovementSystem", []() { return new MovementSystem; }},
         {"RotationSystem", []() { return new RotationSystem; }},

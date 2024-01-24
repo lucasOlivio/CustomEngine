@@ -30,7 +30,6 @@ namespace MyEngine
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             TransformAnimationComponent* pAnimation = pScene->Get<TransformAnimationComponent>(entityId);
 
-            pAnimation->time += deltaTime;
             float currTime = pAnimation->time;
             int startIndex = 0;
             int endIndex = 0;

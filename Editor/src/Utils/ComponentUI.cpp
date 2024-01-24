@@ -69,6 +69,9 @@ namespace MyEngine
         ComponentType ModelType = pScene->GetComponentType<ModelComponent>();
         m_componentsUI[ModelType] = m_ModelUI;
 
+        ComponentType TransformAnimationType = pScene->GetComponentType<TransformAnimationComponent>();
+        m_componentsUI[TransformAnimationType] = m_TransformAnimationUI;
+
         ComponentType TilingType = pScene->GetComponentType<TilingComponent>();
         m_componentsUI[TilingType] = m_TilingUI;
 
@@ -382,6 +385,89 @@ namespace MyEngine
         ImGui::InputDouble("##ElapsedTime", &pModel->elapsedTime);
 
         ImGui::Checkbox("Is Active", &pModel->isActive);
+    }
+
+    void ComponentUI::m_TransformAnimationUI(Scene* pScene, Entity entityId)
+    {
+        ImGui::Text("Animation Component:");
+
+        TransformAnimationComponent* pTransformAnimation = pScene->Get<TransformAnimationComponent>(entityId);
+        if (!pTransformAnimation)
+        {
+            return;
+        }
+
+        // Edit time
+        ImGui::InputFloat("Time", &pTransformAnimation->time);
+
+        // Edit position keyframes
+        ImGui::Text("Position Keyframes:");
+        for (size_t i = 0; i < pTransformAnimation->positionKeyFrames.size(); ++i)
+        {
+            PositionKeyFrame& keyFrame = pTransformAnimation->positionKeyFrames[i];
+            ImGui::InputFloat(("Time##Pos" + std::to_string(i)).c_str(), &keyFrame.time);
+            ImGui::InputFloat3(("Value##Pos" + std::to_string(i)).c_str(), &keyFrame.value[0]);
+            ImGui::InputInt(("EaseType##Pos" + std::to_string(i)).c_str(), reinterpret_cast<int*>(&keyFrame.easeType));
+
+            // Button to remove this keyframe
+            if (ImGui::Button(("Remove##Pos" + std::to_string(i)).c_str()))
+            {
+                pTransformAnimation->positionKeyFrames.erase(pTransformAnimation->positionKeyFrames.begin() + i);
+                --i;
+            }
+        }
+
+        if (ImGui::Button("Add Position Keyframe"))
+        {
+            PositionKeyFrame newKeyFrame;
+            pTransformAnimation->positionKeyFrames.push_back(newKeyFrame);
+        }
+
+        // Edit scale keyframes
+        ImGui::Text("Scale Keyframes:");
+        for (size_t i = 0; i < pTransformAnimation->scaleKeyFrames.size(); ++i)
+        {
+            ScaleKeyFrame& keyFrame = pTransformAnimation->scaleKeyFrames[i];
+            ImGui::InputFloat(("Time##Scale" + std::to_string(i)).c_str(), &keyFrame.time);
+            ImGui::InputFloat(("Value##Scale" + std::to_string(i)).c_str(), &keyFrame.value);
+            ImGui::InputInt(("EaseType##Scale" + std::to_string(i)).c_str(), reinterpret_cast<int*>(&keyFrame.easeType));
+
+            // Button to remove this keyframe
+            if (ImGui::Button(("Remove##Scale" + std::to_string(i)).c_str()))
+            {
+                pTransformAnimation->scaleKeyFrames.erase(pTransformAnimation->scaleKeyFrames.begin() + i);
+                --i;
+            }
+        }
+
+        if (ImGui::Button("Add Scale Keyframe"))
+        {
+            ScaleKeyFrame newKeyFrame;
+            pTransformAnimation->scaleKeyFrames.push_back(newKeyFrame);
+        }
+
+        // Edit rotation keyframes
+        ImGui::Text("Rotation Keyframes:");
+        for (size_t i = 0; i < pTransformAnimation->rotationKeyFrames.size(); ++i)
+        {
+            RotationKeyFrame& keyFrame = pTransformAnimation->rotationKeyFrames[i];
+            ImGui::InputFloat(("Time##Rot" + std::to_string(i)).c_str(), &keyFrame.time);
+            ImGui::InputFloat4(("Value##Rot" + std::to_string(i)).c_str(), &keyFrame.value[0]);
+            ImGui::InputInt(("EaseType##Rot" + std::to_string(i)).c_str(), reinterpret_cast<int*>(&keyFrame.easeType));
+
+            // Button to remove this keyframe
+            if (ImGui::Button(("Remove##Rot" + std::to_string(i)).c_str()))
+            {
+                pTransformAnimation->rotationKeyFrames.erase(pTransformAnimation->rotationKeyFrames.begin() + i);
+                --i;
+            }
+        }
+
+        if (ImGui::Button("Add Rotation Keyframe"))
+        {
+            RotationKeyFrame newKeyFrame;
+            pTransformAnimation->rotationKeyFrames.push_back(newKeyFrame);
+        }
     }
 
     void ComponentUI::m_TilingUI(Scene* pScene, Entity entityId)

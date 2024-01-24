@@ -4,6 +4,7 @@
 
 namespace MyEngine
 {
+	// Handles all the transform movements based on the time and the key frames for the animation
 	class AnimationSystem : public iSystem
 	{
 	public:

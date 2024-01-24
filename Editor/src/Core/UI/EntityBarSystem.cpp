@@ -132,6 +132,7 @@ namespace MyEngine
             static bool addMaterial = false;
             static bool addLight = false;
             static bool addModel = false;
+            static bool addTransformAnimation = false;
             static bool addTiling = false;
             static bool addGravity = false;
             static bool addRigidBody = false;
@@ -148,6 +149,7 @@ namespace MyEngine
             ImGui::Checkbox("Material Component", &addMaterial);
             ImGui::Checkbox("Light Component", &addLight);
             ImGui::Checkbox("Model Component", &addModel);
+            ImGui::Checkbox("TransformAnimation Component", &addTransformAnimation);
             ImGui::Checkbox("Tiling Component", &addTiling);
             ImGui::Checkbox("Gravity Component", &addGravity);
             ImGui::Checkbox("RigidBody Component", &addRigidBody);
@@ -166,6 +168,7 @@ namespace MyEngine
                 if (addMaterial) m_AddComponent<MaterialComponent>(pScene, entityId);
                 if (addLight) m_AddComponent<LightComponent>(pScene, entityId);
                 if (addModel) m_AddComponent<ModelComponent>(pScene, entityId);
+                if (addTransformAnimation) m_AddComponent<TransformAnimationComponent>(pScene, entityId);
                 if (addTiling) m_AddComponent<TilingComponent>(pScene, entityId);
                 if (addGravity) m_AddComponent<GravityComponent>(pScene, entityId);
                 if (addRigidBody) m_AddComponent<RigidBodyComponent>(pScene, entityId);
