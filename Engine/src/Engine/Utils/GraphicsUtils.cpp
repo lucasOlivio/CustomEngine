@@ -8,6 +8,8 @@ namespace MyEngine
 	void GraphicsUtils::DrawModel(glm::mat4 matModel,
 								  bool isWireFrame,
 								  bool doNotLight,
+							      bool useDefaultColor,
+							      glm::vec3 defaultColor,
 								  bool useColorTexture,
 								  int VAO_ID,
 								  int numberOfIndices,
@@ -28,6 +30,10 @@ namespace MyEngine
 		pShader->SetUniformFloat("bUseColorTexture", useColorTexture);
 
 		// Debug variables
+		pShader->SetUniformFloat("bUseDefaultColor", useDefaultColor);
+		pShader->SetUniformVec3("defaultColor", defaultColor);
+
+		// Debug variables
 		pShader->SetUniformFloat("bUseDebugColour", useDebugColor);
 		pShader->SetUniformVec4("debugColourRGBA", debugColor);
 
@@ -39,11 +45,11 @@ namespace MyEngine
 		glBindVertexArray(0); 			  // disable VAO (and everything else)
 	}
 
-	void GraphicsUtils::DrawDebugModel(glm::mat4 matModel, 
+	void GraphicsUtils::DrawDebugModel(glm::mat4 matModel,
 									   int VAO_ID, int numberOfIndices,
 									   glm::vec4 debugColor)
 	{
-		return DrawModel(matModel, true, true, false,
+		return DrawModel(matModel, true, true, false, glm::vec3(0.0f), false,
 						 VAO_ID, numberOfIndices,
 						 true, debugColor);
 	}

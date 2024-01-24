@@ -11,6 +11,9 @@ out vec4 outputColour;		// To the frame buffer (aka screen)
 
 uniform vec4 eyeLocation;
 
+uniform bool bUseDefaultColor;	// if this is true, then use DefaultColor for all vertex
+uniform vec3 defaultColor;
+
 uniform bool bUseDebugColour;	// if this is true, then use debugColourRGBA for the colour
 uniform vec4 debugColourRGBA;	
 
@@ -88,6 +91,12 @@ void main()
 		vec4 cubeSampleColour = texture(cubeTexture, vertexWorldNormal.xyz).rgba;
 		outputColour.rgb = cubeSampleColour.rgb;
 		outputColour.a = 1.0f;
+		return;
+	}
+
+	if (bUseDefaultColor)
+	{
+		outputColour = vec4(defaultColor, 1.0f);
 		return;
 	}
 

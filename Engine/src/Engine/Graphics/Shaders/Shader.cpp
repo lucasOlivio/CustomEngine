@@ -74,6 +74,12 @@ namespace MyEngine
 		glUniform4f(vecUL, value.x, value.y, value.z, value.w);
 	}
 
+	void ShaderProgram::SetUniformVec3(const char* variableName, const glm::vec3& value)
+	{
+		GLint vecUL = GetUL(variableName);
+		glUniform3f(vecUL, value.x, value.y, value.z);
+	}
+
 	void ShaderProgram::SetUniformVec2(const char* variableName, const glm::vec2& value)
 	{
 		GLint vecUL = GetUL(variableName);

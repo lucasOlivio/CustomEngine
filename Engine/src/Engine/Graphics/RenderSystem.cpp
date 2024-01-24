@@ -184,6 +184,8 @@ namespace MyEngine
 					GraphicsUtils::DrawModel(matTransform,
 						pModel->isWireframe,
 						pModel->doNotLight,
+						pModel->useDefaultColor,
+						pModel->defaultColor,
 						pModel->useColorTexture,
 						pMesh->VAO_ID,
 						pMesh->numberOfIndices);

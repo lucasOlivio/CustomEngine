@@ -309,6 +309,8 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": false,
+            "defaultColor": [1.0, 1.0, 1.0],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
@@ -362,6 +364,8 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": false,
+            "defaultColor": [1.0, 1.0, 1.0],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
@@ -412,6 +416,8 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": false,
+            "defaultColor": [1.0, 1.0, 1.0],
             "useColorTexture": 1,
             "material": "mattesttransparent",
             "models": [
@@ -437,10 +443,10 @@
                 0.0
             ],
             "orientation": [
-                1.0,
                 0.0,
                 0.0,
-                0.0
+                0.0,
+                1.0
             ],
             "scale": 50.0
         },
@@ -448,10 +454,83 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": false,
+            "defaultColor": [1.0, 1.0, 1.0],
             "useColorTexture": 1,
             "material": "mattestred",
             "models": [
                 "cube.ply"
+            ]
+        },
+        "transformAnimation": {
+            "time": 0.0,
+            "positionKeyFrames": [
+                {
+                    "time": 0.0,
+                    "easeType": 3,
+                    "isKeyEvent": true,
+                    "value": [
+                        50.0,
+                        10.0,
+                        0.0
+                    ]
+                },
+                {
+                    "time": 2.0,
+                    "easeType": 2,
+                    "isKeyEvent": true,
+                    "value": [
+                        55.0,
+                        10.0,
+                        0.0
+                    ]
+                },
+                {
+                    "time": 3.0,
+                    "easeType": 1,
+                    "isKeyEvent": true,
+                    "value": [
+                        65.0,
+                        10.0,
+                        0.0
+                    ]
+                }
+            ],
+            "scaleKeyFrames": [],
+            "rotationKeyFrames": [
+                {
+                    "time": 0.0,
+                    "easeType": 3,
+                    "isKeyEvent": false,
+                    "value": [
+                        0.0,
+                        0.0,
+                        1.0,
+                        0.0
+                    ]
+                },
+                {
+                    "time": 1.0,
+                    "easeType": 3,
+                    "isKeyEvent": false,
+                    "value": [
+                        0.0,
+                        0.7070000171661377,
+                        0.7070000171661377,
+                        0.0
+                    ]
+                },
+                {
+                    "time": 2.0,
+                    "easeType": 0,
+                    "isKeyEvent": false,
+                    "value": [
+                        0.7070000171661377,
+                        0.0,
+                        0.7070000171661377,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -494,6 +573,8 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": false,
+            "defaultColor": [1.0, 1.0, 1.0],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
@@ -559,6 +640,8 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": false,
+            "defaultColor": [1.0, 1.0, 1.0],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [

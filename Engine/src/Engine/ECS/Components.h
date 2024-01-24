@@ -139,6 +139,9 @@ namespace MyEngine
 		std::vector<std::string> models;
 		std::vector <sMesh*> pMeshes;
 
+		bool useDefaultColor;
+		glm::vec3 defaultColor;
+
 		std::string material;
 		bool isWireframe;
 		bool doNotLight;

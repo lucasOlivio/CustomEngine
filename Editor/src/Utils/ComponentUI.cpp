@@ -371,9 +371,13 @@ namespace MyEngine
             pModel->models.push_back("cube.ply"); // You can set a default path or leave it empty
         }
 
+        // Color
+        ImGui::Checkbox("Use default color", &pModel->useDefaultColor);
+        ImGui::Text("Default color:");
+        ImGui::InputFloat3("##ModelDefaultcolor", &pModel->defaultColor[0]);
+
         // Material
         ImGui::Text("Material");
-        ImGui::InputText("##Material", &pModel->material);
 
         // Flags
         ImGui::Checkbox("Wireframe", &pModel->isWireframe);

@@ -309,6 +309,12 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
@@ -362,6 +368,12 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
@@ -412,6 +424,12 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
             "useColorTexture": 1,
             "material": "mattesttransparent",
             "models": [
@@ -439,8 +457,8 @@
             "orientation": [
                 0.0,
                 0.0,
-                0.0,
-                1.0
+                1.0,
+                0.0
             ],
             "scale": 50.0
         },
@@ -448,6 +466,12 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": 1,
+            "defaultColor": [
+                0.0,
+                0.0,
+                1.0
+            ],
             "useColorTexture": 1,
             "material": "mattestred",
             "models": [
@@ -496,8 +520,8 @@
                     "isKeyEvent": false,
                     "value": [
                         0.0,
-                        0.0,
                         1.0,
+                        0.0,
                         0.0
                     ]
                 },
@@ -506,9 +530,9 @@
                     "easeType": 3,
                     "isKeyEvent": false,
                     "value": [
+                        0.7070000171661377,
+                        0.7070000171661377,
                         0.0,
-                        0.7070000171661377,
-                        0.7070000171661377,
                         0.0
                     ]
                 },
@@ -517,10 +541,10 @@
                     "easeType": 0,
                     "isKeyEvent": false,
                     "value": [
-                        0.7070000171661377,
                         0.0,
                         0.7070000171661377,
-                        0.0
+                        0.0,
+                        0.7070000171661377
                     ]
                 }
             ]
@@ -565,6 +589,12 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
@@ -630,6 +660,12 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
             "useColorTexture": 1,
             "material": "mattest",
             "models": [

@@ -46,6 +46,7 @@ namespace MyEngine
 		virtual void SetUniformInt(const char* variableName, int value);
 		virtual void SetUniformMatrix4f(const char* variableName, const glm::mat4& value);
 		virtual void SetUniformVec4(const char* variableName, const glm::vec4& value);
+		virtual void SetUniformVec3(const char* variableName, const glm::vec3& value);
 		virtual void SetUniformVec2(const char* variableName, const glm::vec2& value);
 
 		virtual void IsWireframe(bool isWireframe);

@@ -11,11 +11,14 @@ namespace MyEngine
 		static void DrawModel(glm::mat4 matModel,
 							  bool isWireFrame,
 							  bool doNotLight,
+							  bool useDefaultColor,
+							  glm::vec3 defaultColor,
 							  bool useColorTexture,
 							  int VAO_ID,
 							  int numberOfIndices,
 							  bool useDebugColor = false,
 							  glm::vec4 debugColor = glm::vec4(0));
+
 		static void DrawDebugModel(glm::mat4 matModel,
 							  int VAO_ID,
 							  int numberOfIndices,
