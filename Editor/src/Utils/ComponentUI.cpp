@@ -409,6 +409,9 @@ namespace MyEngine
             ImGui::InputFloat3(("Value##Pos" + std::to_string(i)).c_str(), &keyFrame.value[0]);
             ImGui::InputInt(("EaseType##Pos" + std::to_string(i)).c_str(), reinterpret_cast<int*>(&keyFrame.easeType));
 
+            ImGui::Text("Is key event:");
+            ImGui::Checkbox(("##KeyEvent" + std::to_string(i)).c_str(), &keyFrame.isKeyEvent);
+
             // Button to remove this keyframe
             if (ImGui::Button(("Remove##Pos" + std::to_string(i)).c_str()))
             {
@@ -432,6 +435,9 @@ namespace MyEngine
             ImGui::InputFloat(("Value##Scale" + std::to_string(i)).c_str(), &keyFrame.value);
             ImGui::InputInt(("EaseType##Scale" + std::to_string(i)).c_str(), reinterpret_cast<int*>(&keyFrame.easeType));
 
+            ImGui::Text("Is key event:");
+            ImGui::Checkbox(("##KeyEvent" + std::to_string(i)).c_str(), &keyFrame.isKeyEvent);
+
             // Button to remove this keyframe
             if (ImGui::Button(("Remove##Scale" + std::to_string(i)).c_str()))
             {
@@ -454,6 +460,9 @@ namespace MyEngine
             ImGui::InputFloat(("Time##Rot" + std::to_string(i)).c_str(), &keyFrame.time);
             ImGui::InputFloat4(("Value##Rot" + std::to_string(i)).c_str(), &keyFrame.value[0]);
             ImGui::InputInt(("EaseType##Rot" + std::to_string(i)).c_str(), reinterpret_cast<int*>(&keyFrame.easeType));
+
+            ImGui::Text("Is key event:");
+            ImGui::Checkbox(("##KeyEvent" + std::to_string(i)).c_str(), &keyFrame.isKeyEvent);
 
             // Button to remove this keyframe
             if (ImGui::Button(("Remove##Rot" + std::to_string(i)).c_str()))

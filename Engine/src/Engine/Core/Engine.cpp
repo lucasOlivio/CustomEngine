@@ -131,6 +131,15 @@ namespace MyEngine
         m_pEventBusGameOverState = new EventBus<eGameStateEvents, GameOverEvent>();
         EventBusLocator<eGameStateEvents, GameOverEvent>::Set(m_pEventBusGameOverState);
 
+        m_pEventBusPosKeyFrame = new EventBus<eAnimationEvents, PositionKeyFrameEvent>();
+        EventBusLocator<eAnimationEvents, PositionKeyFrameEvent>::Set(m_pEventBusPosKeyFrame);
+
+        m_pEventBusRotKeyFrame = new EventBus<eAnimationEvents, RotationKeyFrameEvent>();
+        EventBusLocator<eAnimationEvents, RotationKeyFrameEvent>::Set(m_pEventBusRotKeyFrame);
+
+        m_pEventBusScaleKeyFrame = new EventBus<eAnimationEvents, ScaleKeyFrameEvent>();
+        EventBusLocator<eAnimationEvents, ScaleKeyFrameEvent>::Set(m_pEventBusScaleKeyFrame);
+
         // Setting up resources managers
         m_pSceneManager = new SceneManager();
         SceneManagerLocator::Set(m_pSceneManager);
@@ -250,6 +259,9 @@ namespace MyEngine
         delete m_pEventBusRunningState;
         delete m_pEventBusStoppedState;
         delete m_pEventBusGameOverState;
+        delete m_pEventBusPosKeyFrame;
+        delete m_pEventBusRotKeyFrame;
+        delete m_pEventBusScaleKeyFrame;
     }
 
     void Engine::LoadConfigurations()

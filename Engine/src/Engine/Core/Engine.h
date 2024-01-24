@@ -9,6 +9,7 @@
 #include "Engine/Events/InputEvent.h"
 #include "Engine/Events/SceneEvent.h"
 #include "Engine/Events/GameStateEvent.h"
+#include "Engine/Events/AnimationEvent.h"
 #include "Engine/Events/iEventBus.h"
 
 #include "Engine/Graphics/VAO/iVAOManager.h"
@@ -75,6 +76,9 @@ namespace MyEngine
 		iEventBus<eGameStateEvents, GameRunningEvent>* m_pEventBusRunningState;
 		iEventBus<eGameStateEvents, GameStoppedEvent>* m_pEventBusStoppedState;
 		iEventBus<eGameStateEvents, GameOverEvent>* m_pEventBusGameOverState;
+		iEventBus<eAnimationEvents, PositionKeyFrameEvent>* m_pEventBusPosKeyFrame;
+		iEventBus<eAnimationEvents, RotationKeyFrameEvent>* m_pEventBusRotKeyFrame;
+		iEventBus<eAnimationEvents, ScaleKeyFrameEvent>* m_pEventBusScaleKeyFrame;
 
 		// Resources managers
 		iVAOManager* m_pVAOManager;

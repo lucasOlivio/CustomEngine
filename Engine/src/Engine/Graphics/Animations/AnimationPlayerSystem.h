@@ -4,7 +4,7 @@
 
 namespace MyEngine
 {
-	// Handles the time for all animations, 
+	// Handles the time for all animations and key frame events triggering, 
 	// decoupled from animation system to allow more options on how to run the animations
 	class AnimationPlayerSystem : public iSystem
 	{
@@ -25,5 +25,10 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 		virtual void Shutdown();
+
+	private:
+		void m_TriggerPosKeyFrameEvent(int oldKeyFrame, int keyFrame, int nextKeyFrame);
+		void m_TriggerRotKeyFrameEvent(int oldKeyFrame, int keyFrame, int nextKeyFrame);
+		void m_TriggerScaleKeyFrameEvent(int oldKeyFrame, int keyFrame, int nextKeyFrame);
 	};
 }

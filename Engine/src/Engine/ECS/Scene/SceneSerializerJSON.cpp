@@ -480,6 +480,7 @@ namespace MyEngine
             Value positionKeyFrameObject(kObjectType);
             positionKeyFrameObject.AddMember("time", positionKeyFrame.time, allocator);
             positionKeyFrameObject.AddMember("easeType", (int)positionKeyFrame.easeType, allocator);
+            positionKeyFrameObject.AddMember("isKeyEvent", positionKeyFrame.isKeyEvent, allocator);
 
             // Serialize position value
             Value positionValueArray(kArrayType);
@@ -499,6 +500,7 @@ namespace MyEngine
             Value scaleKeyFrameObject(kObjectType);
             scaleKeyFrameObject.AddMember("time", scaleKeyFrame.time, allocator);
             scaleKeyFrameObject.AddMember("easeType", (int)scaleKeyFrame.easeType, allocator);
+            scaleKeyFrameObject.AddMember("isKeyEvent", scaleKeyFrame.isKeyEvent, allocator);
 
             // Serialize scale value
             Value scaleValueArray(kArrayType);
@@ -516,6 +518,7 @@ namespace MyEngine
             Value rotationKeyFrameObject(kObjectType);
             rotationKeyFrameObject.AddMember("time", rotationKeyFrame.time, allocator);
             rotationKeyFrameObject.AddMember("easeType", (int)rotationKeyFrame.easeType, allocator);
+            rotationKeyFrameObject.AddMember("isKeyEvent", rotationKeyFrame.isKeyEvent, allocator);
 
             // Serialize rotation value
             Value rotationValueArray(kArrayType);
@@ -958,6 +961,9 @@ namespace MyEngine
             Value& timeObj = positionKeyFrames["time"];
             parser.GetValue(timeObj, keyFrame.time);
 
+            Value& isKeyEventObj = positionKeyFrames["isKeyEvent"];
+            parser.GetValue(isKeyEventObj, keyFrame.isKeyEvent);
+
             int type = 0;
             Value& typeObj = positionKeyFrames["easeType"];
             parser.GetValue(typeObj, type);
@@ -979,6 +985,9 @@ namespace MyEngine
             Value& timeObj = rotationKeyFrames["time"];
             parser.GetValue(timeObj, keyFrame.time);
 
+            Value& isKeyEventObj = rotationKeyFrames["isKeyEvent"];
+            parser.GetValue(isKeyEventObj, keyFrame.isKeyEvent);
+
             int type = 0;
             Value& typeObj = rotationKeyFrames["easeType"];
             parser.GetValue(typeObj, type);
@@ -999,6 +1008,9 @@ namespace MyEngine
 
             Value& timeObj = scaleKeyFrames["time"];
             parser.GetValue(timeObj, keyFrame.time);
+
+            Value& isKeyEventObj = scaleKeyFrames["isKeyEvent"];
+            parser.GetValue(isKeyEventObj, keyFrame.isKeyEvent);
 
             int type = 0;
             Value& typeObj = scaleKeyFrames["easeType"];
