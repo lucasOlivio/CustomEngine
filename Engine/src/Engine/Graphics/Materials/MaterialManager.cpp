@@ -118,16 +118,18 @@ namespace MyEngine
 		pShader->SetUniformVec2("UVOffset", glm::vec2(0.0, 0.0));
 		pShader->SetUniformVec2("HeightMapOffset", glm::vec2(0.0, 0.0));
 		pShader->SetUniformInt("isEmissive", false);
+
+		m_currMaterial = "";
 	}
 
 	MaterialComponent* MaterialManager::GetMaterialByName(Scene* pScene, std::string materialName)
 	{
-		typedef std::map<std::string, MaterialComponent*>::iterator itMaterials;
+		typedef std::map<std::string, MaterialComponent>::iterator itMaterials;
 
 		itMaterials it = m_materials.find(materialName);
 		if (it != m_materials.end())
 		{
-			return it->second;
+			return &(it->second);
 		}
 
 		// Material not mapped yet, so search for it in the scene
@@ -137,7 +139,7 @@ namespace MyEngine
 
 			if (pMaterial->name == materialName)
 			{
-				m_materials[materialName] = pMaterial;
+				m_materials[materialName] = MaterialComponent(*pMaterial);
 				return pMaterial;
 			}
 		}

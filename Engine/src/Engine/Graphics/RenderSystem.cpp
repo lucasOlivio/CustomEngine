@@ -96,7 +96,7 @@ namespace MyEngine
 			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
 			TilingComponent* pTiling = pScene->Get<TilingComponent>(entityId);
 
-			if (!pModel->isActive)
+			if (!pModel->isActive || pModel->pMeshes.size() == 0)
 			{
 				continue;
 			}
@@ -115,6 +115,10 @@ namespace MyEngine
 
 				pMaterialManager->BindMaterial(pScene, pMaterial->name);
 			}
+			else
+			{
+				pMaterialManager->UnbindMaterial();
+			}
 
 			m_RenderModel(pTiling, pTransform, pModel);
 		}
@@ -127,9 +131,9 @@ namespace MyEngine
 			TilingComponent* pTiling = pScene->Get<TilingComponent>(entityId);
 
 			// Bind material
-			MaterialComponent* pMaterial = pMaterialManager->GetMaterialByName(pScene,
+			/*MaterialComponent* pMaterial = pMaterialManager->GetMaterialByName(pScene,
 																			   pModel->material);
-			pMaterialManager->BindMaterial(pScene, pMaterial->name);
+			pMaterialManager->BindMaterial(pScene, pMaterial->name);*/
 
 			m_RenderModel(pTiling, pTransform, pModel);
 		}

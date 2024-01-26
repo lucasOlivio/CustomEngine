@@ -474,6 +474,7 @@ namespace MyEngine
 
         // Serialize time
         jsonObject.AddMember("time", animationIn.time, allocator);
+        jsonObject.AddMember("isActive", animationIn.isActive, allocator);
 
         // Serialize position keyframes
         Value positionKeyFramesArray(kArrayType);
@@ -505,9 +506,9 @@ namespace MyEngine
             scaleKeyFrameObject.AddMember("isKeyEvent", scaleKeyFrame.isKeyEvent, allocator);
 
             // Serialize scale value
-            Value scaleValueArray(kArrayType);
-            scaleValueArray.PushBack(scaleKeyFrame.value, allocator);
-            scaleKeyFrameObject.AddMember("value", scaleValueArray, allocator);
+            Value scaleValue(kNumberType);
+            scaleValue = scaleKeyFrame.value;
+            scaleKeyFrameObject.AddMember("value", scaleValue, allocator);
 
             scaleKeyFramesArray.PushBack(scaleKeyFrameObject, allocator);
         }
@@ -524,10 +525,10 @@ namespace MyEngine
 
             // Serialize rotation value
             Value rotationValueArray(kArrayType);
+            rotationValueArray.PushBack(rotationKeyFrame.value.w, allocator);
             rotationValueArray.PushBack(rotationKeyFrame.value.x, allocator);
             rotationValueArray.PushBack(rotationKeyFrame.value.y, allocator);
             rotationValueArray.PushBack(rotationKeyFrame.value.z, allocator);
-            rotationValueArray.PushBack(rotationKeyFrame.value.w, allocator);
             rotationKeyFrameObject.AddMember("value", rotationValueArray, allocator);
 
             rotationKeyFramesArray.PushBack(rotationKeyFrameObject, allocator);
@@ -1022,6 +1023,12 @@ namespace MyEngine
             keyFrame.easeType = (eEasingType)type;
 
             animationOut.scaleKeyFrames.push_back(keyFrame);
+        }
+
+        if (jsonObject.HasMember("isActive"))
+        {
+            Value& activeObj = jsonObject["isActive"];
+            parser.GetValue(activeObj, animationOut.isActive);
         }
 
         return true;
