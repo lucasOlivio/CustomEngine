@@ -1,10 +1,15 @@
-# My custom engine template
+# Custom engine
 
-Quick start engine project for speeding up the creation of GDP projects and exams.
-(Template based on <https://github.com/TheCherno/ProjectTemplate>)
+## About
 
-## Getting Started
+My Custom engine template to start projects from more easily.
 
-1. Clone this repository
+## Requirements
+
+- Visual studio 2022
+
+## How to run
+
+1. Clone the repository.
 2. Open the `Scripts/` directory and run the appropriate `Setup` script to generate projects files.
-3. Open and run the CustomEngine solution
+3. Open and run the solution.
