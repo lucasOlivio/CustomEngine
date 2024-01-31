@@ -29,5 +29,11 @@ namespace MyEngine
 		{
 			LOG_ERROR("Particle manager not initialized!");
 		}
+
+		// Reset all particles life to 0
+		virtual void ResetParticles()
+		{
+			LOG_ERROR("Particle manager not initialized!");
+		}
 	};
 }

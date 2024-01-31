@@ -19,6 +19,9 @@ namespace MyEngine
 		// Update the values for the corresponding particle
 		virtual void UpdateParticle(uint index, const ParticleProps& props);
 
+		// Reset all particles life to 0
+		virtual void ResetParticles();
+
 	private:
 		std::vector<ParticleProps> m_vecParticles;
 

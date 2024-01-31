@@ -30,4 +30,14 @@ namespace MyEngine
 	{
 		m_vecParticles[index] = props;
 	}
+
+	void ParticleManager::ResetParticles()
+	{
+		for (ParticleProps& particle : m_vecParticles)
+		{
+			particle.lifetime = 0.0f;
+		}
+
+		m_nextParticle = 0;
+	}
 }

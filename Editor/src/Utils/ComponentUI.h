@@ -33,6 +33,7 @@ namespace MyEngine
 		static void m_ParentUI(Scene* pScene, Entity entityId);
 		static void m_TextureUI(Scene* pScene, Entity entityId);
 		static void m_MaterialUI(Scene* pScene, Entity entityId);
+		static void m_EmitterUI(Scene* pScene, Entity entityId);
 		static void m_LightUI(Scene* pScene, Entity entityId);
 		static void m_ModelUI(Scene* pScene, Entity entityId);
 		static void m_TransformAnimationUI(Scene* pScene, Entity entityId);

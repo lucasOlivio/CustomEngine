@@ -18,5 +18,8 @@ namespace MyEngine
 
 		// Update the values for the corresponding particle
 		virtual void UpdateParticle(uint index, const ParticleProps& props) = 0;
+
+		// Reset all particles life to 0
+		virtual void ResetParticles() = 0;
 	};
 }

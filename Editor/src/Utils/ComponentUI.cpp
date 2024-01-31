@@ -65,6 +65,9 @@ namespace MyEngine
         ComponentType MaterialType = pScene->GetComponentType<MaterialComponent>();
         m_componentsUI[MaterialType] = m_MaterialUI;
 
+        ComponentType EmitterType = pScene->GetComponentType<EmitterComponent>();
+        m_componentsUI[EmitterType] = m_EmitterUI;
+
         ComponentType LightType = pScene->GetComponentType<LightComponent>();
         m_componentsUI[LightType] = m_LightUI;
 
@@ -301,6 +304,78 @@ namespace MyEngine
 
         ImGui::Text("Alpha Texture");
         ImGui::InputText("##AlphaTexture", &pMaterial->alphaTexture);
+    }
+    
+    void ComponentUI::m_EmitterUI(Scene* pScene, Entity entityId)
+    {
+        ImGui::Text("Emitter:");
+
+        EmitterComponent* pEmitter = pScene->Get<EmitterComponent>(entityId);
+        if (!pEmitter)
+        {
+            return;
+        }
+
+        ImGui::Text("Emit Rate:");
+        ImGui::InputInt("Min##EmitRateMin", &pEmitter->emitRateMin);
+        ImGui::InputInt("Max##EmitRateMax", &pEmitter->emitRateMax);
+
+        ImGui::Text("Max Particles:");
+        ImGui::InputInt("##MaxParticles", &pEmitter->maxParticles);
+
+        ImGui::Text("Active:");
+        ImGui::Checkbox("##IsActive", &pEmitter->isActive);
+
+        ImGui::Text("Mesh Name:");
+        ImGui::InputText("##MeshName", &(pEmitter->properties.meshName));
+
+        ImGui::Text("Material:");
+        ImGui::InputText("##Material", &(pEmitter->properties.material));
+
+        ImGui::Text("Initial Color:");
+        ImGui::InputFloat3("##ColorInitial", &(pEmitter->properties.colorInitial.x));
+
+        ImGui::Text("Color Change:");
+        ImGui::InputFloat3("##ColorChange", &(pEmitter->properties.colorChange.x));
+
+        ImGui::Text("Constant Force:");
+        ImGui::InputFloat3("##ConstForce", &(pEmitter->properties.constForce.x));
+
+        ImGui::Text("Max Life Time:");
+        ImGui::InputFloat("##MaxLifeTime", &(pEmitter->properties.maxLifeTime));
+
+        ImGui::Text("Min Life Time:");
+        ImGui::InputFloat("##MinLifeTime", &(pEmitter->properties.minLifeTime));
+
+        ImGui::Text("Max Orientation (In quat):");
+        ImGui::InputFloat4("##OriMax", &(pEmitter->properties.oriMax.w));
+
+        ImGui::Text("Min Orientation (In quat):");
+        ImGui::InputFloat4("##OriMin", &(pEmitter->properties.oriMin.w));
+
+        ImGui::Text("Max Position:");
+        ImGui::InputFloat3("##PosMax", &(pEmitter->properties.posMax.x));
+
+        ImGui::Text("Min Position:");
+        ImGui::InputFloat3("##PosMin", &(pEmitter->properties.posMin.x));
+
+        ImGui::Text("Max Rotation (In degrees):");
+        ImGui::InputFloat3("##RotMax", &(pEmitter->properties.rotMax.x));
+
+        ImGui::Text("Min Rotation:");
+        ImGui::InputFloat3("##RotMin", &(pEmitter->properties.rotMin.x));
+
+        ImGui::Text("Max Scale:");
+        ImGui::InputFloat("##ScaMax", &(pEmitter->properties.scaMax));
+
+        ImGui::Text("Min Scale:");
+        ImGui::InputFloat("##ScaMin", &(pEmitter->properties.scaMin));
+
+        ImGui::Text("Max Velocity:");
+        ImGui::InputFloat3("##VelMax", &(pEmitter->properties.velMax.x));
+
+        ImGui::Text("Min Velocity:");
+        ImGui::InputFloat3("##VelMin", &(pEmitter->properties.velMin.x));
     }
 
     void ComponentUI::m_LightUI(Scene* pScene, Entity entityId)

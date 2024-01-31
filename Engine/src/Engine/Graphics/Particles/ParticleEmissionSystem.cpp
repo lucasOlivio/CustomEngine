@@ -18,6 +18,7 @@ namespace MyEngine
 
     void ParticleEmissionSystem::Start(Scene* pScene)
     {
+        // Load all particles models
         iVAOManager* pVAOManager = VAOManagerLocator::Get();
         for (Entity entityId : SceneView<EmitterComponent>(*pScene))
         {
@@ -26,6 +27,11 @@ namespace MyEngine
             pEmitter->pMesh = pVAOManager->LoadModelIntoVAO(pEmitter->properties.meshName,
                                                              false);
         }
+
+        // Kill all particles
+        iParticleManager* pParticleManager = ParticleManagerLocator::Get();
+
+        pParticleManager->ResetParticles();
     }
 
     void ParticleEmissionSystem::Update(Scene* pScene, float deltaTime)
@@ -106,6 +112,10 @@ namespace MyEngine
 
     void ParticleEmissionSystem::End(Scene* pScene)
     {
+        // Kill all particles
+        iParticleManager* pParticleManager = ParticleManagerLocator::Get();
+
+        pParticleManager->ResetParticles();
     }
 
     void ParticleEmissionSystem::Shutdown()
