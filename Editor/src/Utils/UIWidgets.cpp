@@ -40,6 +40,19 @@ namespace MyEngine
 				            nullptr, nullptr);
     }
 
+    void Title(std::string text, float fontSize, ImVec4 fontColor)
+    {
+        float oldSize = ImGui::GetFont()->Scale;
+        ImGui::GetFont()->Scale *= fontSize;
+        ImGui::PushFont(ImGui::GetFont());
+
+        ImGui::TextColored(fontColor, text.c_str());
+
+        // Restore the original font size
+        ImGui::GetFont()->Scale = oldSize;
+        ImGui::PopFont(); 
+    }
+
     void Separator()
     {
         ImDrawList* draw_list = ImGui::GetWindowDrawList();

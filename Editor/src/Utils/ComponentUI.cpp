@@ -113,7 +113,7 @@ namespace MyEngine
 
     void ComponentUI::m_TagUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Tag:");
+        Title("Tag:");
 
         TagComponent* pTag = pScene->Get<TagComponent>(entityId);
         if (!pTag)
@@ -127,7 +127,7 @@ namespace MyEngine
 
     void ComponentUI::m_TransformUI(Scene* pScene, Entity entityId)
 	{
-        ImGui::Text("Transform:");
+        Title("Transform:");
 
         TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
         if (!pTransform)
@@ -160,7 +160,7 @@ namespace MyEngine
 
     void ComponentUI::m_MovementUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Movement:");
+        Title("Movement:");
 
         MovementComponent* pMovement = pScene->Get<MovementComponent>(entityId);
         if (!pMovement)
@@ -187,7 +187,7 @@ namespace MyEngine
 
     void ComponentUI::m_RotationUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Rotation:");
+        Title("Rotation:");
 
         RotationComponent* pRotation = pScene->Get<RotationComponent>(entityId);
         if (!pRotation)
@@ -214,7 +214,7 @@ namespace MyEngine
 
     void ComponentUI::m_ParentUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Parent:");
+        Title("Parent:");
 
         ParentComponent* pParent = pScene->Get<ParentComponent>(entityId);
         if (!pParent)
@@ -228,7 +228,7 @@ namespace MyEngine
 
     void ComponentUI::m_TextureUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Texture:");
+        Title("Texture:");
 
         TextureComponent* pTexture = pScene->Get<TextureComponent>(entityId);
         if (!pTexture)
@@ -252,7 +252,7 @@ namespace MyEngine
 
     void ComponentUI::m_MaterialUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Material:");
+        Title("Material:");
 
         MaterialComponent* pMaterial = pScene->Get<MaterialComponent>(entityId);
         if (!pMaterial)
@@ -308,7 +308,7 @@ namespace MyEngine
     
     void ComponentUI::m_EmitterUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Emitter:");
+        Title("Emitter:");
 
         EmitterComponent* pEmitter = pScene->Get<EmitterComponent>(entityId);
         if (!pEmitter)
@@ -380,7 +380,7 @@ namespace MyEngine
 
     void ComponentUI::m_LightUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Light:");
+        Title("Light:");
 
         LightComponent* pLight = pScene->Get<LightComponent>(entityId);
         if (!pLight)
@@ -429,7 +429,7 @@ namespace MyEngine
     void ComponentUI::m_ModelUI(Scene* pScene, Entity entityId)
     {
         iVAOManager* pVAOManager = VAOManagerLocator::Get();
-        ImGui::Text("Model:");
+        Title("Model:");
 
         ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
         if (!pModel)
@@ -486,7 +486,7 @@ namespace MyEngine
     void ComponentUI::m_TransformAnimationUI(Scene* pScene, Entity entityId)
     {
         Separator();
-        ImGui::Text("Animation Component:");
+        Title("Animation Component:");
 
         TransformAnimationComponent* pTransformAnimation = pScene->Get<TransformAnimationComponent>(entityId);
         if (!pTransformAnimation)
@@ -597,7 +597,7 @@ namespace MyEngine
 
     void ComponentUI::m_TilingUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Tiling:");
+        Title("Tiling:");
 
         TilingComponent* pTiling = pScene->Get<TilingComponent>(entityId);
         if (!pTiling)
@@ -616,7 +616,7 @@ namespace MyEngine
 
     void ComponentUI::m_GravityUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Gravity:");
+        Title("Gravity:");
 
         GravityComponent* pGravity = pScene->Get<GravityComponent>(entityId);
         if (!pGravity)
@@ -631,7 +631,7 @@ namespace MyEngine
 
     void ComponentUI::m_RigidBodyUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Rigid Body:");
+        Title("Rigid Body:");
 
         RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
         if (!pRigidBody)
@@ -650,7 +650,7 @@ namespace MyEngine
 
     void ComponentUI::m_MeshColliderUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Mesh Collider:");
+        Title("Mesh Collider:");
 
         MeshColliderComponent* pMeshCollider = pScene->Get<MeshColliderComponent>(entityId);
         if (!pMeshCollider)
@@ -665,7 +665,7 @@ namespace MyEngine
 
     void ComponentUI::m_SphereColliderUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("Sphere Collider:");
+        Title("Sphere Collider:");
 
         SphereColliderComponent* pSphereCollider = pScene->Get<SphereColliderComponent>(entityId);
         if (!pSphereCollider)
@@ -680,7 +680,7 @@ namespace MyEngine
 
     void ComponentUI::m_AABBColliderUI(Scene* pScene, Entity entityId)
     {
-        ImGui::Text("AABB Collider:");
+        Title("AABB Collider:");
 
         AABBColliderComponent* pAABBCollider = pScene->Get<AABBColliderComponent>(entityId);
         if (!pAABBCollider)
