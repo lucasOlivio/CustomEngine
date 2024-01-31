@@ -1,0 +1,49 @@
+#pragma once
+
+#include "Engine/Graphics/GraphicsProperties.h"
+
+namespace MyEngine
+{
+	struct ParticleProps
+	{
+		sMesh* pMesh;
+
+		Entity entityId; // Entity that emitted this particle
+
+		glm::vec3 velocity;
+		glm::vec3 acceleration;
+		glm::vec3 rotationSpeed; // In degrees
+
+		glm::vec3 position;
+		glm::quat orientation;
+		float scale;
+
+		float lifetime;
+	};
+
+	struct EmitterProps
+	{
+		std::string meshName;
+
+		glm::vec3 posMin;
+		glm::vec3 posMax;
+
+		glm::quat oriMin;
+		glm::quat oriMax;
+
+		// In degrees
+		glm::vec3 rotMin;
+		glm::vec3 rotMax;
+
+		glm::vec3 constForce;
+
+		glm::vec3 velMin;
+		glm::vec3 velMax;
+
+		float scaMin;
+		float scaMax;
+
+		float minLifeTime;
+		float maxLifeTime;
+	};
+}

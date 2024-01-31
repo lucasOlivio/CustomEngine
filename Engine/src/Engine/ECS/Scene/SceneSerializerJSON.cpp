@@ -265,6 +265,15 @@ namespace MyEngine
                 m_ParseTilingToDoc(tilingObject, *pTiling, allocator);
                 entityObject.AddMember("tiling", tilingObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<EmitterComponent>()))
+            {
+                Value emitterObject;
+                emitterObject.SetObject();
+
+                EmitterComponent* pEmitter = sceneIn.Get<EmitterComponent>(entity);
+                m_ParseEmitterToDoc(emitterObject, *pEmitter, allocator);
+                entityObject.AddMember("emitter", emitterObject, allocator);
+            }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<GravityComponent>()))
             {
                 Value gravityObject;
@@ -550,6 +559,33 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseEmitterToDoc(rapidjson::Value& jsonObject, EmitterComponent& emitterIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "emitRateMin", emitterIn.emitRateMin, allocator);
+        parser.SetMember(jsonObject, "emitRateMax", emitterIn.emitRateMax, allocator);
+        parser.SetMember(jsonObject, "maxParticles", emitterIn.maxParticles, allocator);
+        parser.SetMember(jsonObject, "isActive", emitterIn.isActive, allocator);
+
+        parser.SetMember(jsonObject, "meshName", emitterIn.properties.meshName, allocator);
+        parser.SetMember(jsonObject, "constForce", emitterIn.properties.constForce, allocator);
+        parser.SetMember(jsonObject, "maxLifeTime", emitterIn.properties.maxLifeTime, allocator);
+        parser.SetMember(jsonObject, "minLifeTime", emitterIn.properties.minLifeTime, allocator);
+        parser.SetMember(jsonObject, "oriMax", emitterIn.properties.oriMax, allocator);
+        parser.SetMember(jsonObject, "oriMin", emitterIn.properties.oriMin, allocator);
+        parser.SetMember(jsonObject, "posMax", emitterIn.properties.posMax, allocator);
+        parser.SetMember(jsonObject, "posMin", emitterIn.properties.posMin, allocator);
+        parser.SetMember(jsonObject, "rotMax", emitterIn.properties.rotMax, allocator);
+        parser.SetMember(jsonObject, "rotMin", emitterIn.properties.rotMin, allocator);
+        parser.SetMember(jsonObject, "scaMax", emitterIn.properties.scaMax, allocator);
+        parser.SetMember(jsonObject, "scaMin", emitterIn.properties.scaMin, allocator);
+        parser.SetMember(jsonObject, "velMax", emitterIn.properties.velMax, allocator);
+        parser.SetMember(jsonObject, "velMin", emitterIn.properties.velMin, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseGravityToDoc(rapidjson::Value& jsonObject, GravityComponent& gravityIn, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
@@ -730,6 +766,11 @@ namespace MyEngine
                 {
                     TilingComponent* pTiling = sceneOut.AddComponent<TilingComponent>(entityId);
                     m_ParseDocToTiling(componentObject, *pTiling);
+                }
+                else if (componentName == "emitter")
+                {
+                    EmitterComponent* pEmitter = sceneOut.AddComponent<EmitterComponent>(entityId);
+                    m_ParseDocToEmitter(componentObject, *pEmitter);
                 }
                 else if (componentName == "gravity")
                 {
@@ -1036,8 +1077,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToTiling(rapidjson::Value& jsonObject, TilingComponent& tilingOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["axis"], tilingOut.axis);
@@ -1046,10 +1085,35 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseDocToEmitter(rapidjson::Value& jsonObject, EmitterComponent& emitterOut)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["emitRateMin"], emitterOut.emitRateMin);
+        parser.GetValue(jsonObject["emitRateMax"], emitterOut.emitRateMax);
+        parser.GetValue(jsonObject["maxParticles"], emitterOut.maxParticles);
+        parser.GetValue(jsonObject["isActive"], emitterOut.isActive);
+
+        parser.GetValue(jsonObject["meshName"], emitterOut.properties.meshName);
+        parser.GetValue(jsonObject["constForce"], emitterOut.properties.constForce);
+        parser.GetValue(jsonObject["maxLifeTime"], emitterOut.properties.maxLifeTime);
+        parser.GetValue(jsonObject["minLifeTime"], emitterOut.properties.minLifeTime);
+        parser.GetValue(jsonObject["oriMax"], emitterOut.properties.oriMax);
+        parser.GetValue(jsonObject["oriMin"], emitterOut.properties.oriMin);
+        parser.GetValue(jsonObject["posMax"], emitterOut.properties.posMax);
+        parser.GetValue(jsonObject["posMin"], emitterOut.properties.posMin);
+        parser.GetValue(jsonObject["rotMax"], emitterOut.properties.rotMax);
+        parser.GetValue(jsonObject["rotMin"], emitterOut.properties.rotMin);
+        parser.GetValue(jsonObject["scaMax"], emitterOut.properties.scaMax);
+        parser.GetValue(jsonObject["scaMin"], emitterOut.properties.scaMin);
+        parser.GetValue(jsonObject["velMax"], emitterOut.properties.velMax);
+        parser.GetValue(jsonObject["velMin"], emitterOut.properties.velMin);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToGravity(rapidjson::Value& jsonObject, GravityComponent& gravityOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["acceleration"], gravityOut.acceleration);
@@ -1059,8 +1123,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToRigidBody(rapidjson::Value& jsonObject, RigidBodyComponent& rigidbodyOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
         int bodyType = 0;
         int shapeType = 0;
@@ -1076,8 +1138,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToSphereCollider(rapidjson::Value& jsonObject, SphereColliderComponent& sphereOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["radius"], sphereOut.radius);
@@ -1087,8 +1147,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToAABBCollider(rapidjson::Value& jsonObject, AABBColliderComponent& aabbOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["min"], aabbOut.min);
@@ -1099,8 +1157,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToMeshCollider(rapidjson::Value& jsonObject, MeshColliderComponent& meshOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["name"], meshOut.name);
@@ -1110,8 +1166,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToCamera(rapidjson::Value& jsonObject, CameraComponent& cameraOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["upVector"], cameraOut.upVector);
@@ -1125,8 +1179,6 @@ namespace MyEngine
     }
     bool SceneSerializerJSON::m_ParseDocToWindow(rapidjson::Value& jsonObject, WindowComponent& windowOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["name"], windowOut.name);
@@ -1140,8 +1192,6 @@ namespace MyEngine
     }
     bool SceneSerializerJSON::m_ParseDocToConfigPath(rapidjson::Value& jsonObject, ConfigPathComponent& configPathOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["pathAudio"], configPathOut.pathAudio);
@@ -1158,8 +1208,6 @@ namespace MyEngine
 
     bool SceneSerializerJSON::m_ParseDocToGridBroadphase(rapidjson::Value& jsonObject, GridBroadphaseComponent& gridBroadphaseOut)
     {
-        using namespace rapidjson;
-
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["lengthPerBox"], gridBroadphaseOut.lengthPerBox);

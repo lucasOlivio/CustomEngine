@@ -327,7 +327,27 @@
         },
         "sphereCollider": {
             "radius": 1.0
-        }
+        },
+        "emitter": {
+            "emitRateMin": 100,
+            "emitRateMax": 200,
+            "maxParticles": 1000,
+            "isActive": true,
+            "meshName": "cube.ply",
+            "constForce": [0.0, -9.8, 0.0],
+            "maxLifeTime": 2.0,
+            "minLifeTime": 0.5,
+            "oriMax": [1.0, 0.7, 0.7, 0.7],
+            "oriMin": [1.0, 0.0, 0.0, 0.0],
+            "posMax": [1.0, 1.0, 1.0],
+            "posMin": [-1.0, -1.0, -1.0],
+            "rotMax": [180.0, 180.0, 180.0],
+            "rotMin": [-180.0, -180.0, -180.0],
+            "scaMax": 0.1,
+            "scaMin": 0.5,
+            "velMax": [30.0, 30.0, 30.0],
+            "velMin": [-30.0, 10.0, -30.0]
+        }    
     },
     {
         "tag": {

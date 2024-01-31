@@ -1,15 +1,21 @@
 #pragma once
 
 #include "Base.h"
+
 #include "Engine/Graphics/Textures/TextureProperties.h"
 #include "Engine/Graphics/GraphicsProperties.h"
 #include "Engine/Graphics/Animations/AnimationProperties.h"
+#include "Engine/Graphics/Particles/ParticlesProperties.h"
+
 #include "Engine/Physics/PhysicsProperties.h"
 
 #include <glm/gtc/quaternion.hpp>
 
 namespace MyEngine
 {
+	// Core components
+	// ------------------------
+
 	struct TagComponent
 	{
 		std::string name;
@@ -52,6 +58,10 @@ namespace MyEngine
 	{
 		Entity parentId;
 	};
+	
+	
+	// Graphics components
+	// ------------------------
 
 	struct TextureComponent
 	{
@@ -176,6 +186,30 @@ namespace MyEngine
 		float time;
 		bool isActive;
 	};
+
+	struct EmitterComponent
+	{
+		EmitterProps properties = EmitterProps();
+
+		// Time since active
+		float timer;
+		float timeLastEmit;
+
+		// Number of particles emitted per second
+		int emitRateMin;
+		int emitRateMax;
+		int maxParticles;
+
+		// Total number of particles emitted
+		int totalEmitPart = 0;
+
+		sMesh* pMesh;
+
+		bool isActive = false;
+	};
+
+	// Physics components
+	// ------------------------
 
 	struct GravityComponent
 	{

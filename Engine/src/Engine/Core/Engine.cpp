@@ -23,6 +23,8 @@
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/Graphics/Textures/cBasicTextureManager.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
+#include "Engine/Graphics/Particles/ParticleManager.h"
+#include "Engine/Graphics/Particles/ParticleManagerLocator.h"
 
 namespace MyEngine
 {
@@ -156,6 +158,9 @@ namespace MyEngine
         m_pTextureManager = new cBasicTextureManager();
         TextureManagerLocator::Set(m_pTextureManager);
 
+        m_pParticleManager = new ParticleManager();
+        ParticleManagerLocator::Set(m_pParticleManager);
+
         // Global events of engine interest
         m_pEventBusSceneChange->Subscribe(eSceneEvents::CHANGE, [this](const SceneChangeEvent& event) { OnSceneChange(event); });
         m_pEventBusWindow->Subscribe(eWindowEvents::WINDOW_CLOSE, [this](const WindowCloseEvent& event) { OnWindowClose(event); });
@@ -248,6 +253,7 @@ namespace MyEngine
         delete m_pMaterialManager;
         delete m_pTextureManager;
         delete m_pSceneManager;
+        delete m_pParticleManager;
 
         // Delete event bus
         delete m_pEventBusWindow;

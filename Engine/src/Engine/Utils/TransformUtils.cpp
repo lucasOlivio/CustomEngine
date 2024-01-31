@@ -70,15 +70,10 @@ namespace MyEngine
     glm::quat TransformUtils::AdjustOrientation(const glm::quat& orientation, 
 										        const glm::vec3& delta)
     {
-        // To combine quaternion values, you multiply them together
         // Make a quaternion that represents that CHANGE in angle
         glm::quat qChange = GetDegreesAsQuat(delta);
 
-        // Multiply them together to get the change
-        // Just like with matrix math
-        glm::quat adjustedOrientation = orientation * qChange;
-
-        return adjustedOrientation;
+        return orientation * qChange;
     }
 
     glm::vec3 TransformUtils::GetQuatAsDegrees(const glm::quat& orientation)

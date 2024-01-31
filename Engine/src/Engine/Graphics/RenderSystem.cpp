@@ -115,12 +115,10 @@ namespace MyEngine
 
 				pMaterialManager->BindMaterial(pScene, pMaterial->name);
 			}
-			else
-			{
-				pMaterialManager->UnbindMaterial();
-			}
 
 			m_RenderModel(pTiling, pTransform, pModel);
+
+			pMaterialManager->UnbindMaterial();
 		}
 
 		// Render all transparent models, the sorting by distance is done separatedly
@@ -131,11 +129,13 @@ namespace MyEngine
 			TilingComponent* pTiling = pScene->Get<TilingComponent>(entityId);
 
 			// Bind material
-			/*MaterialComponent* pMaterial = pMaterialManager->GetMaterialByName(pScene,
+			MaterialComponent* pMaterial = pMaterialManager->GetMaterialByName(pScene,
 																			   pModel->material);
-			pMaterialManager->BindMaterial(pScene, pMaterial->name);*/
+			pMaterialManager->BindMaterial(pScene, pMaterial->name);
 
 			m_RenderModel(pTiling, pTransform, pModel);
+			
+			pMaterialManager->UnbindMaterial();
 		}
     }
 
