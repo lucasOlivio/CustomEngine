@@ -7,6 +7,10 @@ namespace MyEngine
 	struct ParticleProps
 	{
 		sMesh* pMesh;
+		std::string material;
+
+		glm::vec3 defaultColor;
+		glm::vec3 colorChange;
 
 		Entity entityId; // Entity that emitted this particle
 
@@ -24,6 +28,11 @@ namespace MyEngine
 	struct EmitterProps
 	{
 		std::string meshName;
+		std::string material;
+
+		// The particle changes color over time if no material selected
+		glm::vec3 colorInitial;
+		glm::vec3 colorChange;
 
 		glm::vec3 posMin;
 		glm::vec3 posMax;

@@ -569,6 +569,9 @@ namespace MyEngine
         parser.SetMember(jsonObject, "isActive", emitterIn.isActive, allocator);
 
         parser.SetMember(jsonObject, "meshName", emitterIn.properties.meshName, allocator);
+        parser.SetMember(jsonObject, "material", emitterIn.properties.material, allocator);
+        parser.SetMember(jsonObject, "colorInitial", emitterIn.properties.colorInitial, allocator);
+        parser.SetMember(jsonObject, "colorChange", emitterIn.properties.colorChange, allocator);
         parser.SetMember(jsonObject, "constForce", emitterIn.properties.constForce, allocator);
         parser.SetMember(jsonObject, "maxLifeTime", emitterIn.properties.maxLifeTime, allocator);
         parser.SetMember(jsonObject, "minLifeTime", emitterIn.properties.minLifeTime, allocator);
@@ -1095,6 +1098,9 @@ namespace MyEngine
         parser.GetValue(jsonObject["isActive"], emitterOut.isActive);
 
         parser.GetValue(jsonObject["meshName"], emitterOut.properties.meshName);
+        parser.GetValue(jsonObject["material"], emitterOut.properties.material);
+        parser.GetValue(jsonObject["colorInitial"], emitterOut.properties.colorInitial);
+        parser.GetValue(jsonObject["colorChange"], emitterOut.properties.colorChange);
         parser.GetValue(jsonObject["constForce"], emitterOut.properties.constForce);
         parser.GetValue(jsonObject["maxLifeTime"], emitterOut.properties.maxLifeTime);
         parser.GetValue(jsonObject["minLifeTime"], emitterOut.properties.minLifeTime);

@@ -59,9 +59,14 @@ namespace MyEngine
 
             int particlesToCreate = static_cast<int>(pEmitter->timeLastEmit * randomRate);
 
-            if (pEmitter->totalEmitPart + particlesToCreate > pEmitter->maxParticles)
+            if (pEmitter->totalEmitPart > pEmitter->maxParticles)
             {
                 continue;
+            }
+
+            if (pEmitter->totalEmitPart + particlesToCreate > pEmitter->maxParticles)
+            {
+                particlesToCreate = pEmitter->maxParticles - pEmitter->totalEmitPart;
             }
 
             // Emit particle with random properties
@@ -83,6 +88,9 @@ namespace MyEngine
                 particle.scale = Random::Float(seed, emitterProps.scaMin, emitterProps.scaMax);
                
                 particle.pMesh = pEmitter->pMesh;
+                particle.material = emitterProps.material;
+                particle.defaultColor = emitterProps.colorInitial;
+                particle.colorChange = emitterProps.colorChange;
 
                 pParticleManager->EmitParticle(particle);
             }

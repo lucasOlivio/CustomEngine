@@ -329,24 +329,27 @@
             "radius": 1.0
         },
         "emitter": {
-            "emitRateMin": 100,
-            "emitRateMax": 200,
+            "emitRateMin": 750,
+            "emitRateMax": 1000,
             "maxParticles": 1000,
             "isActive": true,
-            "meshName": "cube.ply",
-            "constForce": [0.0, -9.8, 0.0],
-            "maxLifeTime": 2.0,
-            "minLifeTime": 0.5,
-            "oriMax": [1.0, 0.7, 0.7, 0.7],
+            "meshName": "sphere.obj",
+            "material": "",
+            "colorInitial": [1.0, 0.9, 0.6],
+            "colorChange": [0.0, -2.0, -2.5],
+            "constForce": [0.0, 9.8, 0.0],
+            "maxLifeTime": 0.5,
+            "minLifeTime": 0.25,
+            "oriMax": [1.0, 0.25, 0.25, 0.25],
             "oriMin": [1.0, 0.0, 0.0, 0.0],
             "posMax": [1.0, 1.0, 1.0],
             "posMin": [-1.0, -1.0, -1.0],
             "rotMax": [180.0, 180.0, 180.0],
             "rotMin": [-180.0, -180.0, -180.0],
-            "scaMax": 0.1,
-            "scaMin": 0.5,
-            "velMax": [30.0, 30.0, 30.0],
-            "velMin": [-30.0, 10.0, -30.0]
+            "scaMax": 0.01,
+            "scaMin": 0.2,
+            "velMax": [0.0, 30.0, 0.0],
+            "velMin": [0.0, 10.0, 0.0]
         }    
     },
     {

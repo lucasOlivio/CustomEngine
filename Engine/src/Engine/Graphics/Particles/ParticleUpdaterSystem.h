@@ -4,6 +4,7 @@
 
 namespace MyEngine
 {
+	// TODO: The particles could be entities later
 	// Processes the particles attributes every frame
 	class ParticleUpdaterSystem : public iSystem
 	{

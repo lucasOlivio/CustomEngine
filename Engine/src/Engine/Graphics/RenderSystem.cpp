@@ -176,7 +176,6 @@ namespace MyEngine
 					delta.z = offset.z * z;
 					finalPosition += delta;
 
-					// If the model have a parent we must use the parents transform
 					glm::mat4 matTransform = glm::mat4(1.0);
 
 					TransformUtils::GetTransform(finalPosition,
