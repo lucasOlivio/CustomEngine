@@ -64,7 +64,7 @@ namespace MyEngine
 
             GraphicsUtils::DrawModel(matTransform,
                                      false,
-                                     false,
+                                     true,
                                      useDefaultColor,
                                      particle.defaultColor,
                                      useColorTexture,

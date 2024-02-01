@@ -86,6 +86,10 @@ void main()
 {
 	vec2 UVFinal = textureCoords.st + UVOffset.yx;
 
+	// Use model vertex as default
+	vec4 vertexRGBA = colour;
+	vertexRGBA.a = 1.0;
+
 	if (bUseCubeTexture)
 	{
 		vec4 cubeSampleColour = texture(cubeTexture, vertexWorldNormal.xyz).rgba;
@@ -96,8 +100,7 @@ void main()
 
 	if (bUseDefaultColor)
 	{
-		outputColour = vec4(defaultColor, 1.0f);
-		return;
+		vertexRGBA = vec4(defaultColor, 1.0f);
 	}
 
 	if (bUseDebugColour)
@@ -105,10 +108,6 @@ void main()
 		outputColour = debugColourRGBA;
 		return;
 	}
-
-	// Use model vertex as default
-	vec4 vertexRGBA = colour;
-	vertexRGBA.a = 1.0;
 
 	if (bUseAlphaTexture)
 	{
