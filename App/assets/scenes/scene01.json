@@ -326,6 +326,7 @@
             "emitRateMax": 1000,
             "maxParticles": 1000,
             "isActive": 1,
+            "FBOIDs": [0],
             "meshName": "sphere.obj",
             "material": "",
             "colorInitial": [

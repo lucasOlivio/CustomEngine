@@ -91,6 +91,8 @@ namespace MyEngine
 
                 particle.entityId = entityId;
 
+                particle.FBOIDs = emitterProps.FBOIDs;
+
                 particle.lifetime = Random::Float(seed, emitterProps.minLifeTime, emitterProps.maxLifeTime);
 
                 particle.acceleration = emitterProps.constForce;

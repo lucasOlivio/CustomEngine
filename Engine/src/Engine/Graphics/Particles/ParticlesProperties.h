@@ -6,9 +6,10 @@ namespace MyEngine
 {
 	struct ParticleProps
 	{
+		std::vector<uint> FBOIDs = { 0 };
+
 		sMesh* pMesh;
 		std::string material;
-		std::vector<uint> FBOIDs = { 0 };
 
 		glm::vec3 defaultColor;
 		glm::vec3 colorChange;
@@ -28,6 +29,8 @@ namespace MyEngine
 
 	struct EmitterProps
 	{
+		std::vector<uint> FBOIDs = { 0 };
+
 		std::string meshName;
 		std::string material;
 
