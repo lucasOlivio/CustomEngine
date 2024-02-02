@@ -36,24 +36,6 @@ namespace MyEngine
 		float distToCamera;
 	};
 
-	struct MovementComponent
-	{
-		glm::vec3 velocity;
-		glm::vec3 acceleration;
-
-		float drag;
-		float maxSpeed;
-	};
-
-	struct RotationComponent
-	{
-		glm::vec3 velocity;
-		glm::vec3 acceleration;
-		 
-		float drag;
-		float maxSpeed;
-	};
-
 	struct ParentComponent
 	{
 		Entity parentId;
@@ -209,6 +191,24 @@ namespace MyEngine
 
 	// Physics components
 	// ------------------------
+
+	struct MovementComponent
+	{
+		glm::vec3 velocity;
+		glm::vec3 acceleration;
+
+		float drag;
+		float maxSpeed;
+	};
+
+	struct RotationComponent
+	{
+		glm::vec3 velocity;
+		glm::vec3 acceleration;
+
+		float drag;
+		float maxSpeed;
+	};
 
 	struct GravityComponent
 	{
