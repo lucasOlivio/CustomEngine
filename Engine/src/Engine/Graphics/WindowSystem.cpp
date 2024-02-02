@@ -71,13 +71,18 @@ namespace MyEngine
         glm::mat4 matProjection = pWindow->ProjectionMat();
         pShader->SetUniformMatrix4f("matProjection", matProjection);
 
-        // Update window title
-        glfwSetWindowTitle(pWindow->pGLFWWindow, pWindow->name.c_str());
-
         if (glfwWindowShouldClose(pWindow->pGLFWWindow))
         {
             m_TriggerWindowClose();
         }
+
+        // Update window title
+        if (pWindow->prevName == pWindow->name)
+        {
+            return;
+        }
+        glfwSetWindowTitle(pWindow->pGLFWWindow, pWindow->name.c_str());
+        pWindow->prevName = pWindow->name;
     }
 
     void WindowSystem::Render(Scene* pScene)

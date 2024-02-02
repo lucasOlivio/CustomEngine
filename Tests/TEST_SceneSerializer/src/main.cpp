@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Engine/ECS/SceneSerializer.h>
+#include <Engine/ECS/Scene/SceneSerializer.h>
 #include <Engine/ECS/Components.h>
 #include <Engine/Utils/Files.h>
 

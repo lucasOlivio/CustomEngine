@@ -18,6 +18,8 @@ project "Test_BiMap"
       "../../Engine/Extern/glfw/include",
       "../../Engine/Extern/glm/include",
       "../../Engine/Extern/fmod/include",
+      "../../Engine/Extern/imgui/include",
+      "../../Engine/Extern/ImGuizmo/include",
       "../../Engine/Extern/assimp/include",
       "../../Engine/Extern/Lua5.4.6/include",
       "../../Engine/Extern/rapidjson/include",

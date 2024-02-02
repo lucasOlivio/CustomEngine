@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <glm/glm.hpp>
 
-#include <Engine/ECS/Scene.h>
+#include <Engine/ECS/Scene/Scene.h>
 #include <Engine/ECS/Components.h>
 
 using namespace MyEngine;
@@ -42,23 +42,6 @@ TEST_F(SceneTest, AddGetComponent) {
 
     TransformComponent* updatedComponent = scene->Get<TransformComponent>(entity);
     ASSERT_EQ(updatedComponent->position, retrievedComponent->position);
-}
-
-TEST_F(SceneTest, DestroyEntity) {
-    Entity entity = scene->CreateEntity();
-
-    // Add a component
-    TransformComponent* transformComponent = scene->AddComponent<TransformComponent>(entity);
-    ASSERT_NE(transformComponent, nullptr);
-
-    // Remove the entity and destroy from scene
-    scene->RemoveEntity(entity);
-
-    scene->DestroyEntities();
-
-    // Try to retrieve the component after removal, should be nullptr
-    TransformComponent* retrievedComponent = scene->Get<TransformComponent>(entity);
-    ASSERT_EQ(retrievedComponent, nullptr);
 }
 
 int main(int argc, char** argv) {

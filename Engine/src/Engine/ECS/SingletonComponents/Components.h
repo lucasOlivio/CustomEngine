@@ -66,6 +66,7 @@ namespace MyEngine
 
 	struct WindowComponent
 	{
+		std::string prevName = ""; // Only for window system to change
 		std::string name;
 		int width = 640;
 		int height = 480;
