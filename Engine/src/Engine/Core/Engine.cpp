@@ -23,6 +23,8 @@
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/Graphics/Textures/cBasicTextureManager.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
+#include "Engine/Graphics/Renderer/RendererManager.h"
+#include "Engine/Graphics/Renderer/RendererManagerLocator.h"
 #include "Engine/Graphics/Particles/ParticleManager.h"
 #include "Engine/Graphics/Particles/ParticleManagerLocator.h"
 
@@ -158,6 +160,9 @@ namespace MyEngine
         m_pTextureManager = new cBasicTextureManager();
         TextureManagerLocator::Set(m_pTextureManager);
 
+        m_pRendererManager = new RendererManager();
+        RendererManagerLocator::Set(m_pRendererManager);
+
         m_pParticleManager = new ParticleManager();
         ParticleManagerLocator::Set(m_pParticleManager);
 
@@ -252,6 +257,7 @@ namespace MyEngine
         delete m_pShaderManager;
         delete m_pMaterialManager;
         delete m_pTextureManager;
+        delete m_pRendererManager;
         delete m_pSceneManager;
         delete m_pParticleManager;
 
@@ -325,8 +331,6 @@ namespace MyEngine
 
     void Engine::ClearFrame()
     {
-        // TODO: Resources (materialmanager uses material component directly)
-        //  should be separated from scenes before we can delete scenes
         iSceneManager* pSceneManager = SceneManagerLocator::Get();
         pSceneManager->ClearDeletedScenes();
         m_pCurrentScene->m_DestroyEntities();

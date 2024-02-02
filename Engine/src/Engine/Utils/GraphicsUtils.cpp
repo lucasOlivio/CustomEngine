@@ -5,52 +5,53 @@
 
 namespace MyEngine
 {
-	void GraphicsUtils::DrawModel(glm::mat4 matModel,
-								  bool isWireFrame,
-								  bool doNotLight,
-							      bool useDefaultColor,
-							      glm::vec3 defaultColor,
-								  bool useColorTexture,
-								  int VAO_ID,
-								  int numberOfIndices,
-								  bool useDebugColor,
-								  glm::vec4 debugColor)
+	void GraphicsUtils::DrawModel(const sRenderModelInfo& renderInfo)
 	{
 		iShaderProgram* pShader = ShaderManager::GetActiveShader();
 
-		// Update model matrix on shader
-		pShader->SetUniformMatrix4f("matModel", matModel);
-
-		// Also calculate and pass the "inverse transpose" for the model matrix
-		glm::mat4 matModelIT = glm::inverse(glm::transpose(matModel));
-		pShader->SetUniformMatrix4f("matModel_IT", matModelIT);
-
-		pShader->IsWireframe(isWireFrame);
-		pShader->SetUniformFloat("doNotLight", doNotLight);
-		pShader->SetUniformFloat("bUseColorTexture", useColorTexture);
+		pShader->IsWireframe(renderInfo.isWireFrame);
+		pShader->SetUniformFloat("doNotLight", renderInfo.doNotLight);
+		pShader->SetUniformFloat("bUseColorTexture", renderInfo.useColorTexture);
 
 		// Debug variables
-		pShader->SetUniformFloat("bUseDefaultColor", useDefaultColor);
-		pShader->SetUniformVec3("defaultColor", defaultColor);
+		pShader->SetUniformFloat("bUseDefaultColor", renderInfo.useDefaultColor);
+		pShader->SetUniformVec3("defaultColor", renderInfo.defaultColor);
 
 		// Debug variables
-		pShader->SetUniformFloat("bUseDebugColour", useDebugColor);
-		pShader->SetUniformVec4("debugColourRGBA", debugColor);
+		pShader->SetUniformFloat("bUseDebugColour", renderInfo.useDebugColor);
+		pShader->SetUniformVec4("debugColourRGBA", renderInfo.debugColor);
 
-		glBindVertexArray(VAO_ID); //  enable VAO (and everything else)
-		glDrawElements(GL_TRIANGLES,
-			numberOfIndices,
-			GL_UNSIGNED_INT,
-			0);
-		glBindVertexArray(0); 			  // disable VAO (and everything else)
-	}
+		// Translates the matrix for every tile
+		glm::mat4 matModel = renderInfo.matModel;
+		for (int x = 0; x < renderInfo.tileAxis[0]; x++)
+		{
+			for (int y = 0; y < renderInfo.tileAxis[1]; y++)
+			{
+				for (int z = 0; z < renderInfo.tileAxis[2]; z++)
+				{
+					// Calculate the translation for the current tile
+					glm::vec3 translation = glm::vec3(
+						x * renderInfo.tileOffset.x,
+						y * renderInfo.tileOffset.y,
+						z * renderInfo.tileOffset.z
+					);
 
-	void GraphicsUtils::DrawDebugModel(glm::mat4 matModel,
-									   int VAO_ID, int numberOfIndices,
-									   glm::vec4 debugColor)
-	{
-		return DrawModel(matModel, true, true, false, glm::vec3(0.0f), false,
-						 VAO_ID, numberOfIndices,
-						 true, debugColor);
+					glm::mat4 tileModelMatrix = glm::translate(matModel, translation);
+
+					pShader->SetUniformMatrix4f("matModel", matModel);
+
+					// Also calculate and pass the "inverse transpose" for the model matrix
+					glm::mat4 matModelIT = glm::inverse(glm::transpose(matModel));
+					pShader->SetUniformMatrix4f("matModel_IT", matModelIT);
+
+					glBindVertexArray(renderInfo.VAO_ID); //  enable VAO (and everything else)
+					glDrawElements(GL_TRIANGLES,
+									renderInfo.numberOfIndices,
+									GL_UNSIGNED_INT,
+									0);
+					glBindVertexArray(0); 			  // disable VAO (and everything else)
+				}
+			}
+		}
 	}
 }

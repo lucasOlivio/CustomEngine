@@ -11,18 +11,22 @@ namespace MyEngine
 		MaterialManager();
 		virtual ~MaterialManager();
 
-		virtual void BindMaterial(Scene* pScene, std::string materialName);
+		virtual void BindMaterial(std::string materialName);
 		virtual void UnbindMaterial();
 
-		// Search in cached or in scene for the material
-		virtual MaterialComponent* GetMaterialByName(Scene* pScene, std::string materialName);
+		virtual void LoadMaterial(std::string materialName, const sMaterialInfo& materialIn);
 
-		virtual void DeleteMaterial(Scene* pScene, std::string materialName);
+		// Return default empty material if not found
+		virtual sMaterialInfo& GetMaterialByName(std::string materialName);
+
+		virtual std::map<std::string, sMaterialInfo>& GetMaterials();
+
+		virtual void DeleteMaterial(std::string materialName);
 
 	private:
-		// TODO: For now just store copies so we can delete scenes and avoid leaks,
-		// but this should be completely separated from scene
-		std::map<std::string, MaterialComponent> m_materials;
+		std::map<std::string, sMaterialInfo> m_materials;
+
+		sMaterialInfo m_defaultMaterial;
 
 		// Textures and variables in the uniforms and units at the moment
 		std::string m_currMaterial;

@@ -3,9 +3,9 @@
 namespace MyEngine
 {
 	// Numeric types alias
-	typedef __int32 int32_t;
-	typedef unsigned __int32 uint32_t;
-	typedef unsigned __int8 uint8_t;
+	using int32_t = __int32;
+	using uint32_t = unsigned __int32;
+	using uint8_t = unsigned __int8;
 
-	typedef unsigned int uint;
+	using uint = unsigned int;
 }

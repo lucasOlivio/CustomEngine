@@ -1,10 +1,13 @@
 #include "pch.h"
 
 #include "DrawGridSystem.h"
+
+#include "Engine/Graphics/Renderer/RendererManagerLocator.h"
+
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
 #include "Engine/ECS/SingletonComponents/DebugLocator.h"
+
 #include "Engine/Utils/TransformUtils.h"
-#include "Engine/Utils/GraphicsUtils.h"
 
 namespace MyEngine
 {
@@ -31,6 +34,8 @@ namespace MyEngine
 
 	void DrawGridSystem::Render(Scene* pScene)
 	{
+		iRendererManager* pRendererManager = RendererManagerLocator::Get();
+
 		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
 		DebugSquareComponent* pSquare = DebugLocator::GetSquare();
 
@@ -49,10 +54,19 @@ namespace MyEngine
 			glm::mat4 matTransf = glm::mat4(1.0f);
 			TransformUtils::GetTransform(pAABB->minXYZ, pGrid->lengthPerBox.x, matTransf);
 
-			GraphicsUtils::DrawDebugModel(matTransf,
-										  pMesh->VAO_ID,
-										  pMesh->numberOfIndices,
-										  RED);
+			sRenderModelInfo renderInfo = sRenderModelInfo();
+			renderInfo.matModel = matTransf;
+			renderInfo.VAO_ID = pMesh->VAO_ID;
+			renderInfo.numberOfIndices = pMesh->numberOfIndices;
+			renderInfo.isWireFrame = true;
+			renderInfo.doNotLight = true;
+			renderInfo.useDebugColor = true;
+			renderInfo.debugColor = RED;
+
+			for (uint fboid : pSquare->FBOIDs)
+			{
+				pRendererManager->AddToRender(fboid, renderInfo);
+			}
 		}
 	}
 

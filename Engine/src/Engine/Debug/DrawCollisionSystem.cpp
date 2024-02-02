@@ -2,6 +2,8 @@
 
 #include "DrawCollisionSystem.h"
 
+#include "Engine/Graphics/Renderer/RendererManagerLocator.h"
+
 #include "Engine/ECS/SingletonComponents/DebugLocator.h"
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
@@ -24,6 +26,8 @@ namespace MyEngine
 
 	void DrawCollisionSystem::Render(Scene* pScene)
 	{
+		iRendererManager* pRendererManager = RendererManagerLocator::Get();
+
 		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
 		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
 		DebugSphereComponent* pSphere = DebugLocator::GetSphere();
@@ -37,10 +41,19 @@ namespace MyEngine
 			glm::mat4 matTransf = glm::mat4(1.0f);
 			TransformUtils::GetTransform(coll.contactPoint, 1.0f, matTransf);
 
-			GraphicsUtils::DrawDebugModel(matTransf,
-										  pMesh->VAO_ID,
-										  pMesh->numberOfIndices,
-										  BLUE);
+			sRenderModelInfo renderInfo = sRenderModelInfo();
+			renderInfo.matModel = matTransf;
+			renderInfo.VAO_ID = pMesh->VAO_ID;
+			renderInfo.numberOfIndices = pMesh->numberOfIndices;
+			renderInfo.isWireFrame = true;
+			renderInfo.doNotLight = true;
+			renderInfo.useDebugColor = true;
+			renderInfo.debugColor = BLUE;
+
+			for (uint fboid : pSphere->FBOIDs)
+			{
+				pRendererManager->AddToRender(fboid, renderInfo);
+			}
 		}
 	}
 

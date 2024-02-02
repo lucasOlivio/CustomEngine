@@ -14,17 +14,8 @@ namespace MyEngine
 
 	// Used to define the size of arrays
 	const ComponentType MAX_COMPONENTS = 32;
-	const Entity MAX_ENTITIES = 1000;
+	const Entity MAX_ENTITIES = 3000;
 
 	// Defines an entity's component composition
 	using EntityMask = std::bitset<MAX_COMPONENTS>;
-
-	// For any kind of orientation needed
-	enum eDirections
-	{
-		BACKWARD,
-		LEFT,
-		RIGHT,
-		FORWARD
-	};
 }

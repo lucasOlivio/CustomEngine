@@ -194,10 +194,14 @@ namespace MyEngine
 	struct DebugSquareComponent
 	{
 		sMesh* pMesh;
+
+		std::vector<uint> FBOIDs = { 0 };
 	};
 
 	struct DebugSphereComponent
 	{
 		sMesh* pMesh;
+
+		std::vector<uint> FBOIDs = { 0 };
 	};
 }

@@ -1,11 +1,17 @@
 #include "pch.h"
 
 #include "MaterialOffsetSystem.h"
+
+#include "Engine/Graphics/Materials/MaterialManagerLocator.h"
+#include "Engine/Graphics/GraphicsProperties.h"
+
 #include "Engine/ECS/Scene/SceneView.hpp"
 #include "Engine/ECS/Components.h"
 
 namespace MyEngine
 {
+	using itMaterials = std::map<std::string, sMaterialInfo>::iterator;
+
 	void MaterialOffsetSystem::Init()
 	{
 	}
@@ -16,26 +22,48 @@ namespace MyEngine
 
 	void MaterialOffsetSystem::Update(Scene* pScene, float deltaTime)
 	{
-		// Increase offset for all materials
-		for (Entity entityId : SceneView<MaterialComponent>(*pScene))
-		{
-			MaterialComponent* pMaterial = pScene->Get<MaterialComponent>(entityId);
+		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
+		std::map<std::string, sMaterialInfo> materials = pMaterialManager->GetMaterials();
 
-			pMaterial->currOffset += pMaterial->offsetMove * deltaTime;
+		// Increase offset for all materials
+		for (itMaterials it = materials.begin(); it != materials.end(); it++)
+		{
+			sMaterialInfo& material = it->second;
+
+			// Position offset
+			material.currOffset += material.offsetMove * deltaTime;
 
 			float resetValue = 1.0;
-			if (pMaterial->useCubeTexture)
+			if (material.useCubeTexture)
 			{
 				resetValue = 2.0;
 			}
 			// Clamp offset between 0 and 1
-			if (pMaterial->currOffset.x > 1)
+			if (material.currOffset.x > 1)
 			{
-				pMaterial->currOffset.x = 0;
+				material.currOffset.x = 0;
 			}
-			if (pMaterial->currOffset.y > 1)
+			if (material.currOffset.y > 1)
 			{
-				pMaterial->currOffset.y = 0;
+				material.currOffset.y = 0;
+			}
+
+			// Height map offset
+			if (material.offsetHeightMap == glm::vec3(0))
+			{
+				continue;
+			}
+
+			material.currOffsetHeightMap += material.offsetHeightMap * deltaTime;
+
+			// Clamp offset between 0 and 1
+			if (material.currOffsetHeightMap.x > 1)
+			{
+				material.currOffsetHeightMap.x = 0;
+			}
+			if (material.currOffsetHeightMap.y > 1)
+			{
+				material.currOffsetHeightMap.y = 0;
 			}
 		}
 	}

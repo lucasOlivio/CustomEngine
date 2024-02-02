@@ -32,6 +32,14 @@ namespace MyEngine
         iParticleManager* pParticleManager = ParticleManagerLocator::Get();
 
         pParticleManager->ResetParticles();
+
+        // Reset all emitters count
+        for (Entity entityId : SceneView<EmitterComponent>(*pScene))
+        {
+            EmitterComponent* pEmitter = pScene->Get<EmitterComponent>(entityId);
+
+            pEmitter->totalEmitPart = 0;
+        }
     }
 
     void ParticleEmissionSystem::Update(Scene* pScene, float deltaTime)

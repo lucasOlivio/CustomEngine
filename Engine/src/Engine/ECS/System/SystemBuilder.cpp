@@ -10,7 +10,8 @@
 
 #include "Engine/Graphics/CameraSystem.h"
 #include "Engine/Graphics/WindowSystem.h"
-#include "Engine/Graphics/RenderSystem.h"
+#include "Engine/Graphics/ModelRenderSystem.h"
+#include "Engine/Graphics/Renderer/RenderSystem.h"
 #include "Engine/Graphics/Animations/AnimationSystem.h"
 #include "Engine/Graphics/Animations/AnimationPlayerSystem.h"
 #include "Engine/Graphics/Lights/LightSystem.h"
@@ -47,6 +48,7 @@ namespace MyEngine
         {"BaseUISystem", []() { return new BaseUISystem; }},
         {"ShaderSystem", []() { return new ShaderSystem; }},
         {"CameraSystem", []() { return new CameraSystem; }},
+        {"ModelRenderSystem", []() { return new ModelRenderSystem; }},
         {"RenderSystem", []() { return new RenderSystem; }},
         {"LightSystem", []() { return new LightSystem; }},
         {"AnimationSystem", []() { return new AnimationSystem; }},

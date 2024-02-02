@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/Graphics/GraphicsProperties.h"
+
 #include <glm/mat4x4.hpp>
 
 namespace MyEngine
@@ -8,20 +10,6 @@ namespace MyEngine
 	{
 	public:
 		// Sets all needed uniforms and draw model using VAO and opengl
-		static void DrawModel(glm::mat4 matModel,
-							  bool isWireFrame,
-							  bool doNotLight,
-							  bool useDefaultColor,
-							  glm::vec3 defaultColor,
-							  bool useColorTexture,
-							  int VAO_ID,
-							  int numberOfIndices,
-							  bool useDebugColor = false,
-							  glm::vec4 debugColor = glm::vec4(0));
-
-		static void DrawDebugModel(glm::mat4 matModel,
-							  int VAO_ID,
-							  int numberOfIndices,
-							  glm::vec4 debugColor);
+		static void DrawModel(const sRenderModelInfo& renderInfo);
 	};
 }

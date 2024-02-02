@@ -8,6 +8,7 @@ namespace MyEngine
 	{
 		sMesh* pMesh;
 		std::string material;
+		std::vector<uint> FBOIDs = { 0 };
 
 		glm::vec3 defaultColor;
 		glm::vec3 colorChange;

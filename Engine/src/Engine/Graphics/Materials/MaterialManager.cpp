@@ -7,106 +7,106 @@
 
 namespace MyEngine
 {
+	using itMaterials = std::map<std::string, sMaterialInfo>::iterator;
+
 	MaterialManager::MaterialManager()
-	{}
+	{
+		m_defaultMaterial = sMaterialInfo();
+		LoadMaterial("", m_defaultMaterial);
+	}
 
 	MaterialManager::~MaterialManager()
 	{
 	}
 
-	void MaterialManager::BindMaterial(Scene* pScene, std::string materialName)
+	void MaterialManager::BindMaterial(std::string materialName)
 	{
+		if (materialName == "")
+		{
+			UnbindMaterial();
+			return;
+		}
+
+		sMaterialInfo& material = GetMaterialByName(materialName);
+
 		// Only change material if not already binded
-		if (materialName == m_currMaterial)
+		if (material.name == m_currMaterial)
 		{
 			return;
 		}
-
-		MaterialComponent* pMaterial = GetMaterialByName(pScene, materialName);
-
-		// Material not found
-		if (!pMaterial)
-		{
-			std::string warning = "Material '" + materialName + "' not found!";
-			LOG_WARNING(warning);
-			return;
-		}
-		// Unbind current material on shader
 		UnbindMaterial();
-
-		std::vector<TextureComponent*> vecTexturesComp = pMaterial->texturesComponents;
 
 		iShaderProgram* pShader = ShaderManager::GetActiveShader();
 		iTextureManager* pTextureManager = TextureManagerLocator::Get();
 
 		// Update offset, alpha and if is emissive material
 		// TODO: Regulate the intensity of the emissiviness
-		pShader->SetUniformInt("isEmissive", pMaterial->isEmissive);
+		pShader->SetUniformInt("isEmissive", material.isEmissive);
 
-		glm::vec3 finaloffset = pMaterial->currOffset + pMaterial->offset;
+		glm::vec3 finaloffset = material.currOffset + material.offset;
 		pShader->SetUniformVec2("UVOffset", finaloffset);
 
-		pShader->SetUniformVec2("HeightMapOffset", pMaterial->currOffsetHeightMap);
+		pShader->SetUniformVec2("HeightMapOffset", material.currOffsetHeightMap);
 
 		// Bind color textures
-		for (int i = 0; i < pMaterial->colorTextures.size(); i++)
+		for (int i = 0; i < material.colorTextures.size(); i++)
 		{
-			pTextureManager->BindTexture(pMaterial->colorTextures[i],
+			pTextureManager->BindTexture(material.colorTextures[i],
 										 eTextureType::COLOR,
-										 pMaterial->colorTexturesRatios[i]);
+										 material.colorTexturesRatios[i]);
 		}
 
 		// TODO: Remove repetition, all could be in a vector or map
 		// Bind heightmap textures
-		if (pMaterial->useHeightMap)
+		if (material.useHeightMap)
 		{
 			// Height scale can be passed as the "ratio parameter", will be placed on the heightscale uniform
-			pTextureManager->BindTexture(pMaterial->heightMapTexture,
+			pTextureManager->BindTexture(material.heightMapTexture,
 				eTextureType::HEIGHTMAP,
-				pMaterial->heightScale);
+				material.heightScale);
 		}
 
 		// Bind normal textures
-		if (pMaterial->useNormalTexture)
+		if (material.useNormalTexture)
 		{
-			pTextureManager->BindTexture(pMaterial->normalTexture,
+			pTextureManager->BindTexture(material.normalTexture,
 				eTextureType::NORMAL,
 				0);
 		}
 
 		// Bind specular textures
-		if (pMaterial->useSpecularTexture)
+		if (material.useSpecularTexture)
 		{
-			pTextureManager->BindTexture(pMaterial->specularTexture,
+			pTextureManager->BindTexture(material.specularTexture,
 				eTextureType::SPECULAR,
 				0);
 		}
 
 		// Bind discard textures
-		if (pMaterial->useDiscardTexture)
+		if (material.useDiscardTexture)
 		{
-			pTextureManager->BindTexture(pMaterial->discardTexture,
+			pTextureManager->BindTexture(material.discardTexture,
 				eTextureType::DISCARD,
 				0);
 		}
 
 		// Bind alpha textures
-		if (pMaterial->useAlphaTexture)
+		if (material.useAlphaTexture)
 		{
-			pTextureManager->BindTexture(pMaterial->alphaTexture,
+			pTextureManager->BindTexture(material.alphaTexture,
 				eTextureType::TRANSPARENCY,
 				0);
 		}
 
 		// Bind cube textures
-		if (pMaterial->useCubeTexture)
+		if (material.useCubeTexture)
 		{
-			pTextureManager->BindTexture(pMaterial->cubeTexture,
+			pTextureManager->BindTexture(material.cubeTexture,
 										   eTextureType::CUBE,
 										   0);
 		}
 
-		m_currMaterial = materialName;
+		m_currMaterial = material.name;
 	}
 
 	void MaterialManager::UnbindMaterial()
@@ -122,40 +122,32 @@ namespace MyEngine
 		m_currMaterial = "";
 	}
 
-	MaterialComponent* MaterialManager::GetMaterialByName(Scene* pScene, std::string materialName)
+	void MaterialManager::LoadMaterial(std::string materialName, const sMaterialInfo& materialIn)
 	{
-		typedef std::map<std::string, MaterialComponent>::iterator itMaterials;
+		m_materials[materialName] = materialIn;
+	}
 
+	sMaterialInfo& MaterialManager::GetMaterialByName(std::string materialName)
+	{
 		itMaterials it = m_materials.find(materialName);
 		if (it != m_materials.end())
 		{
-			return &(it->second);
+			return it->second;
 		}
 
-		// Material not mapped yet, so search for it in the scene
-		for (Entity entityId : SceneView<MaterialComponent>(*pScene))
-		{
-			MaterialComponent* pMaterial = pScene->Get<MaterialComponent>(entityId);
+		std::string warning = "Material '" + materialName + "' not found!";
+		LOG_WARNING(warning);
 
-			if (pMaterial->name == materialName)
-			{
-				m_materials[materialName] = MaterialComponent(*pMaterial);
-				return pMaterial;
-			}
-		}
-
-		return nullptr;
+		return m_defaultMaterial;
 	}
 
-	void MaterialManager::DeleteMaterial(Scene* pScene, std::string materialName)
+	std::map<std::string, sMaterialInfo>& MaterialManager::GetMaterials()
 	{
-		MaterialComponent* pMaterial = GetMaterialByName(pScene, materialName);
+		return m_materials;
+	}
 
-		if (pMaterial)
-		{
-			delete pMaterial;
-		}
-
+	void MaterialManager::DeleteMaterial(std::string materialName)
+	{
 		m_materials.erase(materialName);
 	}
 }

@@ -4,11 +4,15 @@
 
 namespace MyEngine
 {
-	class MaterialHeightMapOffsetSystem : public iSystem
+	class RenderSystem : public iSystem
 	{
 	public:
-		MaterialHeightMapOffsetSystem() = default;
-		virtual ~MaterialHeightMapOffsetSystem() { };
+		RenderSystem() = default;
+		virtual ~RenderSystem() { };
+
+		virtual std::string SystemName() { return "RenderSystem"; };
+
+		virtual void Init();
 
 		virtual void Start(Scene* pScene);
 
@@ -17,5 +21,7 @@ namespace MyEngine
 		virtual void Render(Scene* pScene);
 
 		virtual void End(Scene* pScene);
+
+		virtual void Shutdown();
 	};
 }

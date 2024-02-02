@@ -12,6 +12,7 @@
 #include "Engine/Events/AnimationEvent.h"
 #include "Engine/Events/iEventBus.h"
 
+#include "Engine/Graphics/Renderer/iRendererManager.h"
 #include "Engine/Graphics/VAO/iVAOManager.h"
 #include "Engine/Graphics/Shaders/iShaderManager.h"
 #include "Engine/Graphics/Materials/iMaterialManager.h"
@@ -86,6 +87,7 @@ namespace MyEngine
 		iShaderManager* m_pShaderManager;
 		iMaterialManager* m_pMaterialManager;
 		iTextureManager* m_pTextureManager;
+		iRendererManager* m_pRendererManager;
 		iSceneManager* m_pSceneManager;
 		iParticleManager* m_pParticleManager;
 

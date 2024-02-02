@@ -108,8 +108,6 @@ namespace MyEngine
 		// Material transparency
 		bool useAlphaTexture;
 		std::string alphaTexture;
-
-		std::vector<TextureComponent*> texturesComponents;
 	};
 
 	struct LightComponent
@@ -147,7 +145,8 @@ namespace MyEngine
 	struct ModelComponent
 	{
 		std::vector<std::string> models;
-		std::vector <sMesh*> pMeshes;
+		std::vector<sMesh*> pMeshes;
+		std::vector<uint> FBOIDs = { 0 };
 
 		bool useDefaultColor;
 		glm::vec3 defaultColor;
