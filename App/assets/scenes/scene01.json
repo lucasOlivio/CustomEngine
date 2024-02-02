@@ -319,7 +319,8 @@
             "material": "mattest",
             "models": [
                 "cube.ply"
-            ]
+            ],
+            "FBOIDs": [0]
         },
         "emitter": {
             "emitRateMin": 750,
@@ -448,7 +449,8 @@
             "material": "mattest",
             "models": [
                 "sphere.obj"
-            ]
+            ],
+            "FBOIDs": [0]
         },
         "rigidBody": {
             "bodyType": 1,
@@ -504,7 +506,8 @@
             "material": "mattesttransparent",
             "models": [
                 "sphere.obj"
-            ]
+            ],
+            "FBOIDs": [0]
         },
         "rigidBody": {
             "bodyType": 1,
@@ -546,7 +549,8 @@
             "material": "mattestred",
             "models": [
                 "cube.ply"
-            ]
+            ],
+            "FBOIDs": [0]
         },
         "transformAnimation": {
             "time": 0.0,
@@ -670,7 +674,8 @@
             "material": "mattest",
             "models": [
                 "sphere.obj"
-            ]
+            ],
+            "FBOIDs": [0]
         },
         "tiling": {
             "axis": [
@@ -742,7 +747,8 @@
             "models": [
                 "sphere.obj",
                 "cube.ply"
-            ]
+            ],
+            "FBOIDs": [0]
         },
         "rigidBody": {
             "bodyType": 1,

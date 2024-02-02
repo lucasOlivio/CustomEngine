@@ -130,17 +130,18 @@ namespace MyEngine
 		std::vector<sMesh*> pMeshes;
 		std::vector<uint> FBOIDs = { 0 };
 
-		bool useDefaultColor;
+		std::string material;
+
+		double elapsedTime;
+		int currMesh;
+
 		glm::vec3 defaultColor;
 
-		std::string material;
+		bool useDefaultColor;
 		bool isWireframe;
 		bool doNotLight;
 		bool useColorTexture;
-
-		double elapsedTime;
 		bool isActive;
-		int currMesh;
 	};
 
 	struct TilingComponent
