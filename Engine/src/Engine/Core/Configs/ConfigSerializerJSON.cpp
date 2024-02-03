@@ -131,14 +131,6 @@ namespace MyEngine
         // Singleton components
         // All singleton components goes into the root object in the json
         //-------------------------------
-       
-        // Camera
-        Value cameraObject;
-        cameraObject.SetObject();
-
-        CameraComponent* pCamera = GraphicsLocator::GetCamera();
-        m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
-        m_doc.AddMember("camera", cameraObject, allocator);
 
         // Window
         Value windowObject;
@@ -155,22 +147,6 @@ namespace MyEngine
         ConfigPathComponent* pConfigPath = CoreLocator::GetConfigPath();
         m_ParseConfigPathToDoc(configPathObject, *pConfigPath, allocator);
         m_doc.AddMember("configPath", configPathObject, allocator);
-
-        return true;
-    }
-
-    bool ConfigSerializerJSON::m_ParseCameraToDoc(rapidjson::Value& jsonObject, CameraComponent& cameraIn, rapidjson::Document::AllocatorType& allocator)
-    {
-        using namespace rapidjson;
-
-        ParserJSON parser = ParserJSON();
-
-        parser.SetMember(jsonObject, "upVector", cameraIn.upVector, allocator);
-        parser.SetMember(jsonObject, "position", cameraIn.position, allocator);
-        parser.SetMember(jsonObject, "orientation", cameraIn.orientation, allocator);
-        parser.SetMember(jsonObject, "distance", cameraIn.distance, allocator);
-        parser.SetMember(jsonObject, "height", cameraIn.height, allocator);
-        parser.SetMember(jsonObject, "offsetTarget", cameraIn.offsetTarget, allocator);
 
         return true;
     }
@@ -236,12 +212,7 @@ namespace MyEngine
                 return false;
             }
 
-            if (configName == "camera")
-            {
-                CameraComponent* pCamera = GraphicsLocator::GetCamera();
-                m_ParseDocToCamera(configObject, *pCamera);
-            }
-            else if (configName == "window")
+            if (configName == "window")
             {
                 WindowComponent* pWindow = GraphicsLocator::GetWindow();
                 m_ParseDocToWindow(configObject, *pWindow);
@@ -256,21 +227,6 @@ namespace MyEngine
         return true;
     }
 
-    bool ConfigSerializerJSON::m_ParseDocToCamera(rapidjson::Value& jsonObject, CameraComponent& cameraOut)
-    {
-        using namespace rapidjson;
-
-        ParserJSON parser = ParserJSON();
-
-        parser.GetValue(jsonObject["upVector"], cameraOut.upVector);
-        parser.GetValue(jsonObject["position"], cameraOut.position);
-        parser.GetValue(jsonObject["orientation"], cameraOut.orientation);
-        parser.GetValue(jsonObject["distance"], cameraOut.distance);
-        parser.GetValue(jsonObject["height"], cameraOut.height);
-        parser.GetValue(jsonObject["offsetTarget"], cameraOut.offsetTarget);
-
-        return true;
-    }
     bool ConfigSerializerJSON::m_ParseDocToWindow(rapidjson::Value& jsonObject, WindowComponent& windowOut)
     {
         using namespace rapidjson;

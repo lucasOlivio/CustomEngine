@@ -2,11 +2,13 @@
 
 #include "FlyingCameraSystem.h"
 
+#include "Engine/ECS/Components.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
 #include "Engine/Core/InputProperties.h"
 
+#include "Engine/Utils/CameraUtils.h"
 #include "Engine/Utils/InputUtils.h"
 #include "Engine/Utils/TransformUtils.h"
 
@@ -34,8 +36,8 @@ namespace MyEngine
             m_InitiateMouseCapture();
 
             // Update camera transform
-            m_UpdateCameraRotation();
-            m_UpdateCameraPosition(deltaTime);
+            m_UpdateCameraRotation(pScene);
+            m_UpdateCameraPosition(pScene, deltaTime);
         }
         else
         {
@@ -90,15 +92,18 @@ namespace MyEngine
         return;
     }
 
-    void FlyingCameraSystem::m_UpdateCameraRotation()
+    void FlyingCameraSystem::m_UpdateCameraRotation(Scene* pScene)
     {
+        Entity cameraId = CameraUtils::GetMainCamera(pScene);
+
+        CameraComponent* pCamera = pScene->Get<CameraComponent>(cameraId);
+        TransformComponent* pCameraTransform = pScene->Get<TransformComponent>(cameraId);
         MouseInputComponent* pMouse = CoreLocator::GetMouseInput();
-        CameraComponent* pCamera = GraphicsLocator::GetCamera();
 
         float xoffset = (pMouse->posX - pMouse->lastPosX) * pMouse->sensitivity;
         float yoffset = (pMouse->posY - pMouse->lastPosY) * pMouse->sensitivity;
 
-        glm::vec3 cameraRight = glm::normalize(TransformUtils::GetRightVector(pCamera->orientation));
+        glm::vec3 cameraRight = glm::normalize(TransformUtils::GetRightVector(pCameraTransform->orientation));
 
         // Create quaternions for pitch and yaw
         glm::quat pitchQuat = glm::angleAxis(-yoffset, cameraRight);
@@ -108,23 +113,25 @@ namespace MyEngine
         glm::quat orientationChange = yawQuat * pitchQuat;
 
         // Apply the combined quaternion to the camera's orientation
-        pCamera->orientation = glm::normalize(orientationChange * pCamera->orientation);
+        pCameraTransform->orientation = glm::normalize(orientationChange * pCameraTransform->orientation);
 
         pMouse->lastPosX = pMouse->posX;
         pMouse->lastPosY = pMouse->posY;
     }
 
-    void FlyingCameraSystem::m_UpdateCameraPosition(float deltaTime)
+    void FlyingCameraSystem::m_UpdateCameraPosition(Scene* pScene, float deltaTime)
     {
-        CameraComponent* pCamera = GraphicsLocator::GetCamera();
+        Entity cameraId = CameraUtils::GetMainCamera(pScene);
+
+        CameraComponent* pCamera = pScene->Get<CameraComponent>(cameraId);
+        TransformComponent* pCameraTransform = pScene->Get<TransformComponent>(cameraId);
         KeyInputComponent* pKey = CoreLocator::GetKeyInput();
 
-        glm::vec3 cameraPosition = pCamera->position;
-        glm::vec3 cameraRotation = TransformUtils::GetQuatAsDegrees(pCamera->orientation);
+        glm::vec3 cameraRotation = TransformUtils::GetQuatAsDegrees(pCameraTransform->orientation);
 
-        glm::vec3 cameraFront = glm::normalize(TransformUtils::GetForwardVector(pCamera->orientation));
+        glm::vec3 cameraFront = glm::normalize(TransformUtils::GetForwardVector(pCameraTransform->orientation));
         glm::vec3 cameraSides = glm::normalize(glm::cross(cameraFront, glm::vec3(UP_VECTOR)));
-        glm::vec3 cameraUp = glm::normalize(TransformUtils::GetUpVector(pCamera->orientation));
+        glm::vec3 cameraUp = glm::normalize(TransformUtils::GetUpVector(pCameraTransform->orientation));
 
         glm::vec3 moveOffset = glm::vec3(0.0f);
 
@@ -154,8 +161,6 @@ namespace MyEngine
             moveOffset = DEFAULT_CAMERA_SPEED * cameraUp * (float)deltaTime;
         }
 
-        cameraPosition += moveOffset;
-
-        pCamera->position = cameraPosition;
+        pCameraTransform->position += moveOffset;
     }
 }

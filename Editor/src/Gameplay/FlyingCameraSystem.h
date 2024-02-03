@@ -31,8 +31,8 @@ namespace MyEngine
 
 		void m_StopMouseCapture();
 
-		void m_UpdateCameraRotation();
+		void m_UpdateCameraRotation(Scene* pScene);
 
-		void m_UpdateCameraPosition(float deltaTime);
+		void m_UpdateCameraPosition(Scene* pScene, float deltaTime);
 	};
 }

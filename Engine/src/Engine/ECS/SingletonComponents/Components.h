@@ -22,48 +22,6 @@
 namespace MyEngine
 {
 	// Singleton components
-	struct CameraComponent
-	{
-		glm::vec3 position;
-		glm::quat orientation;
-		glm::vec3 upVector;
-
-		float distance;
-		float height;
-		float offsetTarget;
-
-		glm::vec3 FinalPosition()
-		{
-			using namespace glm;
-
-			vec3 transfUp = TransformUtils::GetUpVector(orientation);
-			vec3 transfForward = TransformUtils::GetForwardVector(orientation);
-
-			vec3 offsetDist = -distance * transfForward;
-			vec3 offsetHeight = height * transfUp;
-
-			vec3 camFinalPos = position + offsetDist + offsetHeight;
-
-			return camFinalPos;
-		}
-
-		glm::mat4 ViewMat()
-		{
-			using namespace glm;
-
-			// Calculating camera view
-			vec3 cameraPosition = FinalPosition();
-
-			vec3 target = position + (TransformUtils::GetForwardVector(orientation) * offsetTarget);
-
-			return lookAt(
-				cameraPosition,
-				target,
-				TransformUtils::GetUpVector(orientation)
-			);
-		}
-	};
-
 	struct WindowComponent
 	{
 		std::string prevName = ""; // Only for window system to change

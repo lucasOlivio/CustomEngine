@@ -21,6 +21,15 @@ namespace MyEngine
 		std::string name;
 	};
 
+	struct CameraComponent
+	{
+		glm::vec3 upVector;
+
+		float distance;
+		float height;
+		float offsetTarget;
+	};
+
 	struct TransformComponent
 	{
 		glm::vec3 position;

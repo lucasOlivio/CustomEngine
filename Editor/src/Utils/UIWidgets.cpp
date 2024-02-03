@@ -5,6 +5,7 @@
 #include "Engine/ECS/Components.h"
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
+#include "Engine/Utils/CameraUtils.h"
 #include "Engine/Utils/TransformUtils.h"
 
 namespace MyEngine
@@ -17,7 +18,13 @@ namespace MyEngine
             return;
         }
 
-        glm::mat4 viewMatrix = GraphicsLocator::GetCamera()->ViewMat();
+        Entity cameraId = CameraUtils::GetMainCamera(pScene);
+
+        CameraComponent* pCamera = pScene->Get<CameraComponent>(cameraId);
+        TransformComponent* pCameraTransform = pScene->Get<TransformComponent>(cameraId);
+
+        glm::mat4 viewMatrix = CameraUtils::ViewMat(pTransform->position, pTransform->orientation,
+                                                 pCamera->distance, pCamera->height, pCamera->offsetTarget);
         glm::mat4 projectionMatrix = GraphicsLocator::GetWindow()->ProjectionMat();
 
         // Set the ImGuizmo transformation matrix

@@ -6,30 +6,33 @@
                 1.0,
                 0.0
             ],
-            "position": [
-                57.746482849121094,
-                67.9336929321289,
-                47.32079315185547
-            ],
-            "orientation": [
-                0.9999755620956421,
-                1.0692903507081297e-10,
-                -0.006999945268034935,
-                -5.900983911580338e-13
-            ],
             "distance": 0.5,
             "height": 0.0,
             "offsetTarget": 0.10000000149011612
         },
+        "transform": {
+            "position": [
+                37.34021759033203,
+                76.57527923583984,
+                70.76873779296875
+            ],
+            "orientation": [
+                0.9886816740036011,
+                -0.07379337400197983,
+                -0.13026368618011475,
+                -0.009722600691020489
+            ],
+            "scale": 0.0
+        }
+    },
+    {
         "gridBroadphase": {
             "lengthPerBox": [
                 4.0,
                 4.0,
                 4.0
             ]
-        }
-    },
-    {
+        },
         "tag": {
             "name": "directionallight"
         },
@@ -260,6 +263,13 @@
         }
     },
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
+        },
         "tag": {
             "name": "test"
         },
@@ -320,14 +330,22 @@
             "models": [
                 "cube.ply"
             ],
-            "FBOIDs": [0]
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ]
         },
         "emitter": {
             "emitRateMin": 750,
             "emitRateMax": 1000,
             "maxParticles": 1000,
             "isActive": 1,
-            "FBOIDs": [0],
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ],
             "meshName": "sphere.obj",
             "material": "",
             "colorInitial": [
@@ -401,6 +419,13 @@
         }
     },
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
+        },
         "tag": {
             "name": "test3"
         },
@@ -450,7 +475,11 @@
             "models": [
                 "sphere.obj"
             ],
-            "FBOIDs": [0]
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ]
         },
         "rigidBody": {
             "bodyType": 1,
@@ -461,6 +490,13 @@
         }
     },
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
+        },
         "tag": {
             "name": "test2"
         },
@@ -507,7 +543,11 @@
             "models": [
                 "sphere.obj"
             ],
-            "FBOIDs": [0]
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ]
         },
         "rigidBody": {
             "bodyType": 1,
@@ -518,6 +558,13 @@
         }
     },
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
+        },
         "tag": {
             "name": "testground"
         },
@@ -550,7 +597,11 @@
             "models": [
                 "cube.ply"
             ],
-            "FBOIDs": [0]
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ]
         },
         "transformAnimation": {
             "time": 0.0,
@@ -626,6 +677,13 @@
         }
     },
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
+        },
         "tag": {
             "name": "test4"
         },
@@ -675,7 +733,11 @@
             "models": [
                 "sphere.obj"
             ],
-            "FBOIDs": [0]
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ]
         },
         "tiling": {
             "axis": [
@@ -698,6 +760,13 @@
         }
     },
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                4.0,
+                4.0,
+                4.0
+            ]
+        },
         "tag": {
             "name": "test5"
         },
@@ -748,7 +817,11 @@
                 "sphere.obj",
                 "cube.ply"
             ],
-            "FBOIDs": [0]
+            "FBOIDs": [
+                0,
+                0,
+                0
+            ]
         },
         "rigidBody": {
             "bodyType": 1,

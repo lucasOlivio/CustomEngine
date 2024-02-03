@@ -131,31 +131,6 @@ namespace MyEngine
         Document::AllocatorType& allocator = m_doc.GetAllocator();
         m_doc.SetArray();
 
-        // Singleton components
-        // All singleton components goes into the first object in the json,
-        // so the scene will always have 1 empty entity when loaded
-        //-------------------------------
-        Value entityObject;
-        entityObject.SetObject();
-
-        // Camera
-        Value cameraObject;
-        cameraObject.SetObject();
-
-        CameraComponent* pCamera = GraphicsLocator::GetCamera();
-        m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
-        entityObject.AddMember("camera", cameraObject, allocator);
-
-        // Grid broadphase
-        Value gridBroadphaseObject;
-        gridBroadphaseObject.SetObject();
-
-        GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
-        m_ParseGridBroadphaseToDoc(gridBroadphaseObject, *pGridBroadphase, allocator);
-        entityObject.AddMember("gridBroadphase", gridBroadphaseObject, allocator);
-
-        m_doc.PushBack(entityObject, allocator);
-
         // Entities
         //-------------------------------
         EntityManager* pEntityManager = sceneIn.GetEntitymanager();
@@ -166,6 +141,24 @@ namespace MyEngine
             entityObject.SetObject();
 
             // Create a RapidJSON object for each component
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<CameraComponent>()))
+            {
+                Value cameraObject;
+                cameraObject.SetObject();
+
+                CameraComponent* pCamera = sceneIn.Get<CameraComponent>(entity);
+                m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
+                entityObject.AddMember("camera", cameraObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TagComponent>()))
+            {
+                Value gridBroadphaseObject;
+                gridBroadphaseObject.SetObject();
+
+                GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
+                m_ParseGridBroadphaseToDoc(gridBroadphaseObject, *pGridBroadphase, allocator);
+                entityObject.AddMember("gridBroadphase", gridBroadphaseObject, allocator);
+            }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TagComponent>()))
             {
                 Value tagObject;
@@ -655,8 +648,6 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.SetMember(jsonObject, "upVector", cameraIn.upVector, allocator);
-        parser.SetMember(jsonObject, "position", cameraIn.position, allocator);
-        parser.SetMember(jsonObject, "orientation", cameraIn.orientation, allocator);
         parser.SetMember(jsonObject, "distance", cameraIn.distance, allocator);
         parser.SetMember(jsonObject, "height", cameraIn.height, allocator);
         parser.SetMember(jsonObject, "offsetTarget", cameraIn.offsetTarget, allocator);
@@ -721,6 +712,11 @@ namespace MyEngine
                 {
                     TagComponent* pTag = sceneOut.AddComponent<TagComponent>(entityId);
                     m_ParseDocToTag(componentObject, *pTag);
+                }
+                else if (componentName == "camera")
+                {
+                    CameraComponent* pCamera = sceneOut.AddComponent<CameraComponent>(entityId);
+                    m_ParseDocToCamera(componentObject, *pCamera);
                 }
                 else if (componentName == "transform")
                 {
@@ -799,11 +795,6 @@ namespace MyEngine
                 }
                 // All single components goes into the first entity, 
                 // so the scene will always have the first entity empty
-                else if (componentName == "camera")
-                {
-                    CameraComponent* pCamera = GraphicsLocator::GetCamera();
-                    m_ParseDocToCamera(componentObject, *pCamera);
-                }
                 else if (componentName == "window")
                 {
                     WindowComponent* pWindow = GraphicsLocator::GetWindow();
@@ -1179,8 +1170,6 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["upVector"], cameraOut.upVector);
-        parser.GetValue(jsonObject["position"], cameraOut.position);
-        parser.GetValue(jsonObject["orientation"], cameraOut.orientation);
         parser.GetValue(jsonObject["distance"], cameraOut.distance);
         parser.GetValue(jsonObject["height"], cameraOut.height);
         parser.GetValue(jsonObject["offsetTarget"], cameraOut.offsetTarget);

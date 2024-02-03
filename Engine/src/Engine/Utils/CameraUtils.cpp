@@ -2,6 +2,9 @@
 
 #include "CameraUtils.h"
 
+#include "Engine/ECS/Scene/SceneView.hpp"
+#include "Engine/ECS/Components.h"
+
 #include "Engine/Utils/TransformUtils.h"
 
 namespace MyEngine
@@ -34,5 +37,10 @@ namespace MyEngine
 					target,
 					TransformUtils::GetUpVector(orientation)
 				);
+	}
+
+	Entity CameraUtils::GetMainCamera(Scene* pScene)
+	{
+		return *(SceneView<CameraComponent>(*pScene).begin());
 	}
 }
