@@ -651,6 +651,9 @@ namespace MyEngine
         parser.SetMember(jsonObject, "distance", cameraIn.distance, allocator);
         parser.SetMember(jsonObject, "height", cameraIn.height, allocator);
         parser.SetMember(jsonObject, "offsetTarget", cameraIn.offsetTarget, allocator);
+        parser.SetMember(jsonObject, "fovy", cameraIn.fovy, allocator);
+        parser.SetMember(jsonObject, "zNear", cameraIn.zNear, allocator);
+        parser.SetMember(jsonObject, "zFar", cameraIn.zFar, allocator);
 
         return true;
     }
@@ -1173,6 +1176,9 @@ namespace MyEngine
         parser.GetValue(jsonObject["distance"], cameraOut.distance);
         parser.GetValue(jsonObject["height"], cameraOut.height);
         parser.GetValue(jsonObject["offsetTarget"], cameraOut.offsetTarget);
+        parser.GetValue(jsonObject["fovy"], cameraOut.fovy);
+        parser.GetValue(jsonObject["zNear"], cameraOut.zNear);
+        parser.GetValue(jsonObject["zFar"], cameraOut.zFar);
 
         return true;
     }
@@ -1183,9 +1189,6 @@ namespace MyEngine
         parser.GetValue(jsonObject["name"], windowOut.name);
         parser.GetValue(jsonObject["height"], windowOut.height);
         parser.GetValue(jsonObject["width"], windowOut.width);
-        parser.GetValue(jsonObject["fovy"], windowOut.fovy);
-        parser.GetValue(jsonObject["zNear"], windowOut.zNear);
-        parser.GetValue(jsonObject["zFar"], windowOut.zFar);
 
         return true;
     }

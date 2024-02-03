@@ -8,7 +8,6 @@
 #include "Engine/Core/InputSystem.h"
 #include "Engine/Core/StateSystem.h"
 
-#include "Engine/Graphics/CameraSystem.h"
 #include "Engine/Graphics/WindowSystem.h"
 #include "Engine/Graphics/ModelRenderSystem.h"
 #include "Engine/Graphics/Renderer/RenderSystem.h"
@@ -20,6 +19,7 @@
 #include "Engine/Graphics/Particles/ParticleUpdaterSystem.h"
 #include "Engine/Graphics/Particles/ParticleRenderSystem.h"
 #include "Engine/Graphics/UI/BaseUISystem.h"
+#include "Engine/Graphics/FrameBuffers/FrameBufferSystem.h"
 
 #include "Engine/Physics/MovementSystem.h"
 #include "Engine/Physics/RotationSystem.h"
@@ -47,7 +47,6 @@ namespace MyEngine
         {"WindowSystem", []() { return new WindowSystem; }},
         {"BaseUISystem", []() { return new BaseUISystem; }},
         {"ShaderSystem", []() { return new ShaderSystem; }},
-        {"CameraSystem", []() { return new CameraSystem; }},
         {"ModelRenderSystem", []() { return new ModelRenderSystem; }},
         {"RenderSystem", []() { return new RenderSystem; }},
         {"LightSystem", []() { return new LightSystem; }},
@@ -56,6 +55,7 @@ namespace MyEngine
         {"ParticleEmissionSystem", []() { return new ParticleEmissionSystem; }},
         {"ParticleUpdaterSystem", []() { return new ParticleUpdaterSystem; }},
         {"ParticleRenderSystem", []() { return new ParticleRenderSystem; }},
+        {"FrameBufferSystem", []() { return new FrameBufferSystem; }},
         // Physics systems
         {"MovementSystem", []() { return new MovementSystem; }},
         {"RotationSystem", []() { return new RotationSystem; }},

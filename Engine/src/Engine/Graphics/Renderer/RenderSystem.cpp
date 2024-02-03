@@ -7,6 +7,7 @@
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 #include "Engine/ECS/Components.h"
 
+#include "Engine/Graphics/Shaders/ShaderManager.h"
 #include "Engine/Graphics/Renderer/RendererManagerLocator.h"
 #include "Engine/Graphics/Textures/TextureManagerLocator.h"
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
@@ -120,8 +121,10 @@ namespace MyEngine
     void RenderSystem::Render(Scene* pScene)
     {
 		iRendererManager* pRenderer = RendererManagerLocator::Get();
+		iShaderProgram* pShader = ShaderManager::GetActiveShader();
+		WindowComponent* pWindow = GraphicsLocator::GetWindow();
 
-		pRenderer->RenderAllModels();
+		pRenderer->RenderAllModels(pScene);
 		pRenderer->ClearRender();
     }
 

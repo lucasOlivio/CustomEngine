@@ -160,9 +160,6 @@ namespace MyEngine
         parser.SetMember(jsonObject, "name", windowIn.name, allocator);
         parser.SetMember(jsonObject, "height", windowIn.height, allocator);
         parser.SetMember(jsonObject, "width", windowIn.width, allocator);
-        parser.SetMember(jsonObject, "fovy", windowIn.fovy, allocator);
-        parser.SetMember(jsonObject, "zNear", windowIn.zNear, allocator);
-        parser.SetMember(jsonObject, "zFar", windowIn.zFar, allocator);
 
         return true;
     }
@@ -236,9 +233,6 @@ namespace MyEngine
         parser.GetValue(jsonObject["name"], windowOut.name);
         parser.GetValue(jsonObject["height"], windowOut.height);
         parser.GetValue(jsonObject["width"], windowOut.width);
-        parser.GetValue(jsonObject["fovy"], windowOut.fovy);
-        parser.GetValue(jsonObject["zNear"], windowOut.zNear);
-        parser.GetValue(jsonObject["zFar"], windowOut.zFar);
 
         return true;
     }

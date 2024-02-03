@@ -11,4 +11,7 @@ namespace MyEngine
     glm::vec3 ClosestPtPointTriangle(glm::vec3 p, glm::vec3 a, glm::vec3 b, glm::vec3 c);
 
     glm::vec3 ReplaceNaNWithValue(const glm::vec3& vecIn, const float& value);
+
+    // x/y or 0 if y = 0
+    float Ratio(int x, int y);
 }

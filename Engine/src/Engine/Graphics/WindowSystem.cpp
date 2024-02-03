@@ -61,15 +61,6 @@ namespace MyEngine
     void WindowSystem::Update(Scene* pScene, float deltaTime)
     {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
-        iShaderProgram* pShader = ShaderManager::GetActiveShader();
-
-        // Update window size
-        glfwGetFramebufferSize(pWindow->pGLFWWindow, &(pWindow->width), &(pWindow->height));
-        glViewport(0, 0, pWindow->width, pWindow->height);
-
-        // Updating window projection uniform
-        glm::mat4 matProjection = pWindow->ProjectionMat();
-        pShader->SetUniformMatrix4f("matProjection", matProjection);
 
         if (glfwWindowShouldClose(pWindow->pGLFWWindow))
         {

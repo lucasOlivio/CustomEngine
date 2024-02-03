@@ -28,30 +28,8 @@ namespace MyEngine
 		std::string name;
 		int width = 640;
 		int height = 480;
-		float zNear;
-		float zFar;
-		float fovy;
 
 		GLFWwindow* pGLFWWindow;
-
-		float Ratio()
-		{
-			float ratio = 0.0f;
-			if (height > 0)
-			{
-				ratio = width / (float)height;
-			}
-
-			return ratio;
-		}
-
-		glm::mat4 ProjectionMat()
-		{
-			return glm::perspective(fovy,
-								    Ratio(),
-								    zNear,
-								    zFar);
-		}
 	};
 
 	struct ConfigPathComponent

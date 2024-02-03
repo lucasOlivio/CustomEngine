@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/ECS/Scene/Scene.h"
+
 #include "Engine/Graphics/GraphicsProperties.h"
 
 namespace MyEngine
@@ -17,7 +19,7 @@ namespace MyEngine
 		virtual void AddToRender(uint FBOID, const sRenderModelInfo& renderInfo) = 0;
 
 		// Render all models mapped into their respective FBOs
-		virtual void RenderAllModels() = 0;
+		virtual void RenderAllModels(Scene* pScene) = 0;
 
 		// Clear all model mapping from all FBOs
 		virtual void ClearRender() = 0;

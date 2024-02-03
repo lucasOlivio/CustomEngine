@@ -8,7 +8,10 @@
             ],
             "distance": 0.5,
             "height": 0.0,
-            "offsetTarget": 0.10000000149011612
+            "offsetTarget": 0.10000000149011612,
+            "fovy": 0.6,
+            "zNear": 0.1,
+            "zFar": 100.0
         },
         "transform": {
             "position": [

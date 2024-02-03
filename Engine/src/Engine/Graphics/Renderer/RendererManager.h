@@ -20,7 +20,7 @@ namespace MyEngine
 		virtual void AddToRender(uint FBOID, const sRenderModelInfo& renderInfo);
 
 		// Render all models mapped into their respective FBOs
-		virtual void RenderAllModels();
+		virtual void RenderAllModels(Scene* pScene);
 
 		// Clear all model mapping from all FBOs
 		virtual void ClearRender();

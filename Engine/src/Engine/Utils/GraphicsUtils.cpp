@@ -1,7 +1,10 @@
 #include "pch.h"
 
 #include "GraphicsUtils.h"
+
 #include "Engine/Graphics/Shaders/ShaderManager.h"
+
+#include "Engine/Utils/Math.h"
 
 namespace MyEngine
 {

@@ -20,7 +20,7 @@ namespace MyEngine
 			LOG_ERROR("Renderer manager not initialized!");
 		}
 
-		virtual void RenderAllModels()
+		virtual void RenderAllModels(Scene* pScene)
 		{
 			LOG_ERROR("Renderer manager not initialized!");
 		}

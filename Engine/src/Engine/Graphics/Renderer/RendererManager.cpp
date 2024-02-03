@@ -3,7 +3,9 @@
 #include "RendererManager.h"
 
 #include "Engine/Utils/GraphicsUtils.h"
+
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
+#include "Engine/Graphics/FrameBuffers/FrameBufferManagerLocator.h"
 
 namespace MyEngine
 {
@@ -28,17 +30,17 @@ namespace MyEngine
 		m_mapRenderInfos[FBOID].push_back(renderInfo);
 	}
 
-	void RendererManager::RenderAllModels()
+	void RendererManager::RenderAllModels(Scene* pScene)
 	{
 		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
+		iFrameBufferManager* pFrameBufferManager = FrameBufferManagerLocator::Get();
 
 		// Bind the fbo then render all their respective models
 		for (const pairFBOInfos& pair : m_mapRenderInfos)
 		{
 			uint FBOID = pair.first;
 
-			// TODO: This might be better been done in the FBO manager?
-			glBindFramebuffer(GL_FRAMEBUFFER, FBOID);
+			pFrameBufferManager->BindFBO(pScene, FBOID);
 
 			const std::vector<sRenderModelInfo>& renderInfos = pair.second;
 
@@ -50,7 +52,8 @@ namespace MyEngine
 			}
 		}
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		// Making sure we return to main buffer
+		pFrameBufferManager->BindFBO(pScene, 0);
 	}
 
 	void RendererManager::ClearRender()

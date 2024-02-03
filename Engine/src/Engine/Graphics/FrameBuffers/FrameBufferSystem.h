@@ -4,13 +4,13 @@
 
 namespace MyEngine
 {
-	class CameraSystem : public iSystem
+	class FrameBufferSystem : public iSystem
 	{
 	public:
-		CameraSystem() = default;
-		virtual ~CameraSystem() { };
+		FrameBufferSystem() = default;
+		virtual ~FrameBufferSystem() { };
 
-		virtual std::string SystemName() { return "CameraSystem"; };
+		virtual std::string SystemName() { return "FrameBufferSystem"; };
 
 		virtual void Init();
 

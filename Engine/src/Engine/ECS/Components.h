@@ -28,6 +28,10 @@ namespace MyEngine
 		float distance;
 		float height;
 		float offsetTarget;
+
+		float fovy;
+		float zNear;
+		float zFar;
 	};
 
 	struct TransformComponent
@@ -197,6 +201,14 @@ namespace MyEngine
 		sMesh* pMesh;
 
 		bool isActive = false;
+	};
+
+	struct FrameBufferComponent
+	{
+		Entity cameraId;
+
+		int width;
+		int height;
 	};
 
 	// Physics components

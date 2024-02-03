@@ -27,6 +27,8 @@
 #include "Engine/Graphics/Renderer/RendererManagerLocator.h"
 #include "Engine/Graphics/Particles/ParticleManager.h"
 #include "Engine/Graphics/Particles/ParticleManagerLocator.h"
+#include "Engine/Graphics/FrameBuffers/FrameBufferManager.h"
+#include "Engine/Graphics/FrameBuffers/FrameBufferManagerLocator.h"
 
 namespace MyEngine
 {
@@ -165,6 +167,9 @@ namespace MyEngine
 
         m_pParticleManager = new ParticleManager();
         ParticleManagerLocator::Set(m_pParticleManager);
+
+        m_pFrameBufferManager = new FrameBufferManager();
+        FrameBufferManagerLocator::Set(m_pFrameBufferManager);
 
         // Global events of engine interest
         m_pEventBusSceneChange->Subscribe(eSceneEvents::CHANGE, [this](const SceneChangeEvent& event) { OnSceneChange(event); });

@@ -99,4 +99,15 @@ namespace MyEngine
 
         return result;
     }
+
+    float Ratio(int x, int y)
+    {
+        float ratio = 0.0f;
+        if (y > 0)
+        {
+            ratio = x / (float)y;
+        }
+
+        return ratio;
+    }
 }

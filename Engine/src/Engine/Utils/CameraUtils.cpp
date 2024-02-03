@@ -6,6 +6,7 @@
 #include "Engine/ECS/Components.h"
 
 #include "Engine/Utils/TransformUtils.h"
+#include "Engine/Utils/Math.h"
 
 namespace MyEngine
 {
@@ -37,6 +38,15 @@ namespace MyEngine
 					target,
 					TransformUtils::GetUpVector(orientation)
 				);
+	}
+
+	glm::mat4 CameraUtils::ProjectionMat(float fovy, float zNear, float zFar,
+										 int width, int height)
+	{
+		return glm::perspective(fovy,
+								Ratio(width, height),
+								zNear,
+								zFar);
 	}
 
 	Entity CameraUtils::GetMainCamera(Scene* pScene)
