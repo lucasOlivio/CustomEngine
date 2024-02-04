@@ -10,6 +10,7 @@
 #include "Engine/Physics/PhysicsProperties.h"
 
 #include <glm/gtc/quaternion.hpp>
+#include <set>
 
 namespace MyEngine
 {
@@ -141,7 +142,7 @@ namespace MyEngine
 	{
 		std::vector<std::string> models;
 		std::vector<sMesh*> pMeshes;
-		std::vector<uint> FBOIDs = { 0 };
+		std::set<uint> FBOIDs;
 
 		std::string material;
 
@@ -209,6 +210,11 @@ namespace MyEngine
 
 		int width;
 		int height;
+	};
+
+	struct FrameBufferViewComponent
+	{
+		uint FBOID;
 	};
 
 	// Physics components

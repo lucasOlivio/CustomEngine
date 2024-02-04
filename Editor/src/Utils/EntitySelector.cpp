@@ -36,7 +36,7 @@ namespace MyEngine
 
             if (m_selectedEntity >= MAX_ENTITIES)
             {
-                m_selectedEntity = 1;
+                m_selectedEntity = 0;
             }
         } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask());
 
@@ -59,7 +59,7 @@ namespace MyEngine
         {
             m_selectedEntity--;
 
-            if (m_selectedEntity < 1)
+            if (m_selectedEntity < 0)
             {
                 m_selectedEntity = MAX_ENTITIES;
             }

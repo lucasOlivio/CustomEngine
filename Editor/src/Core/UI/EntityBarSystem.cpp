@@ -124,6 +124,7 @@ namespace MyEngine
         if (ImGui::BeginPopup("AddComponentsPopup"))
         {
             static bool addTag = false;
+            static bool addCamera = false;
             static bool addTransform = false;
             static bool addMovement = false;
             static bool addRotation = false;
@@ -132,6 +133,9 @@ namespace MyEngine
             static bool addMaterial = false;
             static bool addLight = false;
             static bool addModel = false;
+            static bool addFrameBuffer = false;
+            static bool addFrameBufferView = false;
+            static bool addEmitter = false;
             static bool addTransformAnimation = false;
             static bool addTiling = false;
             static bool addGravity = false;
@@ -141,6 +145,7 @@ namespace MyEngine
             static bool addAABBCollider = false;
 
             ImGui::Checkbox("Tag Component", &addTag);
+            ImGui::Checkbox("Camera Component", &addTag);
             ImGui::Checkbox("Transform Component", &addTransform);
             ImGui::Checkbox("Movement Component", &addMovement);
             ImGui::Checkbox("Rotation Component", &addRotation);
@@ -149,6 +154,9 @@ namespace MyEngine
             ImGui::Checkbox("Material Component", &addMaterial);
             ImGui::Checkbox("Light Component", &addLight);
             ImGui::Checkbox("Model Component", &addModel);
+            ImGui::Checkbox("FrameBuffer Component", &addFrameBuffer);
+            ImGui::Checkbox("FrameBufferView Component", &addFrameBufferView);
+            ImGui::Checkbox("Emitter Component", &addEmitter);
             ImGui::Checkbox("TransformAnimation Component", &addTransformAnimation);
             ImGui::Checkbox("Tiling Component", &addTiling);
             ImGui::Checkbox("Gravity Component", &addGravity);
@@ -160,6 +168,7 @@ namespace MyEngine
             if (ImGui::Button("Add Selected Components"))
             {
                 if (addTag) m_AddComponent<TagComponent>(pScene, entityId);
+                if (addCamera) m_AddComponent<CameraComponent>(pScene, entityId);
                 if (addTransform) m_AddComponent<TransformComponent>(pScene, entityId);
                 if (addMovement) m_AddComponent<MovementComponent>(pScene, entityId);
                 if (addRotation) m_AddComponent<RotationComponent>(pScene, entityId);
@@ -168,6 +177,9 @@ namespace MyEngine
                 if (addMaterial) m_AddComponent<MaterialComponent>(pScene, entityId);
                 if (addLight) m_AddComponent<LightComponent>(pScene, entityId);
                 if (addModel) m_AddComponent<ModelComponent>(pScene, entityId);
+                if (addFrameBuffer) m_AddComponent<FrameBufferComponent>(pScene, entityId);
+                if (addFrameBufferView) m_AddComponent<FrameBufferViewComponent>(pScene, entityId);
+                if (addEmitter) m_AddComponent<EmitterComponent>(pScene, entityId);
                 if (addTransformAnimation) m_AddComponent<TransformAnimationComponent>(pScene, entityId);
                 if (addTiling) m_AddComponent<TilingComponent>(pScene, entityId);
                 if (addGravity) m_AddComponent<GravityComponent>(pScene, entityId);

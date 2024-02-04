@@ -20,12 +20,14 @@ namespace MyEngine
 
         Entity cameraId = CameraUtils::GetMainCamera(pScene);
 
+        WindowComponent* pWindow = GraphicsLocator::GetWindow();
         CameraComponent* pCamera = pScene->Get<CameraComponent>(cameraId);
         TransformComponent* pCameraTransform = pScene->Get<TransformComponent>(cameraId);
 
         glm::mat4 viewMatrix = CameraUtils::ViewMat(pTransform->position, pTransform->orientation,
                                                  pCamera->distance, pCamera->height, pCamera->offsetTarget);
-        glm::mat4 projectionMatrix = GraphicsLocator::GetWindow()->ProjectionMat();
+        glm::mat4 projectionMatrix = CameraUtils::ProjectionMat(pCamera->fovy, pCamera->zNear, pCamera->zFar,
+                                                                pWindow->width, pWindow->height);
 
         // Set the ImGuizmo transformation matrix
         ImGuizmo::SetID(0); // Use 0 as the ID for a single gizmo

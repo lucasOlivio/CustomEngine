@@ -47,6 +47,9 @@ namespace MyEngine
         ComponentType TagType = pScene->GetComponentType<TagComponent>();
         m_componentsUI[TagType] = m_TagUI;
 
+        ComponentType CameraType = pScene->GetComponentType<CameraComponent>();
+        m_componentsUI[CameraType] = m_CameraUI;
+
         ComponentType TransformType = pScene->GetComponentType<TransformComponent>();
         m_componentsUI[TransformType] = m_TransformUI;
 
@@ -73,6 +76,12 @@ namespace MyEngine
 
         ComponentType ModelType = pScene->GetComponentType<ModelComponent>();
         m_componentsUI[ModelType] = m_ModelUI;
+
+        ComponentType FrameBufferType = pScene->GetComponentType<FrameBufferComponent>();
+        m_componentsUI[FrameBufferType] = m_FrameBufferUI;
+
+        ComponentType FrameBufferViewType = pScene->GetComponentType<FrameBufferViewComponent>();
+        m_componentsUI[FrameBufferViewType] = m_FrameBufferViewUI;
 
         ComponentType TransformAnimationType = pScene->GetComponentType<TransformAnimationComponent>();
         m_componentsUI[TransformAnimationType] = m_TransformAnimationUI;
@@ -123,6 +132,38 @@ namespace MyEngine
 
         ImGui::Text("Name");
         ImGui::InputText("##Name", &pTag->name);
+    }
+
+    void ComponentUI::m_CameraUI(Scene* pScene, Entity entityId)
+    {
+        Title("Camera:");
+
+        CameraComponent* pCamera = pScene->Get<CameraComponent>(entityId);
+        if (!pCamera)
+        {
+            return;
+        }
+
+        ImGui::Text("Up vector");
+        ImGui::InputFloat3("##upVector", &pCamera->upVector.x);
+
+        ImGui::Text("Distance");
+        ImGui::InputFloat("##distance", &pCamera->distance);
+
+        ImGui::Text("Height");
+        ImGui::InputFloat("##height", &pCamera->height);
+
+        ImGui::Text("Offset Target");
+        ImGui::InputFloat("##offsetTarget", &pCamera->offsetTarget);
+
+        ImGui::Text("fovy");
+        ImGui::InputFloat("##fovy", &pCamera->fovy);
+
+        ImGui::Text("zNear");
+        ImGui::InputFloat("##zNear", &pCamera->zNear);
+
+        ImGui::Text("zFar");
+        ImGui::InputFloat("##zFar", &pCamera->zFar);
     }
 
     void ComponentUI::m_TransformUI(Scene* pScene, Entity entityId)
@@ -470,6 +511,7 @@ namespace MyEngine
 
         // Material
         ImGui::Text("Material");
+        ImGui::InputText("##MaterialInput", &pModel->material);
 
         // Flags
         ImGui::Checkbox("Wireframe", &pModel->isWireframe);
@@ -481,6 +523,44 @@ namespace MyEngine
         ImGui::InputDouble("##ElapsedTime", &pModel->elapsedTime);
 
         ImGui::Checkbox("Is Active", &pModel->isActive);
+    }
+
+    void ComponentUI::m_FrameBufferUI(Scene* pScene, Entity entityId)
+    {
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
+        Title("Frame buffer:");
+
+        FrameBufferComponent* pFrameBuffer = pScene->Get<FrameBufferComponent>(entityId);
+        if (!pFrameBuffer)
+        {
+            return;
+        }
+        
+        ImGui::Text("Camera ID");
+        ImGui::InputInt("##CameraId", &pFrameBuffer->cameraId);
+
+        ImGui::Text("Width");
+        ImGui::InputInt("##FBOWidth", &pFrameBuffer->width);
+
+        ImGui::Text("Height");
+        ImGui::InputInt("##FBOHeight", &pFrameBuffer->height);
+    }
+
+    void ComponentUI::m_FrameBufferViewUI(Scene* pScene, Entity entityId)
+    {
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
+        Title("Frame buffer view:");
+
+        FrameBufferViewComponent* pFrameBufferView = pScene->Get<FrameBufferViewComponent>(entityId);
+        if (!pFrameBufferView)
+        {
+            return;
+        }
+
+        int FBOID = static_cast<int>(pFrameBufferView->FBOID);
+        ImGui::Text("FBO ID");
+        ImGui::InputInt("##FBOID", &FBOID);
+        pFrameBufferView->FBOID = FBOID;
     }
 
     void ComponentUI::m_TransformAnimationUI(Scene* pScene, Entity entityId)

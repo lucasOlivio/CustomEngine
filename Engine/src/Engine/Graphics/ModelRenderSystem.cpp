@@ -32,6 +32,7 @@ namespace MyEngine
         {
             TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
             ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
+            FrameBufferViewComponent* pFrameBufferView = pScene->Get<FrameBufferViewComponent>(entityId);
             if (!pModel->isActive)
             {
                 continue;
@@ -58,6 +59,12 @@ namespace MyEngine
             renderInfo.useDefaultColor = pModel->useDefaultColor;
             renderInfo.useColorTexture = pModel->useColorTexture;
             renderInfo.useDebugColor = false;
+
+            if (pFrameBufferView)
+            {
+                renderInfo.isFBOView = true;
+                renderInfo.FBOViewID = pFrameBufferView->FBOID;
+            }
 
             for (uint fboid : pModel->FBOIDs)
             {

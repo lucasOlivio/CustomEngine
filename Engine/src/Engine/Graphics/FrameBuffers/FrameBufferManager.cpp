@@ -6,6 +6,7 @@
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 
 #include "Engine/Graphics/Shaders/ShaderManager.h"
+#include "Engine/Graphics/Renderer/RendererManagerLocator.h"
 
 #include "Engine/Utils/CameraUtils.h"
 
@@ -24,6 +25,10 @@ namespace MyEngine
 
 		m_mapFBOs = { {FBO.ID, FBO} };
 		m_currFBOID = FBO.ID;
+
+		// Add FBO to renderer
+		iRendererManager* pRendererManager = RendererManagerLocator::Get();
+		pRendererManager->AddFBO(FBO.ID);
 	}
 
 	FrameBufferManager::~FrameBufferManager()
@@ -39,6 +44,7 @@ namespace MyEngine
 		FBO.cameraId = cameraId;
 
 		glCreateFramebuffers(1, &(FBO.ID));
+		glBindFramebuffer(GL_FRAMEBUFFER, FBO.ID);
 
 		// Create the colour buffer (texture)
 		glGenTextures(1, &(FBO.colorTextureId));
@@ -68,6 +74,12 @@ namespace MyEngine
 							 GL_DEPTH_STENCIL_ATTACHMENT,
 							 FBO.depthTextureId, 0);
 
+		static const GLenum draw_bufers[] =
+		{
+			GL_COLOR_ATTACHMENT0
+		};
+		glDrawBuffers(1, draw_bufers);
+
 		bool isComplete = true;
 		std::string error = "";
 
@@ -94,6 +106,10 @@ namespace MyEngine
 		if (isComplete)
 		{
 			m_mapFBOs[FBO.ID] = FBO;
+
+			// Add FBO to renderer
+			iRendererManager* pRendererManager = RendererManagerLocator::Get();
+			pRendererManager->AddFBO(FBO.ID);
 		}
 		else
 		{
@@ -126,6 +142,15 @@ namespace MyEngine
 		itFBOs it = m_mapFBOs.begin();
 		while (it != m_mapFBOs.end())
 		{
+			uint FBOID = it->second.ID;
+
+			if (FBOID == 0)
+			{
+				// Dont delete main FBO!
+				it++;
+				continue;
+			}
+
 			DeleteFBO(it->second.ID);
 			it = m_mapFBOs.begin();
 		}
@@ -170,31 +195,45 @@ namespace MyEngine
 			glfwGetFramebufferSize(pWindow->pGLFWWindow, &FBO.width, &FBO.height);
 		}
 
-		// Update projection and view matrix
-		glm::mat4 matProjection = CameraUtils::ProjectionMat(pCamera->fovy, pCamera->zNear,
-															 pCamera->zFar, FBO.width, FBO.height);
-		pShader->SetUniformMatrix4f("matProjection", matProjection);
-
-        glm::mat4 matView = CameraUtils::ViewMat(pTransformCamera->position, pTransformCamera->orientation,
-                                                 pCamera->distance, pCamera->height, pCamera->offsetTarget);
-        pShader->SetUniformMatrix4f("matView", matView);
-
-		// Now bind buffer if already not binded
 		if (m_currFBOID != FBOID)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, FBO.ID);
+			glViewport(0, 0, FBO.width, FBO.height);
 
-			ClearFBO(FBOID);
+			// Update projection and view matrix
+			glm::mat4 matProjection = CameraUtils::ProjectionMat(pCamera->fovy, pCamera->zNear,
+				pCamera->zFar, FBO.width, FBO.height);
+			pShader->SetUniformMatrix4f("matProjection", matProjection);
+
+			glm::mat4 matView = CameraUtils::ViewMat(pTransformCamera->position, pTransformCamera->orientation,
+				pCamera->distance, pCamera->height, pCamera->offsetTarget);
+			pShader->SetUniformMatrix4f("matView", matView);
+
+			m_currFBOID = FBOID;
 		}
+	}
 
-		m_currFBOID = FBOID;
+	void FrameBufferManager::BindFBOText(uint FBOID)
+	{
+		iShaderProgram* pShader = ShaderManager::GetActiveShader();
+
+		FrameBufferObject& FBO = GetFBO(FBOID);
+
+		GLint textUnitId = 50;
+
+		glActiveTexture(GL_TEXTURE0 + textUnitId);
+		// Get texture number from the FBO colour texture
+		glBindTexture(GL_TEXTURE_2D, FBO.colorTextureId);
+
+		pShader->SetUniformInt("isFBOView", true);
+		pShader->SetUniformInt("FBOViewTexture", textUnitId);
 	}
 
 	void FrameBufferManager::ClearFBO(uint FBOID)
 	{
 		FrameBufferObject& FBO = GetFBO(FBOID);
 
-		glViewport(0, 0, FBO.width, FBO.height);
+
 		GLfloat	zero = 0.0f;
 		GLfloat one = 1.0f;
 		

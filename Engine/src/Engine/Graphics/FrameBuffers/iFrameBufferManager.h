@@ -29,6 +29,8 @@ namespace MyEngine
 
 		virtual void BindFBO(Scene* pScene, uint FBOID) = 0;
 
+		virtual void BindFBOText(uint FBOID) = 0;
+
 		// Clears color and depth textures for the fbo
 		virtual void ClearFBO(uint FBOID) = 0;
 	};

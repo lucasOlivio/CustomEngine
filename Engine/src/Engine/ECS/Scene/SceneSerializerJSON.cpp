@@ -240,6 +240,24 @@ namespace MyEngine
                 m_ParseModelToDoc(modelObject, *pModel, allocator);
                 entityObject.AddMember("model", modelObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<FrameBufferComponent>()))
+            {
+                Value framebufferObject;
+                framebufferObject.SetObject();
+
+                FrameBufferComponent* pFrameBuffer = sceneIn.Get<FrameBufferComponent>(entity);
+                m_ParseFrameBufferToDoc(framebufferObject, *pFrameBuffer, allocator);
+                entityObject.AddMember("framebuffer", framebufferObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<FrameBufferViewComponent>()))
+            {
+                Value framebufferViewObject;
+                framebufferViewObject.SetObject();
+
+                FrameBufferViewComponent* pFrameBufferView = sceneIn.Get<FrameBufferViewComponent>(entity);
+                m_ParseFrameBufferViewToDoc(framebufferViewObject, *pFrameBufferView, allocator);
+                entityObject.AddMember("framebufferView", framebufferViewObject, allocator);
+            }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TransformAnimationComponent>()))
             {
                 Value transformAnimationObject;
@@ -464,6 +482,30 @@ namespace MyEngine
         parser.SetMember(jsonObject, "material", modelIn.material, allocator);
         parser.SetMember(jsonObject, "models", modelIn.models, allocator);
         parser.SetMember(jsonObject, "FBOIDs", modelIn.FBOIDs, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseFrameBufferToDoc(rapidjson::Value& jsonObject, FrameBufferComponent& framebufferIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "cameraId", framebufferIn.cameraId, allocator);
+        parser.SetMember(jsonObject, "width", framebufferIn.width, allocator);
+        parser.SetMember(jsonObject, "height", framebufferIn.height, allocator);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseFrameBufferViewToDoc(rapidjson::Value& jsonObject, FrameBufferViewComponent& framebufferViewIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "FBOID", framebufferViewIn.FBOID, allocator);
 
         return true;
     }
@@ -761,6 +803,16 @@ namespace MyEngine
                     ModelComponent* pModel = sceneOut.AddComponent<ModelComponent>(entityId);
                     m_ParseDocToModel(componentObject, *pModel);
                 }
+                else if (componentName == "framebuffer")
+                {
+                    FrameBufferComponent* pFrameBuffer = sceneOut.AddComponent<FrameBufferComponent>(entityId);
+                    m_ParseDocToFrameBuffer(componentObject, *pFrameBuffer);
+                }
+                else if (componentName == "framebufferView")
+                {
+                    FrameBufferViewComponent* pFrameBufferView = sceneOut.AddComponent<FrameBufferViewComponent>(entityId);
+                    m_ParseDocToFrameBufferView(componentObject, *pFrameBufferView);
+                }
                 else if (componentName == "transformAnimation")
                 {
                     TransformAnimationComponent* pTransformAnimation = sceneOut.AddComponent<TransformAnimationComponent>(entityId);
@@ -965,6 +1017,26 @@ namespace MyEngine
         parser.GetValue(jsonObject["material"], modelOut.material);
         parser.GetValue(jsonObject["models"], modelOut.models);
         parser.GetValue(jsonObject["FBOIDs"], modelOut.FBOIDs);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToFrameBuffer(rapidjson::Value& jsonObject, FrameBufferComponent& framebufferOut)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["cameraId"], framebufferOut.cameraId);
+        parser.GetValue(jsonObject["width"], framebufferOut.width);
+        parser.GetValue(jsonObject["height"], framebufferOut.height);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToFrameBufferView(rapidjson::Value& jsonObject, FrameBufferViewComponent& framebufferViewOut)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["FBOID"], framebufferViewOut.FBOID);
 
         return true;
     }

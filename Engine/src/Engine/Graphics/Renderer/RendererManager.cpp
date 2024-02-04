@@ -6,6 +6,7 @@
 
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/Graphics/FrameBuffers/FrameBufferManagerLocator.h"
+#include "Engine/Graphics/Shaders/ShaderManager.h"
 
 namespace MyEngine
 {
@@ -14,7 +15,6 @@ namespace MyEngine
 
 	RendererManager::RendererManager()
 	{
-		AddFBO(0);
 	}
 
 	void RendererManager::AddFBO(uint FBOID)
@@ -34,26 +34,65 @@ namespace MyEngine
 	{
 		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
 		iFrameBufferManager* pFrameBufferManager = FrameBufferManagerLocator::Get();
+		iShaderProgram* pShader = ShaderManager::GetActiveShader();
 
 		// Bind the fbo then render all their respective models
-		for (const pairFBOInfos& pair : m_mapRenderInfos)
+		// First element will always be the main screen buffer, so we start from the second
+		itFBOInfos it = std::next(m_mapRenderInfos.begin());
+
+		// Iterate over the map starting from the second element
+		for (; it != m_mapRenderInfos.end(); ++it)
 		{
-			uint FBOID = pair.first;
+			uint FBOID = it->first;
 
 			pFrameBufferManager->BindFBO(pScene, FBOID);
+			pFrameBufferManager->ClearFBO(FBOID);
 
-			const std::vector<sRenderModelInfo>& renderInfos = pair.second;
+			const std::vector<sRenderModelInfo>& renderInfos = it->second;
 
 			// Render all models associated with the current FBOID
 			for (const sRenderModelInfo& renderInfo : renderInfos)
 			{
 				pMaterialManager->BindMaterial(renderInfo.materialName);
+
+				if (renderInfo.isFBOView)
+				{
+					pFrameBufferManager->BindFBOText(renderInfo.FBOViewID);
+				}
+
 				GraphicsUtils::DrawModel(renderInfo);
+
+				if (renderInfo.isFBOView)
+				{
+					pShader->SetUniformInt("isFBOView", false);
+				}
 			}
 		}
 
+		// TODO: Separate this into function, now its too coupled with a lot of other stuff
+
 		// Making sure we return to main buffer
 		pFrameBufferManager->BindFBO(pScene, 0);
+
+		const std::vector<sRenderModelInfo>& renderInfos = m_mapRenderInfos[0];
+
+		// Render all models associated with the current FBOID
+		for (const sRenderModelInfo& renderInfo : renderInfos)
+		{
+			pMaterialManager->BindMaterial(renderInfo.materialName);
+
+			if (renderInfo.isFBOView)
+			{
+				pFrameBufferManager->BindFBOText(renderInfo.FBOViewID);
+			}
+
+			GraphicsUtils::DrawModel(renderInfo);
+
+			if (renderInfo.isFBOView)
+			{
+				pShader->SetUniformInt("isFBOView", false);
+			}
+		}
 	}
 
 	void RendererManager::ClearRender()

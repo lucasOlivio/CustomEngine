@@ -80,6 +80,27 @@ namespace MyEngine
         return true;
     }
 
+    bool ParserJSON::GetValue(rapidjson::Value& jsonObject, uint& valueOut)
+    {
+        using namespace rapidjson;
+
+        if (jsonObject.IsInt()) {
+            valueOut = jsonObject.GetInt();
+            return true;
+        }
+
+        return false;
+    }
+
+    bool ParserJSON::SetValue(rapidjson::Value& jsonObject, uint valueIn)
+    {
+        using namespace rapidjson;
+
+        jsonObject.SetInt(valueIn);
+
+        return true;
+    }
+
     bool ParserJSON::GetValue(rapidjson::Value& jsonObject, std::vector<int>& valueOut)
     {
         using namespace rapidjson;
@@ -148,6 +169,42 @@ namespace MyEngine
         for (SizeType i = 0; i < valueIn.size(); i++) {
             Value intVal;
             intVal.SetInt(valueIn[i]);
+            jsonObject.PushBack(intVal, allocator);
+        }
+
+        return true;
+    }
+
+    bool ParserJSON::GetValue(rapidjson::Value& jsonObject, std::set<uint>& valueOut)
+    {
+        using namespace rapidjson;
+
+        if (jsonObject.IsArray()) {
+            for (SizeType i = 0; i < jsonObject.Size(); i++) {
+                if (!jsonObject[i].IsInt()) {
+                    return false;
+                }
+            }
+
+
+            for (SizeType i = 0; i < jsonObject.Size(); i++) {
+                valueOut.insert(jsonObject[i].GetInt());
+            }
+
+            return true;
+        }
+        return true;
+    }
+
+    bool ParserJSON::SetValue(rapidjson::Value& jsonObject, std::set<uint>& valueIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        jsonObject.SetArray();
+
+        for (uint num : valueIn) {
+            Value intVal;
+            intVal.SetInt(num);
             jsonObject.PushBack(intVal, allocator);
         }
 
@@ -408,6 +465,22 @@ namespace MyEngine
         return true;
     }
 
+    bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, uint value, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        if (!jsonObject.IsObject())
+        {
+            return false;
+        }
+
+        Value memberKey(key.c_str(), allocator);
+        Value memberValue(value);
+        jsonObject.AddMember(memberKey, memberValue, allocator);
+
+        return true;
+    }
+
     bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, float value, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
@@ -459,6 +532,23 @@ namespace MyEngine
     }
 
     bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, std::vector<uint>& value, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+        if (!jsonObject.IsObject())
+        {
+            return false;
+        }
+
+        Value memberKey(key.c_str(), allocator);
+        Value memberValue;
+        memberValue.SetObject();
+        this->SetValue(memberValue, value, allocator);
+        jsonObject.AddMember(memberKey, memberValue, allocator);
+
+        return true;
+    }
+
+    bool ParserJSON::SetMember(rapidjson::Value& jsonObject, std::string key, std::set<uint>& value, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
         if (!jsonObject.IsObject())

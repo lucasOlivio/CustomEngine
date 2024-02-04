@@ -4,6 +4,8 @@
 
 namespace MyEngine
 {
+	#define INITIAL_FBO_TEXTURE_ID 50;
+
 	struct FrameBufferObject
 	{
 		uint ID = 0; 

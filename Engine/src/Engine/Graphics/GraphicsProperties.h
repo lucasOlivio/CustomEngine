@@ -100,11 +100,13 @@ namespace MyEngine
 
 		int VAO_ID = 0;
 		int numberOfIndices = 0;
+		int FBOViewID = 0;
 
 		bool isWireFrame = false;
 		bool doNotLight = false;
 		bool useDefaultColor = false;
 		bool useColorTexture = false;
 		bool useDebugColor = false;
+		bool isFBOView = false;
 	};
 }

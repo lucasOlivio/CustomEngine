@@ -50,6 +50,11 @@ uniform sampler2D discardTexture;
 uniform sampler2D alphaTexture;
 uniform samplerCube cubeTexture;
 
+// Frame buffers views
+// -----------------------------------------------------------------
+uniform bool isFBOView;
+uniform sampler2D FBOViewTexture;
+
 // LIGHTS
 // -----------------------------------------------------------------
 uniform bool doNotLight; // If true, then passes the colour without calculating lighting
@@ -130,6 +135,15 @@ void main()
 		{
 			discard;
 		}
+	}
+
+	if ( isFBOView )
+	{
+		outputColour.rgb = texture( FBOViewTexture, UVFinal.st ).rgb;
+						   
+		outputColour.a = 1.0f;
+
+		return;
 	}
 	
 	if ( doNotLight )

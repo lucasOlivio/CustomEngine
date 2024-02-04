@@ -61,34 +61,34 @@ namespace MyEngine
 			for (unsigned int currMeshIndex = 0; currMeshIndex < drawInfo->numberOfVertices; currMeshIndex++)
 			{
 				unsigned int vboIndex = currMeshIndex + (index * currMeshIndex); // Allocate all in sequence in the array
-				drawInfo->pVertices[vboIndex].x = currMesh->mVertices[currMeshIndex].x;
-				drawInfo->pVertices[vboIndex].y = currMesh->mVertices[currMeshIndex].y;
-				drawInfo->pVertices[vboIndex].z = currMesh->mVertices[currMeshIndex].z;
+				drawInfo->pVertices[vboIndex].x = currMesh->mVertices[vboIndex].x;
+				drawInfo->pVertices[vboIndex].y = currMesh->mVertices[vboIndex].y;
+				drawInfo->pVertices[vboIndex].z = currMesh->mVertices[vboIndex].z;
 				drawInfo->pVertices[vboIndex].w = 1.0f;
 
 				// Check if mesh have normals
 				if (currMesh->HasNormals())
 				{
-					drawInfo->pVertices[vboIndex].nx = currMesh->mNormals[currMeshIndex].x;
-					drawInfo->pVertices[vboIndex].ny = currMesh->mNormals[currMeshIndex].y;
-					drawInfo->pVertices[vboIndex].nz = currMesh->mNormals[currMeshIndex].z;
+					drawInfo->pVertices[vboIndex].nx = currMesh->mNormals[vboIndex].x;
+					drawInfo->pVertices[vboIndex].ny = currMesh->mNormals[vboIndex].y;
+					drawInfo->pVertices[vboIndex].nz = currMesh->mNormals[vboIndex].z;
 					drawInfo->pVertices[vboIndex].nw = 1.0f;
 				}
 
 				// Check if mesh have vertex colors
-				if (currMesh->HasVertexColors(currMeshIndex))
+				if (currMesh->HasVertexColors(index))
 				{
-					drawInfo->pVertices[vboIndex].r = currMesh->mColors[0][currMeshIndex].r;
-					drawInfo->pVertices[vboIndex].g = currMesh->mColors[0][currMeshIndex].g;
-					drawInfo->pVertices[vboIndex].b = currMesh->mColors[0][currMeshIndex].b;
-					drawInfo->pVertices[vboIndex].a = currMesh->mColors[0][currMeshIndex].a;
+					drawInfo->pVertices[vboIndex].r = currMesh->mColors[index][vboIndex].r;
+					drawInfo->pVertices[vboIndex].g = currMesh->mColors[index][vboIndex].g;
+					drawInfo->pVertices[vboIndex].b = currMesh->mColors[index][vboIndex].b;
+					drawInfo->pVertices[vboIndex].a = currMesh->mColors[index][vboIndex].a;
 				}
 
 				// Check if mesh have texture coordinates
-				if (currMesh->mNumUVComponents[0] > 0)
+				if (currMesh->HasTextureCoords(index))
 				{
-					drawInfo->pVertices[vboIndex].u = currMesh->mTextureCoords[0][currMeshIndex].x;
-					drawInfo->pVertices[vboIndex].v = currMesh->mTextureCoords[0][currMeshIndex].y;
+					drawInfo->pVertices[vboIndex].u = currMesh->mTextureCoords[index][vboIndex].x;
+					drawInfo->pVertices[vboIndex].v = currMesh->mTextureCoords[index][vboIndex].y;
 				}
 
 				// Get mesh info

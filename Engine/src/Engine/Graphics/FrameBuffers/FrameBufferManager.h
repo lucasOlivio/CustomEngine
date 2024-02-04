@@ -29,6 +29,8 @@ namespace MyEngine
 		// To unbind just call it with 0 to bind to the main
 		virtual void BindFBO(Scene* pScene, uint FBOID);
 
+		virtual void BindFBOText(uint FBOID);
+
 		// Clears color and depth textures for the fbo
 		virtual void ClearFBO(uint FBOID);
 

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <rapidjson/document.h>
@@ -26,12 +27,19 @@ namespace MyEngine
 		bool GetValue(rapidjson::Value& jsonObject, int& valueOut);
 		bool SetValue(rapidjson::Value& jsonObject, int valueIn);
 
+		bool GetValue(rapidjson::Value& jsonObject, uint& valueOut);
+		bool SetValue(rapidjson::Value& jsonObject, uint valueIn);
+
 		bool GetValue(rapidjson::Value& jsonObject, std::vector<int>& valueOut);
 		bool SetValue(rapidjson::Value& jsonObject, std::vector<int>& valueIn,
 			rapidjson::Document::AllocatorType& allocator);
 
 		bool GetValue(rapidjson::Value& jsonObject, std::vector<uint>& valueOut);
 		bool SetValue(rapidjson::Value& jsonObject, std::vector<uint>& valueIn,
+			rapidjson::Document::AllocatorType& allocator);
+
+		bool GetValue(rapidjson::Value& jsonObject, std::set<uint>& valueOut);
+		bool SetValue(rapidjson::Value& jsonObject, std::set<uint>& valueIn,
 			rapidjson::Document::AllocatorType& allocator);
 
 		bool GetValue(rapidjson::Value& jsonObject, glm::vec3& valueOut);
@@ -65,6 +73,9 @@ namespace MyEngine
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, int value,
 			rapidjson::Document::AllocatorType& allocator);
 
+		bool SetMember(rapidjson::Value& jsonObject, std::string key, uint value,
+				rapidjson::Document::AllocatorType& allocator);
+
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, float value,
 			rapidjson::Document::AllocatorType& allocator);
 
@@ -76,6 +87,9 @@ namespace MyEngine
 			rapidjson::Document::AllocatorType& allocator);
 
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, std::vector<uint>& value,
+			rapidjson::Document::AllocatorType& allocator);
+
+		bool SetMember(rapidjson::Value& jsonObject, std::string key, std::set<uint>& value,
 			rapidjson::Document::AllocatorType& allocator);
 
 		bool SetMember(rapidjson::Value& jsonObject, std::string key, glm::vec3& value,

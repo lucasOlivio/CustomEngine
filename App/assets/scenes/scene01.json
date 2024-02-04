@@ -9,21 +9,21 @@
             "distance": 0.5,
             "height": 0.0,
             "offsetTarget": 0.10000000149011612,
-            "fovy": 0.6,
-            "zNear": 0.1,
-            "zFar": 100.0
+            "fovy": 0.6000000238418579,
+            "zNear": 0.10000000149011612,
+            "zFar": 500.0
         },
         "transform": {
             "position": [
-                37.34021759033203,
-                76.57527923583984,
-                70.76873779296875
+                92.12444305419922,
+                103.21296691894531,
+                72.49750518798828
             ],
             "orientation": [
-                0.9886816740036011,
-                -0.07379337400197983,
-                -0.13026368618011475,
-                -0.009722600691020489
+                0.9754600524902344,
+                -0.18760710954666138,
+                0.11317112296819687,
+                0.02176452800631523
             ],
             "scale": 0.0
         }
@@ -331,12 +331,11 @@
             "useColorTexture": 1,
             "material": "mattest",
             "models": [
-                "cube.ply"
+                "cube.obj"
             ],
             "FBOIDs": [
                 0,
-                0,
-                0
+                1
             ]
         },
         "emitter": {
@@ -347,7 +346,16 @@
             "FBOIDs": [
                 0,
                 0,
-                0
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
             ],
             "meshName": "sphere.obj",
             "material": "",
@@ -480,8 +488,7 @@
             ],
             "FBOIDs": [
                 0,
-                0,
-                0
+                1
             ]
         },
         "rigidBody": {
@@ -548,8 +555,7 @@
             ],
             "FBOIDs": [
                 0,
-                0,
-                0
+                1
             ]
         },
         "rigidBody": {
@@ -598,12 +604,11 @@
             "useColorTexture": 1,
             "material": "mattestred",
             "models": [
-                "cube.ply"
+                "cube.obj"
             ],
             "FBOIDs": [
                 0,
-                0,
-                0
+                1
             ]
         },
         "transformAnimation": {
@@ -738,8 +743,7 @@
             ],
             "FBOIDs": [
                 0,
-                0,
-                0
+                1
             ]
         },
         "tiling": {
@@ -818,12 +822,11 @@
             "material": "mattest",
             "models": [
                 "sphere.obj",
-                "cube.ply"
+                "cube.obj"
             ],
             "FBOIDs": [
                 0,
-                0,
-                0
+                1
             ]
         },
         "rigidBody": {
@@ -832,6 +835,50 @@
         },
         "sphereCollider": {
             "radius": 1.0
+        }
+    },
+    {
+        "transform": {
+            "position": [
+                75.0,
+                75.0,
+                0.0
+            ],
+            "orientation": [
+                0.4999999701976776,
+                0.4999999701976776,
+                0.4999999701976776,
+                0.4999999701976776
+            ],
+            "scale": 0.10000000149011612
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 1,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "useColorTexture": 0,
+            "material": "",
+            "models": [
+                "flat.obj"
+            ],
+            "FBOIDs": [
+                0,
+                1
+            ]
+        },
+        "framebuffer": {
+            "cameraId": 0,
+            "width": 720,
+            "height": 480
+        },
+        "framebufferView": {
+            "FBOID": 1
         }
     }
 ]

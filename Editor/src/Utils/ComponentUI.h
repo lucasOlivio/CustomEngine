@@ -27,6 +27,7 @@ namespace MyEngine
 		static void m_EmptyUI(Scene* pScene, Entity entityId);
 
 		static void m_TagUI(Scene* pScene, Entity entityId);
+		static void m_CameraUI(Scene* pScene, Entity entityId);
 		static void m_TransformUI(Scene* pScene, Entity entityId);
 		static void m_MovementUI(Scene* pScene, Entity entityId);
 		static void m_RotationUI(Scene* pScene, Entity entityId);
@@ -36,6 +37,8 @@ namespace MyEngine
 		static void m_EmitterUI(Scene* pScene, Entity entityId);
 		static void m_LightUI(Scene* pScene, Entity entityId);
 		static void m_ModelUI(Scene* pScene, Entity entityId);
+		static void m_FrameBufferUI(Scene* pScene, Entity entityId);
+		static void m_FrameBufferViewUI(Scene* pScene, Entity entityId);
 		static void m_TransformAnimationUI(Scene* pScene, Entity entityId);
 		static void m_TilingUI(Scene* pScene, Entity entityId);
 		static void m_GravityUI(Scene* pScene, Entity entityId);

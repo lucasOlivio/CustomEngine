@@ -45,6 +45,11 @@ namespace MyEngine
 			LOG_ERROR("FrameBufferManager not initialized!");
 		}
 
+		virtual void BindFBOText(uint FBOID)
+		{
+			LOG_ERROR("FrameBufferManager not initialized!");
+		}
+
 		virtual void ClearFBO(uint FBOID)
 		{
 			LOG_ERROR("FrameBufferManager not initialized!");
