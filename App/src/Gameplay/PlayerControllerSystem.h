@@ -6,14 +6,14 @@
 
 namespace MyEngine
 {
-	// When key "SPACE" is pressed changes simulation state
-	class ChangeStateSystem : public iSystem
+	// All player input handling
+	class PlayerControllerSystem : public iSystem
 	{
 	public:
-		ChangeStateSystem() = default;
-		virtual ~ChangeStateSystem() { };
+		PlayerControllerSystem() = default;
+		virtual ~PlayerControllerSystem() { };
 
-		virtual std::string SystemName() { return "ChangeStateSystem"; };
+		virtual std::string SystemName() { return "PlayerControllerSystem"; };
 
 		virtual void Init();
 
@@ -28,5 +28,10 @@ namespace MyEngine
 		virtual void Shutdown();
 
 		static void InputTriggered(const KeyboardEvent& event);
+
+	private:
+		void m_InitiateMouseCapture();
+
+		void m_StopMouseCapture();
 	};
 }

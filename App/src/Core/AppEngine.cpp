@@ -4,8 +4,7 @@
 #include "Engine/ECS/System/SystemBuilder.h"
 
 // Custom app systems
-#include "Gameplay/ChangeStateSystem.h"
-#include "Gameplay/ChangeSceneSystem.h"
+#include "Gameplay/PlayerControllerSystem.h"
 
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine
@@ -17,8 +16,8 @@ namespace MyEngine
 		Engine::Init();
 
 		// Register custom app systems
-		SystemBuilder::RegisterSystem("ChangeStateSystem", []() { return new ChangeStateSystem; });
-		SystemBuilder::RegisterSystem("ChangeSceneSystem", []() { return new ChangeSceneSystem; });
+		// SystemBuilder::RegisterSystem("ExampleCustomSystem", []() { return new ExampleCustomSystem; });
+		SystemBuilder::RegisterSystem("PlayerControllerSystem", []() { return new PlayerControllerSystem; });
 
 		GameStateComponent* pStates = CoreLocator::GetGameState();
 
@@ -31,13 +30,12 @@ namespace MyEngine
 		// Graphics
 		pStates->mainSystems.push_back("ShaderSystem");
 		pStates->mainSystems.push_back("ModelRenderSystem");
-		pStates->mainSystems.push_back("ParticleRenderSystem");
 		pStates->mainSystems.push_back("RenderSystem");
 		pStates->mainSystems.push_back("LightSystem");
 		pStates->mainSystems.push_back("AnimationSystem");
 
-		pStates->mainSystems.push_back("ChangeStateSystem");
-		pStates->mainSystems.push_back("ChangeSceneSystem");
+		// Gameplayer
+		pStates->mainSystems.push_back("PlayerControllerSystem");
 
 		// TODO: This could come from a config file
 		// TODO: Could this be categorized to avoid having to put all in the config?
@@ -48,8 +46,6 @@ namespace MyEngine
 		pStates->mapStateSystems[eGameStates::RUNNING] = {
 			// Graphics
 			"AnimationPlayerSystem",
-			"ParticleEmissionSystem",
-			"ParticleUpdaterSystem",
 			// Physics
 			"MovementSystem",
 			"RotationSystem",

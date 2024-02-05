@@ -265,4 +265,12 @@ namespace MyEngine
 		glm::vec3 min;
 		glm::vec3 max;
 	};
+
+	// TODO: Gameplay would be better separated from engine, use scripts instead of components
+	// Gameplay
+	// -------------------------------------------------------------
+	struct PlayerComponent
+	{
+		float speed = 10;
+	};
 }

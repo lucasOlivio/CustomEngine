@@ -150,7 +150,7 @@ namespace MyEngine
                 m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
                 entityObject.AddMember("camera", cameraObject, allocator);
             }
-            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TagComponent>()))
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<GridBroadphaseComponent>()))
             {
                 Value gridBroadphaseObject;
                 gridBroadphaseObject.SetObject();
@@ -320,6 +320,15 @@ namespace MyEngine
                 AABBColliderComponent* pAABBCollider = sceneIn.Get<AABBColliderComponent>(entity);
                 m_ParseAABBColliderToDoc(aabbColliderObject, *pAABBCollider, allocator);
                 entityObject.AddMember("aabbCollider", aabbColliderObject, allocator);
+            }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<PlayerComponent>()))
+            {
+                Value playerObject;
+                playerObject.SetObject();
+
+                PlayerComponent* pPlayer = sceneIn.Get<PlayerComponent>(entity);
+                m_ParsePlayerToDoc(playerObject, *pPlayer, allocator);
+                entityObject.AddMember("player", playerObject, allocator);
             }
 
             // Add the entityObject to the main JSON array only if has any component
@@ -711,6 +720,17 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParsePlayerToDoc(rapidjson::Value& jsonObject, PlayerComponent& playerIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        using namespace rapidjson;
+
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "speed", playerIn.speed, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToScene(Scene& sceneOut)
     {
         using namespace rapidjson;
@@ -847,6 +867,11 @@ namespace MyEngine
                 {
                     AABBColliderComponent* pAABBCollider = sceneOut.AddComponent<AABBColliderComponent>(entityId);
                     m_ParseDocToAABBCollider(componentObject, *pAABBCollider);
+                }
+                else if (componentName == "player")
+                {
+                    PlayerComponent* pPlayer = sceneOut.AddComponent<PlayerComponent>(entityId);
+                    m_ParseDocToPlayer(componentObject, *pPlayer);
                 }
                 // All single components goes into the first entity, 
                 // so the scene will always have the first entity empty
@@ -1285,6 +1310,15 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["lengthPerBox"], gridBroadphaseOut.lengthPerBox);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToPlayer(rapidjson::Value& jsonObject, PlayerComponent& playerOut)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["speed"], playerOut.speed);
 
         return true;
     }

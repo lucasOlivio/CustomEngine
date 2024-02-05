@@ -6,36 +6,54 @@
                 1.0,
                 0.0
             ],
-            "distance": 0.5,
-            "height": 0.0,
-            "offsetTarget": 0.10000000149011612,
+            "distance": -75.0,
+            "height": 25.0,
+            "offsetTarget": -100.0,
             "fovy": 0.6000000238418579,
-            "zNear": 0.10000000149011612,
+            "zNear": 1.0,
             "zFar": 1000.0
+        },
+        "tag": {
+            "name": "gangster"
         },
         "transform": {
             "position": [
-                29.168842315673828,
-                27.43930435180664,
-                69.23066711425781
+                0.0,
+                1.0,
+                0.0
             ],
             "orientation": [
-                0.9674482941627502,
-                -0.0907294750213623,
-                0.23521369695663452,
-                0.022058291360735893
+                0.9999998807907104,
+                0.0,
+                -0.0005000000237487257,
+                0.0
             ],
-            "scale": 0.0
+            "scale": 10.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcharacters1",
+            "models": [
+                "punk.obj"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "player": {
+            "speed": 100.0
         }
     },
     {
-        "gridBroadphase": {
-            "lengthPerBox": [
-                4.0,
-                4.0,
-                4.0
-            ]
-        },
         "tag": {
             "name": "directionallight"
         },
@@ -95,13 +113,6 @@
         }
     },
     {
-        "gridBroadphase": {
-            "lengthPerBox": [
-                4.0,
-                4.0,
-                4.0
-            ]
-        },
         "tag": {
             "name": "skybox"
         },
@@ -167,13 +178,6 @@
         }
     },
     {
-        "gridBroadphase": {
-            "lengthPerBox": [
-                4.0,
-                4.0,
-                4.0
-            ]
-        },
         "tag": {
             "name": "skybox"
         },
@@ -212,13 +216,6 @@
         }
     },
     {
-        "gridBroadphase": {
-            "lengthPerBox": [
-                4.0,
-                4.0,
-                4.0
-            ]
-        },
         "tag": {
             "name": "ground"
         },
@@ -328,58 +325,6 @@
         }
     },
     {
-        "gridBroadphase": {
-            "lengthPerBox": [
-                4.0,
-                4.0,
-                4.0
-            ]
-        },
-        "tag": {
-            "name": "gangster"
-        },
-        "transform": {
-            "position": [
-                0.0,
-                1.0,
-                0.0
-            ],
-            "orientation": [
-                0.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 10.0
-        },
-        "model": {
-            "isActive": 1,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "useColorTexture": 1,
-            "material": "matcharacters1",
-            "models": [
-                "punk.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        }
-    },
-    {
-        "gridBroadphase": {
-            "lengthPerBox": [
-                4.0,
-                4.0,
-                4.0
-            ]
-        },
         "tag": {
             "name": "matpunk"
         },

@@ -36,7 +36,6 @@ namespace MyEngine
 		// Graphics
 		pStates->mainSystems.push_back("ShaderSystem");
 		pStates->mainSystems.push_back("ModelRenderSystem");
-		pStates->mainSystems.push_back("ParticleRenderSystem");
 		pStates->mainSystems.push_back("RenderSystem");
 		pStates->mainSystems.push_back("LightSystem");
 		pStates->mainSystems.push_back("AnimationSystem");
@@ -55,8 +54,6 @@ namespace MyEngine
 		pStates->mapStateSystems[eGameStates::RUNNING] = {
 			// Graphics
 			"AnimationPlayerSystem",
-			"ParticleEmissionSystem",
-			"ParticleUpdaterSystem",
 			// Physics
 			"MovementSystem",
 			"RotationSystem",

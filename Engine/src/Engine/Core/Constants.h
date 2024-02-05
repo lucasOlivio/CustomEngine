@@ -19,6 +19,8 @@ namespace MyEngine
 
 #define MAX_PARTICLES 1000
 
+#define DEFAULT_MOUSE_SENSITIVITY 0.001f
+
 	const std::string DEFAULT_CONFIG = "config.json";
 
 	const glm::vec3 X_VECTOR = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
