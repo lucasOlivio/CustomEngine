@@ -4,6 +4,7 @@ project "App"
    cppdialect "C++14"
    targetdir "bin/%{cfg.buildcfg}"
    staticruntime "off"
+   defines { "FBXSDK_SHARED" } 
 
    files { "src/**.h", "src/**.cpp" }
 
@@ -21,6 +22,7 @@ project "App"
       "%{wks.location}/Engine/Extern/glm/include",
       "%{wks.location}/Engine/Extern/fmod/include",
       "%{wks.location}/Engine/Extern/assimp/include",
+      "%{wks.location}/Engine/Extern/fbxsdk/include",
       "%{wks.location}/Engine/Extern/Lua5.4.6/include",
       "%{wks.location}/Engine/Extern/rapidjson/include",
    }
@@ -54,7 +56,8 @@ project "App"
 
        postbuildcommands
        {
-           '{COPY} ../Engine/Extern/assimp/lib/Debug/*.dll "%{cfg.buildtarget.directory} "'
+           '{COPY} ../Engine/Extern/assimp/lib/Debug/*.dll "%{cfg.buildtarget.directory} "',
+           '{COPY} ../Engine/Extern/fbxsdk/lib/Debug/*.dll "%{cfg.buildtarget.directory} "'
        }
 
    filter "configurations:Release"
@@ -65,7 +68,8 @@ project "App"
 
        postbuildcommands
        {
-           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
+           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "',
+           '{COPY} ../Engine/Extern/fbxsdk/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
        }
 
    filter "configurations:Dist"
@@ -76,5 +80,6 @@ project "App"
 
        postbuildcommands
        {
-           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
+           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "',
+           '{COPY} ../Engine/Extern/fbxsdk/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
        }

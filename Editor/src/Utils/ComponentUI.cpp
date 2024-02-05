@@ -319,6 +319,11 @@ namespace MyEngine
             ImGui::InputText(("##ColorTexture" + std::to_string(i)).c_str(), &pMaterial->colorTextures[i]);
         }
 
+        if (ImGui::Button("Add color texture"))
+        {
+            pMaterial->colorTextures.push_back("");
+        }
+
         ImGui::Text("Color Textures Ratios");
         ImGui::InputFloat3("##ColorTexturesRatios", &pMaterial->colorTexturesRatios.x);
 
@@ -498,10 +503,7 @@ namespace MyEngine
             pModel->models.push_back("cube.ply");
             
             sMesh* pMesh = pVAOManager->LoadModelIntoVAO(pModel->models.back(), false);
-            if (pMesh)
-            {
-                pModel->pMeshes.push_back(pMesh);
-            }
+            pModel->pMeshes.push_back(pMesh);
         }
 
         // Color
@@ -518,11 +520,26 @@ namespace MyEngine
         ImGui::Checkbox("Do Not Light", &pModel->doNotLight);
         ImGui::Checkbox("Use Color Texture", &pModel->useColorTexture);
 
-        // Other parameters
-        ImGui::Text("Elapsed Time");
-        ImGui::InputDouble("##ElapsedTime", &pModel->elapsedTime);
-
         ImGui::Checkbox("Is Active", &pModel->isActive);
+
+        // FBOIDs
+        ImGui::Text("FBO IDs:");
+        for (uint id : pModel->FBOIDs)
+        {
+            ImGui::InputScalar(("##FBOID_"+ std::to_string(id)).c_str(), ImGuiDataType_U32, &id);
+            ImGui::SameLine();
+            if (ImGui::Button(("Remove##FBOID_" + std::to_string(id)).c_str()))
+            {
+                // Remove the FBO ID
+                pModel->FBOIDs.erase(id);
+                break; // Exit loop to avoid modifying container while iterating
+            }
+        }
+
+        if (ImGui::Button("Add FBO ID"))
+        {
+            pModel->FBOIDs.insert(0); // Insert default value
+        }
     }
 
     void ComponentUI::m_FrameBufferUI(Scene* pScene, Entity entityId)

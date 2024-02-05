@@ -24,7 +24,7 @@ namespace MyEngine
         CameraComponent* pCamera = pScene->Get<CameraComponent>(cameraId);
         TransformComponent* pCameraTransform = pScene->Get<TransformComponent>(cameraId);
 
-        glm::mat4 viewMatrix = CameraUtils::ViewMat(pTransform->position, pTransform->orientation,
+        glm::mat4 viewMatrix = CameraUtils::ViewMat(pCameraTransform->position, pCameraTransform->orientation,
                                                  pCamera->distance, pCamera->height, pCamera->offsetTarget);
         glm::mat4 projectionMatrix = CameraUtils::ProjectionMat(pCamera->fovy, pCamera->zNear, pCamera->zFar,
                                                                 pWindow->width, pWindow->height);

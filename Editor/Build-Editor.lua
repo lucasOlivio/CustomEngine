@@ -4,6 +4,7 @@ project "Editor"
    cppdialect "C++14"
    targetdir "bin/%{cfg.buildcfg}"
    staticruntime "off"
+   defines { "FBXSDK_SHARED" } 
 
    files 
    { 
@@ -36,6 +37,7 @@ project "Editor"
       "%{wks.location}/Engine/Extern/glm/include",
       "%{wks.location}/Engine/Extern/fmod/include",
       "%{wks.location}/Engine/Extern/assimp/include",
+      "%{wks.location}/Engine/Extern/fbxsdk/include",
       "%{wks.location}/Engine/Extern/Lua5.4.6/include",
       "%{wks.location}/Engine/Extern/rapidjson/include",
    }
@@ -69,7 +71,8 @@ project "Editor"
 
        postbuildcommands
        {
-           '{COPY} ../Engine/Extern/assimp/lib/Debug/*.dll "%{cfg.buildtarget.directory} "'
+           '{COPY} ../Engine/Extern/assimp/lib/Debug/*.dll "%{cfg.buildtarget.directory} "',
+           '{COPY} ../Engine/Extern/fbxsdk/lib/Debug/*.dll "%{cfg.buildtarget.directory} "'
        }
 
    filter "configurations:Release"
@@ -80,7 +83,8 @@ project "Editor"
 
        postbuildcommands
        {
-           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
+           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "',
+           '{COPY} ../Engine/Extern/fbxsdk/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
        }
 
    filter "configurations:Dist"
@@ -91,5 +95,6 @@ project "Editor"
 
        postbuildcommands
        {
-           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
+           '{COPY} ../Engine/Extern/assimp/lib/Release/*.dll "%{cfg.buildtarget.directory} "',
+           '{COPY} ../Engine/Extern/fbxsdk/lib/Release/*.dll "%{cfg.buildtarget.directory} "'
        }

@@ -25,6 +25,7 @@ project "Engine"
       "Extern/glm/include",
       "Extern/fmod/include",
       "Extern/assimp/include",
+      "Extern/fbxsdk/include",
       "Extern/Lua5.4.6/include",
       "Extern/rapidjson/include",
       "Extern/imgui/include",
@@ -59,6 +60,7 @@ project "Engine"
        links
         {
             "Extern/assimp/lib/Debug/assimp-vc130-mtd.lib",
+            "Extern/fbxsdk/lib/Debug/libfbxsdk.lib",
             "Extern/glfw/lib/Debug/glfw3.lib"
         }
 
@@ -71,6 +73,7 @@ project "Engine"
        links
         {
             "Extern/assimp/lib/Release/assimp-vc130-mt.lib",
+            "Extern/fbxsdk/lib/Release/libfbxsdk.lib",
             "Extern/glfw/lib/Release/glfw3.lib"
         }
 
@@ -83,5 +86,6 @@ project "Engine"
        links
         {
             "Extern/assimp/lib/Release/assimp-vc130-mt.lib",
+            "Extern/fbxsdk/lib/Release/libfbxsdk.lib",
             "Extern/glfw/lib/Release/glfw3.lib"
         }

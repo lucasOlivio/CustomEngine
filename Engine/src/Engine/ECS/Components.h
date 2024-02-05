@@ -142,7 +142,7 @@ namespace MyEngine
 	{
 		std::vector<std::string> models;
 		std::vector<sMesh*> pMeshes;
-		std::set<uint> FBOIDs;
+		std::set<uint> FBOIDs = { 0 };
 
 		std::string material;
 

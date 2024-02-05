@@ -46,6 +46,10 @@ namespace MyEngine
                                          matTransform);
 
             sMesh* pMesh = pModel->pMeshes[pModel->currMesh];
+            if (!pMesh)
+            {
+                continue;
+            }
 
             sRenderModelInfo renderInfo = sRenderModelInfo();
             renderInfo.materialName = pModel->material;

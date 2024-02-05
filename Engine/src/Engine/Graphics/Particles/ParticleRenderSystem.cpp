@@ -31,7 +31,7 @@ namespace MyEngine
 
         for (int i = 0; i < particles.size(); i++)
         {
-            ParticleProps particle = particles[i];
+            const ParticleProps& particle = particles[i];
 
             if (particle.lifetime <= 0.0f || particle.pMesh == nullptr)
             {

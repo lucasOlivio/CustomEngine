@@ -199,18 +199,18 @@ namespace MyEngine
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, FBO.ID);
 			glViewport(0, 0, FBO.width, FBO.height);
-
-			// Update projection and view matrix
-			glm::mat4 matProjection = CameraUtils::ProjectionMat(pCamera->fovy, pCamera->zNear,
-				pCamera->zFar, FBO.width, FBO.height);
-			pShader->SetUniformMatrix4f("matProjection", matProjection);
-
-			glm::mat4 matView = CameraUtils::ViewMat(pTransformCamera->position, pTransformCamera->orientation,
-				pCamera->distance, pCamera->height, pCamera->offsetTarget);
-			pShader->SetUniformMatrix4f("matView", matView);
-
-			m_currFBOID = FBOID;
 		}
+
+		// Update projection and view matrix
+		glm::mat4 matProjection = CameraUtils::ProjectionMat(pCamera->fovy, pCamera->zNear,
+			pCamera->zFar, FBO.width, FBO.height);
+		pShader->SetUniformMatrix4f("matProjection", matProjection);
+
+		glm::mat4 matView = CameraUtils::ViewMat(pTransformCamera->position, pTransformCamera->orientation,
+			pCamera->distance, pCamera->height, pCamera->offsetTarget);
+		pShader->SetUniformMatrix4f("matView", matView);
+
+		m_currFBOID = FBOID;
 	}
 
 	void FrameBufferManager::BindFBOText(uint FBOID)

@@ -145,7 +145,7 @@ namespace MyEngine
             static bool addAABBCollider = false;
 
             ImGui::Checkbox("Tag Component", &addTag);
-            ImGui::Checkbox("Camera Component", &addTag);
+            ImGui::Checkbox("Camera Component", &addCamera);
             ImGui::Checkbox("Transform Component", &addTransform);
             ImGui::Checkbox("Movement Component", &addMovement);
             ImGui::Checkbox("Rotation Component", &addRotation);
