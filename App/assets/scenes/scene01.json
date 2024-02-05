@@ -51,6 +51,13 @@
         },
         "player": {
             "speed": 100.0
+        },
+        "movement":
+        {
+            "velocity": [0.0,0.0,0.0],
+            "acceleration": [0.0,0.0,0.0],
+            "drag" : 0.0,
+            "maxSpeed": 100.0
         }
     },
     {

@@ -221,8 +221,10 @@ namespace MyEngine
         ImGui::InputFloat("##AccelerationZ", &pMovement->acceleration.z);
 
         Separator();
+        ImGui::Text("Max speed");
         ImGui::InputFloat("##MovementMaxSpeed", &pMovement->maxSpeed);
         Separator();
+        ImGui::Text("Drag");
         ImGui::InputFloat("##MovementDrag", &pMovement->drag);
     }
 

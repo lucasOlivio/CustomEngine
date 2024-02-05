@@ -35,39 +35,39 @@ namespace MyEngine
 	void PlayerControllerSystem::Update(Scene* pScene, float deltaTime)
 	{
 		KeyInputComponent* pKey = CoreLocator::GetKeyInput();
-        for (Entity playerId : SceneView<PlayerComponent, TransformComponent>(*pScene))
+        for (Entity playerId : SceneView<PlayerComponent, TransformComponent, MovementComponent>(*pScene))
         {
             PlayerComponent* pPlayer = pScene->Get<PlayerComponent>(playerId);
             TransformComponent* pTransform = pScene->Get<TransformComponent>(playerId);
+            MovementComponent* pMovement = pScene->Get<MovementComponent>(playerId);
 
             glm::vec3 playerRotation = TransformUtils::GetQuatAsDegrees(pTransform->orientation);
 
             glm::vec3 playerFront = glm::normalize(TransformUtils::GetForwardVector(pTransform->orientation));
             glm::vec3 playerSides = glm::normalize(glm::cross(playerFront, glm::vec3(UP_VECTOR)));
-            glm::vec3 playerUp = glm::normalize(TransformUtils::GetUpVector(pTransform->orientation));
 
-            glm::vec3 moveOffset = glm::vec3(0.0f);
+            glm::vec3 newVelocity = glm::vec3(0.0f);
 
             // Handle key presses for movement
             float speed = -pPlayer->speed; // Camera for now is opposite to player
             if (pKey->key[eKeyCodes::W])
             {
-                moveOffset += speed * playerFront * (float)deltaTime;
+                newVelocity = speed * playerFront;
             }
             if (pKey->key[eKeyCodes::S])
             {
-                moveOffset += -(speed * playerFront * (float)deltaTime);
+                newVelocity = -speed * playerFront;
             }
             if (pKey->key[eKeyCodes::A])
             {
-                moveOffset += -(speed * playerSides * (float)deltaTime);
+                newVelocity = -speed * playerSides;
             }
             if (pKey->key[eKeyCodes::D])
             {
-                moveOffset += speed * playerSides * (float)deltaTime;
+                newVelocity = speed * playerSides;
             }
 
-            pTransform->position += moveOffset;
+            pMovement->velocity = newVelocity;
 
             // Mouse position for changing forward direction
             MouseInputComponent* pMouse = CoreLocator::GetMouseInput();
