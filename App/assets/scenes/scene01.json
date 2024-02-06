@@ -18,9 +18,9 @@
         },
         "transform": {
             "position": [
-                73.06287384033203,
-                1.0,
-                26.70189666748047
+                114.14766693115234,
+                0.5731939673423767,
+                51.276187896728516
             ],
             "orientation": [
                 1.0,
@@ -464,10 +464,68 @@
             ]
         },
         "steeringBehavior": {
-            "steeringType": 0,
+            "steeringType": 2,
             "targetId": 0,
-            "speed": 90.0,
+            "speed": 80.0,
             "maxDistance": 10.0
+        }
+    },
+    {
+        "tag": {
+            "name": "grandma"
+        },
+        "transform": {
+            "position": [
+                25.0,
+                1.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 90.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcharacters1",
+            "models": [
+                "grandma.obj"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "steeringBehavior": {
+            "steeringType": 1,
+            "targetId": 0,
+            "speed": 60.0,
+            "maxDistance": 1000.0
         }
     }
 ]

@@ -35,23 +35,21 @@ namespace MyEngine
                 continue;
             }
 
-            glm::vec3 direction = pTransformTarget->worldPosition - pTransform->worldPosition;
-            glm::vec3 directionNormal = glm::normalize(direction);
-
-            // Update facing direction
-            glm::vec3 currForward = TransformUtils::GetForwardVector(pTransform->orientation);
-            float angle = Angle(currForward, direction, UP_VECTOR); // Get yaw adjust
-            pTransform->orientation = TransformUtils::AdjustOrientation(pTransform->orientation,
-                                                                        glm::vec3(0.0, angle, 0.0f));
-
-            // Update movement direction
-            float distToTarget = glm::distance(pTransformTarget->worldPosition, pTransform->worldPosition);
-            if (distToTarget < pSteeringBehavior->maxDistance)
+            switch (pSteeringBehavior->steeringType)
             {
-                pMovement->velocity = glm::vec3(0.0f);
-                return;
+            case eSteeringTypes::PURSUE:
+                m_PursueTarget(pTransform->worldPosition, pTransformTarget->worldPosition,
+							    pTransform->orientation, pMovement->velocity,
+                                pSteeringBehavior->speed, pSteeringBehavior->maxDistance);
+                break;
+            case eSteeringTypes::FLEE:
+                m_FleeFromTarget(pTransform->worldPosition, pTransformTarget->worldPosition,
+							    pTransform->orientation, pMovement->velocity,
+                                pSteeringBehavior->speed, pSteeringBehavior->maxDistance);
+                break;
+            default:
+                break;
             }
-            pMovement->velocity = directionNormal * pSteeringBehavior->speed;
         }
     }
 
@@ -65,5 +63,56 @@ namespace MyEngine
 
     void SteeringBehaviorSystem::Shutdown()
     {
+    }
+
+    void SteeringBehaviorSystem::m_PursueTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+							                    glm::quat& myOrientation, glm::vec3& myVelocity,
+							                    float speed, float maxDistance)
+    {
+        glm::vec3 direction = targetPosition - myPosition;
+        glm::vec3 directionNormal = glm::normalize(direction);
+
+        // Update facing direction
+        glm::vec3 currForward = TransformUtils::GetForwardVector(myOrientation);
+        float angle = Angle(currForward, direction, UP_VECTOR); // Get yaw adjust
+
+        glm::vec3 yaw = angle * UP_VECTOR;
+        myOrientation = TransformUtils::AdjustOrientation(myOrientation,
+                                                          yaw);
+
+        // Update movement direction
+        float distToTarget = glm::distance(targetPosition, myPosition);
+        if (distToTarget < maxDistance)
+        {
+            myVelocity = glm::vec3(0.0f);
+            return;
+        }
+        myVelocity = directionNormal * speed;
+    }
+
+    void SteeringBehaviorSystem::m_FleeFromTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition, 
+                                                  glm::quat& myOrientation, glm::vec3& myVelocity, 
+                                                  float speed, float maxDistance)
+    {
+        glm::vec3 lockedAxis = glm::vec3(1.0f, 0.0f, 1.0f);
+        glm::vec3 direction = -(targetPosition - myPosition);
+        glm::vec3 directionNormal = glm::normalize(direction * lockedAxis);
+
+        // Update facing direction
+        glm::vec3 currForward = TransformUtils::GetForwardVector(myOrientation);
+        float angle = Angle(currForward, direction, UP_VECTOR); // Get yaw adjust
+
+        glm::vec3 yaw = angle * UP_VECTOR;
+        myOrientation = TransformUtils::AdjustOrientation(myOrientation,
+                                                          yaw);
+
+        // Update movement direction
+        float distToTarget = glm::distance(targetPosition, myPosition);
+        if (distToTarget > maxDistance)
+        {
+            myVelocity = glm::vec3(0.0f);
+            return;
+        }
+        myVelocity = directionNormal * speed;
     }
 }

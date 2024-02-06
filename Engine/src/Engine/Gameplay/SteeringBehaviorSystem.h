@@ -23,5 +23,14 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 		virtual void Shutdown();
+
+	private:
+		void m_PursueTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+							glm::quat& myOrientation, glm::vec3& myVelocity,
+							float speed, float maxDistance);
+		
+		void m_FleeFromTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+							  glm::quat& myOrientation, glm::vec3& myVelocity,
+							  float speed, float maxDistance);
 	};
 }
