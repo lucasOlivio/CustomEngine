@@ -4,7 +4,8 @@ namespace MyEngine
 {
 	enum eSteeringTypes
 	{
-		SEEK = 0,
+		NONE = 0,
+		SEEK,
 		FLEE,
 		PURSUE,
 		EVADE,

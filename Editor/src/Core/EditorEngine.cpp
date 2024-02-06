@@ -49,14 +49,15 @@ namespace MyEngine
 
 		pStates->mainSystems.push_back("MenuSystem");
 		pStates->mainSystems.push_back("EntityBarSystem");
-		pStates->mainSystems.push_back("FlyingCameraSystem");
 		pStates->mainSystems.push_back("GuizmoSystem");
 
 		// TODO: This could come from a config file
 		// TODO: Could this be categorized to avoid having to put all in the config?
 		pStates->mapStateSystems[eGameStates::NOT_STARTED] = {};
 
-		pStates->mapStateSystems[eGameStates::STARTED] = {};
+		pStates->mapStateSystems[eGameStates::STARTED] = {
+			"FlyingCameraSystem"
+		};
 
 		pStates->mapStateSystems[eGameStates::RUNNING] = {
 			// Graphics
@@ -68,7 +69,7 @@ namespace MyEngine
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
 			// Gameplay
-			"AnimationPlayerSystem",
+			"PlayerControllerSystem",
 			"SteeringBehaviorSystem"
 			#ifdef DEBUG
 			// Debug
@@ -78,7 +79,9 @@ namespace MyEngine
 			#endif
 		};
 
-		pStates->mapStateSystems[eGameStates::STOPPED] = {};
+		pStates->mapStateSystems[eGameStates::STOPPED] = {
+			"FlyingCameraSystem" 
+		};
 
 		pStates->mapStateSystems[eGameStates::GAMEOVER] = {};
 	}

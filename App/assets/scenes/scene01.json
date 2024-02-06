@@ -464,7 +464,7 @@
             ]
         },
         "steeringBehavior": {
-            "steeringType": 2,
+            "steeringType": 1,
             "targetId": 0,
             "speed": 80.0,
             "maxDistance": 10.0
@@ -522,7 +522,7 @@
             ]
         },
         "steeringBehavior": {
-            "steeringType": 1,
+            "steeringType": 2,
             "targetId": 0,
             "speed": 60.0,
             "maxDistance": 1000.0

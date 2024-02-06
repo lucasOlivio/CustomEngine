@@ -37,8 +37,8 @@ namespace MyEngine
 
             switch (pSteeringBehavior->steeringType)
             {
-            case eSteeringTypes::PURSUE:
-                m_PursueTarget(pTransform->worldPosition, pTransformTarget->worldPosition,
+            case eSteeringTypes::SEEK:
+                m_SeekTarget(pTransform->worldPosition, pTransformTarget->worldPosition,
 							    pTransform->orientation, pMovement->velocity,
                                 pSteeringBehavior->speed, pSteeringBehavior->maxDistance);
                 break;
@@ -65,7 +65,7 @@ namespace MyEngine
     {
     }
 
-    void SteeringBehaviorSystem::m_PursueTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+    void SteeringBehaviorSystem::m_SeekTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
 							                    glm::quat& myOrientation, glm::vec3& myVelocity,
 							                    float speed, float maxDistance)
     {
