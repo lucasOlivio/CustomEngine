@@ -14,4 +14,11 @@ namespace MyEngine
 
     // x/y or 0 if y = 0
     float Ratio(int x, int y);
+
+    // Calculate the angle in quaternions between to vectors in reference to an axis
+    float Angle(const glm::vec3& vecA, const glm::vec3& vecB, const glm::vec3 axis);
+
+    // Get only sign of number (1 or -1)
+    template <typename T>
+    int Sign(T value) { return (T(0) < value) - (value < T(0)); }
 }

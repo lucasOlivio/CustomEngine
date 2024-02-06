@@ -11,6 +11,7 @@
 #include "Engine/Utils/CameraUtils.h"
 #include "Engine/Utils/InputUtils.h"
 #include "Engine/Utils/TransformUtils.h"
+#include "Engine/Utils/Math.h"
 
 #define DEFAULT_MOUSE_SENSITIVITY 0.001f
 #define DEFAULT_CAMERA_SPEED 100.0f
@@ -138,27 +139,27 @@ namespace MyEngine
         // Handle key presses for movement
         if (pKey->key[eKeyCodes::W]) 
         {
-            moveOffset = DEFAULT_CAMERA_SPEED * cameraFront * (float)deltaTime;
+            moveOffset = DEFAULT_CAMERA_SPEED * cameraFront * deltaTime;
         }
         if (pKey->key[eKeyCodes::S]) 
         {
-            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraFront * (float)deltaTime);
+            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraFront * deltaTime);
         }
         if (pKey->key[eKeyCodes::A])
         {
-            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraSides * (float)deltaTime);
+            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraSides * deltaTime);
         }
         if (pKey->key[eKeyCodes::D])
         {
-            moveOffset = DEFAULT_CAMERA_SPEED * cameraSides * (float)deltaTime;
+            moveOffset = DEFAULT_CAMERA_SPEED * cameraSides * deltaTime;
         }
         if (pKey->key[eKeyCodes::Q])
         {
-            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraUp * (float)deltaTime);
+            moveOffset = -(DEFAULT_CAMERA_SPEED * cameraUp * deltaTime);
         }
         if (pKey->key[eKeyCodes::E])
         {
-            moveOffset = DEFAULT_CAMERA_SPEED * cameraUp * (float)deltaTime;
+            moveOffset = DEFAULT_CAMERA_SPEED * cameraUp * deltaTime;
         }
 
         pCameraTransform->position += moveOffset;

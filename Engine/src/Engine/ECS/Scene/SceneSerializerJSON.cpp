@@ -330,6 +330,15 @@ namespace MyEngine
                 m_ParsePlayerToDoc(playerObject, *pPlayer, allocator);
                 entityObject.AddMember("player", playerObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<SteeringBehaviorComponent>()))
+            {
+                Value steeringBehaviorObject;
+                steeringBehaviorObject.SetObject();
+
+                SteeringBehaviorComponent* pSteeringBehavior = sceneIn.Get<SteeringBehaviorComponent>(entity);
+                m_ParseSteeringBehaviorToDoc(steeringBehaviorObject, *pSteeringBehavior, allocator);
+                entityObject.AddMember("steeringBehavior", steeringBehaviorObject, allocator);
+            }
 
             // Add the entityObject to the main JSON array only if has any component
             if (entityObject.MemberBegin() == entityObject.MemberEnd())
@@ -731,6 +740,18 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseSteeringBehaviorToDoc(rapidjson::Value& jsonObject, SteeringBehaviorComponent& steeringIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "steeringType", steeringIn.steeringType, allocator);
+        parser.SetMember(jsonObject, "targetId", steeringIn.targetId, allocator);
+        parser.SetMember(jsonObject, "speed", steeringIn.speed, allocator);
+        parser.SetMember(jsonObject, "maxDistance", steeringIn.maxDistance, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParseDocToScene(Scene& sceneOut)
     {
         using namespace rapidjson;
@@ -872,6 +893,11 @@ namespace MyEngine
                 {
                     PlayerComponent* pPlayer = sceneOut.AddComponent<PlayerComponent>(entityId);
                     m_ParseDocToPlayer(componentObject, *pPlayer);
+                }
+                else if (componentName == "steeringBehavior")
+                {
+                    SteeringBehaviorComponent* pSteeringBehavior = sceneOut.AddComponent<SteeringBehaviorComponent>(entityId);
+                    m_ParseDocToSteeringBehavior(componentObject, *pSteeringBehavior);
                 }
                 // All single components goes into the first entity, 
                 // so the scene will always have the first entity empty
@@ -1319,6 +1345,20 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["speed"], playerOut.speed);
+
+        return true;
+    }
+    bool SceneSerializerJSON::m_ParseDocToSteeringBehavior(rapidjson::Value& jsonObject, SteeringBehaviorComponent& steeringOut)
+    {
+        ParserJSON parser = ParserJSON();
+
+        int type;
+        parser.GetValue(jsonObject["steeringType"], type);
+        parser.GetValue(jsonObject["targetId"], steeringOut.targetId);
+        parser.GetValue(jsonObject["speed"], steeringOut.speed);
+        parser.GetValue(jsonObject["maxDistance"], steeringOut.maxDistance);
+
+        steeringOut.steeringType = static_cast<eSteeringTypes>(type);
 
         return true;
     }

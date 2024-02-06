@@ -9,6 +9,8 @@
 
 #include "Engine/Physics/PhysicsProperties.h"
 
+#include "Engine/Gameplay/GameplayProperties.h"
+
 #include <glm/gtc/quaternion.hpp>
 #include <set>
 
@@ -266,11 +268,20 @@ namespace MyEngine
 		glm::vec3 max;
 	};
 
-	// TODO: Gameplay would be better separated from engine, use scripts instead of components
+	// TODO: Player Gameplay would be better separated from engine, using scripts instead of components
 	// Gameplay
 	// -------------------------------------------------------------
 	struct PlayerComponent
 	{
-		float speed = 10;
+		float speed;
+	};
+
+	struct SteeringBehaviorComponent
+	{
+		eSteeringTypes steeringType;
+		Entity targetId;
+		
+		float speed;
+		float maxDistance;
 	};
 }

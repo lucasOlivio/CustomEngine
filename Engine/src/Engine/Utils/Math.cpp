@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "Math.h"
+#include <glm/gtx/vector_angle.hpp>
 
 namespace MyEngine
 {
@@ -109,5 +110,13 @@ namespace MyEngine
         }
 
         return ratio;
+    }
+
+    float Angle(const glm::vec3& vecA, const glm::vec3& vecB, const glm::vec3 axis)
+    {
+        glm::vec3 normalA = glm::normalize(vecA);
+        glm::vec3 normalB = glm::normalize(vecB);
+
+        return glm::orientedAngle(normalA, normalB, axis);
     }
 }

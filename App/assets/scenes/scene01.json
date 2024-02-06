@@ -6,9 +6,9 @@
                 1.0,
                 0.0
             ],
-            "distance": -75.0,
+            "distance": 75.0,
             "height": 25.0,
-            "offsetTarget": -100.0,
+            "offsetTarget": 100.0,
             "fovy": 0.6000000238418579,
             "zNear": 1.0,
             "zFar": 1000.0
@@ -18,17 +18,31 @@
         },
         "transform": {
             "position": [
-                0.0,
+                73.06287384033203,
                 1.0,
-                0.0
+                26.70189666748047
             ],
             "orientation": [
-                0.9999998807907104,
+                1.0,
                 0.0,
-                -0.0005000000237487257,
+                0.0,
                 0.0
             ],
             "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 100.0,
+            "drag": 0.0
         },
         "model": {
             "isActive": 1,
@@ -51,13 +65,6 @@
         },
         "player": {
             "speed": 100.0
-        },
-        "movement":
-        {
-            "velocity": [0.0,0.0,0.0],
-            "acceleration": [0.0,0.0,0.0],
-            "drag" : 0.0,
-            "maxSpeed": 100.0
         }
     },
     {
@@ -403,6 +410,64 @@
             "useHeightMap": 0,
             "useNormalTexture": 0,
             "useSpecularTexture": 0
+        }
+    },
+    {
+        "tag": {
+            "name": "firefighter"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 90.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcharacters1",
+            "models": [
+                "firefighter.obj"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "steeringBehavior": {
+            "steeringType": 0,
+            "targetId": 0,
+            "speed": 90.0,
+            "maxDistance": 10.0
         }
     }
 ]

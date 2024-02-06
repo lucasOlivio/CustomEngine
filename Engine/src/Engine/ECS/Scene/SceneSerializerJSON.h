@@ -91,6 +91,9 @@ namespace MyEngine
 		bool m_ParsePlayerToDoc(rapidjson::Value& jsonObject,
 								  PlayerComponent& playerIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseSteeringBehaviorToDoc(rapidjson::Value& jsonObject,
+								  SteeringBehaviorComponent& steeringIn,
+								  rapidjson::Document::AllocatorType& allocator);
 
 		// Parse values from doc to the respective data structure
 		bool m_ParseDocToScene(Scene& sceneOut);
@@ -142,5 +145,7 @@ namespace MyEngine
 							   GridBroadphaseComponent& gridBroadphaseOut);
 		bool m_ParseDocToPlayer(rapidjson::Value& jsonObject,
 							   PlayerComponent& playerOut);
+		bool m_ParseDocToSteeringBehavior(rapidjson::Value& jsonObject,
+							   SteeringBehaviorComponent& steeringOut);
 	};
 }

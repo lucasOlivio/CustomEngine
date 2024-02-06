@@ -51,7 +51,9 @@ namespace MyEngine
 			"RotationSystem",
 			"GravitySystem",
 			"GridBroadPhaseSystem",
-			"CollisionSystem"
+			"CollisionSystem",
+			// Gameplay
+			"SteeringBehaviorSystem"
 			#ifdef DEBUG
 			// Debug
 			,"DebugSystem",

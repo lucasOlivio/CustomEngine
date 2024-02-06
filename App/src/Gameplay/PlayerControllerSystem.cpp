@@ -49,22 +49,21 @@ namespace MyEngine
             glm::vec3 newVelocity = glm::vec3(0.0f);
 
             // Handle key presses for movement
-            float speed = -pPlayer->speed; // Camera for now is opposite to player
             if (pKey->key[eKeyCodes::W])
             {
-                newVelocity = speed * playerFront;
+                newVelocity = pPlayer->speed * playerFront;
             }
             if (pKey->key[eKeyCodes::S])
             {
-                newVelocity = -speed * playerFront;
+                newVelocity = -pPlayer->speed * playerFront;
             }
             if (pKey->key[eKeyCodes::A])
             {
-                newVelocity = -speed * playerSides;
+                newVelocity = -pPlayer->speed * playerSides;
             }
             if (pKey->key[eKeyCodes::D])
             {
-                newVelocity = speed * playerSides;
+                newVelocity = pPlayer->speed * playerSides;
             }
 
             pMovement->velocity = newVelocity;

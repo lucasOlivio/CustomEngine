@@ -6,6 +6,9 @@
 // Custom editor systems
 #include "Gameplay/FlyingCameraSystem.h"
 
+// Custom gameplay systems
+#include "Gameplay/PlayerControllerSystem.h"
+
 #include "UI/MenuSystem.h"
 #include "UI/EntityBarSystem.h"
 #include "UI/GuizmoSystem.h"
@@ -20,10 +23,14 @@ namespace MyEngine
 		Engine::Init();
 
 		// Register custom app systems
+		// SystemBuilder::RegisterSystem("ExampleCustomSystem", []() { return new ExampleCustomSystem; });
 		SystemBuilder::RegisterSystem("MenuSystem", []() { return new MenuSystem; });
 		SystemBuilder::RegisterSystem("EntityBarSystem", []() { return new EntityBarSystem; });
 		SystemBuilder::RegisterSystem("FlyingCameraSystem", []() { return new FlyingCameraSystem; });
 		SystemBuilder::RegisterSystem("GuizmoSystem", []() { return new GuizmoSystem; });
+		
+		// SystemBuilder::RegisterSystem("ExampleCustomSystem", []() { return new ExampleCustomSystem; });
+		SystemBuilder::RegisterSystem("PlayerControllerSystem", []() { return new PlayerControllerSystem; });
 
 		GameStateComponent* pStates = CoreLocator::GetGameState();
 
@@ -60,9 +67,12 @@ namespace MyEngine
 			"GravitySystem",
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
+			// Gameplay
+			"AnimationPlayerSystem",
+			"SteeringBehaviorSystem"
 			#ifdef DEBUG
 			// Debug
-			"DebugSystem",
+			,"DebugSystem",
 			"DrawGridSystem",
 			"DrawCollisionSystem"
 			#endif

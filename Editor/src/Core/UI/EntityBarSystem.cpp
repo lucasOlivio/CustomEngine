@@ -143,6 +143,8 @@ namespace MyEngine
             static bool addMeshCollider = false;
             static bool addSphereCollider = false;
             static bool addAABBCollider = false;
+            static bool addPlayer = false;
+            static bool addSteeringBehavior = false;
 
             ImGui::Checkbox("Tag Component", &addTag);
             ImGui::Checkbox("Camera Component", &addCamera);
@@ -164,6 +166,8 @@ namespace MyEngine
             ImGui::Checkbox("MeshCollider Component", &addMeshCollider);
             ImGui::Checkbox("SphereCollider Component", &addSphereCollider);
             ImGui::Checkbox("AABBCollider Component", &addAABBCollider);
+            ImGui::Checkbox("Player Component", &addPlayer);
+            ImGui::Checkbox("SteeringBehavior Component", &addSteeringBehavior);
 
             if (ImGui::Button("Add Selected Components"))
             {
@@ -187,6 +191,8 @@ namespace MyEngine
                 if (addMeshCollider) m_AddComponent<MeshColliderComponent>(pScene, entityId);
                 if (addSphereCollider) m_AddComponent<SphereColliderComponent>(pScene, entityId);
                 if (addAABBCollider) m_AddComponent<AABBColliderComponent>(pScene, entityId);
+                if (addPlayer) m_AddComponent<PlayerComponent>(pScene, entityId);
+                if (addSteeringBehavior) m_AddComponent<SteeringBehaviorComponent>(pScene, entityId);
 
                 ImGui::CloseCurrentPopup();
             }

@@ -103,6 +103,12 @@ namespace MyEngine
 
         ComponentType AABBColliderType = pScene->GetComponentType<AABBColliderComponent>();
         m_componentsUI[AABBColliderType] = m_AABBColliderUI;
+
+        ComponentType PlayerType = pScene->GetComponentType<PlayerComponent>();
+        m_componentsUI[PlayerType] = m_PlayerUI;
+
+        ComponentType SteeringBehaviorType = pScene->GetComponentType<SteeringBehaviorComponent>();
+        m_componentsUI[SteeringBehaviorType] = m_SteeringBehaviorUI;
     }
 
     ComponentUIHandler ComponentUI::GetComponentUI(ComponentType component)
@@ -794,5 +800,42 @@ namespace MyEngine
         // Max
         ImGui::Text("Max");
         ImGui::InputFloat3("##AABBColliderMax", &pAABBCollider->max.x);
+    }
+
+    void ComponentUI::m_PlayerUI(Scene* pScene, Entity entityId)
+    {
+        Title("Player:");
+
+        PlayerComponent* pPlayer = pScene->Get<PlayerComponent>(entityId);
+        if (!pPlayer)
+        {
+            return;
+        }
+
+        ImGui::Text("Speed");
+        ImGui::InputFloat("##PlayerSpeed", &pPlayer->speed);
+    }
+
+    void ComponentUI::m_SteeringBehaviorUI(Scene* pScene, Entity entityId)
+    {
+        Title("Steering Behavior:");
+
+        SteeringBehaviorComponent* pSteeringBehavior = pScene->Get<SteeringBehaviorComponent>(entityId);
+        if (!pSteeringBehavior)
+        {
+            return;
+        }
+
+        ImGui::Text("Steering type");
+        ImGui::InputInt("##SteeringBehaviorType", reinterpret_cast<int*>(&pSteeringBehavior->steeringType));
+
+        ImGui::Text("Target id");
+        ImGui::InputInt("##SteeringBehaviorTargetId", &pSteeringBehavior->targetId);
+
+        ImGui::Text("Speed");
+        ImGui::InputFloat("##SteeringBehaviorSpeed", &pSteeringBehavior->speed);
+
+        ImGui::Text("Max distance");
+        ImGui::InputFloat("##SteeringBehaviorMaxDistance", &pSteeringBehavior->maxDistance);
     }
 }
