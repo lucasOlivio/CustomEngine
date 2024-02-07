@@ -283,7 +283,6 @@ namespace MyEngine
 		
 		float speed;
 		float maxDistance;
-
-
+		float futureTime;
 	};
 }

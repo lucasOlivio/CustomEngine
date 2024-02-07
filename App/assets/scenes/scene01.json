@@ -23,10 +23,10 @@
                 51.276187896728516
             ],
             "orientation": [
-                0.9236879944801331,
-                0.000461844087112695,
-                0.38314521312713623,
-                -0.00019157264614477754
+                0.9238795042037964,
+                0.0,
+                0.3826834559440613,
+                0.0
             ],
             "scale": 10.0
         },
@@ -466,8 +466,9 @@
         "steeringBehavior": {
             "steeringType": 1,
             "targetId": 0,
-            "speed": 80.0,
-            "maxDistance": 5.0
+            "speed": 50.0,
+            "maxDistance": 5.0,
+            "futureTime": 0.0
         }
     },
     {
@@ -524,8 +525,9 @@
         "steeringBehavior": {
             "steeringType": 2,
             "targetId": 0,
-            "speed": 60.0,
-            "maxDistance": 100.0
+            "speed": 50.0,
+            "maxDistance": 100.0,
+            "futureTime": 0.0
         }
     },
     {
@@ -582,8 +584,9 @@
         "steeringBehavior": {
             "steeringType": 3,
             "targetId": 0,
-            "speed": 80.0,
-            "maxDistance": 5.0
+            "speed": 50.0,
+            "maxDistance": 5.0,
+            "futureTime": 1.5
         }
     },
     {
@@ -640,8 +643,9 @@
         "steeringBehavior": {
             "steeringType": 4,
             "targetId": 0,
-            "speed": 80.0,
-            "maxDistance": 300.0
+            "speed": 50.0,
+            "maxDistance": 300.0,
+            "futureTime": 2.0
         }
     },
     {
@@ -698,8 +702,9 @@
         "steeringBehavior": {
             "steeringType": 5,
             "targetId": 0,
-            "speed": 70.0,
-            "maxDistance": 75.0
+            "speed": 50.0,
+            "maxDistance": 75.0,
+            "futureTime": 0.0
         }
     }
 ]

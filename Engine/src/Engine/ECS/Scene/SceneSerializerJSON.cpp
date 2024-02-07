@@ -748,6 +748,7 @@ namespace MyEngine
         parser.SetMember(jsonObject, "targetId", steeringIn.targetId, allocator);
         parser.SetMember(jsonObject, "speed", steeringIn.speed, allocator);
         parser.SetMember(jsonObject, "maxDistance", steeringIn.maxDistance, allocator);
+        parser.SetMember(jsonObject, "futureTime", steeringIn.futureTime, allocator);
 
         return true;
     }
@@ -1357,6 +1358,7 @@ namespace MyEngine
         parser.GetValue(jsonObject["targetId"], steeringOut.targetId);
         parser.GetValue(jsonObject["speed"], steeringOut.speed);
         parser.GetValue(jsonObject["maxDistance"], steeringOut.maxDistance);
+        parser.GetValue(jsonObject["futureTime"], steeringOut.futureTime);
 
         steeringOut.steeringType = static_cast<eSteeringTypes>(type);
 

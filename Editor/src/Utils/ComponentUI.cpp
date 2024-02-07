@@ -837,5 +837,8 @@ namespace MyEngine
 
         ImGui::Text("Max distance");
         ImGui::InputFloat("##SteeringBehaviorMaxDistance", &pSteeringBehavior->maxDistance);
+
+        ImGui::Text("Future time");
+        ImGui::InputFloat("##SteeringBehaviorFutureTime", &pSteeringBehavior->futureTime);
     }
 }
