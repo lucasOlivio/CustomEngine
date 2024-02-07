@@ -32,5 +32,17 @@ namespace MyEngine
 		void m_FleeFromTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
 							  glm::quat& myOrientation, glm::vec3& myVelocity,
 							  float speed, float maxDistance);
+		
+		void m_PursueTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+							glm::quat& myOrientation, glm::vec3& myVelocity, const glm::vec3& targetVelocity,
+							float speed, float maxDistance);
+		
+		void m_EvadeTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+							glm::quat& myOrientation, glm::vec3& myVelocity, const glm::vec3& targetVelocity,
+							float speed, float maxDistance);
+		
+		void m_ApproachTarget(const glm::vec3& myPosition, const glm::vec3& targetPosition,
+							  glm::quat& myOrientation, glm::vec3& myVelocity,
+							  float speed, float maxDistance);
 	};
 }

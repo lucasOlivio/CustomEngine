@@ -23,10 +23,10 @@
                 51.276187896728516
             ],
             "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
+                0.9236879944801331,
+                0.000461844087112695,
+                0.38314521312713623,
+                -0.00019157264614477754
             ],
             "scale": 10.0
         },
@@ -467,7 +467,7 @@
             "steeringType": 1,
             "targetId": 0,
             "speed": 80.0,
-            "maxDistance": 10.0
+            "maxDistance": 5.0
         }
     },
     {
@@ -525,7 +525,181 @@
             "steeringType": 2,
             "targetId": 0,
             "speed": 60.0,
-            "maxDistance": 1000.0
+            "maxDistance": 100.0
+        }
+    },
+    {
+        "tag": {
+            "name": "shopkeeper"
+        },
+        "transform": {
+            "position": [
+                50.0,
+                1.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 90.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcharacters1",
+            "models": [
+                "shopkeeper.obj"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "steeringBehavior": {
+            "steeringType": 3,
+            "targetId": 0,
+            "speed": 80.0,
+            "maxDistance": 5.0
+        }
+    },
+    {
+        "tag": {
+            "name": "tourist"
+        },
+        "transform": {
+            "position": [
+                75.0,
+                1.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 90.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcharacters1",
+            "models": [
+                "tourist.obj"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "steeringBehavior": {
+            "steeringType": 4,
+            "targetId": 0,
+            "speed": 80.0,
+            "maxDistance": 300.0
+        }
+    },
+    {
+        "tag": {
+            "name": "hippiegirl"
+        },
+        "transform": {
+            "position": [
+                100.0,
+                1.0,
+                0.0
+            ],
+            "orientation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "maxSpeed": 90.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "useDefaultColor": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matcharacters1",
+            "models": [
+                "hippiegirl.obj"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "steeringBehavior": {
+            "steeringType": 5,
+            "targetId": 0,
+            "speed": 70.0,
+            "maxDistance": 75.0
         }
     }
 ]
