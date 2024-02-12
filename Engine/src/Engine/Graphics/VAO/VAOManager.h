@@ -22,6 +22,10 @@ namespace MyEngine
 		// Normals and texture as default
 		virtual sMesh* LoadModelIntoVAO(std::string& fileName, bool bIsDynamicBuffer);
 
+		// Load mesh and duplicates it with custom name
+		virtual sMesh* LoadModelCopyIntoVAO(std::string& fileName, bool bIsDynamicBuffer,
+											bool hasNormals, bool hasTexture, std::string& copyName);
+
 		virtual bool UpdateVAOBuffers(std::string& fileName,
 									  std::string& shaderProgram,
 									  sMesh* pUpdatedMesh);
@@ -36,6 +40,8 @@ namespace MyEngine
 			m_mapModelNameToMesh;
 
 		bool m_LoadMeshData(std::string theFileName, sMesh* drawInfo);
+
+		void m_LoadVAOData(sMesh* pMesh, bool hasNormals, bool hasTexture, bool bIsDynamicBuffer);
 	};
 }
 

@@ -268,6 +268,17 @@ namespace MyEngine
 		glm::vec3 max;
 	};
 
+	struct SoftBodyComponent
+	{
+		std::string meshName;
+
+		std::vector<SoftBodyParticle> vecParticles;
+		std::vector<SoftBodySpring> vecSprings;
+
+		float defaultSpringStrength;
+		float defaultParticleMass;
+	};
+
 	// TODO: Player Gameplay would be better separated from engine, using scripts instead of components
 	// Gameplay
 	// -------------------------------------------------------------

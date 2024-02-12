@@ -26,6 +26,7 @@
 #include "Engine/Physics/GravitySystem.h"
 #include "Engine/Physics/BroadPhase/GridBroadPhaseSystem.h"
 #include "Engine/Physics/NarrowPhase/CollisionSystem.h"
+#include "Engine/Physics/SoftBody/SotBodyConstraintsSystem.h"
 
 #include "Engine/Gameplay/SteeringBehaviorSystem.h"
 
@@ -64,6 +65,7 @@ namespace MyEngine
         {"GravitySystem", []() { return new GravitySystem; }},
         {"GridBroadPhaseSystem", []() { return new GridBroadPhaseSystem; }},
         {"CollisionSystem", []() { return new CollisionSystem; }},
+        {"SotBodyConstraintsSystem", []() { return new SotBodyConstraintsSystem; }},
         // Gameplay
         {"SteeringBehaviorSystem", []() { return new SteeringBehaviorSystem; }},
         // Debug Systems

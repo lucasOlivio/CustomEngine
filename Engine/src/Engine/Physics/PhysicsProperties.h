@@ -35,4 +35,37 @@ namespace MyEngine
 			return entityB < other.entityB;
 		}
 	};
+
+	struct SoftBodyParticle
+	{
+		SoftBodyParticle()
+		{
+			acceleration = glm::vec3(0.0f);
+			velocity = glm::vec3(0.0f);
+			position = glm::vec3(0.0f);
+
+			mass = 0.0f;
+		}
+
+		glm::vec3 acceleration;
+		glm::vec3 velocity;
+		glm::vec3 position;
+
+		float mass;
+	};
+
+	struct SoftBodySpring
+	{
+		SoftBodySpring()
+		{
+			restLength = 0.0f;
+			strength = 0.0f;
+		}
+
+		float restLength;
+		float strength;
+
+		SoftBodyParticle* particleA;
+		SoftBodyParticle* particleB;
+	};
 }

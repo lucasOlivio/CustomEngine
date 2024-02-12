@@ -729,6 +729,17 @@ namespace MyEngine
         return true;
     }
 
+    bool SceneSerializerJSON::m_ParseSoftBodyToDoc(rapidjson::Value& jsonObject, SoftBodyComponent& softBodyIn, rapidjson::Document::AllocatorType& allocator)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.SetMember(jsonObject, "meshName", softBodyIn.meshName, allocator);
+        parser.SetMember(jsonObject, "defaultSpringStrength", softBodyIn.defaultSpringStrength, allocator);
+        parser.SetMember(jsonObject, "defaultParticleMass", softBodyIn.defaultParticleMass, allocator);
+
+        return true;
+    }
+
     bool SceneSerializerJSON::m_ParsePlayerToDoc(rapidjson::Value& jsonObject, PlayerComponent& playerIn, rapidjson::Document::AllocatorType& allocator)
     {
         using namespace rapidjson;
@@ -1337,6 +1348,17 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["lengthPerBox"], gridBroadphaseOut.lengthPerBox);
+
+        return true;
+    }
+
+    bool SceneSerializerJSON::m_ParseDocToSoftBody(rapidjson::Value& jsonObject, SoftBodyComponent& softBodyOut)
+    {
+        ParserJSON parser = ParserJSON();
+
+        parser.GetValue(jsonObject["meshName"], softBodyOut.meshName);
+        parser.GetValue(jsonObject["defaultSpringStrength"], softBodyOut.defaultSpringStrength);
+        parser.GetValue(jsonObject["defaultParticleMass"], softBodyOut.defaultParticleMass);
 
         return true;
     }

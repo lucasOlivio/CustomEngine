@@ -68,6 +68,7 @@ namespace MyEngine
 			"GravitySystem",
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
+			"SotBodyConstraintsSystem",
 			// Gameplay
 			"PlayerControllerSystem",
 			"SteeringBehaviorSystem"

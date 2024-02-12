@@ -88,6 +88,9 @@ namespace MyEngine
 		bool m_ParseGridBroadphaseToDoc(rapidjson::Value& jsonObject,
 								  GridBroadphaseComponent& gridBroadphaseIn,
 								  rapidjson::Document::AllocatorType& allocator);
+		bool m_ParseSoftBodyToDoc(rapidjson::Value& jsonObject,
+								  SoftBodyComponent& softBodyIn,
+								  rapidjson::Document::AllocatorType& allocator);
 		bool m_ParsePlayerToDoc(rapidjson::Value& jsonObject,
 								  PlayerComponent& playerIn,
 								  rapidjson::Document::AllocatorType& allocator);
@@ -143,6 +146,8 @@ namespace MyEngine
 							   ConfigPathComponent& configPathOut);
 		bool m_ParseDocToGridBroadphase(rapidjson::Value& jsonObject,
 							   GridBroadphaseComponent& gridBroadphaseOut);
+		bool m_ParseDocToSoftBody(rapidjson::Value& jsonObject,
+							   SoftBodyComponent& softBodyOut);
 		bool m_ParseDocToPlayer(rapidjson::Value& jsonObject,
 							   PlayerComponent& playerOut);
 		bool m_ParseDocToSteeringBehavior(rapidjson::Value& jsonObject,

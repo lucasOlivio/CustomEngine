@@ -46,6 +46,7 @@ namespace MyEngine
 		static void m_MeshColliderUI(Scene* pScene, Entity entityId);
 		static void m_SphereColliderUI(Scene* pScene, Entity entityId);
 		static void m_AABBColliderUI(Scene* pScene, Entity entityId);
+		static void m_SoftBodyUI(Scene* pScene, Entity entityId);
 		static void m_PlayerUI(Scene* pScene, Entity entityId);
 		static void m_SteeringBehaviorUI(Scene* pScene, Entity entityId);
 

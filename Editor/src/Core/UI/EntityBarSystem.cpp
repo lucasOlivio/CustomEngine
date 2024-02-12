@@ -143,6 +143,7 @@ namespace MyEngine
             static bool addMeshCollider = false;
             static bool addSphereCollider = false;
             static bool addAABBCollider = false;
+            static bool addSoftBody = false;
             static bool addPlayer = false;
             static bool addSteeringBehavior = false;
 
@@ -166,6 +167,7 @@ namespace MyEngine
             ImGui::Checkbox("MeshCollider Component", &addMeshCollider);
             ImGui::Checkbox("SphereCollider Component", &addSphereCollider);
             ImGui::Checkbox("AABBCollider Component", &addAABBCollider);
+            ImGui::Checkbox("SoftBody Component", &addSoftBody);
             ImGui::Checkbox("Player Component", &addPlayer);
             ImGui::Checkbox("SteeringBehavior Component", &addSteeringBehavior);
 
@@ -191,6 +193,7 @@ namespace MyEngine
                 if (addMeshCollider) m_AddComponent<MeshColliderComponent>(pScene, entityId);
                 if (addSphereCollider) m_AddComponent<SphereColliderComponent>(pScene, entityId);
                 if (addAABBCollider) m_AddComponent<AABBColliderComponent>(pScene, entityId);
+                if (addSoftBody) m_AddComponent<SoftBodyComponent>(pScene, entityId);
                 if (addPlayer) m_AddComponent<PlayerComponent>(pScene, entityId);
                 if (addSteeringBehavior) m_AddComponent<SteeringBehaviorComponent>(pScene, entityId);
 

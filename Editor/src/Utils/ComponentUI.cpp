@@ -104,6 +104,9 @@ namespace MyEngine
         ComponentType AABBColliderType = pScene->GetComponentType<AABBColliderComponent>();
         m_componentsUI[AABBColliderType] = m_AABBColliderUI;
 
+        ComponentType SoftBodyType = pScene->GetComponentType<SoftBodyComponent>();
+        m_componentsUI[SoftBodyType] = m_SoftBodyUI;
+
         ComponentType PlayerType = pScene->GetComponentType<PlayerComponent>();
         m_componentsUI[PlayerType] = m_PlayerUI;
 
@@ -800,6 +803,26 @@ namespace MyEngine
         // Max
         ImGui::Text("Max");
         ImGui::InputFloat3("##AABBColliderMax", &pAABBCollider->max.x);
+    }
+
+    void ComponentUI::m_SoftBodyUI(Scene* pScene, Entity entityId)
+    {
+        Title("SoftBody:");
+
+        SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+        if (!pSoftBody)
+        {
+            return;
+        }
+
+        ImGui::Text("Mesh name");
+        ImGui::InputText("##SoftBodyMesh", &pSoftBody->meshName);
+
+        ImGui::Text("Default spring strength");
+        ImGui::InputFloat("##SoftBodyDefaultSpringStrength", &pSoftBody->defaultSpringStrength);
+
+        ImGui::Text("Default particle mass");
+        ImGui::InputFloat("##SoftBodyParticleMass", &pSoftBody->defaultParticleMass);
     }
 
     void ComponentUI::m_PlayerUI(Scene* pScene, Entity entityId)

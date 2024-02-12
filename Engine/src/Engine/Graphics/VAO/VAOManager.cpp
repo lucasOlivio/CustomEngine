@@ -54,6 +54,74 @@ namespace MyEngine
             return nullptr;
         }
 
+        m_LoadVAOData(pMesh, hasNormals, hasTexture, bIsDynamicBuffer);
+
+        // Store the draw information into the map
+        m_mapModelNameToMesh[pMesh->name] = pMesh;
+
+        return pMesh;
+    }
+
+    sMesh* VAOManager::LoadModelCopyIntoVAO(std::string& fileName, bool bIsDynamicBuffer, bool hasNormals, bool hasTexture, std::string& copyName)
+    {
+        // Load original first
+        sMesh* pMesh = LoadModelIntoVAO(fileName, bIsDynamicBuffer,
+                                        hasNormals, hasTexture);
+
+        // Copy mesh data and load in separated VAO
+        sMesh* pMeshCopy = new sMesh(*pMesh);
+
+        m_LoadVAOData(pMeshCopy, hasNormals, hasTexture, bIsDynamicBuffer);
+
+        // Store the copied mesh information into the map too
+        m_mapModelNameToMesh[copyName] = pMeshCopy;
+
+        return pMesh;
+    }
+
+    sMesh* VAOManager::LoadModelIntoVAO(std::string& fileName,
+                                        bool bIsDynamicBuffer /*=false*/)
+
+    {
+        return LoadModelIntoVAO(fileName, bIsDynamicBuffer, true, true);
+    }
+
+    // We don't want to return an int, likely
+    sMesh* VAOManager::FindMeshByModelName(std::string& filename)
+    {
+        std::map< std::string /*model name*/,
+            sMesh* /* info needed to draw*/ >::iterator
+            itDrawInfo = m_mapModelNameToMesh.find(filename);
+
+        // Find it? 
+        if (itDrawInfo == m_mapModelNameToMesh.end())
+        {
+            // Nope
+            return nullptr;
+        }
+
+        return itDrawInfo->second;
+    }
+
+    bool VAOManager::m_LoadMeshData(std::string theFileName, sMesh* pMesh)
+    {
+        cFileLoader helper = cFileLoader();
+        cFileLoader::sPostProcessFlags loadFlags;
+
+        std::string fileFullPath = m_basePath + theFileName;
+        bool isMeshLoaded = helper.Load3DModelFile(fileFullPath, loadFlags, pMesh);
+        if (!isMeshLoaded)
+        {
+            std::string errorMsg = "Error: " + std::string(helper.getLastError().c_str());
+            LOG_ERROR(errorMsg);
+            return false;
+        }
+
+        return true;
+    }
+
+    void VAOManager::m_LoadVAOData(sMesh* pMesh, bool hasNormals, bool hasTexture, bool bIsDynamicBuffer)
+    {
         // Create a VAO (Vertex Array Object), which will 
         //	keep track of all the 'state' needed to draw 
         //	from this buffer...
@@ -145,52 +213,6 @@ namespace MyEngine
         {
             glDisableVertexAttribArray(vTextureCoords_location);
         }
-
-        // Store the draw information into the map
-        m_mapModelNameToMesh[pMesh->name] = pMesh;
-
-        return pMesh;
-    }
-
-    sMesh* VAOManager::LoadModelIntoVAO(std::string& fileName,
-                                        bool bIsDynamicBuffer /*=false*/)
-
-    {
-        return LoadModelIntoVAO(fileName, bIsDynamicBuffer, true, true);
-    }
-
-    // We don't want to return an int, likely
-    sMesh* VAOManager::FindMeshByModelName(std::string& filename)
-    {
-        std::map< std::string /*model name*/,
-            sMesh* /* info needed to draw*/ >::iterator
-            itDrawInfo = m_mapModelNameToMesh.find(filename);
-
-        // Find it? 
-        if (itDrawInfo == m_mapModelNameToMesh.end())
-        {
-            // Nope
-            return nullptr;
-        }
-
-        return itDrawInfo->second;
-    }
-
-    bool VAOManager::m_LoadMeshData(std::string theFileName, sMesh* pMesh)
-    {
-        cFileLoader helper = cFileLoader();
-        cFileLoader::sPostProcessFlags loadFlags;
-
-        std::string fileFullPath = m_basePath + theFileName;
-        bool isMeshLoaded = helper.Load3DModelFile(fileFullPath, loadFlags, pMesh);
-        if (!isMeshLoaded)
-        {
-            std::string errorMsg = "Error: " + std::string(helper.getLastError().c_str());
-            LOG_ERROR(errorMsg);
-            return false;
-        }
-
-        return true;
     }
 
     bool VAOManager::UpdateVAOBuffers(std::string& fileName,

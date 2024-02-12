@@ -30,6 +30,14 @@ namespace MyEngine
 			return nullptr;
 		}
 
+		// Load mesh and duplicates it with custom name
+		virtual sMesh* LoadModelCopyIntoVAO(std::string& fileName, bool bIsDynamicBuffer,
+											bool hasNormals, bool hasTexture, std::string& copyName)
+		{
+			LOG_ERROR("VAOManager not set!");
+			return nullptr;
+		}
+
 		virtual bool UpdateVAOBuffers(std::string& fileName,
 									  std::string& shaderProgram,
 									  sMesh* pUpdatedMesh)
