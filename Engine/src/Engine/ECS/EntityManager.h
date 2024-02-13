@@ -16,7 +16,9 @@ namespace MyEngine
 
         void RemoveEntity(Entity entityId);
 
-        void SetComponent(Entity entityId, ComponentId componentId);
+        void SetComponent(Entity entityId, ComponentType componentType);
+
+        void UnsetComponent(Entity entityId, ComponentType componentType);
 
         void SetMask(Entity entityId, EntityMask newMask);
 

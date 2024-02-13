@@ -46,7 +46,7 @@ namespace MyEngine
         m_availableEntities.push(entityId);
     }
 
-    void EntityManager::SetComponent(Entity entityId, ComponentId componentId)
+    void EntityManager::SetComponent(Entity entityId, ComponentType componentType)
     {
         if (entityId < 0 || entityId >= MAX_ENTITIES)
         {
@@ -54,7 +54,18 @@ namespace MyEngine
             return;
         }
 
-        m_masks[entityId].set(componentId, true);
+        m_masks[entityId].set(componentType, true);
+    }
+
+    void EntityManager::UnsetComponent(Entity entityId, ComponentType componentType)
+    {
+        if (entityId < 0 || entityId >= MAX_ENTITIES)
+        {
+            LOG_WARNING("Invalid entity ID for unsetting component.");
+            return;
+        }
+
+        m_masks[entityId].set(componentType, false);
     }
 
     void EntityManager::SetMask(Entity entityId, EntityMask newMask)

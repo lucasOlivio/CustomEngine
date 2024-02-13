@@ -4,6 +4,10 @@
 
 #include "Engine/Utils/GraphicsUtils.h"
 
+#include "Engine/ECS/Scene/SceneView.hpp"
+#include "Engine/ECS/Components.h"
+#include "Engine/Utils/TransformUtils.h"
+
 #include "Engine/Graphics/Materials/MaterialManagerLocator.h"
 #include "Engine/Graphics/FrameBuffers/FrameBufferManagerLocator.h"
 #include "Engine/Graphics/Shaders/ShaderManager.h"
@@ -76,7 +80,7 @@ namespace MyEngine
 
 		const std::vector<sRenderModelInfo>& renderInfos = m_mapRenderInfos[0];
 
-		// Render all models associated with the current FBOID
+		// Render all models associated with the FBOID 0
 		for (const sRenderModelInfo& renderInfo : renderInfos)
 		{
 			pMaterialManager->BindMaterial(renderInfo.materialName);

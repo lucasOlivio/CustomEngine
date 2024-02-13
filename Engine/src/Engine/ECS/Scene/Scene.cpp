@@ -143,48 +143,81 @@ namespace MyEngine
         m_entitiesToDestroy.push_back(entityId);
     }
 
-    void Scene::m_DestroyEntities()
+    void Scene::RemoveComponent(Entity entityId, ComponentType componentType)
     {
-        for (Entity entityId : m_entitiesToDestroy)
+        EntityMask entityMask = m_pEntityManager->GetMask(entityId);
+
+        if (!entityMask[componentType])
         {
-            // Go through every component the entity have
-            EntityMask entityMask = m_pEntityManager->GetMask(entityId);
-            for (int componentType = 0; componentType < entityMask.size(); componentType++)
-            {
-                if (!entityMask[componentType])
-                {
-                    continue;
-                }
-
-                BiMap<Entity, ComponentId>* pComponentMap = m_componentMaps[componentType];
-                ComponentPool* pComponentPool = m_componentPools[componentType];
-
-                // Component to remove and new location for moved component
-                ComponentId componentId;
-                pComponentMap->GetByKey(entityId, componentId);
-
-                // Remove the component from the pool
-                ComponentId componentIdOld;
-                pComponentPool->Remove(componentId, componentIdOld);
-
-                // Remove the relation mapping
-                pComponentMap->RemoveByKey(entityId);
-
-                // Get entity id that had component moved
-                Entity entityIdMoved;
-                pComponentMap->GetByValue(componentIdOld, entityIdMoved);
-
-                // Update the relation for the moved component
-                pComponentMap->Update(entityIdMoved, componentId);
-            }
-
-            // Remove entity from entity manager list
-            m_pEntityManager->RemoveEntity(entityId);
+            return;
         }
+
+        CompToDestroy comp = CompToDestroy();
+        comp.componentType = componentType;
+        comp.entityId = entityId;
+        m_componentsToDestroy.push_back(comp);
     }
 
     EntityManager* Scene::GetEntitymanager()
     {
         return m_pEntityManager;
+    }
+
+    void Scene::m_DestroyEntities()
+    {
+        for (Entity entityId : m_entitiesToDestroy)
+        {
+            // Go through every component the entity have to remove them
+            EntityMask entityMask = m_pEntityManager->GetMask(entityId);
+            for (int componentType = 0; componentType < entityMask.size(); componentType++)
+            {
+                RemoveComponent(entityId, componentType);
+            }
+
+            // Remove entity from entity manager list
+            m_pEntityManager->RemoveEntity(entityId);
+        }
+
+        m_entitiesToDestroy.clear();
+    }
+
+    void Scene::m_DestroyComponents()
+    {
+        for (CompToDestroy comp : m_componentsToDestroy)
+        {
+            BiMap<Entity, ComponentId>* pComponentMap = m_componentMaps[comp.componentType];
+            ComponentPool* pComponentPool = m_componentPools[comp.componentType];
+
+            // Component to remove and new location for moved component
+            ComponentId componentId;
+            bool isValid = pComponentMap->GetByKey(comp.entityId, componentId);
+            if (!isValid)
+            {
+                continue;
+            }
+
+            // Remove the component from the pool
+            ComponentId componentIdOld;
+            pComponentPool->Remove(componentId, componentIdOld);
+
+            // Remove the relation mapping
+            pComponentMap->RemoveByKey(comp.entityId);
+
+            // Remove component flag mask
+            m_pEntityManager->UnsetComponent(comp.entityId, comp.componentType);
+
+            // Get entity id that had component moved
+            Entity entityIdMoved;
+            isValid = pComponentMap->GetByValue(componentIdOld, entityIdMoved);
+            if (!isValid)
+            {
+                continue;
+            }
+
+            // Update the relation for the moved component
+            pComponentMap->Update(entityIdMoved, componentId);
+        }
+
+        m_componentsToDestroy.clear();
     }
 }

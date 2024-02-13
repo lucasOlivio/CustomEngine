@@ -339,6 +339,7 @@ namespace MyEngine
         iSceneManager* pSceneManager = SceneManagerLocator::Get();
         pSceneManager->ClearDeletedScenes();
         m_pCurrentScene->m_DestroyEntities();
+        m_pCurrentScene->m_DestroyComponents();
     }
 
     float Engine::m_GetDeltaTime()

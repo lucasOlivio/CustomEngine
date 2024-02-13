@@ -4,6 +4,7 @@
 #include "Engine/ECS/ComponentPool.h"
 
 #include "Engine/Utils/BiMap.hpp"
+#include "Engine/Utils/Log.h"
 
 namespace MyEngine
 {
@@ -94,11 +95,13 @@ namespace MyEngine
             return pComponent;
         }
 
+        // Remove a component from an entity and all the mappings
+        void RemoveComponent(Entity entityId, ComponentType componentType);
+
         int GetComponentCount()
         {
-            return (int)m_componentMaps.size();
+            return (int)m_componentPools.size();
         }
-
 
         // TODO: This should also be more encapsulated, but couln't find a way to 
         // let it open only for sceneview class since its a template class
@@ -111,10 +114,18 @@ namespace MyEngine
         
         int m_componentCounter;
 
+        struct CompToDestroy
+        {
+            ComponentType componentType;
+            Entity entityId;
+        };
+
         std::vector<Entity> m_entitiesToDestroy;
+        std::vector<CompToDestroy> m_componentsToDestroy;
 
         // Really removes and destroy all pending entities and its components
         void m_DestroyEntities();
+        void m_DestroyComponents();
 
         friend class Engine;
     };

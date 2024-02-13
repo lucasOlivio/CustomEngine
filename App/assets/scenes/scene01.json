@@ -6,9 +6,9 @@
                 1.0,
                 0.0
             ],
-            "distance": 75.0,
-            "height": 25.0,
-            "offsetTarget": 100.0,
+            "distance": 0.10000000149011612,
+            "height": 0.0,
+            "offsetTarget": 0.0,
             "fovy": 0.6000000238418579,
             "zNear": 1.0,
             "zFar": 1000.0
@@ -18,53 +18,17 @@
         },
         "transform": {
             "position": [
-                114.14766693115234,
-                0.5731939673423767,
-                51.276187896728516
+                38.53853988647461,
+                17.60756492614746,
+                39.793766021728516
             ],
             "orientation": [
-                0.9238795042037964,
-                0.0,
-                0.3826834559440613,
-                0.0
+                0.9260358214378357,
+                -0.08449812233448029,
+                0.3663337826728821,
+                0.03342839702963829
             ],
             "scale": 10.0
-        },
-        "movement": {
-            "velocity": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "maxSpeed": 100.0,
-            "drag": 0.0
-        },
-        "model": {
-            "isActive": 1,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "useColorTexture": 1,
-            "material": "matcharacters1",
-            "models": [
-                "punk.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        },
-        "player": {
-            "speed": 100.0
         }
     },
     {
@@ -419,7 +383,7 @@
         "transform": {
             "position": [
                 0.0,
-                1.0,
+                10.0,
                 0.0
             ],
             "orientation": [
@@ -430,22 +394,8 @@
             ],
             "scale": 10.0
         },
-        "movement": {
-            "velocity": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "maxSpeed": 90.0,
-            "drag": 0.0
-        },
         "model": {
-            "isActive": 1,
+            "isActive": 0,
             "doNotLight": 1,
             "isWireframe": 0,
             "useDefaultColor": 0,
@@ -463,248 +413,10 @@
                 0
             ]
         },
-        "steeringBehavior": {
-            "steeringType": 1,
-            "targetId": 0,
-            "speed": 50.0,
-            "maxDistance": 5.0,
-            "futureTime": 0.0
-        }
-    },
-    {
-        "tag": {
-            "name": "grandma"
-        },
-        "transform": {
-            "position": [
-                25.0,
-                1.0,
-                0.0
-            ],
-            "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 10.0
-        },
-        "movement": {
-            "velocity": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "maxSpeed": 90.0,
-            "drag": 0.0
-        },
-        "model": {
-            "isActive": 1,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "useColorTexture": 1,
-            "material": "matcharacters1",
-            "models": [
-                "grandma.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        },
-        "steeringBehavior": {
-            "steeringType": 2,
-            "targetId": 0,
-            "speed": 50.0,
-            "maxDistance": 100.0,
-            "futureTime": 0.0
-        }
-    },
-    {
-        "tag": {
-            "name": "shopkeeper"
-        },
-        "transform": {
-            "position": [
-                50.0,
-                1.0,
-                0.0
-            ],
-            "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 10.0
-        },
-        "movement": {
-            "velocity": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "maxSpeed": 90.0,
-            "drag": 0.0
-        },
-        "model": {
-            "isActive": 1,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "useColorTexture": 1,
-            "material": "matcharacters1",
-            "models": [
-                "shopkeeper.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        },
-        "steeringBehavior": {
-            "steeringType": 3,
-            "targetId": 0,
-            "speed": 50.0,
-            "maxDistance": 5.0,
-            "futureTime": 1.5
-        }
-    },
-    {
-        "tag": {
-            "name": "tourist"
-        },
-        "transform": {
-            "position": [
-                75.0,
-                1.0,
-                0.0
-            ],
-            "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 10.0
-        },
-        "movement": {
-            "velocity": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "maxSpeed": 90.0,
-            "drag": 0.0
-        },
-        "model": {
-            "isActive": 1,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "useColorTexture": 1,
-            "material": "matcharacters1",
-            "models": [
-                "tourist.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        },
-        "steeringBehavior": {
-            "steeringType": 4,
-            "targetId": 0,
-            "speed": 50.0,
-            "maxDistance": 300.0,
-            "futureTime": 2.0
-        }
-    },
-    {
-        "tag": {
-            "name": "hippiegirl"
-        },
-        "transform": {
-            "position": [
-                100.0,
-                1.0,
-                0.0
-            ],
-            "orientation": [
-                1.0,
-                0.0,
-                0.0,
-                0.0
-            ],
-            "scale": 10.0
-        },
-        "movement": {
-            "velocity": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "acceleration": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "maxSpeed": 90.0,
-            "drag": 0.0
-        },
-        "model": {
-            "isActive": 1,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "useColorTexture": 1,
-            "material": "matcharacters1",
-            "models": [
-                "hippiegirl.obj"
-            ],
-            "FBOIDs": [
-                0
-            ]
-        },
-        "steeringBehavior": {
-            "steeringType": 5,
-            "targetId": 0,
-            "speed": 50.0,
-            "maxDistance": 75.0,
-            "futureTime": 0.0
+        "softBody": {
+            "meshName": "firefighter.obj",
+            "defaultSpringStrength": 1.0,
+            "defaultParticleMass": 1.0
         }
     }
 ]

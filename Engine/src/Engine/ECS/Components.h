@@ -153,6 +153,7 @@ namespace MyEngine
 
 		glm::vec3 defaultColor;
 
+		bool useSoftBodyVertex; // HACK: Use the softbody copy from VAO instead of original
 		bool useDefaultColor;
 		bool isWireframe;
 		bool doNotLight;
@@ -272,8 +273,8 @@ namespace MyEngine
 	{
 		std::string meshName;
 
-		std::vector<SoftBodyParticle> vecParticles;
-		std::vector<SoftBodySpring> vecSprings;
+		std::vector<SoftBodyParticle*> vecParticles;
+		std::vector<SoftBodySpring*> vecSprings;
 
 		float defaultSpringStrength;
 		float defaultParticleMass;

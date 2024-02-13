@@ -22,9 +22,8 @@ namespace MyEngine
         }
 
         // For all components that entity have get the UI generator from cache and draw UI
-        int numComponents = pScene->GetComponentCount();
         EntityMask mask = pEntityManager->GetMask(entityId);
-        for (int i = 0; i <= numComponents; i++)
+        for (int i = 0; i < MAX_COMPONENTS; i++)
         {
             if (!mask[i])
             {
@@ -32,12 +31,18 @@ namespace MyEngine
             }
 
             Separator();
-            Separator();
+
+            std::string removId = "Remove component##RemovCompEntt:" + std::to_string(entityId) + "Comp:" + std::to_string(i);
+            if (ImGui::Button(removId.c_str()))
+            {
+                pScene->RemoveComponent(entityId, i);
+            }
+
+            ImGui::SameLine();
 
             ComponentUIHandler handler = GetComponentUI(i);
             handler(pScene, entityId);
 
-            Separator();
             Separator();
         }
     }
@@ -362,7 +367,7 @@ namespace MyEngine
         ImGui::Text("Alpha Texture");
         ImGui::InputText("##AlphaTexture", &pMaterial->alphaTexture);
     }
-    
+
     void ComponentUI::m_EmitterUI(Scene* pScene, Entity entityId)
     {
         Title("Emitter:");
@@ -485,9 +490,9 @@ namespace MyEngine
 
     void ComponentUI::m_ModelUI(Scene* pScene, Entity entityId)
     {
-        iVAOManager* pVAOManager = VAOManagerLocator::Get();
         Title("Model:");
 
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
         ModelComponent* pModel = pScene->Get<ModelComponent>(entityId);
         if (!pModel)
         {
@@ -512,7 +517,7 @@ namespace MyEngine
         if (ImGui::Button("Add Mesh"))
         {
             pModel->models.push_back("cube.ply");
-            
+
             sMesh* pMesh = pVAOManager->LoadModelIntoVAO(pModel->models.back(), false);
             pModel->pMeshes.push_back(pMesh);
         }
@@ -537,7 +542,7 @@ namespace MyEngine
         ImGui::Text("FBO IDs:");
         for (uint id : pModel->FBOIDs)
         {
-            ImGui::InputScalar(("##FBOID_"+ std::to_string(id)).c_str(), ImGuiDataType_U32, &id);
+            ImGui::InputScalar(("##FBOID_" + std::to_string(id)).c_str(), ImGuiDataType_U32, &id);
             ImGui::SameLine();
             if (ImGui::Button(("Remove##FBOID_" + std::to_string(id)).c_str()))
             {
@@ -555,15 +560,15 @@ namespace MyEngine
 
     void ComponentUI::m_FrameBufferUI(Scene* pScene, Entity entityId)
     {
-        iVAOManager* pVAOManager = VAOManagerLocator::Get();
         Title("Frame buffer:");
 
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
         FrameBufferComponent* pFrameBuffer = pScene->Get<FrameBufferComponent>(entityId);
         if (!pFrameBuffer)
         {
             return;
         }
-        
+
         ImGui::Text("Camera ID");
         ImGui::InputInt("##CameraId", &pFrameBuffer->cameraId);
 
@@ -576,9 +581,9 @@ namespace MyEngine
 
     void ComponentUI::m_FrameBufferViewUI(Scene* pScene, Entity entityId)
     {
-        iVAOManager* pVAOManager = VAOManagerLocator::Get();
         Title("Frame buffer view:");
 
+        iVAOManager* pVAOManager = VAOManagerLocator::Get();
         FrameBufferViewComponent* pFrameBufferView = pScene->Get<FrameBufferViewComponent>(entityId);
         if (!pFrameBufferView)
         {
@@ -593,7 +598,6 @@ namespace MyEngine
 
     void ComponentUI::m_TransformAnimationUI(Scene* pScene, Entity entityId)
     {
-        Separator();
         Title("Animation Component:");
 
         TransformAnimationComponent* pTransformAnimation = pScene->Get<TransformAnimationComponent>(entityId);

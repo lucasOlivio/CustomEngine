@@ -54,12 +54,12 @@ namespace MyEngine
 			"CollisionSystem",
 			// Gameplay
 			"SteeringBehaviorSystem"
-			#ifdef DEBUG
+
 			// Debug
 			,"DebugSystem",
 			"DrawGridSystem",
 			"DrawCollisionSystem"
-			#endif
+
 		};
 
 		pStates->mapStateSystems[eGameStates::STOPPED] = {

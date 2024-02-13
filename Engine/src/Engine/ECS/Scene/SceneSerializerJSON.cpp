@@ -321,6 +321,15 @@ namespace MyEngine
                 m_ParseAABBColliderToDoc(aabbColliderObject, *pAABBCollider, allocator);
                 entityObject.AddMember("aabbCollider", aabbColliderObject, allocator);
             }
+            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<SoftBodyComponent>()))
+            {
+                Value softBodyObject;
+                softBodyObject.SetObject();
+
+                SoftBodyComponent* pSoftBody = sceneIn.Get<SoftBodyComponent>(entity);
+                m_ParseSoftBodyToDoc(softBodyObject, *pSoftBody, allocator);
+                entityObject.AddMember("softBody", softBodyObject, allocator);
+            }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<PlayerComponent>()))
             {
                 Value playerObject;
@@ -900,6 +909,11 @@ namespace MyEngine
                 {
                     AABBColliderComponent* pAABBCollider = sceneOut.AddComponent<AABBColliderComponent>(entityId);
                     m_ParseDocToAABBCollider(componentObject, *pAABBCollider);
+                }
+                else if (componentName == "softBody")
+                {
+                    SoftBodyComponent* pSoftBody = sceneOut.AddComponent<SoftBodyComponent>(entityId);
+                    m_ParseDocToSoftBody(componentObject, *pSoftBody);
                 }
                 else if (componentName == "player")
                 {
