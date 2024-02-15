@@ -533,6 +533,7 @@ namespace MyEngine
 
         // Flags
         ImGui::Checkbox("Wireframe", &pModel->isWireframe);
+        ImGui::Checkbox("Dynamic", &pModel->isDynamic);
         ImGui::Checkbox("Do Not Light", &pModel->doNotLight);
         ImGui::Checkbox("Use Color Texture", &pModel->useColorTexture);
 

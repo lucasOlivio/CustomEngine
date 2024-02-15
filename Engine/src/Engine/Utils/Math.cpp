@@ -119,4 +119,22 @@ namespace MyEngine
 
         return glm::orientedAngle(normalA, normalB, axis);
     }
+
+    void CleanZeros(glm::vec3& value)
+    {
+        // 1.192092896e–07F 
+        const float minFloat = 1.192092896e-07f;
+        if ((value.x < minFloat) && (value.x > -minFloat))
+        {
+            value.x = 0.0f;
+        }
+        if ((value.y < minFloat) && (value.y > -minFloat))
+        {
+            value.y = 0.0f;
+        }
+        if ((value.z < minFloat) && (value.z > -minFloat))
+        {
+            value.z = 0.0f;
+        }
+    }
 }

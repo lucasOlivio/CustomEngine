@@ -52,13 +52,17 @@ namespace MyEngine
 			"GravitySystem",
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
+			"SoftBodyUpdateSystem",
+			"SotBodyConstraintsSystem",
 			// Gameplay
+			//"PlayerControllerSystem",
 			"SteeringBehaviorSystem"
 
 			// Debug
 			,"DebugSystem",
 			"DrawGridSystem",
-			"DrawCollisionSystem"
+			"DrawCollisionSystem",
+			"DrawSoftBodyPartclesSystem"
 
 		};
 

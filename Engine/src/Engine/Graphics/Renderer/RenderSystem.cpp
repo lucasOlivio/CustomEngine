@@ -72,7 +72,7 @@ namespace MyEngine
 			pModel->pMeshes.resize(pModel->models.size(), nullptr);
 			for (int i = 0; i < pModel->models.size(); i++)
 			{
-				sMesh* pMesh = pVAOManager->LoadModelIntoVAO(pModel->models[i], false);
+				sMesh* pMesh = pVAOManager->LoadModelIntoVAO(pModel->models[i], pModel->isDynamic);
 				if (!pMesh)
 				{
 					continue;

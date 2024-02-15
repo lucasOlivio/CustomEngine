@@ -27,12 +27,14 @@
 #include "Engine/Physics/BroadPhase/GridBroadPhaseSystem.h"
 #include "Engine/Physics/NarrowPhase/CollisionSystem.h"
 #include "Engine/Physics/SoftBody/SotBodyConstraintsSystem.h"
+#include "Engine/Physics/SoftBody/SoftBodyUpdateSystem.h"
 
 #include "Engine/Gameplay/SteeringBehaviorSystem.h"
 
 #include "Engine/Debug/DebugSystem.h"
 #include "Engine/Debug/DrawGridSystem.h"
 #include "Engine/Debug/DrawCollisionSystem.h"
+#include "Engine/Debug/DrawSoftBodyPartclesSystem.h"
 
 namespace MyEngine
 {
@@ -66,12 +68,14 @@ namespace MyEngine
         {"GridBroadPhaseSystem", []() { return new GridBroadPhaseSystem; }},
         {"CollisionSystem", []() { return new CollisionSystem; }},
         {"SotBodyConstraintsSystem", []() { return new SotBodyConstraintsSystem; }},
+        {"SoftBodyUpdateSystem", []() { return new SoftBodyUpdateSystem; }},
         // Gameplay
         {"SteeringBehaviorSystem", []() { return new SteeringBehaviorSystem; }},
         // Debug Systems
         {"DebugSystem", []() { return new DebugSystem; }},
         {"DrawGridSystem", []() { return new DrawGridSystem; }},
         {"DrawCollisionSystem", []() { return new DrawCollisionSystem; }},
+        {"DrawSoftBodyPartclesSystem", []() { return new DrawSoftBodyPartclesSystem; }},
     };
 
     void SystemBuilder::RegisterSystem(const std::string& name, SystemFactory factory)

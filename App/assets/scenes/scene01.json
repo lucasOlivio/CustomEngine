@@ -18,15 +18,15 @@
         },
         "transform": {
             "position": [
-                38.53853988647461,
-                17.60756492614746,
-                39.793766021728516
+                -145.36402893066406,
+                128.2886199951172,
+                153.24154663085938
             ],
             "orientation": [
-                0.9260358214378357,
-                -0.08449812233448029,
-                0.3663337826728821,
-                0.03342839702963829
+                0.9052726626396179,
+                -0.15585975348949432,
+                -0.38947758078575134,
+                -0.0670543685555458
             ],
             "scale": 10.0
         }
@@ -177,6 +177,7 @@
             "isActive": 1,
             "doNotLight": 1,
             "isWireframe": 0,
+            "isDynamic": 0,
             "useDefaultColor": 0,
             "defaultColor": [
                 1.0,
@@ -215,6 +216,7 @@
             "isActive": 1,
             "doNotLight": 0,
             "isWireframe": 0,
+            "isDynamic": 0,
             "useDefaultColor": 0,
             "defaultColor": [
                 0.0,
@@ -383,39 +385,54 @@
         "transform": {
             "position": [
                 0.0,
-                10.0,
+                50.0,
                 0.0
             ],
             "orientation": [
-                1.0,
-                0.0,
+                0.9961947202682495,
+                0.08715573698282242,
                 0.0,
                 0.0
             ],
             "scale": 10.0
         },
-        "model": {
-            "isActive": 0,
-            "doNotLight": 1,
-            "isWireframe": 0,
-            "useDefaultColor": 0,
-            "defaultColor": [
+        "movement": {
+            "velocity": [
                 0.0,
                 0.0,
                 0.0
             ],
-            "useColorTexture": 1,
+            "acceleration": [
+                0.0,
+                -9.800000190734863,
+                0.0
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 1,
+            "defaultColor": [
+                1.0,
+                1.0,
+                0.0
+            ],
+            "useColorTexture": 0,
             "material": "matcharacters1",
             "models": [
-                "firefighter.obj"
+                "cube.ply"
             ],
             "FBOIDs": [
                 0
             ]
         },
         "softBody": {
-            "meshName": "firefighter.obj",
-            "defaultSpringStrength": 1.0,
+            "meshName": "cube.ply",
+            "defaultSpringStrength": 0.20000000298023224,
             "defaultParticleMass": 1.0
         }
     }

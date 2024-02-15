@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/ECS/System/iSystem.h"
+#include "Engine/ECS/Components.h"
 
 namespace MyEngine
 {
@@ -24,5 +25,8 @@ namespace MyEngine
 		virtual void End(Scene* pScene);
 
 		virtual void Shutdown();
+
+	private:
+		void m_ClearSoftBody(SoftBodyComponent* pSoftBody);
 	};
 }

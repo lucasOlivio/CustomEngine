@@ -21,4 +21,7 @@ namespace MyEngine
     // Get only sign of number (1 or -1)
     template <typename T>
     int Sign(T value) { return (T(0) < value) - (value < T(0)); }
+
+    // Set minimal float values to zero
+    void CleanZeros(glm::vec3& value);
 }

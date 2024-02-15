@@ -503,6 +503,7 @@ namespace MyEngine
         parser.SetMember(jsonObject, "isActive", modelIn.isActive, allocator);
         parser.SetMember(jsonObject, "doNotLight", modelIn.doNotLight, allocator);
         parser.SetMember(jsonObject, "isWireframe", modelIn.isWireframe, allocator);
+        parser.SetMember(jsonObject, "isDynamic", modelIn.isDynamic, allocator);
         parser.SetMember(jsonObject, "useDefaultColor", modelIn.useDefaultColor, allocator);
         parser.SetMember(jsonObject, "defaultColor", modelIn.defaultColor, allocator);
         parser.SetMember(jsonObject, "useColorTexture", modelIn.useColorTexture, allocator);

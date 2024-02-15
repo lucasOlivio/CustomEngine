@@ -21,9 +21,7 @@ namespace MyEngine
 		virtual sMesh* LoadModelCopyIntoVAO(std::string& fileName, bool bIsDynamicBuffer,
 											bool hasNormals, bool hasTexture, std::string& copyName) = 0;
 
-		virtual bool UpdateVAOBuffers(std::string& fileName,
-									  std::string& shaderProgram,
-									  sMesh* pUpdatedMesh) = 0;
+		virtual bool UpdateVAOBuffers(std::string& fileName, sMesh* pUpdatedMesh) = 0;
 
 		virtual sMesh* FindMeshByModelName(std::string& filename) = 0;
 

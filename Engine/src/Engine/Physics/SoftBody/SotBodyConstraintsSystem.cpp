@@ -10,6 +10,8 @@
 #include "Engine/Graphics/Renderer/RendererManagerLocator.h"
 
 #include "Engine/Utils/TransformUtils.h"
+#include "Engine/Utils/Math.h"
+#include "Engine/Utils/Random.h"
 
 namespace MyEngine
 {
@@ -33,118 +35,145 @@ namespace MyEngine
             std::string meshCopy = PREFIX_MESH + pSoftBody->meshName + std::to_string(entityId);
             sMesh* pMesh = pVAOManager->LoadModelCopyIntoVAO(pSoftBody->meshName, true, true, false, meshCopy);
 
-            // Create the particles and constraints based on original location from the mesh
             size_t numParticles = static_cast<size_t>(pMesh->numberOfVertices);
 
-            pSoftBody->vecSprings.clear();
-            pSoftBody->vecParticles.clear();
+            m_ClearSoftBody(pSoftBody);
             pSoftBody->vecParticles.reserve(numParticles);
-            
-            for (unsigned int i = 0; i < pMesh->numberOfTriangles; i++)
+
+            // Create all the particles needed
+            for (unsigned int i = 0; i < pMesh->numberOfVertices; i++)
             {
-                glm::vec3 vertexA = pMesh->pTriangles[i].vertices[0];
-                glm::vec3 vertexB = pMesh->pTriangles[i].vertices[1];
-                glm::vec3 vertexC = pMesh->pTriangles[i].vertices[2];
-
-                SoftBodyParticle* particleA = new SoftBodyParticle();
-                SoftBodyParticle* particleB = new SoftBodyParticle();
-                SoftBodyParticle* particleC = new SoftBodyParticle();
-
-                pSoftBody->vecParticles.push_back(particleA);
-                pSoftBody->vecParticles.push_back(particleB);
-                pSoftBody->vecParticles.push_back(particleC);
+                SoftBodyParticle* pParticle = new SoftBodyParticle();
+                const sVertex& vertex = pMesh->pVertices[i];
 
                 glm::mat4 transfMat = glm::mat4(1.0f);
-                particleA->mass = pSoftBody->defaultParticleMass;
-                particleA->position = vertexA;
-                particleA->position = TransformUtils::LocalToWorldPoint(particleA->position,
-                                                                      pTransform->worldPosition,
-                                                                      pTransform->worldOrientation,
-                                                                      pTransform->worldScale, transfMat);
+                pParticle->position = glm::vec3(vertex.x, vertex.y, vertex.z);
+                pParticle->position = TransformUtils::LocalToWorldPoint(pParticle->position,
+                                                                        pTransform->worldPosition,
+                                                                        pTransform->worldOrientation,
+                                                                        pTransform->worldScale, transfMat);
+                pParticle->oldPosition = pParticle->position;
 
-                transfMat = glm::mat4(1.0f);
-                particleB->mass = pSoftBody->defaultParticleMass;
-                particleB->position = vertexB;
-                particleB->position = TransformUtils::LocalToWorldPoint(particleB->position,
-                                                                      pTransform->worldPosition,
-                                                                      pTransform->worldOrientation,
-                                                                      pTransform->worldScale, transfMat);
+                pSoftBody->vecParticles.push_back(pParticle);
+            }
 
-                transfMat = glm::mat4(1.0f);
-                particleC->mass = pSoftBody->defaultParticleMass;
-                particleC->position = vertexC;
-                particleC->position = TransformUtils::LocalToWorldPoint(particleC->position,
-                                                                      pTransform->worldPosition,
-                                                                      pTransform->worldOrientation,
-                                                                      pTransform->worldScale, transfMat);
+            unsigned int halfIndices = static_cast<int>(pMesh->numberOfIndices / 2);
+            uint32_t seed = static_cast<uint32_t>(entityId);
+            // Create the particles and constraints based on original location from the mesh
+            for (unsigned int i = 0; i < pMesh->numberOfIndices; i += 3)
+            {
+                SoftBodyParticle* particleA = pSoftBody->vecParticles[pMesh->pIndices[i]];
+                SoftBodyParticle* particleB = pSoftBody->vecParticles[pMesh->pIndices[i + 1]];
+                SoftBodyParticle* particleC = pSoftBody->vecParticles[pMesh->pIndices[i + 2]];
 
                 SoftBodySpring* pSpringAB = new SoftBodySpring();
                 pSpringAB->restLength = glm::distance(particleA->position, particleB->position);
-                pSpringAB->strength = pSoftBody->defaultSpringStrength;
                 pSpringAB->particleA = particleA;
                 pSpringAB->particleB = particleB;
                 pSoftBody->vecSprings.push_back(pSpringAB);
 
                 SoftBodySpring* pSpringBC = new SoftBodySpring();
                 pSpringBC->restLength = glm::distance(particleB->position, particleC->position);
-                pSpringBC->strength = pSoftBody->defaultSpringStrength;
                 pSpringBC->particleA = particleB;
                 pSpringBC->particleB = particleC;
                 pSoftBody->vecSprings.push_back(pSpringBC);
 
                 SoftBodySpring* springCA = new SoftBodySpring();
                 springCA->restLength = glm::distance(particleC->position, particleA->position);
-                springCA->strength = pSoftBody->defaultSpringStrength;
                 springCA->particleA = particleC;
                 springCA->particleB = particleA;
                 pSoftBody->vecSprings.push_back(springCA);
 
-                i += 3; // Create triangulated springs to keep the shape
-            }
+                // Create internal springs to help keep the structure
+                // HACK: For now we keep fixed at half the vertices to hold everything
+                if (i > halfIndices)
+                {
+                    continue;
+                }
 
-            std::cout << std::endl;
+                int randomIndexA = Random::Int(seed, 0, pMesh->numberOfIndices - 1);
+                int randomIndexB = Random::Int(seed, 0, pMesh->numberOfIndices - 1);
+                int randomIndexC = Random::Int(seed, 0, pMesh->numberOfIndices - 1);
+
+                SoftBodyParticle* particleA2 = pSoftBody->vecParticles[pMesh->pIndices[randomIndexA]];
+                SoftBodyParticle* particleB2 = pSoftBody->vecParticles[pMesh->pIndices[randomIndexB]];
+                SoftBodyParticle* particleC2 = pSoftBody->vecParticles[pMesh->pIndices[randomIndexC]];
+
+                SoftBodySpring* pSpringA2 = new SoftBodySpring();
+                pSpringA2->restLength = glm::distance(particleA->position, particleA2->position);
+                pSpringA2->particleA = particleA;
+                pSpringA2->particleB = particleA2;
+                pSoftBody->vecSprings.push_back(pSpringA2);
+
+                SoftBodySpring* pSpringB2 = new SoftBodySpring();
+                pSpringB2->restLength = glm::distance(particleB->position, particleB2->position);
+                pSpringB2->particleA = particleB;
+                pSpringB2->particleB = particleB2;
+                pSoftBody->vecSprings.push_back(pSpringB2);
+
+                SoftBodySpring* springC2 = new SoftBodySpring();
+                springC2->restLength = glm::distance(particleC->position, particleC2->position);
+                springC2->particleA = particleC;
+                springC2->particleB = particleC2;
+                pSoftBody->vecSprings.push_back(springC2);
+            }
         }
     }
 
     void SotBodyConstraintsSystem::Update(Scene* pScene, float deltaTime)
     {
+        const float minFloat = 1.192092896e-07f;
         // Update velocity and position
         for (Entity entityId : SceneView<SoftBodyComponent>(*pScene))
         {
             SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+
+            for (SoftBodySpring* pSpring : pSoftBody->vecSprings)
+            {
+                SoftBodyParticle* particleA = pSpring->particleA;
+                SoftBodyParticle* particleB = pSpring->particleB;
+
+                glm::vec3& positionA = particleA->position;
+                glm::vec3& positionB = particleB->position;
+
+                glm::vec3 delta = positionB - positionA;
+                float deltalength = glm::length(delta);
+                if (deltalength <= minFloat)
+                {
+                    continue;
+                }
+
+                float diffA = (deltalength - pSpring->restLength);
+                float diff = diffA / deltalength;
+                
+                positionA += delta * 0.5f * diff * pSoftBody->defaultSpringStrength;
+                positionB -= delta * 0.5f * diff * pSoftBody->defaultSpringStrength;
+                
+                CleanZeros(positionA);
+                CleanZeros(positionB);
+
+                /*glm::vec3 delta = particleB->position - particleA->position;
+
+                const float minFloat = 1.192092896e-07f;
+                float deltaLength = glm::length(delta);
+                if (deltaLength <= minFloat)
+                {
+                    continue;
+                }
+
+                float diff = (deltaLength - pSpring->restLength) / deltaLength;
+
+                particleA->position += delta * 0.5f * diff * pSoftBody->defaultSpringStrength;
+                particleB->position -= delta * 0.5f * diff * pSoftBody->defaultSpringStrength;
+
+                CleanZeros(particleA->position);
+                CleanZeros(particleB->position);*/
+            }
         }
     }
 
     void SotBodyConstraintsSystem::Render(Scene* pScene)
     {
-        iRendererManager* pRendererManager = RendererManagerLocator::Get();
-        iVAOManager* pVAOManager = VAOManagerLocator::Get();
-        DebugSphereComponent* pSphere = DebugLocator::GetSphere();
-
-        for (Entity entityId : SceneView<SoftBodyComponent>(*pScene))
-        {
-            SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
-
-            for (SoftBodyParticle* particle : pSoftBody->vecParticles)
-            {
-                glm::mat4 matTransf = glm::mat4(1.0f);
-                TransformUtils::GetTransform(particle->position, 0.5f, matTransf);
-
-                sRenderModelInfo renderInfo = sRenderModelInfo();
-                renderInfo.matModel = matTransf;
-                renderInfo.VAO_ID = pSphere->pMesh->VAO_ID;
-                renderInfo.numberOfIndices = pSphere->pMesh->numberOfIndices;
-                renderInfo.isWireFrame = true;
-                renderInfo.doNotLight = true;
-                renderInfo.useDebugColor = true;
-                renderInfo.debugColor = BLUE;
-
-                for (uint fboid : pSphere->FBOIDs)
-                {
-                    pRendererManager->AddToRender(fboid, renderInfo);
-                }
-            }
-        }
     }
 
     void SotBodyConstraintsSystem::End(Scene* pScene)
@@ -153,5 +182,21 @@ namespace MyEngine
 
     void SotBodyConstraintsSystem::Shutdown()
     {
+    }
+
+    void SotBodyConstraintsSystem::m_ClearSoftBody(SoftBodyComponent* pSoftBody)
+    {
+        for (SoftBodySpring* pSpring : pSoftBody->vecSprings)
+        {
+            delete pSpring;
+        }
+
+        for (SoftBodyParticle* pParticle : pSoftBody->vecParticles)
+        {
+            delete pParticle;
+        }
+
+        pSoftBody->vecSprings.clear();
+        pSoftBody->vecParticles.clear();
     }
 }

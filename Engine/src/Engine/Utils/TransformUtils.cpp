@@ -108,4 +108,24 @@ namespace MyEngine
 
         return worldPoint;
     }
+
+    glm::vec3 TransformUtils::WorldToLocalPoint(const glm::vec3& point, const glm::vec3& position, const glm::quat& orientation, const float& scale, glm::mat4& parentMat)
+    {
+        GetTransform(position, orientation, scale, parentMat);
+
+        glm::mat4 inverseParentMat = glm::inverse(parentMat);
+        glm::vec3 localPoint = inverseParentMat * glm::vec4(point, 1.0f);
+
+        return localPoint;
+    }
+
+    glm::vec3 TransformUtils::WorldToLocalPoint(const glm::vec3& point, const glm::vec3& position, const float& scale, glm::mat4& parentMat)
+    {
+        GetTransform(position, scale, parentMat);
+
+        glm::mat4 inverseParentMat = glm::inverse(parentMat);
+        glm::vec3 localPoint = inverseParentMat * glm::vec4(point, 1.0f);
+
+        return localPoint;
+    }
 }

@@ -38,9 +38,7 @@ namespace MyEngine
 			return nullptr;
 		}
 
-		virtual bool UpdateVAOBuffers(std::string& fileName,
-									  std::string& shaderProgram,
-									  sMesh* pUpdatedMesh)
+		virtual bool UpdateVAOBuffers(std::string& fileName, sMesh* pUpdatedMesh)
 		{
 			LOG_ERROR("VAOManager not set!");
 			return false;

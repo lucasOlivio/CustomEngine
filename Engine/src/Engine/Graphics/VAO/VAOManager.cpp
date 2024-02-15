@@ -215,9 +215,7 @@ namespace MyEngine
         }
     }
 
-    bool VAOManager::UpdateVAOBuffers(std::string& fileName,
-        std::string& shaderProgram,
-        sMesh* pUpdatedMesh)
+    bool VAOManager::UpdateVAOBuffers(std::string& fileName, sMesh* pUpdatedMesh)
     {
         // This exists? 
         if (!FindMeshByModelName(fileName))
