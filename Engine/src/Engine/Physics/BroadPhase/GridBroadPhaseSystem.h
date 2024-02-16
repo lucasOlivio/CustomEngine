@@ -40,6 +40,9 @@ namespace MyEngine
 
 		GridAABB* m_GetOrCreateAABB(uint idxAABB);
 
+		void m_UpdateRigidBodies(Scene* pScene, bool updatePassive = false);
+		void m_UpdateSoftBodies(Scene* pScene);
+
 		// Calculates all the aabbs that the shape intersects
 		// and inserts into the respective Grid AABB
 		void m_InsertAABB(Scene* pScene, Entity entityId, eBody bodyType);
@@ -51,6 +54,8 @@ namespace MyEngine
 
 		// Insert entity in map and active map if not a static body
 		void m_InsertEntity(Entity entityID, uint index, const eBody& bodyType);
+
+		void m_InsertParticle(SoftBodyParticle* pParticle, uint index);
 
 		// Remove AABB from mapping if exists
 		size_t m_RemoveAABB(uint idxAABB);

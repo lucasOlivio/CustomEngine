@@ -38,7 +38,7 @@ namespace MyEngine
             {
                 m_selectedEntity = 0;
             }
-        } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask());
+        } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask() && m_selectedEntity != 0); // HACK: Entity 0 "has" singleton components
 
         return m_selectedEntity;
     }
@@ -63,7 +63,7 @@ namespace MyEngine
             {
                 m_selectedEntity = MAX_ENTITIES;
             }
-        } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask());
+        } while (pEntityManager->GetMask(m_selectedEntity) == EntityMask() && m_selectedEntity != 0); // HACK: Entity 0 "has" singleton components
 
         return m_selectedEntity;
     }

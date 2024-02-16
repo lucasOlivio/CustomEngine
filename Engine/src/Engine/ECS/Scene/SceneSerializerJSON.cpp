@@ -131,6 +131,20 @@ namespace MyEngine
         Document::AllocatorType& allocator = m_doc.GetAllocator();
         m_doc.SetArray();
 
+        // Singleton components
+        //-------------------------------
+        Value gridObject;
+        gridObject.SetObject();
+
+        Value gridBroadphaseObject;
+        gridBroadphaseObject.SetObject();
+
+        GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
+        m_ParseGridBroadphaseToDoc(gridBroadphaseObject, *pGridBroadphase, allocator);
+        gridObject.AddMember("gridBroadphase", gridBroadphaseObject, allocator);
+
+        m_doc.PushBack(gridObject, allocator);
+
         // Entities
         //-------------------------------
         EntityManager* pEntityManager = sceneIn.GetEntitymanager();
@@ -149,15 +163,6 @@ namespace MyEngine
                 CameraComponent* pCamera = sceneIn.Get<CameraComponent>(entity);
                 m_ParseCameraToDoc(cameraObject, *pCamera, allocator);
                 entityObject.AddMember("camera", cameraObject, allocator);
-            }
-            if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<GridBroadphaseComponent>()))
-            {
-                Value gridBroadphaseObject;
-                gridBroadphaseObject.SetObject();
-
-                GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
-                m_ParseGridBroadphaseToDoc(gridBroadphaseObject, *pGridBroadphase, allocator);
-                entityObject.AddMember("gridBroadphase", gridBroadphaseObject, allocator);
             }
             if (pEntityManager->HasComponent(entity, sceneIn.GetComponentType<TagComponent>()))
             {

@@ -5,6 +5,8 @@
 #include "Utils/UIWidgets.h"
 
 #include "Engine/ECS/Components.h"
+#include "Engine/ECS/SingletonComponents/Components.h"
+#include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
 
 #include "Engine/Graphics/VAO/VAOManagerLocator.h"
 
@@ -45,6 +47,21 @@ namespace MyEngine
 
             Separator();
         }
+
+        if (entityId == 0)
+        {
+            // HACK: Singleton components come here for now
+            ComponentType GridbroadPhaseType = pScene->GetComponentType<GridBroadphaseComponent>();
+
+            Separator();
+
+            ImGui::SameLine();
+
+            ComponentUIHandler handler = GetComponentUI(GridbroadPhaseType);
+            handler(pScene, entityId);
+
+            Separator();
+        }
     }
 
     void ComponentUI::MapComponentsUI(Scene* pScene)
@@ -54,6 +71,9 @@ namespace MyEngine
 
         ComponentType CameraType = pScene->GetComponentType<CameraComponent>();
         m_componentsUI[CameraType] = m_CameraUI;
+
+        ComponentType GridbroadPhaseType = pScene->GetComponentType<GridBroadphaseComponent>();
+        m_componentsUI[GridbroadPhaseType] = m_GridbroadPhaseUI;
 
         ComponentType TransformType = pScene->GetComponentType<TransformComponent>();
         m_componentsUI[TransformType] = m_TransformUI;
@@ -178,6 +198,20 @@ namespace MyEngine
 
         ImGui::Text("zFar");
         ImGui::InputFloat("##zFar", &pCamera->zFar);
+    }
+
+    void ComponentUI::m_GridbroadPhaseUI(Scene* pScene, Entity entityId)
+    {
+        Title("Gridbroadphase:");
+
+        GridBroadphaseComponent* pGridBroadphase = PhysicsLocator::GetGridBroadphase();
+        if (!pGridBroadphase)
+        {
+            return;
+        }
+
+        ImGui::Text("Length per box");
+        ImGui::InputFloat3("##Lengthbox", &pGridBroadphase->lengthPerBox.x);
     }
 
     void ComponentUI::m_TransformUI(Scene* pScene, Entity entityId)

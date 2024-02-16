@@ -12,7 +12,7 @@ namespace MyEngine
 		uint colorTextureId = 0;
 		uint depthTextureId = 0;
 
-		Entity cameraId = 0;
+		Entity cameraId = 1;
 
 		int width = 1;
 		int height = 1;

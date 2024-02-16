@@ -28,6 +28,7 @@ namespace MyEngine
 
 		static void m_TagUI(Scene* pScene, Entity entityId);
 		static void m_CameraUI(Scene* pScene, Entity entityId);
+		static void m_GridbroadPhaseUI(Scene* pScene, Entity entityId);
 		static void m_TransformUI(Scene* pScene, Entity entityId);
 		static void m_MovementUI(Scene* pScene, Entity entityId);
 		static void m_RotationUI(Scene* pScene, Entity entityId);

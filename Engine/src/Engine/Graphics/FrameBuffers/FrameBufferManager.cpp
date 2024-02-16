@@ -18,10 +18,6 @@ namespace MyEngine
 	{
 		// Create main buffer with default parameters
 		FrameBufferObject FBO = FrameBufferObject();
-		FBO.ID = 0;
-		FBO.width = 0;
-		FBO.height = 0;
-		FBO.cameraId = 0;
 
 		m_mapFBOs = { {FBO.ID, FBO} };
 		m_currFBOID = FBO.ID;

@@ -23,36 +23,8 @@ namespace MyEngine
 
 	void GridBroadPhaseSystem::Start(Scene* pScene)
 	{
-		// Creating AABBs grid
-		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
-
-		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
-		{
-			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
-			RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
-
-			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
-			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
-
-			if (pRigidBody->shapeType == eShape::AABB)
-			{
-				m_InsertAABB(pScene, entityId, pRigidBody->bodyType);
-			}
-			else if (pRigidBody->shapeType == eShape::SPHERE)
-			{
-				SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
-				m_InsertSphere(entityId, idxpos, pTransform->position,
-					pSphere->radius, pRigidBody->bodyType, pGrid);
-			}
-			else if (pRigidBody->shapeType == eShape::MESH_OF_TRIANGLES)
-			{
-				m_InsertMesh(pScene, entityId, pRigidBody->bodyType);
-			}
-			else
-			{
-				LOG_WARNING("Shape type not implemented yet: " + std::to_string(pRigidBody->shapeType));
-			}
-		}
+		m_UpdateRigidBodies(pScene);
+		m_UpdateSoftBodies(pScene);
 	}
 
 	void GridBroadPhaseSystem::Update(Scene* pScene, float deltaTime)
@@ -68,43 +40,19 @@ namespace MyEngine
 
 			pAABB->vecActiveEntities.clear();
 			pAABB->vecPassiveEntities.clear();
+			pAABB->vecParticles.clear();
 		}
 
 		// Clear all test groups
+		pNarrowTests->staticEntitiesToTest.clear();
 		pNarrowTests->passiveEntitiesToTest.clear();
 		pNarrowTests->activeEntitiesToTest.clear();
 		pNarrowTests->trianglesToTest.clear();
+		pNarrowTests->particlesToTest.clear();
 
-		// Update aabbs active and passice entities positions
-		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
-		{
-			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
-			RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
-
-			if (pRigidBody->bodyType == eBody::STATIC)
-			{
-				continue;
-			}
-
-			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
-			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
-
-			if (pRigidBody->shapeType == eShape::AABB)
-			{
-				m_InsertAABB(pScene, entityId, pRigidBody->bodyType);
-			}
-			else if (pRigidBody->shapeType == eShape::SPHERE)
-			{
-				SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
-				m_InsertSphere(entityId, idxpos, pTransform->position,
-					pSphere->radius, pRigidBody->bodyType, pGrid);
-			}
-			else
-			{
-				LOG_WARNING("Shape type not implemented yet: " + std::to_string(pRigidBody->shapeType));
-			}
-
-		}
+		// Update aabbs active and passive entities positions
+		m_UpdateRigidBodies(pScene);
+		m_UpdateSoftBodies(pScene);
 
 		// Update testing groups for narrow phase
 		int i = -1;
@@ -113,17 +61,13 @@ namespace MyEngine
 			GridAABB* pAABB = it->second;
 
 			// Only add to narrow phase testing groups if we have active entity on aabb
-			if (pAABB->vecActiveEntities.size() > 0)
+			if (pAABB->vecActiveEntities.size() > 0 || pAABB->vecParticles.size() > 0)
 			{
-				std::vector<Entity> vecStatics = {};
-				std::vector<Entity> vecPassive = {};
-				std::vector<Entity> vecActive = {};
-				std::vector<sTriangle*> vecTriangles = {};
-
-				pNarrowTests->staticEntitiesToTest.push_back(vecStatics);
-				pNarrowTests->passiveEntitiesToTest.push_back(vecPassive);
-				pNarrowTests->activeEntitiesToTest.push_back(vecActive);
-				pNarrowTests->trianglesToTest.push_back(vecTriangles);
+				pNarrowTests->staticEntitiesToTest.push_back({});
+				pNarrowTests->passiveEntitiesToTest.push_back({});
+				pNarrowTests->activeEntitiesToTest.push_back({});
+				pNarrowTests->particlesToTest.push_back({});
+				pNarrowTests->trianglesToTest.push_back({});
 
 				i++;
 
@@ -140,6 +84,11 @@ namespace MyEngine
 				for (Entity entityId : pAABB->vecPassiveEntities)
 				{
 					pNarrowTests->passiveEntitiesToTest[i].push_back(entityId);
+				}
+
+				for (SoftBodyParticle* pParticle : pAABB->vecParticles)
+				{
+					pNarrowTests->particlesToTest[i].push_back(pParticle);
 				}
 
 				for (sTriangle* triangle : pAABB->vecTriangles)
@@ -215,6 +164,63 @@ namespace MyEngine
 		return pAABB;
 	}
 
+	void GridBroadPhaseSystem::m_UpdateRigidBodies(Scene* pScene, bool updatePassive)
+	{
+		// Creating AABBs grid
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
+
+		// Rigidbody entities
+		for (Entity entityId : SceneView<TransformComponent, RigidBodyComponent>(*pScene))
+		{
+			TransformComponent* pTransform = pScene->Get<TransformComponent>(entityId);
+			RigidBodyComponent* pRigidBody = pScene->Get<RigidBodyComponent>(entityId);
+
+			if (!updatePassive && pRigidBody->bodyType == eBody::STATIC)
+			{
+				continue;
+			}
+
+			uint idxpos = GridUtils::LocatePoint(pTransform->worldPosition, pGrid->lengthPerBox);
+			m_InsertEntity(entityId, idxpos, pRigidBody->bodyType);
+
+			if (pRigidBody->shapeType == eShape::AABB)
+			{
+				m_InsertAABB(pScene, entityId, pRigidBody->bodyType);
+			}
+			else if (pRigidBody->shapeType == eShape::SPHERE)
+			{
+				SphereColliderComponent* pSphere = pScene->Get<SphereColliderComponent>(entityId);
+				m_InsertSphere(entityId, idxpos, pTransform->position,
+					pSphere->radius, pRigidBody->bodyType, pGrid);
+			}
+			else if (pRigidBody->shapeType == eShape::MESH_OF_TRIANGLES)
+			{
+				m_InsertMesh(pScene, entityId, pRigidBody->bodyType);
+			}
+			else
+			{
+				LOG_WARNING("Shape type not implemented yet: " + std::to_string(pRigidBody->shapeType));
+			}
+		}
+	}
+
+	void GridBroadPhaseSystem::m_UpdateSoftBodies(Scene* pScene)
+	{
+		// Creating AABBs grid
+		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
+
+		for (Entity entityId : SceneView<SoftBodyComponent>(*pScene))
+		{
+			SoftBodyComponent* pSoftBody = pScene->Get<SoftBodyComponent>(entityId);
+
+			for (SoftBodyParticle* pParticle : pSoftBody->vecParticles)
+			{
+				uint idxpos = GridUtils::LocatePoint(pParticle->position, pGrid->lengthPerBox);
+				m_InsertParticle(pParticle, idxpos);
+			}
+		}
+	}
+
 	void GridBroadPhaseSystem::m_InsertAABB(Scene* pScene, Entity entityId, eBody bodyType)
 	{
 		LOG_WARNING("AABB GRID INSERT NOT IMPLEMENTED YET!");
@@ -283,8 +289,6 @@ namespace MyEngine
 	void GridBroadPhaseSystem::m_InsertEntity(Entity entityID, uint index, const eBody& bodyType)
 	{
 		GridAABB* pAABB = m_GetOrCreateAABB(index);
-		GridBroadphaseComponent* pGrid = PhysicsLocator::GetGridBroadphase();
-		NarrowPhaseTestsComponent* pNarrowTests = PhysicsLocator::GetNarrowPhaseTests();
 
 		if (bodyType == eBody::STATIC)
 		{
@@ -300,6 +304,13 @@ namespace MyEngine
 		}
 
 		return;
+	}
+
+	void GridBroadPhaseSystem::m_InsertParticle(SoftBodyParticle* pParticle, uint index)
+	{
+		GridAABB* pAABB = m_GetOrCreateAABB(index);
+
+		pAABB->vecParticles.insert(pParticle);
 	}
 
 	void GridBroadPhaseSystem::m_InsertMeshTriangle(Entity entityId, sTriangle* pTriangle)

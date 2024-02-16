@@ -1,8 +1,12 @@
 #pragma once
 
 #include "Engine/Core/types.h"
-#include "Engine/ECS/Base.h"
 #include "Engine/Core/Shapes.hpp"
+
+#include "Engine/ECS/Base.h"
+
+#include "Engine/Physics/PhysicsProperties.h"
+
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <math.h>
@@ -15,7 +19,7 @@ namespace MyEngine
 	{
 		// Entities that dont need to be checked but need to have the position recalculated
 		std::set<Entity> vecPassiveEntities;
-		// Entities that dont need to be checked but don't need to have the position recalculated
+		// Entities that dont need to be checked and don't need to have the position recalculated
 		std::set<Entity> vecStaticEntities;
 
 		// Entities that needs direct checking against all other rigid bodies
@@ -25,12 +29,16 @@ namespace MyEngine
 		// Index to mesh triangles inside this AABB
 		std::set<sTriangle*> vecTriangles;
 
+		// Particles inside AABB
+		std::set<SoftBodyParticle*> vecParticles;
+
 		size_t Total()
 		{
 			return vecPassiveEntities.size() +
 				   vecStaticEntities.size() + 
 				   vecActiveEntities.size() + 
-				   vecTriangles.size();
+				   vecTriangles.size() +
+				   vecParticles.size();
 		}
 	};
 }

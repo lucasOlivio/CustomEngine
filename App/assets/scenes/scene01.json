@@ -1,5 +1,14 @@
 [
     {
+        "gridBroadphase": {
+            "lengthPerBox": [
+                20.0,
+                20.0,
+                20.0
+            ]
+        }
+    },
+    {
         "camera": {
             "upVector": [
                 0.0,
@@ -18,15 +27,15 @@
         },
         "transform": {
             "position": [
-                -145.36402893066406,
-                128.2886199951172,
-                153.24154663085938
+                -163.51829528808594,
+                227.3736572265625,
+                198.43252563476563
             ],
             "orientation": [
-                0.9052726626396179,
-                -0.15585975348949432,
-                -0.38947758078575134,
-                -0.0670543685555458
+                -0.8576623201370239,
+                0.22494401037693024,
+                0.44727441668510437,
+                0.1173076331615448
             ],
             "scale": 10.0
         }
@@ -384,15 +393,15 @@
         },
         "transform": {
             "position": [
-                0.0,
+                20.0,
                 50.0,
-                0.0
+                40.0
             ],
             "orientation": [
                 0.9961947202682495,
-                0.08715573698282242,
-                0.0,
-                0.0
+                0.08715561032295227,
+                -4.824448751605814e-8,
+                4.220839233681772e-9
             ],
             "scale": 10.0
         },
@@ -403,7 +412,7 @@
                 0.0
             ],
             "acceleration": [
-                0.0,
+                9.800000190734863,
                 -9.800000190734863,
                 0.0
             ],
@@ -424,16 +433,74 @@
             "useColorTexture": 0,
             "material": "matcharacters1",
             "models": [
-                "cube.ply"
+                "sphere.ply"
             ],
             "FBOIDs": [
                 0
             ]
         },
         "softBody": {
-            "meshName": "cube.ply",
+            "meshName": "sphere.ply",
             "defaultSpringStrength": 0.20000000298023224,
             "defaultParticleMass": 1.0
+        }
+    },
+    {
+        "tag": {
+            "name": "cube2"
+        },
+        "transform": {
+            "position": [
+                50.0,
+                50.0,
+                40.0
+            ],
+            "orientation": [
+                0.9961947202682495,
+                -0.08715573698282242,
+                -0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "movement": {
+            "velocity": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "acceleration": [
+                -9.800000190734863,
+                -9.800000190734863,
+                0.0
+            ],
+            "maxSpeed": 0.0,
+            "drag": 0.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 1,
+            "defaultColor": [
+                1.0,
+                1.0,
+                0.0
+            ],
+            "useColorTexture": 0,
+            "material": "matcharacters1",
+            "models": [
+                "sphere.ply"
+            ],
+            "FBOIDs": [
+                0
+            ]
+        },
+        "softBody": {
+            "meshName": "sphere.ply",
+            "defaultSpringStrength": 1.0,
+            "defaultParticleMass": 0.0
         }
     }
 ]

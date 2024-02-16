@@ -33,10 +33,11 @@ namespace MyEngine
         // The first layer is the grouping of objects to test
         for (int group = 0; group < pTests->activeEntitiesToTest.size(); group++)
         {
-            std::vector<Entity> activeGroup = pTests->activeEntitiesToTest[group];
-            std::vector<Entity> passiceGroup = pTests->passiveEntitiesToTest[group];
-            std::vector<Entity> staticGroup = pTests->staticEntitiesToTest[group];
-            std::vector<sTriangle*> trianglesGroup = pTests->trianglesToTest[group];
+            std::vector<Entity>& activeGroup = pTests->activeEntitiesToTest[group];
+            std::vector<SoftBodyParticle*>& particlesGroup = pTests->particlesToTest[group];
+            std::vector<Entity>& passiveGroup = pTests->passiveEntitiesToTest[group];
+            std::vector<Entity>& staticGroup = pTests->staticEntitiesToTest[group];
+            std::vector<sTriangle*>& trianglesGroup = pTests->trianglesToTest[group];
 
             for (int i = 0; i < activeGroup.size(); i++)
             {
@@ -53,7 +54,7 @@ namespace MyEngine
                     pSphere = pScene->Get<SphereColliderComponent>(entityId);
                     m_CheckSphereOverlaps(pScene, entityId, pTransform, pSphere, i,
                                           activeGroup,
-                                          passiceGroup,
+                                          passiveGroup,
                                           staticGroup,
                                           trianglesGroup);
 
@@ -62,7 +63,7 @@ namespace MyEngine
                     pAABB = pScene->Get<AABBColliderComponent>(entityId);
                     m_CheckAABBOverlaps(pScene, entityId, pTransform, pAABB, i,
                                         activeGroup,
-                                        passiceGroup,
+                                        passiveGroup,
                                         staticGroup,
                                         trianglesGroup);
                     break;

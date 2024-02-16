@@ -85,6 +85,7 @@ namespace MyEngine
 		std::vector<std::vector<Entity>> passiveEntitiesToTest;
 		std::vector<std::vector<Entity>> staticEntitiesToTest;
 		std::vector<std::vector<Entity>> activeEntitiesToTest;
+		std::vector<std::vector<SoftBodyParticle*>> particlesToTest;
 	};
 
 	// All collisions that happened in the last <FRAME_RATE> frames
