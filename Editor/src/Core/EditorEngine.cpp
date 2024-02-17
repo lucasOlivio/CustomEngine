@@ -69,6 +69,7 @@ namespace MyEngine
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
 			"SoftBodyUpdateSystem",
+			"SoftBodyResponseSystem",
 			"SotBodyConstraintsSystem",
 			// Gameplay
 			//"PlayerControllerSystem",

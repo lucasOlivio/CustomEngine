@@ -7,28 +7,27 @@ namespace MyEngine
 {
 	enum eCollisionEvents
 	{
-		COLLISION_ENTER,
-		COLLISION_EXIT
+		RIGIDBODY,
+		SOFTBODY
 	};
 
-	class CollisionEnterEvent : public Event<eCollisionEvents>
+	class RigidBodyCollisionEvent : public Event<eCollisionEvents>
 	{
 	public:
-		CollisionEnterEvent() :
-			Event<eCollisionEvents>(eCollisionEvents::COLLISION_ENTER, "CollisionEnter") {};
-		virtual ~CollisionEnterEvent() {};
+		RigidBodyCollisionEvent() :
+			Event<eCollisionEvents>(eCollisionEvents::RIGIDBODY, "RigidBodyCollision") {};
+		virtual ~RigidBodyCollisionEvent() {};
 
 		sCollisionData collisionData;
 	};
 
-	class CollisionExitEvent : public Event<eCollisionEvents>
+	class SoftBodyCollisionEvent : public Event<eCollisionEvents>
 	{
 	public:
-		CollisionExitEvent() :
-			Event<eCollisionEvents>(eCollisionEvents::COLLISION_EXIT, "CollisionExit") {};
-		virtual ~CollisionExitEvent() {};
+		SoftBodyCollisionEvent() :
+			Event<eCollisionEvents>(eCollisionEvents::SOFTBODY, "SoftBodyCollision") {};
+		virtual ~SoftBodyCollisionEvent() {};
 
-		Entity entityA;
-		Entity entityB;
+		sCollisionParticleData collisionData;
 	};
 }

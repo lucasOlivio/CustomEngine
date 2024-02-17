@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/ECS/Base.h"
+#include "Engine/ECS/Scene/Scene.h"
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
@@ -15,10 +16,40 @@ namespace MyEngine
 		PASSIVE
 	};
 
+	struct SoftBodyParticle
+	{
+		SoftBodyParticle()
+		{
+			position = glm::vec3(0.0f);
+			oldPosition = glm::vec3(0.0f);
+			entityId = -1;
+		}
+
+		glm::vec3 position;
+		glm::vec3 oldPosition;
+		Entity entityId;
+	};
+
+	struct SoftBodySpring
+	{
+		SoftBodySpring()
+		{
+			restLength = 0.0f;
+			particleA = nullptr;
+			particleB = nullptr;
+		}
+
+		float restLength;
+
+		SoftBodyParticle* particleA;
+		SoftBodyParticle* particleB;
+	};
+
 	struct sCollisionData
 	{
 		Entity entityA;
 		Entity entityB;
+		Scene* pScene = nullptr;
 		glm::vec3 contactPoint;
 		glm::vec3 collisionNormalA;
 		glm::vec3 collisionNormalB;
@@ -36,28 +67,23 @@ namespace MyEngine
 		}
 	};
 
-	struct SoftBodyParticle
+	struct sCollisionParticleData
 	{
-		SoftBodyParticle()
+		Entity entityA;
+		SoftBodyParticle* pParticle = nullptr;
+		Scene* pScene = nullptr;
+		glm::vec3 contactPoint;
+		glm::vec3 collisionNormalA;
+		glm::vec3 collisionNormalB;
+
+		bool operator==(const sCollisionParticleData& other) const
 		{
-			position = glm::vec3(0.0f);
-			oldPosition = glm::vec3(0.0f);
+			return entityA == other.entityA && pParticle == other.pParticle;
 		}
 
-		glm::vec3 position;
-		glm::vec3 oldPosition;
-	};
-
-	struct SoftBodySpring
-	{
-		SoftBodySpring()
+		bool operator<(const sCollisionParticleData& other) const
 		{
-			restLength = 0.0f;
+			return entityA < other.entityA;
 		}
-
-		float restLength;
-
-		SoftBodyParticle* particleA;
-		SoftBodyParticle* particleB;
 	};
 }

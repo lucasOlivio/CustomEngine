@@ -61,7 +61,7 @@ namespace MyEngine
 			GridAABB* pAABB = it->second;
 
 			// Only add to narrow phase testing groups if we have active entity on aabb
-			if (pAABB->vecActiveEntities.size() > 0 || pAABB->vecParticles.size() > 0)
+			if (pAABB->vecActiveEntities.size() > 0)
 			{
 				pNarrowTests->staticEntitiesToTest.push_back({});
 				pNarrowTests->passiveEntitiesToTest.push_back({});

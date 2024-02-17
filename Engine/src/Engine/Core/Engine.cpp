@@ -113,8 +113,11 @@ namespace MyEngine
         m_pEventBusWindow = new EventBus<eWindowEvents, WindowCloseEvent>();
         EventBusLocator<eWindowEvents, WindowCloseEvent>::Set(m_pEventBusWindow);
 
-        m_pEventBusCollision = new EventBus<eCollisionEvents, CollisionEnterEvent>();
-        EventBusLocator<eCollisionEvents, CollisionEnterEvent>::Set(m_pEventBusCollision);
+        m_pEventBusRigidCollision = new EventBus<eCollisionEvents, RigidBodyCollisionEvent>();
+        EventBusLocator<eCollisionEvents, RigidBodyCollisionEvent>::Set(m_pEventBusRigidCollision);
+
+        m_pEventBusSoftCollision = new EventBus<eCollisionEvents, SoftBodyCollisionEvent>();
+        EventBusLocator<eCollisionEvents, SoftBodyCollisionEvent>::Set(m_pEventBusSoftCollision);
 
         m_pEventBusKeyboard = new EventBus<eInputEvents, KeyboardEvent>();
         EventBusLocator<eInputEvents, KeyboardEvent>::Set(m_pEventBusKeyboard);
@@ -268,7 +271,8 @@ namespace MyEngine
 
         // Delete event bus
         delete m_pEventBusWindow;
-        delete m_pEventBusCollision;
+        delete m_pEventBusRigidCollision;
+        delete m_pEventBusSoftCollision;
         delete m_pEventBusKeyboard;
         delete m_pEventBusMouse;
         delete m_pEventBusSceneChange;

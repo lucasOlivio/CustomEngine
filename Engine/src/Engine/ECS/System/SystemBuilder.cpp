@@ -28,6 +28,7 @@
 #include "Engine/Physics/NarrowPhase/CollisionSystem.h"
 #include "Engine/Physics/SoftBody/SotBodyConstraintsSystem.h"
 #include "Engine/Physics/SoftBody/SoftBodyUpdateSystem.h"
+#include "Engine/Physics/SoftBody/SoftBodyResponseSystem.h"
 
 #include "Engine/Gameplay/SteeringBehaviorSystem.h"
 
@@ -69,6 +70,7 @@ namespace MyEngine
         {"CollisionSystem", []() { return new CollisionSystem; }},
         {"SotBodyConstraintsSystem", []() { return new SotBodyConstraintsSystem; }},
         {"SoftBodyUpdateSystem", []() { return new SoftBodyUpdateSystem; }},
+        {"SoftBodyResponseSystem", []() { return new SoftBodyResponseSystem; }},
         // Gameplay
         {"SteeringBehaviorSystem", []() { return new SteeringBehaviorSystem; }},
         // Debug Systems

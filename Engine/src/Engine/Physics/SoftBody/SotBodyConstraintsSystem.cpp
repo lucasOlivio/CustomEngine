@@ -47,6 +47,7 @@ namespace MyEngine
                 const sVertex& vertex = pMesh->pVertices[i];
 
                 glm::mat4 transfMat = glm::mat4(1.0f);
+                pParticle->entityId = entityId;
                 pParticle->position = glm::vec3(vertex.x, vertex.y, vertex.z);
                 pParticle->position = TransformUtils::LocalToWorldPoint(pParticle->position,
                                                                         pTransform->worldPosition,
@@ -151,23 +152,6 @@ namespace MyEngine
                 
                 CleanZeros(positionA);
                 CleanZeros(positionB);
-
-                /*glm::vec3 delta = particleB->position - particleA->position;
-
-                const float minFloat = 1.192092896e-07f;
-                float deltaLength = glm::length(delta);
-                if (deltaLength <= minFloat)
-                {
-                    continue;
-                }
-
-                float diff = (deltaLength - pSpring->restLength) / deltaLength;
-
-                particleA->position += delta * 0.5f * diff * pSoftBody->defaultSpringStrength;
-                particleB->position -= delta * 0.5f * diff * pSoftBody->defaultSpringStrength;
-
-                CleanZeros(particleA->position);
-                CleanZeros(particleB->position);*/
             }
         }
     }

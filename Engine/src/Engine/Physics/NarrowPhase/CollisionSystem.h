@@ -28,9 +28,11 @@ namespace MyEngine
 	private:
 		// Returns false if the collision is duplicated
 		bool m_RegisterFrameCollision(const sCollisionData& collData);
+		bool m_RegisterFrameCollision(const sCollisionParticleData& collData);
 
 		// Use the event bus to trigger a collision event with this event data
-		void m_TriggerCollisionEnter(const sCollisionData& collData);
+		void m_TriggerCollision(const sCollisionData& collData);
+		void m_TriggerCollision(const sCollisionParticleData& collData);
 
 		// Sphere checks
 		void m_CheckSphereOverlaps(Scene* pScene,
@@ -39,6 +41,7 @@ namespace MyEngine
 								   SphereColliderComponent* pSphereA,
 								   const int index,
 								   const std::vector<Entity>& activeEntities,
+                                   const std::vector<SoftBodyParticle*>& particles,
 								   const std::vector<Entity>& passiveEntities,
 								   const std::vector<Entity>& staticEntities,
 								   const std::vector<sTriangle*>& triangles);
@@ -56,6 +59,7 @@ namespace MyEngine
 								 AABBColliderComponent* pAABBA,
 								 const int index,
 								 const std::vector<Entity>& activeEntities,
+                                 const std::vector<SoftBodyParticle*>& particles,
 								 const std::vector<Entity>& passiveEntities,
 								 const std::vector<Entity>& staticEntities,
 								 const std::vector<sTriangle*>& triangles);

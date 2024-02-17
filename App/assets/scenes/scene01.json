@@ -27,15 +27,15 @@
         },
         "transform": {
             "position": [
-                -163.51829528808594,
-                227.3736572265625,
-                198.43252563476563
+                -142.00782775878906,
+                192.42828369140625,
+                206.42202758789063
             ],
             "orientation": [
-                -0.8576623201370239,
-                0.22494401037693024,
-                0.44727441668510437,
-                0.1173076331615448
+                -0.8682800531387329,
+                0.26289069652557373,
+                0.40263766050338745,
+                0.12190627306699753
             ],
             "scale": 10.0
         }
@@ -439,9 +439,16 @@
                 0
             ]
         },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 10.0
+        },
         "softBody": {
             "meshName": "sphere.ply",
-            "defaultSpringStrength": 0.20000000298023224,
+            "defaultSpringStrength": 1.0,
             "defaultParticleMass": 1.0
         }
     },
@@ -453,7 +460,7 @@
             "position": [
                 50.0,
                 50.0,
-                40.0
+                55.0
             ],
             "orientation": [
                 0.9961947202682495,
@@ -497,10 +504,17 @@
                 0
             ]
         },
+        "rigidBody": {
+            "bodyType": 1,
+            "shapeType": 1
+        },
+        "sphereCollider": {
+            "radius": 10.0
+        },
         "softBody": {
             "meshName": "sphere.ply",
             "defaultSpringStrength": 1.0,
-            "defaultParticleMass": 0.0
+            "defaultParticleMass": 1.0
         }
     }
 ]

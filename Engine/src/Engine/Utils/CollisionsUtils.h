@@ -19,6 +19,9 @@ namespace MyEngine
 										 const glm::vec3& v2, 
 										 const glm::vec3& v3);
 
+		static bool PointAABB_Overlap(const glm::vec3& minA, const glm::vec3& maxA,
+									  const glm::vec3& pointB);
+
 		static bool SphereAABB_Overlap(const glm::vec3& centerA, const float& radiusA,
 									   const glm::vec3& minB, const glm::vec3& maxB);
 
@@ -32,6 +35,10 @@ namespace MyEngine
 										   const glm::vec3& v1, 
 										   const glm::vec3& v2, 
 										   const glm::vec3& v3);
+
+		static bool PointSphere_Overlap(const float& radiusA,
+										const glm::vec3& centerA,
+										const glm::vec3& pointB);
 
 		// Collision point checks
 		static glm::vec3 AABBAABB_CollisionPoint(const glm::vec3& minA, const glm::vec3& maxA, 
@@ -57,5 +64,6 @@ namespace MyEngine
 
 		// Get collision vector for this frame
 		static std::set<sCollisionData>& CurrentFrameCollisions();
+		static std::set<sCollisionParticleData>& CurrentFrameParticleCollisions();
 	};
 }

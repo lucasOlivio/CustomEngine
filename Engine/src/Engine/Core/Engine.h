@@ -71,7 +71,8 @@ namespace MyEngine
 
 		// Events
 		iEventBus<eWindowEvents, WindowCloseEvent>* m_pEventBusWindow;
-		iEventBus<eCollisionEvents, CollisionEnterEvent>* m_pEventBusCollision;
+		iEventBus<eCollisionEvents, RigidBodyCollisionEvent>* m_pEventBusRigidCollision;
+		iEventBus<eCollisionEvents, SoftBodyCollisionEvent>* m_pEventBusSoftCollision;
 		iEventBus<eInputEvents, KeyboardEvent>* m_pEventBusKeyboard;
 		iEventBus<eInputEvents, MouseEvent>* m_pEventBusMouse;
 		iEventBus<eSceneEvents, SceneChangeEvent>* m_pEventBusSceneChange;

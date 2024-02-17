@@ -58,6 +58,13 @@ namespace MyEngine
 		return false;
 	}
 
+	bool CollisionsUtils::PointAABB_Overlap(const glm::vec3& minA, const glm::vec3& maxA, const glm::vec3& pointB)
+	{
+		return (pointB.x >= minA.x && pointB.x <= maxA.x &&
+				pointB.y >= minA.y && pointB.y <= maxA.y &&
+				pointB.z >= minA.z && pointB.z <= maxA.z);
+	}
+
 	bool CollisionsUtils::SphereAABB_Overlap(const glm::vec3& centerA, const float& radiusA,
 											 const glm::vec3& minB, const glm::vec3& maxB)
 	{
@@ -107,6 +114,18 @@ namespace MyEngine
 		// Is this close enought to the sphere
 		float distanceToThisTriangle = glm::distance(closestPoint, centerA);
 		if (distanceToThisTriangle > radiusA)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	bool CollisionsUtils::PointSphere_Overlap(const float& radiusA, const glm::vec3& centerA, const glm::vec3& pointB)
+	{
+		// Is this close enought to the sphere
+		float distance = glm::distance(pointB, centerA);
+		if (distance > radiusA)
 		{
 			return false;
 		}
@@ -208,5 +227,15 @@ namespace MyEngine
 		// Module to make sure we stay in FRAME_RATE size
 		int currFrame = pFrames->frameCount % FRAME_RATE;
 		return pFrameColl->collisions[currFrame];
+	}
+
+	std::set<sCollisionParticleData>& CollisionsUtils::CurrentFrameParticleCollisions()
+	{
+		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
+		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
+
+		// Module to make sure we stay in FRAME_RATE size
+		int currFrame = pFrames->frameCount % FRAME_RATE;
+		return pFrameColl->particleCollisions[currFrame];
 	}
 }

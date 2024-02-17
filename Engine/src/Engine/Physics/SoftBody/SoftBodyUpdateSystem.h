@@ -8,7 +8,7 @@
 
 namespace MyEngine
 {
-	// Should be the only one to change the transform component data
+	// Updates transforms, normals and position for all the softbody particles
 	class SoftBodyUpdateSystem : public iSystem
 	{
 	public:

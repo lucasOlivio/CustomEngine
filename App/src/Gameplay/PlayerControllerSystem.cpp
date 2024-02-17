@@ -20,16 +20,16 @@ namespace MyEngine
 {
 	void PlayerControllerSystem::Init()
 	{
-	}
-
-	void PlayerControllerSystem::Start(Scene* pScene)
-	{
         // Subscribe to keyboard event
         iEventBus<eInputEvents, KeyboardEvent>* pEventBus = EventBusLocator<eInputEvents, KeyboardEvent>::Get();
 
         pEventBus->Subscribe(eInputEvents::KEYBOARD, InputTriggered);
 
         m_InitiateMouseCapture();
+	}
+
+	void PlayerControllerSystem::Start(Scene* pScene)
+	{
 	}
 
 	void PlayerControllerSystem::Update(Scene* pScene, float deltaTime)
@@ -93,11 +93,16 @@ namespace MyEngine
 
 	void PlayerControllerSystem::End(Scene* pScene)
 	{
-        m_StopMouseCapture();
 	}
 
 	void PlayerControllerSystem::Shutdown()
 	{
+        // Subscribe to keyboard event
+        iEventBus<eInputEvents, KeyboardEvent>* pEventBus = EventBusLocator<eInputEvents, KeyboardEvent>::Get();
+
+        pEventBus->Unsubscribe(eInputEvents::KEYBOARD, InputTriggered);
+
+        m_StopMouseCapture();
 	}
 
     void PlayerControllerSystem::InputTriggered(const KeyboardEvent& event)

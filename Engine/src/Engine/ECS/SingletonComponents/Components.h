@@ -92,7 +92,9 @@ namespace MyEngine
 	struct FrameCollisionComponent
 	{
 		std::set<sCollisionData> collisions[FRAME_RATE];
+		std::set<sCollisionParticleData> particleCollisions[FRAME_RATE];
 		size_t currSize;
+		size_t currParticlesSize;
 	};
 
 	struct KeyInputComponent

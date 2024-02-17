@@ -27,6 +27,7 @@ namespace MyEngine
     {
         // Clear frame collisions
         CollisionsUtils::CurrentFrameCollisions().clear();
+        CollisionsUtils::CurrentFrameParticleCollisions().clear();
 
         NarrowPhaseTestsComponent* pTests = PhysicsLocator::GetNarrowPhaseTests();
 
@@ -54,6 +55,7 @@ namespace MyEngine
                     pSphere = pScene->Get<SphereColliderComponent>(entityId);
                     m_CheckSphereOverlaps(pScene, entityId, pTransform, pSphere, i,
                                           activeGroup,
+                                          particlesGroup,
                                           passiveGroup,
                                           staticGroup,
                                           trianglesGroup);
@@ -63,6 +65,7 @@ namespace MyEngine
                     pAABB = pScene->Get<AABBColliderComponent>(entityId);
                     m_CheckAABBOverlaps(pScene, entityId, pTransform, pAABB, i,
                                         activeGroup,
+                                        particlesGroup,
                                         passiveGroup,
                                         staticGroup,
                                         trianglesGroup);
@@ -71,7 +74,6 @@ namespace MyEngine
                     LOG_WARNING("Unknown shape for entity " + std::to_string(entityId));
                     continue;
                 }
-
             }
         }
     }
@@ -95,7 +97,14 @@ namespace MyEngine
         return isNewCollision;
     }
 
-    void CollisionSystem::m_TriggerCollisionEnter(const sCollisionData& collData)
+    bool CollisionSystem::m_RegisterFrameCollision(const sCollisionParticleData& collData)
+    {
+        bool isNewCollision = CollisionsUtils::CurrentFrameParticleCollisions().insert(collData).second;
+
+        return isNewCollision;
+    }
+
+    void CollisionSystem::m_TriggerCollision(const sCollisionData& collData)
     {
         bool isNewCollision = m_RegisterFrameCollision(collData);
         if (!isNewCollision)
@@ -103,9 +112,24 @@ namespace MyEngine
             return;
         }
 
-        iEventBus<eCollisionEvents, CollisionEnterEvent>* pEventBus = EventBusLocator<eCollisionEvents, CollisionEnterEvent>::Get();
+        iEventBus<eCollisionEvents, RigidBodyCollisionEvent>* pEventBus = EventBusLocator<eCollisionEvents, RigidBodyCollisionEvent>::Get();
 
-        CollisionEnterEvent collEvent = CollisionEnterEvent();
+        RigidBodyCollisionEvent collEvent = RigidBodyCollisionEvent();
+        collEvent.collisionData = collData;
+        pEventBus->Publish(collEvent);
+    }
+
+    void CollisionSystem::m_TriggerCollision(const sCollisionParticleData& collData)
+    {
+        bool isNewCollision = m_RegisterFrameCollision(collData);
+        if (!isNewCollision)
+        {
+            return;
+        }
+
+        iEventBus<eCollisionEvents, SoftBodyCollisionEvent>* pEventBus = EventBusLocator<eCollisionEvents, SoftBodyCollisionEvent>::Get();
+
+        SoftBodyCollisionEvent collEvent = SoftBodyCollisionEvent();
         collEvent.collisionData = collData;
         pEventBus->Publish(collEvent);
     }
@@ -116,23 +140,24 @@ namespace MyEngine
                                                 SphereColliderComponent* pSphereA,
                                                 const int index,
                                                 const std::vector<Entity>& activeEntities,
+                                                const std::vector<SoftBodyParticle*>& particles,
                                                 const std::vector<Entity>& passiveEntities,
                                                 const std::vector<Entity>& staticEntities,
                                                 const std::vector<sTriangle*>& triangles)
     {
         // Start from one entity ahead so we dont test repeated
-        for (int j = index + 1; j < activeEntities.size(); j++)
+        for (int i = index + 1; i < activeEntities.size(); i++)
         {
-            Entity entityIdB = activeEntities[j];
+            Entity entityIdB = activeEntities[i];
             bool isCollision = m_CheckSphereEntityOverlap(pScene, entityIdA,
                                                           pTransformA,
                                                           pSphereA, 
                                                           entityIdB);
         }
 
-        for (int j = 0; j < staticEntities.size(); j++)
+        for (int i = 0; i < staticEntities.size(); i++)
         {
-            Entity entityIdB = activeEntities[j];
+            Entity entityIdB = activeEntities[i];
             bool isCollision = m_CheckSphereEntityOverlap(pScene, entityIdA,
                                                           pTransformA,
                                                           pSphereA, 
@@ -140,14 +165,14 @@ namespace MyEngine
         }
 
         MovementComponent* pMovementA = pScene->Get<MovementComponent>(entityIdA);
-
-        for (int j = 0; j < triangles.size(); j++)
+        // Triangles (from mesh collision) collisions
+        for (int i = 0; i < triangles.size(); i++)
         {
             bool isCollision = CollisionsUtils::SphereTriangle_Overlap(pSphereA->radius,
                                                                        pTransformA->worldPosition,
-                                                                       triangles[j]->vertices[0],
-                                                                       triangles[j]->vertices[1],
-                                                                       triangles[j]->vertices[2]);
+                                                                       triangles[i]->vertices[0],
+                                                                       triangles[i]->vertices[1],
+                                                                       triangles[i]->vertices[2]);
 
             if (isCollision)
             {
@@ -155,15 +180,51 @@ namespace MyEngine
                 collData.entityA = entityIdA;
                 collData.entityB = -1; // TODO: Get entity id from the triangle
                 collData.contactPoint = ClosestPtPointTriangle(pTransformA->worldPosition, 
-                                                               triangles[j]->vertices[0],
-                                                               triangles[j]->vertices[1],
-                                                               triangles[j]->vertices[2]);
+                                                               triangles[i]->vertices[0],
+                                                               triangles[i]->vertices[1],
+                                                               triangles[i]->vertices[2]);
                 collData.collisionNormalA = CollisionsUtils::SphereSphere_Normal(pTransformA->worldPosition, 
                                                                                  collData.contactPoint);
                 collData.collisionNormalB = -collData.collisionNormalA;
                 collData.velocityAtCollisionA = pMovementA->velocity;
 
-                m_TriggerCollisionEnter(collData);
+                collData.pScene = pScene;
+
+                m_TriggerCollision(collData);
+            }
+        }
+
+        // Particles collisions
+        for (int i = 0; i < particles.size(); i++)
+        {
+            glm::vec3 point = particles[i]->position;
+            Entity particleEntityId = particles[i]->entityId;
+            if (entityIdA == particleEntityId)
+            {
+                continue;
+            }
+
+            bool isCollision = CollisionsUtils::PointSphere_Overlap(pSphereA->radius,
+                                                                    pTransformA->worldPosition,
+                                                                    point);
+
+            if (isCollision)
+            {
+                if (entityIdA == 8)
+                {
+                    LOG_DEBUG("COLLIDED 8");
+                }
+
+                sCollisionParticleData collData = sCollisionParticleData();
+                collData.entityA = entityIdA;
+                collData.pParticle = particles[i];
+                collData.contactPoint = point;
+                collData.collisionNormalA = CollisionsUtils::SphereSphere_Normal(pTransformA->worldPosition, collData.contactPoint);
+                collData.collisionNormalB = -collData.collisionNormalA;
+
+                collData.pScene = pScene;
+
+                m_TriggerCollision(collData);
             }
         }
     }
@@ -207,12 +268,14 @@ namespace MyEngine
                                                                                       pTransformB->worldPosition);
                 collData.velocityAtCollisionA = pMovementA->velocity;
 
+                collData.pScene = pScene;
+
                 if (pMovementB)
                 {
                     collData.velocityAtCollisionB = pMovementB->velocity;
                 }
 
-                m_TriggerCollisionEnter(collData);
+                m_TriggerCollision(collData);
             }
 
             break;
@@ -245,13 +308,15 @@ namespace MyEngine
 										                                 collData.contactPoint);
                 collData.collisionNormalA = -collData.collisionNormalB;
                 collData.velocityAtCollisionA = pMovementA->velocity;
+
+                collData.pScene = pScene;
                 
                 if (pMovementB)
                 {
                     collData.velocityAtCollisionB = pMovementB->velocity;
                 }
 
-                m_TriggerCollisionEnter(collData);
+                m_TriggerCollision(collData);
             }
 
             break;
@@ -270,6 +335,7 @@ namespace MyEngine
 								              AABBColliderComponent* pAABBA,
 								              const int index,
 								              const std::vector<Entity>& activeEntities,
+                                              const std::vector<SoftBodyParticle*>& particles,
 								              const std::vector<Entity>& passiveEntities,
 								              const std::vector<Entity>& staticEntities,
 								              const std::vector<sTriangle*>& triangles)
@@ -310,7 +376,7 @@ namespace MyEngine
                                                                 pTransformA->worldScale);
 
         MovementComponent* pMovementA = pScene->Get<MovementComponent>(entityIdA);
-
+        // Triangles (from mesh collision) collisions
         for (int j = 0; j < triangles.size(); j++)
         {
 
@@ -333,7 +399,36 @@ namespace MyEngine
                 collData.collisionNormalB = -collData.collisionNormalA;
                 collData.velocityAtCollisionA = pMovementA->velocity;
 
-                m_TriggerCollisionEnter(collData);
+                collData.pScene = pScene;
+
+                m_TriggerCollision(collData);
+            }
+        }
+
+        // Particles collisions
+        for (int i = 0; i < particles.size(); i++)
+        {
+            glm::vec3 point = particles[i]->position;
+            Entity particleEntityId = particles[i]->entityId;
+            if (entityIdA == particleEntityId)
+            {
+                continue;
+            }
+
+            bool isCollision = CollisionsUtils::PointAABB_Overlap(pAABBA->min, pAABBA->max, point);
+
+            if (isCollision)
+            {
+                sCollisionParticleData collData = sCollisionParticleData();
+                collData.entityA = entityIdA;
+                collData.pParticle = particles[i];
+                collData.contactPoint = point;
+                collData.collisionNormalA = CollisionsUtils::SphereSphere_Normal(pTransformA->worldPosition, collData.contactPoint);
+                collData.collisionNormalB = -collData.collisionNormalA;
+
+                collData.pScene = pScene;
+
+                m_TriggerCollision(collData);
             }
         }
     }
@@ -382,12 +477,14 @@ namespace MyEngine
                 collData.collisionNormalA = -collData.collisionNormalB;
                 collData.velocityAtCollisionA = pMovementA->velocity;
 
+                collData.pScene = pScene;
+
                 if (pMovementB)
                 {
                     collData.velocityAtCollisionB = pMovementB->velocity;
                 }
 
-                m_TriggerCollisionEnter(collData);
+                m_TriggerCollision(collData);
             }
 
             break;
@@ -419,13 +516,15 @@ namespace MyEngine
 										                                 collData.contactPoint);
                 collData.collisionNormalA = -collData.collisionNormalB;
                 collData.velocityAtCollisionA = pMovementA->velocity;
+
+                collData.pScene = pScene;
                 
                 if (pMovementB)
                 {
                     collData.velocityAtCollisionB = pMovementB->velocity;
                 }
 
-                m_TriggerCollisionEnter(collData);
+                m_TriggerCollision(collData);
             }
 
             break;
