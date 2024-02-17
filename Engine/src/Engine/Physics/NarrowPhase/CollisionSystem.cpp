@@ -210,11 +210,6 @@ namespace MyEngine
 
             if (isCollision)
             {
-                if (entityIdA == 8)
-                {
-                    LOG_DEBUG("COLLIDED 8");
-                }
-
                 sCollisionParticleData collData = sCollisionParticleData();
                 collData.entityA = entityIdA;
                 collData.pParticle = particles[i];

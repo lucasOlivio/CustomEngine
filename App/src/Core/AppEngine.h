@@ -7,8 +7,8 @@ namespace MyEngine
 	class Application : public Engine
 	{
 	public:
-		Application() {}
-		virtual ~Application() {}
+		Application();
+		virtual ~Application();
 
 		virtual void Init();
 	};

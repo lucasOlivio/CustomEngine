@@ -24,6 +24,11 @@
 
 namespace MyEngine
 {
+	// Thread setup
+	unsigned __stdcall UpdateThread(void* param);
+
+	unsigned __stdcall RenderThread(void* param);
+
 	// App should inherit from this class to setup and run everything needed
 	class Engine
 	{
@@ -42,7 +47,7 @@ namespace MyEngine
 		// Run engine starting simulation state as running or stopped
 		virtual void Run(std::string initialSceneName, bool startSimulation = true);
 
-		virtual void Update(float deltaTime);
+		virtual void Update();
 
 		virtual void Render();
 

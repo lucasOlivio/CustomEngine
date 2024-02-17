@@ -9,8 +9,8 @@ namespace MyEngine
 	class Editor : public Engine
 	{
 	public:
-		Editor() {}
-		virtual ~Editor() {}
+		Editor();
+		virtual ~Editor();
 
 		virtual void Init();
 	};

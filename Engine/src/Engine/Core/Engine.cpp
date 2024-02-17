@@ -30,10 +30,30 @@
 #include "Engine/Graphics/FrameBuffers/FrameBufferManager.h"
 #include "Engine/Graphics/FrameBuffers/FrameBufferManagerLocator.h"
 
+#include "Engine/Utils/InputUtils.h"
+
+#include <process.h> // for _beginthread
+
 namespace MyEngine
 {
     using itSystems = std::map<std::string, iSystem*>::iterator;
     using pairSystems = std::pair<std::string, iSystem*>;
+
+    unsigned __stdcall UpdateThread(void* param) 
+    {
+        Engine* pEngine = static_cast<Engine*>(param);
+        pEngine->Update();
+
+        return 0;
+    }
+
+    unsigned __stdcall RenderThread(void* param) 
+    {
+        Engine* pEngine = static_cast<Engine*>(param);
+        pEngine->Render();
+
+        return 0;
+    }
 
     Engine::Engine()
     {
@@ -109,6 +129,8 @@ namespace MyEngine
 
     void Engine::Init()
     {
+        LoadConfigurations();
+
         // Setting up events
         m_pEventBusWindow = new EventBus<eWindowEvents, WindowCloseEvent>();
         EventBusLocator<eWindowEvents, WindowCloseEvent>::Set(m_pEventBusWindow);
@@ -206,38 +228,65 @@ namespace MyEngine
         }
 
         m_isRunning = true;
+
+        // Update and Render in separated threads
+
+        // Create threads
+        void* pEngine = static_cast<void*>(this);
+        HANDLE hUpdateThread = (HANDLE)_beginthreadex(nullptr, 0, &UpdateThread, pEngine, 0, nullptr);
+        //HANDLE hRenderThread = (HANDLE)_beginthreadex(nullptr, 0, &RenderThread, pEngine, 0, nullptr);
+
+        //if (hUpdateThread && hRenderThread) 
+        if (hUpdateThread) 
+        {
+            // Wait for threads to finish
+            Render();
+            WaitForSingleObject(hUpdateThread, INFINITE);
+            //WaitForSingleObject(hRenderThread, INFINITE);
+
+            // Close thread handles
+            CloseHandle(hUpdateThread);
+            //CloseHandle(hRenderThread);
+        }
+        else {
+            LOG_ERROR("Failed to create Update/Render threads");
+        }
+    }
+
+    void Engine::Update()
+    {
         while (m_isRunning)
         {
             float deltaTime = m_GetDeltaTime();
 
-            Update(deltaTime);
-
-            Render();
+            for (int i = 0; i < m_vecSystems.size(); i++)
+            {
+                iSystem* pSystem = m_vecSystems[i];
+                pSystem->Update(m_pCurrentScene, deltaTime);
+            }
 
             ClearFrame();
-        }
-    }
 
-    void Engine::Update(float deltaTime)
-    {
-        for (int i = 0; i < m_vecSystems.size(); i++)
-        {
-            iSystem* pSystem = m_vecSystems[i];
-            pSystem->Update(m_pCurrentScene, deltaTime);
+            Sleep(0);
         }
     }
 
     void Engine::Render()
     {
-        m_BeginFrame();
-
-        for (int i = 0; i < m_vecSystems.size(); i++)
+        while (m_isRunning)
         {
-            iSystem* pSystem = m_vecSystems[i];
-            pSystem->Render(m_pCurrentScene);
-        }
+            m_BeginFrame();
 
-        m_EndFrame();
+            for (int i = 0; i < m_vecSystems.size(); i++)
+            {
+                iSystem* pSystem = m_vecSystems[i];
+                pSystem->Render(m_pCurrentScene);
+            }
+
+            m_EndFrame();
+
+            Sleep(0);
+        }
     }
 
     void Engine::Shutdown()

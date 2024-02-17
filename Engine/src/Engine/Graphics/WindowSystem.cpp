@@ -60,6 +60,10 @@ namespace MyEngine
 
     void WindowSystem::Update(Scene* pScene, float deltaTime)
     {
+    }
+
+    void WindowSystem::Render(Scene* pScene)
+    {
         WindowComponent* pWindow = GraphicsLocator::GetWindow();
 
         if (glfwWindowShouldClose(pWindow->pGLFWWindow))
@@ -74,10 +78,6 @@ namespace MyEngine
         }
         glfwSetWindowTitle(pWindow->pGLFWWindow, pWindow->name.c_str());
         pWindow->prevName = pWindow->name;
-    }
-
-    void WindowSystem::Render(Scene* pScene)
-    {
     }
 
     void WindowSystem::End(Scene* pScene)

@@ -9,6 +9,16 @@
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine
 {
+	Application::Application()
+	{
+		Init();
+	}
+	
+	Application::~Application()
+	{
+		Shutdown();
+	}
+
 	// TODO: For now duplicated from App we just need editor to create the scenes,
 	// but later this should all come separated from config and better system management
 	void Application::Init()
@@ -53,6 +63,7 @@ namespace MyEngine
 			"GridBroadPhaseSystem",
 			"CollisionSystem",
 			"SoftBodyUpdateSystem",
+			"SoftBodyResponseSystem",
 			"SotBodyConstraintsSystem",
 			// Gameplay
 			//"PlayerControllerSystem",

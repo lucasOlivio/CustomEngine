@@ -16,6 +16,15 @@
 // Here we use to include all we need for this specific app details to work
 namespace MyEngine
 {
+	Editor::Editor()
+	{
+		Init();
+	}
+
+	Editor::~Editor()
+	{
+		Shutdown();
+	}
 	// TODO: For now duplicated from App we just need editor to create the scenes,
 	// but later this should all come separated from config and better system management
 	void Editor::Init()
@@ -39,7 +48,7 @@ namespace MyEngine
 		pStates->mainSystems.push_back("TransformParentSystem");
 		pStates->mainSystems.push_back("WindowSystem");
 		pStates->mainSystems.push_back("InputSystem");
-		pStates->mainSystems.push_back("BaseUISystem"); // Has to come after inputsystem, to init imgui after we register out input callback
+		pStates->mainSystems.push_back("BaseUISystem"); // Has to come after inputsystem, to init imgui after we register our input callback
 		// Graphics
 		pStates->mainSystems.push_back("ShaderSystem");
 		pStates->mainSystems.push_back("ModelRenderSystem");
@@ -50,14 +59,13 @@ namespace MyEngine
 		pStates->mainSystems.push_back("MenuSystem");
 		pStates->mainSystems.push_back("EntityBarSystem");
 		pStates->mainSystems.push_back("GuizmoSystem");
+		pStates->mainSystems.push_back("FlyingCameraSystem");
 
 		// TODO: This could come from a config file
 		// TODO: Could this be categorized to avoid having to put all in the config?
 		pStates->mapStateSystems[eGameStates::NOT_STARTED] = {};
 
-		pStates->mapStateSystems[eGameStates::STARTED] = {
-			"FlyingCameraSystem"
-		};
+		pStates->mapStateSystems[eGameStates::STARTED] = {};
 
 		pStates->mapStateSystems[eGameStates::RUNNING] = {
 			// Graphics
@@ -72,20 +80,18 @@ namespace MyEngine
 			"SoftBodyResponseSystem",
 			"SotBodyConstraintsSystem",
 			// Gameplay
-			//"PlayerControllerSystem",
+			"PlayerControllerSystem",
 			"SteeringBehaviorSystem"
 
 			// Debug
 			,"DebugSystem",
 			"DrawGridSystem",
 			"DrawCollisionSystem",
-			//"DrawSoftBodyPartclesSystem"
+			"DrawSoftBodyPartclesSystem"
 
 		};
 
-		pStates->mapStateSystems[eGameStates::STOPPED] = {
-			"FlyingCameraSystem" 
-		};
+		pStates->mapStateSystems[eGameStates::STOPPED] = {};
 
 		pStates->mapStateSystems[eGameStates::GAMEOVER] = {};
 	}
