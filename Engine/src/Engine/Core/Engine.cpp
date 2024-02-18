@@ -63,6 +63,39 @@ namespace MyEngine
     {
     }
 
+    float Engine::GetDeltaTime()
+    {
+        float currentTime = (float)glfwGetTime();
+        float deltaTime = currentTime - m_lastTime;
+        m_lastTime = currentTime;
+
+        // Clamp delta time to the maximum frame time
+        if (deltaTime > FRAME_DURATION)
+        {
+            deltaTime = FRAME_DURATION;
+        }
+
+        // Add the frame time to the list
+        m_frameTimes.push_back(deltaTime);
+
+        // Limit the number of frames
+        const size_t maxFrameCount = FRAME_RATE; // Store frame times for a second
+        if (m_frameTimes.size() > maxFrameCount)
+        {
+            m_frameTimes.erase(m_frameTimes.begin());
+        }
+
+        // Calculate the average frame time
+        float averageFrameTime = 0;
+        for (float time : m_frameTimes)
+        {
+            averageFrameTime += time;
+        }
+        averageFrameTime /= m_frameTimes.size();
+
+        return averageFrameTime;
+    }
+
     void Engine::AddSystem(std::string systemName, Scene* pScene)
     {
         iSystem* pSystem = GetSystem(systemName);
@@ -229,64 +262,36 @@ namespace MyEngine
 
         m_isRunning = true;
 
-        // Update and Render in separated threads
-
-        // Create threads
-        void* pEngine = static_cast<void*>(this);
-        HANDLE hUpdateThread = (HANDLE)_beginthreadex(nullptr, 0, &UpdateThread, pEngine, 0, nullptr);
-        //HANDLE hRenderThread = (HANDLE)_beginthreadex(nullptr, 0, &RenderThread, pEngine, 0, nullptr);
-
-        //if (hUpdateThread && hRenderThread) 
-        if (hUpdateThread) 
+        while (m_isRunning)
         {
-            // Wait for threads to finish
-            Render();
-            WaitForSingleObject(hUpdateThread, INFINITE);
-            //WaitForSingleObject(hRenderThread, INFINITE);
+            Update();
 
-            // Close thread handles
-            CloseHandle(hUpdateThread);
-            //CloseHandle(hRenderThread);
-        }
-        else {
-            LOG_ERROR("Failed to create Update/Render threads");
+            Render();
         }
     }
 
     void Engine::Update()
     {
-        while (m_isRunning)
+        float deltaTime = GetDeltaTime();
+
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            float deltaTime = m_GetDeltaTime();
-
-            for (int i = 0; i < m_vecSystems.size(); i++)
-            {
-                iSystem* pSystem = m_vecSystems[i];
-                pSystem->Update(m_pCurrentScene, deltaTime);
-            }
-
-            ClearFrame();
-
-            Sleep(0);
+            m_vecSystems[i]->Update(m_pCurrentScene, deltaTime);
         }
+
+        m_ClearFrame();
     }
 
     void Engine::Render()
     {
-        while (m_isRunning)
+        m_BeginFrame();
+
+        for (int i = 0; i < m_vecSystems.size(); i++)
         {
-            m_BeginFrame();
-
-            for (int i = 0; i < m_vecSystems.size(); i++)
-            {
-                iSystem* pSystem = m_vecSystems[i];
-                pSystem->Render(m_pCurrentScene);
-            }
-
-            m_EndFrame();
-
-            Sleep(0);
+            m_vecSystems[i]->Render(m_pCurrentScene);
         }
+
+        m_EndFrame();
     }
 
     void Engine::Shutdown()
@@ -387,45 +392,12 @@ namespace MyEngine
         m_isRunning = false;
     }
 
-    void Engine::ClearFrame()
+    void Engine::m_ClearFrame()
     {
         iSceneManager* pSceneManager = SceneManagerLocator::Get();
         pSceneManager->ClearDeletedScenes();
         m_pCurrentScene->m_DestroyEntities();
         m_pCurrentScene->m_DestroyComponents();
-    }
-
-    float Engine::m_GetDeltaTime()
-    {
-        float currentTime = (float)glfwGetTime();
-        float deltaTime = currentTime - m_lastTime;
-        m_lastTime = currentTime;
-
-        // Clamp delta time to the maximum frame time
-        if (deltaTime > FRAME_DURATION) 
-        {
-            deltaTime = FRAME_DURATION;
-        }
-
-        // Add the frame time to the list
-        m_frameTimes.push_back(deltaTime);
-
-        // Limit the number of frames
-        const size_t maxFrameCount = FRAME_RATE; // Store frame times for a second
-        if (m_frameTimes.size() > maxFrameCount) 
-        {
-            m_frameTimes.erase(m_frameTimes.begin());
-        }
-
-        // Calculate the average frame time
-        float averageFrameTime = 0;
-        for (float time : m_frameTimes) 
-        {
-            averageFrameTime += time;
-        }
-        averageFrameTime /= m_frameTimes.size();
-
-        return averageFrameTime;
     }
 
     void Engine::m_BeginFrame()

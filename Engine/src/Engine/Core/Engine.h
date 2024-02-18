@@ -36,10 +36,15 @@ namespace MyEngine
 		Engine();
 		virtual ~Engine();
 
+		float GetDeltaTime();
+
 		// Systems that will manipulate components and handle the scene in some way,
 		// the system is added and initialized, if the scene is passed the system is also started
 		virtual void AddSystem(std::string systemName, Scene* pScene = nullptr);
+
+		// Ends scene for system, shutdown and deletes pointer
 		virtual void RemoveSystem(std::string systemName, Scene* pScene = nullptr);
+
 		virtual iSystem* GetSystem(std::string systemName);
 
 		virtual void Init();
@@ -67,11 +72,9 @@ namespace MyEngine
 
 		virtual void OnWindowClose(const WindowCloseEvent& event);
 
-		// Any major clears needed to be done at end of frame (Ex: scene deleting, entity delete)
-		virtual void ClearFrame();
-
 	protected:
 		std::vector<iSystem*> m_vecSystems;
+
 		Scene* m_pCurrentScene = nullptr;
 
 		// Events
@@ -104,7 +107,8 @@ namespace MyEngine
 
 		bool m_isRunning;
 
-		float m_GetDeltaTime();
+		// Any major clears needed to be done at end of frame (Ex: scene deleting, entity delete)
+		virtual void m_ClearFrame();
 
 		// Operations to execute before rendering
 		virtual void m_BeginFrame();
