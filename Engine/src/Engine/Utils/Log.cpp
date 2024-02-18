@@ -20,10 +20,15 @@ namespace MyEngine
             SetConsoleColor(ConsoleColor::RED);
             std::cerr << "[ERROR] ";
             break;
+        // Only prints debug msg on debug run
+#ifdef _DEBUG
         case LogLevel::LEVEL_DEBUG:
             SetConsoleColor(ConsoleColor::CYAN);
             std::cout << "[DEBUG] ";
             break;
+#endif
+        default:
+            return;
         }
 
         // Reset color after printing the level

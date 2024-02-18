@@ -15,10 +15,10 @@ namespace MyEngine
             std::to_string(severity) + "\n" +
             message;
 
-        LOG_ERROR(error);
+        LOG_DEBUG(error);
     }
     void GlfwErrorCallback(int error, const char* description)
     {
-        LOG_ERROR(description);
+        LOG_DEBUG(description);
     }
 }
