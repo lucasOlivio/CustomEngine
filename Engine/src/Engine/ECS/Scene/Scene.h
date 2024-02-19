@@ -6,6 +6,8 @@
 #include "Engine/Utils/BiMap.hpp"
 #include "Engine/Utils/Log.h"
 
+#include <set>
+
 namespace MyEngine
 {
     class Engine;
@@ -118,10 +120,22 @@ namespace MyEngine
         {
             ComponentType componentType;
             Entity entityId;
+
+            // Overloads for <set> usage
+            bool operator==(const CompToDestroy& other) const
+            {
+                return entityId == other.entityId && componentType == other.componentType;
+            }
+
+            bool operator<(const CompToDestroy& other) const
+            {
+                return entityId < other.entityId;
+            }
         };
 
-        std::vector<Entity> m_entitiesToDestroy;
-        std::vector<CompToDestroy> m_componentsToDestroy;
+        // Using set to avoid setting the same entity/component to be destroied on multithreading
+        std::set<Entity> m_entitiesToDestroy;
+        std::set<CompToDestroy> m_componentsToDestroy;
 
         // Really removes and destroy all pending entities and its components
         void m_DestroyEntities();

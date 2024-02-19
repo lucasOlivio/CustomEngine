@@ -32,8 +32,6 @@
 
 #include "Engine/Utils/InputUtils.h"
 
-#include <process.h> // for _beginthread
-
 namespace MyEngine
 {
     using itSystems = std::map<std::string, iSystem*>::iterator;

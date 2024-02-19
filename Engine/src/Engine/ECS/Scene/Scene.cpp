@@ -140,7 +140,8 @@ namespace MyEngine
 
     void Scene::RemoveEntity(Entity entityId)
     {
-        m_entitiesToDestroy.push_back(entityId);
+        // TODO: Critical section for vec componentsToDestroy
+        m_entitiesToDestroy.insert(entityId);
     }
 
     void Scene::RemoveComponent(Entity entityId, ComponentType componentType)
@@ -152,10 +153,11 @@ namespace MyEngine
             return;
         }
 
+        // TODO: Critical section for vec componentsToDestroy
         CompToDestroy comp = CompToDestroy();
         comp.componentType = componentType;
         comp.entityId = entityId;
-        m_componentsToDestroy.push_back(comp);
+        m_componentsToDestroy.insert(comp);
     }
 
     EntityManager* Scene::GetEntitymanager()
