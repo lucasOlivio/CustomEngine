@@ -9,6 +9,7 @@
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
 #include "Engine/Utils/GraphicsUtils.h"
+#include "Engine/Utils/CollisionsUtils.h"
 
 namespace MyEngine
 {
@@ -28,13 +29,10 @@ namespace MyEngine
 	{
 		iRendererManager* pRendererManager = RendererManagerLocator::Get();
 
-		FrameCounterComponent* pFrames = CoreLocator::GetFrameCounter();
-		FrameCollisionComponent* pFrameColl = PhysicsLocator::GetFrameCollision();
 		DebugSphereComponent* pSphere = DebugLocator::GetSphere();
 		sMesh* pMesh = pSphere->pMesh;
 
-		int currFrame = pFrames->frameCount % FRAME_RATE;
-		const std::set<sCollisionData>& currFrameColls = pFrameColl->collisions[currFrame];
+		const std::set<sCollisionData>& currFrameColls = CollisionsUtils::CurrentFrameCollisions();
 		// Draw a wireframe blue sphere at the contact points
 		for (const sCollisionData& coll : currFrameColls)
 		{

@@ -52,9 +52,6 @@ namespace MyEngine
         {
             m_SetupLight(pTransform, pLight, i);
         }
-
-        delete pLight;
-        delete pTransform;
     }
 
     void LightSystem::Shutdown()

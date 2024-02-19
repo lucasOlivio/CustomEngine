@@ -18,7 +18,6 @@ namespace MyEngine
 
 	void FrameBufferSystem::Start(Scene* pScene)
 	{
-		WindowComponent* pWindow = GraphicsLocator::GetWindow();
 		iFrameBufferManager* pFrameBufferManager = FrameBufferManagerLocator::Get();
 
 		// Load scene buffers
