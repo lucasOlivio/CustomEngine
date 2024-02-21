@@ -10,6 +10,8 @@ namespace MyEngine
 		LightFlickerSystem() = default;
 		virtual ~LightFlickerSystem() { };
 
+		virtual std::string SystemName() { return "LightFlickerSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

@@ -42,10 +42,9 @@ namespace MyEngine
 		pStates->mainSystems.push_back("ModelRenderSystem");
 		pStates->mainSystems.push_back("RenderSystem");
 		pStates->mainSystems.push_back("LightSystem");
+		pStates->mainSystems.push_back("LightFlickerSystem");
+		pStates->mainSystems.push_back("MaterialOffsetSystem");
 		pStates->mainSystems.push_back("AnimationSystem");
-
-		// Gameplayer
-		pStates->mainSystems.push_back("PlayerControllerSystem");
 
 		// TODO: This could come from a config file
 		// TODO: Could this be categorized to avoid having to put all in the config?
@@ -67,7 +66,7 @@ namespace MyEngine
 			"SotBodyConstraintsSystem",
 			// Gameplay
 			//"PlayerControllerSystem",
-			"SteeringBehaviorSystem"
+			"FlyingCameraSystem"
 
 			// Debug
 			,"DebugSystem",

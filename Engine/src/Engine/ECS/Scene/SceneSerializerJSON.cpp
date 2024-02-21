@@ -1,10 +1,14 @@
 #include "pch.h"
 
 #include "SceneSerializerJSON.h"
+
 #include "Engine/Utils/ParserJSON.h"
+
 #include "Engine/ECS/SingletonComponents/GraphicsLocator.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 #include "Engine/ECS/SingletonComponents/PhysicsLocator.h"
+
+#include "Engine/Graphics/FrameBuffers/FrameBuffersProperties.h"
 
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
@@ -492,6 +496,7 @@ namespace MyEngine
         parser.SetMember(jsonObject, "diffuse", lightIn.diffuse, allocator);
         parser.SetMember(jsonObject, "direction", lightIn.direction, allocator);
         parser.SetMember(jsonObject, "directionOffset", lightIn.directionOffset, allocator);
+        parser.SetMember(jsonObject, "positionOffset", lightIn.positionOffset, allocator);
         parser.SetMember(jsonObject, "params", lightIn.params, allocator);
         parser.SetMember(jsonObject, "specular", lightIn.specular, allocator);
         parser.SetMember(jsonObject, "status", lightIn.status, allocator);
@@ -540,6 +545,7 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.SetMember(jsonObject, "FBOID", framebufferViewIn.FBOID, allocator);
+        parser.SetMember(jsonObject, "filter", framebufferViewIn.filter, allocator);
 
         return true;
     }
@@ -1082,6 +1088,7 @@ namespace MyEngine
         parser.GetValue(jsonObject["diffuse"], lightOut.diffuse);
         parser.GetValue(jsonObject["direction"], lightOut.direction);
         parser.GetValue(jsonObject["directionOffset"], lightOut.directionOffset);
+        parser.GetValue(jsonObject["positionOffset"], lightOut.positionOffset);
         parser.GetValue(jsonObject["params"], lightOut.params);
         parser.GetValue(jsonObject["specular"], lightOut.specular);
         parser.GetValue(jsonObject["status"], lightOut.status);
@@ -1122,6 +1129,10 @@ namespace MyEngine
         ParserJSON parser = ParserJSON();
 
         parser.GetValue(jsonObject["FBOID"], framebufferViewOut.FBOID);
+
+        int filter = static_cast<int>(framebufferViewOut.filter);
+        parser.GetValue(jsonObject["filter"], filter);
+        framebufferViewOut.filter = static_cast<eFBFilter>(filter);
 
         return true;
     }

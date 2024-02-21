@@ -14,6 +14,8 @@
 #include "Engine/Graphics/Animations/AnimationSystem.h"
 #include "Engine/Graphics/Animations/AnimationPlayerSystem.h"
 #include "Engine/Graphics/Lights/LightSystem.h"
+#include "Engine/Graphics/Lights/LightFlickerSystem.h"
+#include "Engine/Graphics/Materials/MaterialOffsetSystem.h"
 #include "Engine/Graphics/Shaders/ShaderSystem.h"
 #include "Engine/Graphics/Particles/ParticleEmissionSystem.h"
 #include "Engine/Graphics/Particles/ParticleUpdaterSystem.h"
@@ -31,6 +33,7 @@
 #include "Engine/Physics/SoftBody/SoftBodyResponseSystem.h"
 
 #include "Engine/Gameplay/SteeringBehaviorSystem.h"
+#include "Engine/Gameplay/FlyingCameraSystem.h"
 
 #include "Engine/Debug/DebugSystem.h"
 #include "Engine/Debug/DrawGridSystem.h"
@@ -56,6 +59,8 @@ namespace MyEngine
         {"ModelRenderSystem", []() { return new ModelRenderSystem; }},
         {"RenderSystem", []() { return new RenderSystem; }},
         {"LightSystem", []() { return new LightSystem; }},
+        {"LightFlickerSystem", []() { return new LightFlickerSystem; }},
+        {"MaterialOffsetSystem", []() { return new MaterialOffsetSystem; }},
         {"AnimationSystem", []() { return new AnimationSystem; }},
         {"AnimationPlayerSystem", []() { return new AnimationPlayerSystem; }},
         {"ParticleEmissionSystem", []() { return new ParticleEmissionSystem; }},
@@ -73,6 +78,7 @@ namespace MyEngine
         {"SoftBodyResponseSystem", []() { return new SoftBodyResponseSystem; }},
         // Gameplay
         {"SteeringBehaviorSystem", []() { return new SteeringBehaviorSystem; }},
+        {"FlyingCameraSystem", []() { return new FlyingCameraSystem; }},
         // Debug Systems
         {"DebugSystem", []() { return new DebugSystem; }},
         {"DrawGridSystem", []() { return new DrawGridSystem; }},

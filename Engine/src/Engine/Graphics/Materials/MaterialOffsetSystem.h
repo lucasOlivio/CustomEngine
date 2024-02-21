@@ -10,6 +10,8 @@ namespace MyEngine
 		MaterialOffsetSystem() = default;
 		virtual ~MaterialOffsetSystem() { };
 
+		virtual std::string SystemName() { return "MaterialOffsetSystem"; };
+
 		virtual void Init();
 
 		virtual void Start(Scene* pScene);

@@ -223,6 +223,7 @@ namespace MyEngine
 
 		pShader->SetUniformInt("isFBOView", true);
 		pShader->SetUniformInt("FBOViewTexture", textUnitId);
+		pShader->SetUniformVec2("screenWidthAndHeight", glm::vec2(FBO.width, FBO.height));
 	}
 
 	void FrameBufferManager::ClearFBO(uint FBOID)

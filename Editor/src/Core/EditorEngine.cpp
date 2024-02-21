@@ -3,9 +3,6 @@
 #include "Engine/ECS/System/SystemBuilder.h"
 #include "Engine/ECS/SingletonComponents/CoreLocator.h"
 
-// Custom editor systems
-#include "Gameplay/FlyingCameraSystem.h"
-
 // Custom gameplay systems
 #include "Gameplay/PlayerControllerSystem.h"
 
@@ -35,7 +32,6 @@ namespace MyEngine
 		// SystemBuilder::RegisterSystem("ExampleCustomSystem", []() { return new ExampleCustomSystem; });
 		SystemBuilder::RegisterSystem("MenuSystem", []() { return new MenuSystem; });
 		SystemBuilder::RegisterSystem("EntityBarSystem", []() { return new EntityBarSystem; });
-		SystemBuilder::RegisterSystem("FlyingCameraSystem", []() { return new FlyingCameraSystem; });
 		SystemBuilder::RegisterSystem("GuizmoSystem", []() { return new GuizmoSystem; });
 		
 		// SystemBuilder::RegisterSystem("ExampleCustomSystem", []() { return new ExampleCustomSystem; });
@@ -54,6 +50,8 @@ namespace MyEngine
 		pStates->mainSystems.push_back("ModelRenderSystem");
 		pStates->mainSystems.push_back("RenderSystem");
 		pStates->mainSystems.push_back("LightSystem");
+		pStates->mainSystems.push_back("LightFlickerSystem");
+		pStates->mainSystems.push_back("MaterialOffsetSystem");
 		pStates->mainSystems.push_back("AnimationSystem");
 
 		pStates->mainSystems.push_back("MenuSystem");

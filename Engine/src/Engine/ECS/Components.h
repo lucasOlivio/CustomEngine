@@ -6,6 +6,7 @@
 #include "Engine/Graphics/GraphicsProperties.h"
 #include "Engine/Graphics/Animations/AnimationProperties.h"
 #include "Engine/Graphics/Particles/ParticlesProperties.h"
+#include "Engine/Graphics/FrameBuffers/FrameBuffersProperties.h"
 
 #include "Engine/Physics/PhysicsProperties.h"
 
@@ -220,6 +221,8 @@ namespace MyEngine
 	struct FrameBufferViewComponent
 	{
 		uint FBOID;
+
+		eFBFilter filter;
 	};
 
 	// Physics components

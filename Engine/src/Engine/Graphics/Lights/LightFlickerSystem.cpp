@@ -25,10 +25,10 @@ namespace MyEngine
             if (pLight->params.w == 1)
             {
                 // Modulate the light attenuation by changing the offset proportion randomly over time
-                float max = 1.08f;
-                float min = 0.92f;
+                float max = 1.2f;
+                float min = 0.8f;
 
-                uint32_t seed = (uint32_t)entityId;
+                uint32_t seed = (uint32_t)rand();
                 pLight->flickerOffset = glm::vec4(Random::Vec3(seed, min, max), 0);
             }
         }

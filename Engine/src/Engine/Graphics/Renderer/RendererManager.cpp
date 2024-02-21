@@ -48,7 +48,7 @@ namespace MyEngine
 		// Render all normal models
 		m_RenderMaps(pScene, true, m_mapRenderInfos);
 		// Then render all transparent models
-		m_RenderMaps(pScene, true, m_mapRenderTransparentInfos);
+		m_RenderMaps(pScene, false, m_mapRenderTransparentInfos);
 	}
 
 	void RendererManager::ClearRender()
@@ -81,6 +81,7 @@ namespace MyEngine
 
 			if (renderInfo.isFBOView)
 			{
+				pShader->SetUniformInt("FBOViewFilter", renderInfo.filter);
 				pFrameBufferManager->BindFBOText(renderInfo.FBOViewID);
 			}
 
@@ -88,12 +89,13 @@ namespace MyEngine
 
 			if (renderInfo.isFBOView)
 			{
+				pShader->SetUniformInt("FBOViewFilter", 0);
 				pShader->SetUniformInt("isFBOView", false);
 			}
 		}
 	}
 
-	void RendererManager::m_RenderMaps(Scene* pScene, bool clearFBOs, const std::map<uint, std::vector<sRenderModelInfo>>& mapRenderInfos)
+	void RendererManager::m_RenderMaps(Scene* pScene, bool clearFBOs, std::map<uint, std::vector<sRenderModelInfo>>& mapRenderInfos)
 	{
 		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
 		iFrameBufferManager* pFrameBufferManager = FrameBufferManagerLocator::Get();
@@ -101,10 +103,10 @@ namespace MyEngine
 
 		// Bind the fbo then render all their respective models
 		// First element will always be the main screen buffer, so we start from the second
-		itFBOInfos it = std::next(m_mapRenderInfos.begin());
+		itFBOInfos it = std::next(mapRenderInfos.begin());
 
 		// Iterate over the map starting from the second element
-		for (; it != m_mapRenderInfos.end(); ++it)
+		for (; it != mapRenderInfos.end(); ++it)
 		{
 			uint FBOID = it->first;
 
@@ -125,6 +127,6 @@ namespace MyEngine
 
 		// Render all models associated with the FBOID 0
 		m_RenderList(pMaterialManager, pFrameBufferManager,
-					 pShader, m_mapRenderInfos[0]);
+					 pShader, mapRenderInfos[0]);
 	}
 }

@@ -54,6 +54,9 @@ uniform samplerCube cubeTexture;
 // -----------------------------------------------------------------
 uniform bool isFBOView;
 uniform sampler2D FBOViewTexture;
+uniform vec2 screenWidthAndHeight;
+
+uniform int FBOViewFilter;
 
 // LIGHTS
 // -----------------------------------------------------------------
@@ -87,13 +90,17 @@ vec4 calculateLightContrib( vec3 vertexMaterialColour, vec3 vertexNormal,
 
 vec3 calculateColorTextures(vec2 UVFinal);
 
+// FILTERS
+vec3 BlurFilter(sampler2D textureColor, vec2 textureCoords, int pixelOffset);
+vec3 ChromicAberration(sampler2D textureColor, vec2 textureCoords, float offsetX, float offsetY);
+
 void main()
 {
 	vec2 UVFinal = textureCoords.st + UVOffset.yx;
 
 	// Use model vertex as default
 	vec4 vertexRGBA = colour;
-	vertexRGBA.a = 1.0;
+	vertexRGBA.a = 1.0f;
 
 	if (bUseCubeTexture)
 	{
@@ -122,10 +129,35 @@ void main()
 			discard;
 		}
 	}
+
+	if (isFBOView)
+	{
+		// FILTERS
+		if (FBOViewFilter == 1)
+		{
+			vertexRGBA.rgb = BlurFilter(FBOViewTexture, textureCoords, 5);
+		}
+		else if (FBOViewFilter == 2)
+		{
+			vertexRGBA.rgb = ChromicAberration(FBOViewTexture, textureCoords, 0.001, 0.001);
+		}
+		else
+		{
+			vertexRGBA.rgb = texture(FBOViewTexture, textureCoords.st).rgb;
+		}
+	}
 	
 	if (bUseColorTexture)
 	{
-		vertexRGBA.rgb = calculateColorTextures(UVFinal);
+		// In case its a FBO view we want to just adjust the color with the mask
+		if (isFBOView)
+		{
+			vertexRGBA.rgb += calculateColorTextures(UVFinal);
+		}
+		else
+		{
+			vertexRGBA.rgb = calculateColorTextures(UVFinal);
+		}
 	}
 
 	if (bUseDiscardTexture)
@@ -135,15 +167,6 @@ void main()
 		{
 			discard;
 		}
-	}
-
-	if ( isFBOView )
-	{
-		outputColour.rgb = texture( FBOViewTexture, UVFinal.st ).rgb;
-						   
-		outputColour.a = 1.0f;
-
-		return;
 	}
 	
 	if ( doNotLight )
@@ -330,4 +353,71 @@ vec3 calculateColorTextures(vec2 UVFinal)
 				+ texture(colorTexture02, UVFinal.st).rgb * colorTextureRatio02;
 
 	return tempColor;
+}
+
+vec3 BlurFilter(sampler2D textureColor, vec2 textureCoords, int pixelOffset)
+{
+	// pixelOffset = 1   pixelOffset = 2
+	// 3x3               5x5
+	//   *                   * 
+	// * O *                 * 
+	//   *               * * O * * 
+	//                       *  
+	//                       * 
+	// 
+	// "O" is the pixel we are "on"
+	// * are the adjacent pixels
+
+	vec3 outColour = vec3(0.0f);
+	int totalSamples = 0;
+
+	// Add up a horizontal sample
+	for (int xOffset = -pixelOffset; xOffset <= pixelOffset; xOffset++)
+	{
+		totalSamples++;
+
+		vec2 pixelUV = vec2(textureCoords.x + xOffset,
+							 textureCoords.y);
+
+		outColour += texture(textureColor, pixelUV).rgb;
+	}
+
+	// Add up a vertical sample
+	for (int yOffset = -pixelOffset; yOffset <= pixelOffset; yOffset++)
+	{
+		totalSamples++;
+
+		vec2 pixelUV = vec2(textureCoords.x,
+							 textureCoords.y + yOffset);
+
+		outColour += texture(textureColor, pixelUV).rgb;
+	}
+
+
+	// Average this colour by the number of samples
+	outColour.rgb /= float(totalSamples);
+
+	return outColour;
+}
+
+vec3 ChromicAberration(sampler2D textureColor, vec2 textureCoords, float offsetX, float offsetY)
+{
+	vec3 theColour = vec3(0.0f);
+
+	// Red coordinate is off up (-0.025 in y) and to the left (-0.01f in x)
+	vec2 redYV = vec2(textureCoords.x - offsetX,
+					  textureCoords.y - offsetY);
+	theColour.r = texture(textureColor, redYV).r;
+
+	// Green coordinate is off up (+0.002 in y) and to the right (+0.01f in x)
+	vec2 greenYV = vec2(textureCoords.x + offsetX,
+						textureCoords.y + offsetY);
+	theColour.g = texture(textureColor, greenYV).g;
+
+	// Green coordinate is off the left (-0.015f in x)
+	vec2 blueYV = vec2(textureCoords.x - offsetX,
+					   textureCoords.y);
+	theColour.b = texture(textureColor, blueYV).b;
+
+	return theColour;
 }

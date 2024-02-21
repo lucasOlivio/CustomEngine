@@ -66,6 +66,6 @@ void main()
 	
 	vertexWorldPos = matModel * vec4(vertexModelPosition.xyz, 1.0f);
 	colour = vCol;
-	textureCoords = UVFinal;
+	textureCoords = vTextureCoords.st;
 }
 

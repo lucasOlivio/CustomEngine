@@ -176,7 +176,9 @@ namespace MyEngine
 
 		int VAO_ID = 0;
 		int numberOfIndices = 0;
+		
 		int FBOViewID = 0;
+		int filter = 0;
 
 		float distToCamera = 0.0f;
 

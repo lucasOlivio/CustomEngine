@@ -23,7 +23,7 @@ namespace MyEngine
 	void MaterialOffsetSystem::Update(Scene* pScene, float deltaTime)
 	{
 		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
-		std::map<std::string, sMaterialInfo> materials = pMaterialManager->GetMaterials();
+		std::map<std::string, sMaterialInfo>& materials = pMaterialManager->GetMaterials();
 
 		// Increase offset for all materials
 		for (itMaterials it = materials.begin(); it != materials.end(); it++)

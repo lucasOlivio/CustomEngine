@@ -6,6 +6,13 @@ namespace MyEngine
 {
 	#define INITIAL_FBO_TEXTURE_ID 50;
 
+	enum eFBFilter
+	{
+		NO_FILTER = 0,
+		BLUR,
+		CHROMIC_ABERRATION
+	};
+
 	struct FrameBufferObject
 	{
 		uint ID = 0; 

@@ -588,21 +588,31 @@ namespace MyEngine
 
         // FBOIDs
         ImGui::Text("FBO IDs:");
-        for (uint id : pModel->FBOIDs)
+        std::set<uint> fboIdsCopy = pModel->FBOIDs;
+        for (uint id : fboIdsCopy)
         {
-            ImGui::InputScalar(("##FBOID_" + std::to_string(id)).c_str(), ImGuiDataType_U32, &id);
+            ImGui::PushID(id);
+            uint modifiedId = id; // Create a copy of the ID for modification
+            ImGui::InputScalar(("##FBOID_" + std::to_string(id)).c_str(), ImGuiDataType_U32, &modifiedId);
             ImGui::SameLine();
             if (ImGui::Button(("Remove##FBOID_" + std::to_string(id)).c_str()))
             {
-                // Remove the FBO ID
-                pModel->FBOIDs.erase(id);
+                pModel->FBOIDs.erase(id); // Remove the original ID
                 break; // Exit loop to avoid modifying container while iterating
+            }
+
+            ImGui::PopID();
+
+            if (modifiedId != id) {
+                pModel->FBOIDs.erase(id); // Remove the original ID
+                pModel->FBOIDs.insert(modifiedId); // Insert the modified ID
             }
         }
 
         if (ImGui::Button("Add FBO ID"))
         {
-            pModel->FBOIDs.insert(0); // Insert default value
+            int newIndex = *(pModel->FBOIDs.rbegin()) + 1; // Last index +1
+            pModel->FBOIDs.insert(newIndex);
         }
     }
 
@@ -642,6 +652,11 @@ namespace MyEngine
         ImGui::Text("FBO ID");
         ImGui::InputInt("##FBOID", &FBOID);
         pFrameBufferView->FBOID = FBOID;
+
+        int filter = static_cast<int>(pFrameBufferView->filter);
+        ImGui::Text("Filter");
+        ImGui::InputInt("##Filter", &filter);
+        pFrameBufferView->filter = static_cast<eFBFilter>(filter);
     }
 
     void ComponentUI::m_TransformAnimationUI(Scene* pScene, Entity entityId)

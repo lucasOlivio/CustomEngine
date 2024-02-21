@@ -20,24 +20,24 @@
             "offsetTarget": 0.0,
             "fovy": 0.6000000238418579,
             "zNear": 1.0,
-            "zFar": 5000.0
+            "zFar": 10000.0
         },
         "tag": {
             "name": "Camera"
         },
         "transform": {
             "position": [
-                299.2064514160156,
-                475.14654541015625,
-                396.62884521484375
+                1695.706298828125,
+                237.844482421875,
+                1703.243896484375
             ],
             "orientation": [
-                -0.9220190048217773,
-                0.21588733792304993,
-                -0.3128991425037384,
-                -0.0732652023434639
+                -0.9230727553367615,
+                0.010174307972192764,
+                -0.38446763157844543,
+                -0.00423401640728116
             ],
-            "scale": 10.0
+            "scale": 1.0
         }
     },
     {
@@ -67,18 +67,24 @@
                 1.0
             ],
             "diffuse": [
-                0.8999999761581421,
-                0.8999999761581421,
-                0.8999999761581421,
+                0.5,
+                0.5,
+                0.5,
                 1.0
             ],
             "direction": [
-                -0.0,
+                1.0,
                 -1.0,
                 0.0,
                 1.0
             ],
             "directionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "positionOffset": [
                 0.0,
                 0.0,
                 0.0,
@@ -200,7 +206,9 @@
                 "skybox.ply"
             ],
             "FBOIDs": [
-                0
+                0,
+                1,
+                2
             ]
         }
     },
@@ -314,20 +322,1062 @@
                 "floor.ply"
             ],
             "FBOIDs": [
-                0
+                0,
+                2
             ]
         },
         "tiling": {
             "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                500.0,
+                0.0,
+                0.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "floor"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                500.0
+            ],
+            "orientation": [
+                0.0,
                 0.0,
                 0.0,
                 0.0
             ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "floor.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                1.0,
+                1.0,
+                4.0
+            ],
+            "offset": [
+                0.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "floor"
+        },
+        "transform": {
+            "position": [
+                2000.0,
+                0.0,
+                500.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "floor.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                1.0,
+                1.0,
+                4.0
+            ],
+            "offset": [
+                0.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "floor"
+        },
+        "transform": {
+            "position": [
+                1500.0,
+                0.0,
+                2000.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "floor.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                3.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                -500.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "wall"
+        },
+        "transform": {
+            "position": [
+                -500.0,
+                0.0,
+                1950.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "wall_window.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                500.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "wall"
+        },
+        "transform": {
+            "position": [
+                -500.0,
+                0.0,
+                -550.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "wall_window.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                500.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "wall"
+        },
+        "transform": {
+            "position": [
+                2050.0,
+                0.0,
+                -500.0
+            ],
+            "orientation": [
+                0.7071067690849304,
+                0.0,
+                -0.7071067690849304,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "wall_window.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                500.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "wall"
+        },
+        "transform": {
+            "position": [
+                -450.0,
+                0.0,
+                -500.0
+            ],
+            "orientation": [
+                0.7071067690849304,
+                0.0,
+                -0.7071067690849304,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "wall_window.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                1.0
+            ],
+            "offset": [
+                500.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "floor"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                -100.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "floor.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        },
+        "tiling": {
+            "axis": [
+                5.0,
+                1.0,
+                5.0
+            ],
+            "offset": [
+                500.0,
+                0.0,
+                500.0
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "textwaternormal"
+        },
+        "texture": {
+            "fileName": "water_normal.bmp",
+            "textureType": 12,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "textwaterheight"
+        },
+        "texture": {
+            "fileName": "water_height.bmp",
+            "textureType": 8,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "textwatercolor"
+        },
+        "texture": {
+            "fileName": "Water_Texture_01.bmp",
+            "textureType": 0,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "matwater"
+        },
+        "material": {
+            "name": "matwater",
+            "alphaTexture": "water_transparency.bmp",
+            "colorTextures": [
+                "Water_Texture_01.bmp",
+                ""
+            ],
+            "colorTexturesRatios": [
+                0.5,
+                0.0,
+                0.0
+            ],
+            "cubeTexture": "",
             "offset": [
                 0.0,
                 0.0,
                 0.0
+            ],
+            "currOffset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.05000000074505806,
+                0.05000000074505806
+            ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.05000000074505806,
+                0.05000000074505806
+            ],
+            "discardTexture": "",
+            "heightMapTexture": "water_height.bmp",
+            "heightScale": 10.0,
+            "isEmissive": 0,
+            "normalTexture": "water_normal.bmp",
+            "specularTexture": "",
+            "useAlphaTexture": 1,
+            "useCubeTexture": 0,
+            "useDiscardTexture": 0,
+            "useHeightMap": 1,
+            "useNormalTexture": 1,
+            "useSpecularTexture": 0
+        }
+    },
+    {
+        "tag": {
+            "name": "water"
+        },
+        "transform": {
+            "position": [
+                750.0,
+                -55.0,
+                750.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 7.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 1,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matwater",
+            "models": [
+                "flat1k.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
             ]
+        },
+        "framebufferView": {
+            "FBOID": 1,
+            "filter": 1
+        }
+    },
+    {
+        "tag": {
+            "name": "directionallight"
+        },
+        "transform": {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 0.0
+        },
+        "light": {
+            "distanceOffset": 0.0,
+            "atten": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "diffuse": [
+                0.5,
+                0.5,
+                0.5,
+                1.0
+            ],
+            "direction": [
+                1.0,
+                -1.0,
+                -1.0,
+                1.0
+            ],
+            "directionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "positionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "params": [
+                2.0,
+                1.0,
+                1.0,
+                0.0
+            ],
+            "specular": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "status": 1
+        }
+    },
+    {
+        "tag": {
+            "name": "torch"
+        },
+        "transform": {
+            "position": [
+                750.0,
+                -250.0,
+                750.0
+            ],
+            "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 8.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 0,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matdungeon",
+            "models": [
+                "torch.ply"
+            ],
+            "FBOIDs": [
+                0,
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "fire"
+        },
+        "transform": {
+            "position": [
+                750.0,
+                375.0,
+                750.0
+            ],
+            "orientation": [
+                0.9725809097290039,
+                -0.08508975803852081,
+                -0.01886393316090107,
+                0.21561600267887115
+            ],
+            "scale": 200.0
+        },
+        "light": {
+            "distanceOffset": 0.0,
+            "atten": [
+                0.0,
+                0.0007999999797903001,
+                9.999999974752427e-7,
+                1.0
+            ],
+            "diffuse": [
+                1.0,
+                0.4000000059604645,
+                0.10000000149011612,
+                1.0
+            ],
+            "direction": [
+                0.8910099864006042,
+                0.45399001240730286,
+                0.0,
+                1.0
+            ],
+            "directionOffset": [
+                -0.0,
+                -0.0,
+                -0.0,
+                0.0
+            ],
+            "positionOffset": [
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            "params": [
+                0.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "specular": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "status": 1
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 0,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 1,
+            "defaultColor": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "useColorTexture": 1,
+            "material": "matfire",
+            "models": [
+                "sphere.ply"
+            ],
+            "FBOIDs": [
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "tag": {
+            "name": "matfire"
+        },
+        "material": {
+            "name": "matfire",
+            "alphaTexture": "fire_transparency.bmp",
+            "colorTextures": [
+                "fire.bmp"
+            ],
+            "colorTexturesRatios": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "cubeTexture": "",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.5,
+                0.5
+            ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discardTexture": "",
+            "heightMapTexture": "fire_transparency.bmp",
+            "heightScale": 0.30000001192092896,
+            "isEmissive": 1,
+            "normalTexture": "",
+            "specularTexture": "",
+            "useAlphaTexture": 1,
+            "useCubeTexture": 0,
+            "useDiscardTexture": 0,
+            "useHeightMap": 1,
+            "useNormalTexture": 0,
+            "useSpecularTexture": 0
+        }
+    },
+    {
+        "tag": {
+            "name": "fire.bmp"
+        },
+        "texture": {
+            "fileName": "fire.bmp",
+            "textureType": 0,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "fire_transparency.bmp"
+        },
+        "texture": {
+            "fileName": "fire_transparency.bmp",
+            "textureType": 4,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "textwatertransparency"
+        },
+        "texture": {
+            "fileName": "water_transparency.bmp",
+            "textureType": 4,
+            "vecTextures": []
+        }
+    },
+    {
+        "camera": {
+            "upVector": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "distance": 500.0,
+            "height": 0.0,
+            "offsetTarget": 0.0,
+            "fovy": 1.149999976158142,
+            "zNear": 1.0,
+            "zFar": 10000.0
+        },
+        "tag": {
+            "name": "Cameradown"
+        },
+        "transform": {
+            "position": [
+                725.0,
+                -1000.0,
+                800.0
+            ],
+            "orientation": [
+                0.7071067690849304,
+                0.7071067690849304,
+                0.0,
+                0.0
+            ],
+            "scale": 10.0
+        },
+        "framebuffer": {
+            "cameraId": 27,
+            "width": 210,
+            "height": 210
+        }
+    },
+    {
+        "camera": {
+            "upVector": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "distance": 0.0,
+            "height": 0.0,
+            "offsetTarget": 0.0,
+            "fovy": 0.0,
+            "zNear": 0.0,
+            "zFar": 0.0
+        },
+        "tag": {
+            "name": "topglass"
+        },
+        "transform": {
+            "position": [
+                750.0,
+                500.0,
+                750.0
+            ],
+            "orientation": [
+                -4.371138828673793e-8,
+                4.371138828673793e-8,
+                1.910685465164705e-15,
+                1.0
+            ],
+            "scale": 10.0
+        },
+        "model": {
+            "isActive": 1,
+            "doNotLight": 1,
+            "isWireframe": 0,
+            "isDynamic": 0,
+            "useDefaultColor": 0,
+            "useTransparency": 1,
+            "defaultColor": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "useColorTexture": 1,
+            "material": "matglass",
+            "models": [
+                "flat1k.ply"
+            ],
+            "FBOIDs": [
+                0,
+                1
+            ]
+        },
+        "framebuffer": {
+            "cameraId": 29,
+            "width": 1080,
+            "height": 1080
+        },
+        "framebufferView": {
+            "FBOID": 2,
+            "filter": 2
+        }
+    },
+    {
+        "camera": {
+            "upVector": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "distance": 2250.0,
+            "height": 0.0,
+            "offsetTarget": 0.0,
+            "fovy": 0.6200000047683716,
+            "zNear": 1.0,
+            "zFar": 10000.0
+        },
+        "tag": {
+            "name": "Cameraup"
+        },
+        "transform": {
+            "position": [
+                750.0,
+                2250.0,
+                775.0
+            ],
+            "orientation": [
+                0.7071067690849304,
+                -0.7071067690849304,
+                -0.0,
+                0.0
+            ],
+            "scale": 1.0
+        }
+    },
+    {
+        "tag": {
+            "name": "textglasstransparency"
+        },
+        "texture": {
+            "fileName": "glass_transparency.bmp",
+            "textureType": 4,
+            "vecTextures": []
+        }
+    },
+    {
+        "tag": {
+            "name": "matglass"
+        },
+        "material": {
+            "name": "matglass",
+            "alphaTexture": "glass_transparency.bmp",
+            "colorTextures": [
+                "brokenglass.bmp"
+            ],
+            "colorTexturesRatios": [
+                0.75,
+                0.0,
+                0.0
+            ],
+            "cubeTexture": "",
+            "offset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffset": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "currOffsetHeightMap": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "offsetMove": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "discardTexture": "",
+            "heightMapTexture": "",
+            "heightScale": 0.0,
+            "isEmissive": 0,
+            "normalTexture": "",
+            "specularTexture": "",
+            "useAlphaTexture": 1,
+            "useCubeTexture": 0,
+            "useDiscardTexture": 0,
+            "useHeightMap": 0,
+            "useNormalTexture": 0,
+            "useSpecularTexture": 0
+        }
+    },
+    {
+        "tag": {
+            "name": "textbrokenglass"
+        },
+        "texture": {
+            "fileName": "brokenglass.bmp",
+            "textureType": 0,
+            "vecTextures": []
         }
     }
 ]

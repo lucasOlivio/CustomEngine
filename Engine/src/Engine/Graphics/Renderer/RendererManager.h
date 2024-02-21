@@ -44,6 +44,6 @@ namespace MyEngine
 						  const std::vector<sRenderModelInfo>& renderInfos);
 
 		void m_RenderMaps(Scene* pScene, bool clearFBOs, 
-						  const std::map<uint /* FBOID */, std::vector<sRenderModelInfo>>& mapRenderInfos);
+						  std::map<uint /* FBOID */, std::vector<sRenderModelInfo>>& mapRenderInfos);
 	};
 }

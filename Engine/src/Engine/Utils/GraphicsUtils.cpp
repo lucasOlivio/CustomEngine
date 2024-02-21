@@ -41,10 +41,10 @@ namespace MyEngine
 
 					glm::mat4 tileModelMatrix = glm::translate(matModel, translation);
 
-					pShader->SetUniformMatrix4f("matModel", matModel);
+					pShader->SetUniformMatrix4f("matModel", tileModelMatrix);
 
 					// Also calculate and pass the "inverse transpose" for the model matrix
-					glm::mat4 matModelIT = glm::inverse(glm::transpose(matModel));
+					glm::mat4 matModelIT = glm::inverse(glm::transpose(tileModelMatrix));
 					pShader->SetUniformMatrix4f("matModel_IT", matModelIT);
 
 					glBindVertexArray(renderInfo.VAO_ID); //  enable VAO (and everything else)
