@@ -34,53 +34,47 @@ namespace MyEngine
 		m_mapRenderInfos[FBOID].push_back(renderInfo);
 	}
 
+	void RendererManager::AddToRenderTransparent(uint FBOID, const sRenderModelInfo& renderInfo)
+	{
+		assert(m_mapRenderInfos.find(FBOID) != m_mapRenderInfos.end() && "FBOID not found in map!");
+
+		m_mapRenderTransparentInfos[FBOID].push_back(renderInfo);
+
+		std::sort(m_mapRenderTransparentInfos[FBOID].begin(), m_mapRenderTransparentInfos[FBOID].end(), SortInfoFromCamera);
+	}
+
 	void RendererManager::RenderAllModels(Scene* pScene)
 	{
-		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
-		iFrameBufferManager* pFrameBufferManager = FrameBufferManagerLocator::Get();
-		iShaderProgram* pShader = ShaderManager::GetActiveShader();
+		// Render all normal models
+		m_RenderMaps(pScene, true, m_mapRenderInfos);
+		// Then render all transparent models
+		m_RenderMaps(pScene, true, m_mapRenderTransparentInfos);
+	}
 
-		// Bind the fbo then render all their respective models
-		// First element will always be the main screen buffer, so we start from the second
-		itFBOInfos it = std::next(m_mapRenderInfos.begin());
-
-		// Iterate over the map starting from the second element
-		for (; it != m_mapRenderInfos.end(); ++it)
+	void RendererManager::ClearRender()
+	{
+		for (itFBOInfos it = m_mapRenderInfos.begin(); it != m_mapRenderInfos.end(); ++it) 
 		{
-			uint FBOID = it->first;
-
-			pFrameBufferManager->BindFBO(pScene, FBOID);
-			pFrameBufferManager->ClearFBO(FBOID);
-
-			const std::vector<sRenderModelInfo>& renderInfos = it->second;
-
-			// Render all models associated with the current FBOID
-			for (const sRenderModelInfo& renderInfo : renderInfos)
-			{
-				pMaterialManager->BindMaterial(renderInfo.materialName);
-
-				if (renderInfo.isFBOView)
-				{
-					pFrameBufferManager->BindFBOText(renderInfo.FBOViewID);
-				}
-
-				GraphicsUtils::DrawModel(renderInfo);
-
-				if (renderInfo.isFBOView)
-				{
-					pShader->SetUniformInt("isFBOView", false);
-				}
-			}
+			it->second.clear();
 		}
 
-		// TODO: Separate this into function, now its too coupled with a lot of other stuff
+		for (itFBOInfos it = m_mapRenderTransparentInfos.begin(); it != m_mapRenderTransparentInfos.end(); ++it)
+		{
+			it->second.clear();
+		}
+	}
 
-		// Making sure we return to main buffer
-		pFrameBufferManager->BindFBO(pScene, 0);
+	bool RendererManager::SortInfoFromCamera(const sRenderModelInfo& infoA, const sRenderModelInfo& infoB)
+	{
+		// Sort from more distant, to closer
+		return infoA.distToCamera > infoB.distToCamera;
+	}
 
-		const std::vector<sRenderModelInfo>& renderInfos = m_mapRenderInfos[0];
-
-		// Render all models associated with the FBOID 0
+	void RendererManager::m_RenderList(iMaterialManager* pMaterialManager, 
+									   iFrameBufferManager* pFrameBufferManager,
+									   iShaderProgram* pShader,
+									   const std::vector<sRenderModelInfo>& renderInfos)
+	{
 		for (const sRenderModelInfo& renderInfo : renderInfos)
 		{
 			pMaterialManager->BindMaterial(renderInfo.materialName);
@@ -99,11 +93,38 @@ namespace MyEngine
 		}
 	}
 
-	void RendererManager::ClearRender()
+	void RendererManager::m_RenderMaps(Scene* pScene, bool clearFBOs, const std::map<uint, std::vector<sRenderModelInfo>>& mapRenderInfos)
 	{
-		for (itFBOInfos it = m_mapRenderInfos.begin(); it != m_mapRenderInfos.end(); ++it) 
+		iMaterialManager* pMaterialManager = MaterialManagerLocator::Get();
+		iFrameBufferManager* pFrameBufferManager = FrameBufferManagerLocator::Get();
+		iShaderProgram* pShader = ShaderManager::GetActiveShader();
+
+		// Bind the fbo then render all their respective models
+		// First element will always be the main screen buffer, so we start from the second
+		itFBOInfos it = std::next(m_mapRenderInfos.begin());
+
+		// Iterate over the map starting from the second element
+		for (; it != m_mapRenderInfos.end(); ++it)
 		{
-			it->second.clear();
+			uint FBOID = it->first;
+
+			pFrameBufferManager->BindFBO(pScene, FBOID);
+
+			if (clearFBOs)
+			{
+				pFrameBufferManager->ClearFBO(FBOID);
+			}
+
+			// Render all models associated with the current FBOID
+			m_RenderList(pMaterialManager, pFrameBufferManager,
+						 pShader, it->second);
 		}
+
+		// Making sure we return to main buffer
+		pFrameBufferManager->BindFBO(pScene, 0);
+
+		// Render all models associated with the FBOID 0
+		m_RenderList(pMaterialManager, pFrameBufferManager,
+					 pShader, m_mapRenderInfos[0]);
 	}
 }

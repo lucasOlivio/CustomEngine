@@ -17,6 +17,8 @@ namespace MyEngine
 
 		// Add model to rendering pipeline into the respective FBO
 		virtual void AddToRender(uint FBOID, const sRenderModelInfo& renderInfo) = 0;
+		// HACK: Adding transparent models in order relative to distance to camera
+		virtual void AddToRenderTransparent(uint FBOID, const sRenderModelInfo& renderInfo) = 0;
 
 		// Render all models mapped into their respective FBOs
 		virtual void RenderAllModels(Scene* pScene) = 0;

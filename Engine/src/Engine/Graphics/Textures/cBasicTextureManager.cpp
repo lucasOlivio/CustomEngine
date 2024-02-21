@@ -49,11 +49,7 @@ namespace MyEngine
 			glBindTexture(GL_TEXTURE_2D, textureId);
 		}
 
-		// Color textures are the only one been setted by the renderer now, on Draw function
-		if (textureType != eTextureType::COLOR)
-		{
-			glUniform1i(pSampler->samplerToggleUL, true);
-		}
+		glUniform1i(pSampler->samplerToggleUL, true);
 		glUniform1i(pSampler->samplerUL, samplerId);
 		glUniform1f(pSampler->samplerRatioUL, ratio);
 

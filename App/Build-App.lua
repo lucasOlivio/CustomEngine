@@ -34,7 +34,8 @@ project "App"
 
    postbuildcommands
    {
-       '{COPY} ../Engine/Extern/fmod/lib/*.dll "%{cfg.buildtarget.directory} "'
+       '{COPY} ../Engine/Extern/fmod/lib/*.dll "%{cfg.buildtarget.directory} "',
+       '{COPY} config.json "%{cfg.buildtarget.directory} "'
    }
 
    targetdir ("../bin/" .. OutputDir .. "/%{prj.name}")

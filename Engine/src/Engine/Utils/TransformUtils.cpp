@@ -2,6 +2,11 @@
 
 #include "TransformUtils.h"
 
+#include "Engine/ECS/Scene/SceneView.hpp"
+#include "Engine/ECS/Components.h"
+
+#include "Engine/Graphics/FrameBuffers/FrameBufferManagerLocator.h"
+
 namespace MyEngine
 {
     void TransformUtils::ApplyTranslation(const glm::vec3& position, glm::mat4& matModelOut)
@@ -127,5 +132,16 @@ namespace MyEngine
         glm::vec3 localPoint = inverseParentMat * glm::vec4(point, 1.0f);
 
         return localPoint;
+    }
+
+    float TransformUtils::DistanceToCamera(Scene* pScene, const int& FBOID, const glm::vec3& position)
+    {
+        iFrameBufferManager* pFBManager = FrameBufferManagerLocator::Get();
+        const FrameBufferObject& FBO = pFBManager->GetFBO(FBOID);
+        TransformComponent* pCameraTransform = pScene->Get<TransformComponent>(FBO.cameraId);
+
+        const glm::vec3& positionCamera = pCameraTransform->worldPosition;
+
+        return glm::distance(position, positionCamera);
     }
 }

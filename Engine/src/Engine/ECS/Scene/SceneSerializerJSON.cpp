@@ -510,6 +510,7 @@ namespace MyEngine
         parser.SetMember(jsonObject, "isWireframe", modelIn.isWireframe, allocator);
         parser.SetMember(jsonObject, "isDynamic", modelIn.isDynamic, allocator);
         parser.SetMember(jsonObject, "useDefaultColor", modelIn.useDefaultColor, allocator);
+        parser.SetMember(jsonObject, "useTransparency", modelIn.useTransparency, allocator);
         parser.SetMember(jsonObject, "defaultColor", modelIn.defaultColor, allocator);
         parser.SetMember(jsonObject, "useColorTexture", modelIn.useColorTexture, allocator);
         parser.SetMember(jsonObject, "material", modelIn.material, allocator);
@@ -1097,6 +1098,7 @@ namespace MyEngine
         parser.GetValue(jsonObject["defaultColor"], modelOut.defaultColor);
         parser.GetValue(jsonObject["useDefaultColor"], modelOut.useDefaultColor);
         parser.GetValue(jsonObject["useColorTexture"], modelOut.useColorTexture);
+        parser.GetValue(jsonObject["useTransparency"], modelOut.useTransparency);
         parser.GetValue(jsonObject["material"], modelOut.material);
         parser.GetValue(jsonObject["models"], modelOut.models);
         parser.GetValue(jsonObject["FBOIDs"], modelOut.FBOIDs);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/ECS/Scene/Scene.h"
+
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -51,5 +53,7 @@ namespace MyEngine
 		static glm::vec3 WorldToLocalPoint(const glm::vec3& point,
 										   const glm::vec3& position, const float& scale,
                                            glm::mat4& parentMat = glm::mat4(1.0f));
+
+		static float DistanceToCamera(Scene* pScene, const int& FBOID, const glm::vec3& position);
 	};
 }

@@ -59,7 +59,7 @@ project "Engine"
 
        links
         {
-            "Extern/assimp/lib/Debug/assimp-vc130-mtd.lib",
+            "Extern/assimp/lib/Debug/assimp-vc143-mtd.lib",
             "Extern/fbxsdk/lib/Debug/libfbxsdk.lib",
             "Extern/glfw/lib/Debug/glfw3.lib"
         }
@@ -72,7 +72,7 @@ project "Engine"
 
        links
         {
-            "Extern/assimp/lib/Release/assimp-vc130-mt.lib",
+            "Extern/assimp/lib/Release/assimp-vc143-mt.lib",
             "Extern/fbxsdk/lib/Release/libfbxsdk.lib",
             "Extern/glfw/lib/Release/glfw3.lib"
         }
@@ -85,7 +85,7 @@ project "Engine"
 
        links
         {
-            "Extern/assimp/lib/Release/assimp-vc130-mt.lib",
+            "Extern/assimp/lib/Release/ssimp-vc143-mt.lib",
             "Extern/fbxsdk/lib/Release/libfbxsdk.lib",
             "Extern/glfw/lib/Release/glfw3.lib"
         }

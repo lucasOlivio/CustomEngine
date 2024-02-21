@@ -155,6 +155,7 @@ namespace MyEngine
 
 		bool useSoftBodyVertex; // HACK: Use the softbody copy from VAO instead of original
 		bool useDefaultColor;
+		bool useTransparency;
 		bool isWireframe;
 		bool isDynamic;
 		bool doNotLight;

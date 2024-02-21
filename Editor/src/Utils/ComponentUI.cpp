@@ -339,6 +339,10 @@ namespace MyEngine
         {
             ImGui::InputText(("##TextureSide" + std::to_string(i)).c_str(), &pTexture->vecTextures[i]);
         }
+        if (ImGui::Button("Add texture side"))
+        {
+            pTexture->vecTextures.push_back("");
+        }
     }
 
     void ComponentUI::m_MaterialUI(Scene* pScene, Entity entityId)
@@ -400,6 +404,12 @@ namespace MyEngine
 
         ImGui::Text("Alpha Texture");
         ImGui::InputText("##AlphaTexture", &pMaterial->alphaTexture);
+
+        ImGui::Text("Use Cube Texture");
+        ImGui::Checkbox("##UseCubeTexture", &pMaterial->useCubeTexture);
+
+        ImGui::Text("Cube Texture");
+        ImGui::InputText("##CubeTexture", &pMaterial->cubeTexture);
     }
 
     void ComponentUI::m_EmitterUI(Scene* pScene, Entity entityId)
@@ -555,6 +565,9 @@ namespace MyEngine
             sMesh* pMesh = pVAOManager->LoadModelIntoVAO(pModel->models.back(), false);
             pModel->pMeshes.push_back(pMesh);
         }
+
+        ImGui::Text("(use material to add transparency texture)");
+        ImGui::Checkbox("Use transparency", &pModel->useTransparency);
 
         // Color
         ImGui::Checkbox("Use default color", &pModel->useDefaultColor);

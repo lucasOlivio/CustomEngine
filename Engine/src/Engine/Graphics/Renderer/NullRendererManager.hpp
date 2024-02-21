@@ -20,6 +20,11 @@ namespace MyEngine
 			LOG_ERROR("Renderer manager not initialized!");
 		}
 
+		virtual void AddToRenderTransparent(uint FBOID, const sRenderModelInfo& renderInfo)
+		{
+			LOG_ERROR("Renderer manager not initialized!");
+		}
+
 		virtual void RenderAllModels(Scene* pScene)
 		{
 			LOG_ERROR("Renderer manager not initialized!");

@@ -178,6 +178,8 @@ namespace MyEngine
 		int numberOfIndices = 0;
 		int FBOViewID = 0;
 
+		float distToCamera = 0.0f;
+
 		bool isWireFrame = false;
 		bool doNotLight = false;
 		bool useDefaultColor = false;

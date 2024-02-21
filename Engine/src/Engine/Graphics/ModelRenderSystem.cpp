@@ -70,9 +70,20 @@ namespace MyEngine
                 renderInfo.FBOViewID = pFrameBufferView->FBOID;
             }
 
-            for (uint fboid : pModel->FBOIDs)
+            if (pModel->useTransparency)
             {
-                pRendererManager->AddToRender(fboid, renderInfo);
+                for (uint fboid : pModel->FBOIDs)
+                {
+                    renderInfo.distToCamera = TransformUtils::DistanceToCamera(pScene, fboid, pTransform->worldPosition);
+                    pRendererManager->AddToRenderTransparent(fboid, renderInfo);
+                }
+            }
+            else
+            {
+                for (uint fboid : pModel->FBOIDs)
+                {
+                    pRendererManager->AddToRender(fboid, renderInfo);
+                }
             }
         }
     }
