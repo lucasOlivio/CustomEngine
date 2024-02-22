@@ -46,9 +46,11 @@ namespace MyEngine
 	void RendererManager::RenderAllModels(Scene* pScene)
 	{
 		// Render all normal models
-		m_RenderMaps(pScene, true, m_mapRenderInfos);
+		if(m_mapRenderInfos.size() > 0)
+			m_RenderMaps(pScene, true, m_mapRenderInfos);
 		// Then render all transparent models
-		m_RenderMaps(pScene, false, m_mapRenderTransparentInfos);
+		if (m_mapRenderTransparentInfos.size() > 0)
+			m_RenderMaps(pScene, false, m_mapRenderTransparentInfos);
 	}
 
 	void RendererManager::ClearRender()
