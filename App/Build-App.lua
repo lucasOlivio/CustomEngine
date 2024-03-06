@@ -35,7 +35,7 @@ project "App"
    postbuildcommands
    {
        '{COPY} ../Engine/Extern/fmod/lib/*.dll "%{cfg.buildtarget.directory} "',
-       '{COPY} config.json "%{cfg.buildtarget.directory} "'
+       '{COPY} ./config.json "%{cfg.buildtarget.directory}"'
    }
 
    targetdir ("../bin/" .. OutputDir .. "/%{prj.name}")
@@ -47,7 +47,8 @@ project "App"
 
        postbuildcommands
        {
-           'xcopy assets\\ "%{cfg.buildtarget.directory}\\assets\\ " /S /E /I /Y'
+           'xcopy assets\\ "%{cfg.buildtarget.directory}\\assets\\ " /S /E /I /Y',
+           'xcopy config.json "%{cfg.buildtarget.directory}\\config.json " /S /E /I /Y'
        }
 
    filter "configurations:Debug"

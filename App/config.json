@@ -11,6 +11,7 @@
         "pathShaders": "assets/shaders/",
         "pathTextures": "assets/textures/",
         "pathScenes": "assets/scenes/",
+        "pathDebugFlatSquare": "debug/flatsquare.obj",
         "pathDebugSquare": "debug/square.obj",
         "pathDebugSphere": "debug/sphere.obj"
     }
